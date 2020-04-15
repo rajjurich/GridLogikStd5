@@ -1,0 +1,151 @@
+﻿@model GridLogik.ViewModels.ActionTypeModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+<script>
+    function Delete() {
+
+        var msg = confirm(DeleteMessage);
+    }
+
+    function deleterecord() {
+        var RecordID = $("#id").val();
+
+       
+    }
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Alarm Recipient Info</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i> <strong>DELETE</strong>
+                                </div>
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+
+                                    @*<div class="content-container">*@
+                                    @Html.ValidationSummary(true)
+        <!--dummy text-->
+                                    @Html.ValidationSummary(true)
+                                    @Html.HiddenFor(model => model.id)
+                                    
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-lg-6" style="border:0px solid #F00;">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="select">Alarm Type</label>
+                    <div class="col-md-9">
+
+
+                        @Html.DropDownListFor(model => model.alarmtype, new List<SelectListItem>
+                                        {
+                                            new SelectListItem{Text="Select Alarm Type",Value="N"},
+                                        new SelectListItem{Text="RealTime",Value="R"},
+                                        new SelectListItem{Text="Standard",Value="S"},
+                                new SelectListItem{Text="NIU Status",Value="M"},
+                                        new SelectListItem{Text="Meter",Value="T"}
+                                        }, new { @id = "ddlalarmtype", @class = "form-control", @size = "1", @disabled = "disabled" })
+
+                        @Html.ValidationMessageFor(model => model.alarmtype)
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6" style="border:0px solid #F00;">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="select">Alarm Name</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.alarmid, (IEnumerable<SelectListItem>)ViewBag.AlarmIDList, "Select Alarm", new { @id = "ddlalarms", @class = "form-control", @size = "1", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.alarmid)
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-lg-6" style="border:0px solid #F00;">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="select">Mobile No.</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.mobilenos, (IEnumerable<SelectListItem>)ViewBag.MobileNos, new { @id = "lstMobileNo", @class = "form-control", @multiple = "multiple", @size = "5", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.mobilenos)
+                        <br>
+                        <div class="col-md-12" style="padding:0px;">
+                            <div class="col-md-5">
+                                <input name="txtMobile" type="text" id="txtMobile" class="form-control" disabled />
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-success" id="btnAddMobile" onclick="return AddMobile();" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" id="btnDeleteMobile" disabled><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6" style="border:0px solid #F00;">
+                <div class="form-group">
+                    <label class="col-md-3 control-label" for="select">Email ID</label>
+                    <div class="col-md-9">
+                        @Html.DropDownListFor(model => model.emailaddresses, (IEnumerable<SelectListItem>)ViewBag.EmailIds, new { @id = "lstEmailAddress", @class = "form-control", @multiple = "multiple", @size = "5", @disabled = "disabled" })
+                        @Html.ValidationMessageFor(model => model.emailaddresses)
+                        <br>
+                        <div class="col-md-12" style="padding:0px;">
+                            <div class="col-md-5">
+                                @Html.TextBoxFor(model => model.txtEmailId, new { @class = "form-control", @disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.txtEmailId)
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-success" id="btnAddEmail" onclick="return AddEmail();" disabled><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-danger" id="btndelete" disabled><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="clearfix"></div>
+        <br />
+        <div class="panel-footer col-md-12 text-center">
+            <button type="submit" class="btn btn-danger" onclick="return Delete();"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+        </div>
+    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

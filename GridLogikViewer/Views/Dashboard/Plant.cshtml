@@ -1,0 +1,247 @@
+﻿@{
+    ViewBag.Title = "Plant";
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"> Select Meter  </div>
+    <div class="dashboard-selectoption-panel-body">
+        <div class="dashboard-form-optionbox">
+            <img src="~/Content/images/icon_img/metertype_icon.png" />
+            <div class="dashboard-selectoption">
+                <select name="sport" id="sport" class="validate[required] form-control">
+                    <option value="">Select Meter Type</option>
+                    <option value="#"></option>
+                    <option value="option1">ABT</option>
+                    <option value="option2">EMS</option>
+                </select>
+            </div>
+        </div>
+        <div class="dashboard-form-optionbox">
+            <img src="~/Content/images/icon_img/metergroup_icon.png" />
+            <div class="dashboard-selectoption">
+                <select name="sport" id="sport" class="validate[required] form-control">
+                    <option value="">Select Meter Group</option>
+                    <option value="#"></option>
+                    <option value="option1">a</option>
+                    <option value="option2">b</option>
+                    <option value="option3">c</option>
+                </select>
+            </div>
+        </div>
+        <div class="dashboard-form-optionbox">
+            <img src="~/Content/images/icon_img/metername_icon.png" />
+            <div class="dashboard-selectoption">
+                <select name="sport" id="sport" class="validate[required] form-control input-small shadow_select">
+                    <option value="">Select Meter Name</option>
+                    <option value="#"></option>
+                    <option value="option1">x</option>
+                    <option value="option2">y</option>
+                    <option value="option3">z</option>
+                </select>
+            </div>
+        </div>
+        <div class="dashboard-form-optionbox-submitbtn">
+            <a href="#" class="dashboard-form-optionbox-submit-btn">Submit</a>
+        </div>
+    </div>
+</div>
+
+@section HTML
+{
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-xxs-12">
+                <div class="smallstat">
+                    <div class="boxchart-overlay blue">
+                        <div class=".smallbox title">SG</div>
+                    </div>
+                    <span class="value ">4 589</span>
+                </div>
+            </div><!--/col-->
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-xxs-12">
+                <div class="smallstat">
+                    <div class="boxchart-overlay lightOrange">
+                        <div class=".smallbox title">AG</div>
+                    </div>
+                    <span class="value ">4 589</span>
+                </div>
+            </div><!--/col-->
+            <div class="col-lg-4 col-sm-4 col-xs-12 col-xxs-12">
+                <div class="smallstat">
+                    <div class="boxchart-overlay pink">
+                        <div class=".smallbox title">UI</div>
+                    </div>
+                    <span class="value ">4 589</span>
+                </div>
+            </div><!--/col-->
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Cumulative MWh</div>
+                        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+                            <a href="charts-flot.html#" class="btn-setting" data-toggle="modal" data-target="#ModalTable01"><i class="fa fa-eye"></i></a>
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div id="PieChart">
+
+                        </div>
+                    </div>
+                    <!-- Modal03 popup -->
+                    <div class="modal fade" id="ModalTable01" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Demand and Peak</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th>SG</th>
+                                                        <th>AG</th>
+                                                        <th>UI</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>224.545</td>
+                                                        <td>224.545</td>
+                                                        <td>300,000</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/col-->
+        </div>
+    </div>
+    <div class="spaceing"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Alarms</div>
+                        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+                            <a href="charts-flot.html#" class="btn-setting" data-toggle="modal" data-target="#ModalTable01"><i class="fa fa-eye"></i></a>
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table bootstrap-datatable datatable small-font">
+                            <thead>
+                                <tr>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>User</th>
+                                    <th>Number</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="label label-success">Complete</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Server problem</td>
+                                    <td>Ashley Tan</td>
+                                    <td><b>[#199278]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-warning">Suspended</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Mobile App Problem</td>
+                                    <td>Ann Kovalsky</td>
+                                    <td><b>[#199277]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">In progress</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Paypal Issue</td>
+                                    <td>Chris Dan</td>
+                                    <td><b>[#199276]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-danger">Rejected</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>IE7 Problem</td>
+                                    <td>John Grand</td>
+                                    <td><b>[#199275]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-success">Complete</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Mobile App Problem</td>
+                                    <td>Agnes Young</td>
+                                    <td><b>[#199274]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-warning">Suspended</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Mobile App Problem</td>
+                                    <td>Patricia Doyle</td>
+                                    <td><b>[#199273]</b></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="label label-info">In progress</span></td>
+                                    <td>Jul 25, 2012 11:09</td>
+                                    <td>Mobile App Problem</td>
+                                    <td>Melanie Brown</td>
+                                    <td><b>[#199272]</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        var ws;
+        $().ready(function () {
+            $("#realtime").text("connecting");
+            ws = new WebSocket("@System.Web.Configuration.WebConfigurationManager.AppSettings["SocketUrl"]" + "PlantDashboardAPI/")
+            ws.onopen = function () {
+                $("#realtime").text("connected");
+            };
+            ws.onmessage = function (evt) {
+                $("#realtime").text(evt.data);
+            };
+            ws.onerror = function (evt) {
+                $("#realtime").text(evt.message);
+            };
+            ws.onclose = function () {
+                $("#realtime").text("disconnected");
+            };
+        });
+    </script>
+
+    
+}

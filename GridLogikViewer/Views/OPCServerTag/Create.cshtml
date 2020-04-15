@@ -1,0 +1,137 @@
+﻿@model GridLogik.ViewModels.OPCServerTag
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Menu</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">OPCServerTag</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.id)
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.tagname, null, "")
+                                            @Html.TextBoxFor(model => model.tagname, new { @class = "form-control alphanumspace" })
+                                            @Html.ValidationMessageFor(model => model.tagname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.tablename, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.tablename, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.tablename, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.parameter, new { @class = "" })
+                                            @Html.DropDownListFor(model => model.parameter, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", required = true, title = "Please Provide Parameters" })
+                                            @Html.ValidationMessageFor(model => model.parameter, null, new { @class = "text-danger" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.datatype, new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.datatype, (IEnumerable<SelectListItem>)ViewBag.Datatype, "select", new { @class = "form-control", required = true })
+                                            @Html.ValidationMessageFor(model => model.datatype, "", new { @class = "text-danger" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.meterid, new { @class = "" })
+                                            @Html.DropDownListFor(model => model.meterid, (IEnumerable<SelectListItem>)ViewBag.Meters, "Select", new { @class = "form-control", required = true, title = "Please Provide Meters" })
+                                            @Html.ValidationMessageFor(model => model.meterid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model._priority, new { @class = "" })
+                                            @Html.TextBoxFor(model => model._priority, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model._priority, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.is_tag, new { @class = "" })
+                                            @Html.CheckBoxFor(model => model.is_tag, new { @class = "" })
+                                            @Html.ValidationMessageFor(model => model.is_tag, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="reset" class="btn btn-sm btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                        <div>
+                                            <p id="msg" style="color:red">
+                                            </p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script type="text/javascript">
+
+    $('#tablename').change(function () {
+        fillColumns();
+    });
+
+    function fillColumns() {
+        //var selected = $("#ddlTables option:selected");
+
+        $.ajax({
+            type: 'GET',
+            url: BaseAddress + "gettableschema/" + $("#tablename").val(),
+            success: function (data) {
+                if (data) {
+                    var mySelect = $('#parameter');
+                    // mySelect.children('option:not(:first)').remove();
+                    mySelect.empty();
+                    $.each(data, function (val, text) {
+
+                        mySelect.append(
+                            $('<option></option>').val(text.columnName).html(text.columnName)
+                        );
+                    });
+                }
+                else {
+
+                }
+            },
+            error: function (jqXHR) {
+                debugger;
+            }
+        });
+
+
+
+    }
+</script>
+
+
+@Scripts.Render("~/bundles/jqueryval")
+
+
+

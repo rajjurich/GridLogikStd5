@@ -1,0 +1,1370 @@
+﻿@{
+    ViewBag.Title = "Plant Meter Summary";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<script src="~/Scripts/moment.js"></script>
+
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    table.rabtdtl {
+        border-collapse: collapse;
+        margin-bottom: 1px;
+        width: 100%;
+        /*background: #fff;*/
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdtl td, tr {
+        /*background-color: black;*/
+        color: black;
+    }
+
+    .rabtdtl td, th {
+        /*padding: 2px 10px;*/
+        /*padding: 1px 1px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 75%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdtl td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdtl th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        /*font-weight: bold;*/
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdtl tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+    table.rabtdt2 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        /*background: #fff;*/
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt2 td, tr {
+        /*background-color: black;*/
+        color: black;
+    }
+
+    .rabtdt2 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+        width: 14.28%;
+        /*border: 1px solid #f00;*/
+        /*width: 50%;*/
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt2 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt2 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        /*font-weight: bold;*/
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt2 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+
+    /*.rabtdtl tbody tr:nth-child(2n-1) {
+        background-color: #d4d4d4;
+        transition: all .125s ease-in-out;
+    }*/
+
+    table.rabtdt3 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt3 td, tr {
+        background-color: gray;
+        color: white;
+    }
+
+    .rabtdt3 td, th {
+        /*padding: 2px 10px;*/
+        padding: 1px 1px;
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 50%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt3 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt3 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt3 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: black;
+    }
+
+
+
+
+    .label1 {
+        color: black;
+    }
+
+    .label2 {
+        color: black;
+    }
+
+    .label3 {
+        color: black;
+    }
+
+    .label4 {
+        color: black;
+    }
+
+    .label5 {
+        color: black;
+    }
+
+    .label6 {
+        color: black;
+    }
+
+    .thheading {
+        color: black;
+        /*background-color: #1F475F;
+        font-weight: bold;*/
+    }
+    /*tbody tr:hover {
+        background-color: #f4f4f4;
+    }*/
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('html,body').animate({
+            scrollTop: $("#divMainRABT").offset().top
+        },
+            'slow');
+    });
+
+    var meterids = new Array();
+    var meterids_unit = new Array();
+    var meterids_line = new Array();
+    var requestelapased = 0;
+    var cur_blk_no = 0;
+    var GBreakFrq = 0;
+    var GAvg = 0;
+    var flag = 0;
+    var pflag = 0;
+    var p1 = 0;
+    var p2 = 0;
+    var p3 = 0;
+    var dataflag = 0;
+    var first = 0;
+    //window.setInterval(function () { alert('hello', '', false, 'S'); }, 5000);
+
+    $(document).ready(function () {
+        //
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            //url: "http://localhost:8487/EToolsAPI/api/prmglobal",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(Date().toString());
+
+                        }
+                    }
+
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+
+            }
+        });
+        LoadRABTData();
+        nextfourblockandlastblkdata();
+        //  LoadInstanceDataRABT();
+    });
+
+
+    setInterval(function () { LoadRABTData(); }, 1000);                                  //uncomment this line 10 nov
+    // setInterval(function () { LoadInstanceDataRABT(); }, 1000);
+    //  setInterval(function () { nextfourblockandlastblkdata(); }, 1000);
+    //  setInterval(function () { updateClock(); }, 1000);
+
+
+
+
+    function LoadRABTData() {
+        updateClock();
+        var APC = 0, APCPer = 0;
+        var Line = 0, Gen = 0;
+        requestelapased = requestelapased + 1;
+        if (requestelapased > 270) {
+            requestelapased = 1;
+            //
+            // window.location.reload(true);
+        }
+        //
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            url: BaseAddress + "GadarwaraAPIController/GetInstanceData_New",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                // debugger;
+                var str = "";
+                var BusFreq = 0;
+                var BusVolt = 0;
+                var MW = 0;
+                var MVAR = 0;
+                var AvgHz = 0;
+                var finaldate = new Date();
+                if (meters.Data.result != undefined) {
+
+
+
+                    meters.Data.result.forEach(function (response) {
+                        //
+
+                        //var startdateDB = moment(response.tstamp, $("#DatabaseDateformat").val());
+
+                        var startdateDB = new Date();
+                        var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                        $("#lblDate").html(startdate);
+
+                        try {
+                            $("#lblBusTime").html(startdateDB.toString().substr(16, 8));
+                        } catch (e) {
+
+                        }
+
+
+
+
+                        if (response.meterid == 14) {
+                            $("#fed14").text(response.kw);
+                        }
+                        else if (response.meterid == 17) {
+                            $("#fed17").text(response.kw);
+                        }
+                        else if (response.meterid == 19) {
+                            $("#fed19").text(response.kw);
+                        }
+                        else if (response.meterid == 20) {
+                            $("#fed20").text(response.kw);
+                        }
+                        else if (response.meterid == 2) {
+                            $("#com2").text(response.kw);
+                        }
+                        else if (response.meterid == 6) {
+                            $("#com6").text(response.kw);
+                        }
+                        else if (response.meterid == 5) {
+
+                            $("#com5").text(response.kw);
+                        }
+                        else if (response.meterid == 7) {
+                            $("#com7").text(response.kw);
+                        }
+
+                        //else if (response.meterid == 7) {
+
+                        //    Gen = Gen + +response.cblk_avg_mw;
+                        //}
+                        //else if (response.meterid == 8) {
+
+                        //    Gen = Gen + +response.cblk_avg_mw;
+                        //}
+                        //else if (response.meterid == 9) {
+
+                        //    Gen = Gen + +response.cblk_avg_mw;
+                        //}
+                        //else if (response.meterid == 10) {
+
+                        //    Gen = Gen + +response.cblk_avg_mw;
+                        //}
+                        //ends here
+
+
+
+
+                    });
+                }
+
+                APC = Gen - Line;
+
+                APCPer = APC * 100;
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+                $("#datetidvalue").text(date.toString());
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            url: BaseAddress + "GadarwaraAPIController/GetGenratorInstanceData",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                var str = "";
+                var BusFreq = 0;
+                var BusVolt = 0;
+                var MW = 0;
+                var MVAR = 0;
+                var AvgHz = 0;
+                var finaldate = new Date();
+                var totalgen = 0;
+                if (meters.Data.result != undefined) {
+
+
+                    meters.Data.result.forEach(function (response) {
+                        //
+
+                        //var startdateDB = moment(response.tstamp, $("#DatabaseDateformat").val());
+
+                        var startdateDB = new Date();
+                        var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                        $("#lblDate").html(startdate);
+
+                        try {
+                            $("#lblBusTime").html(startdateDB.toString().substr(16, 8));
+                        } catch (e) {
+
+                        }
+
+                        if (response.meterid == 22) {
+                            $("#gen22").text(response.kw);
+                            totalgen = totalgen + parseFloat(response.kw);
+                        }
+                        else if (response.meterid == 25) {
+                            $("#gen25").text(response.kw);
+                            totalgen = totalgen + parseFloat(response.kw);
+                        }
+                        $("#totalgen").text(totalgen);
+
+                        //ends here
+                    });
+                }
+
+                APC = Gen - Line;
+
+                APCPer = APC * 100;
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+                $("#datetidvalue").text(date.toString());
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            url: BaseAddress + "GadarwaraAPIController/GetAllPrevBlkMWDCSum_New",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //
+                var timer = meters.Data.result;
+                //debugger;
+                //var response = meters.Data.result;
+
+                //    $("#pbdAvgHz1").text(response.avg_hz);
+                //    $("#pbdBlockNo").text(response.posblk);
+
+                if (parseFloat(timer.bekfreq) > 0) {
+                    $("#breakFrq").html(parseFloat(timer.bekfreq));
+                    GBreakFrq = parseFloat(timer.bekfreq);
+                }
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+        //current block and depending calculation
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            //url: BaseAddress + "InstanceDataAPIKRAHEJA/GetInstanceDataRABT_CurrentBlockNX4",
+            url: BaseAddress + "GadarwaraAPIController/GetInstanceData_CurrentBlockNX4_Final",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                var currentindexno = 0;
+                var response = meters.Data.result;
+                response.lasttwoblockdata.forEach(function (response) {
+                    // debugger;
+                    if (currentindexno == 0) {
+                        if (cur_blk_no == "") {
+                            cur_blk_no = response.blockno;
+                        }
+
+                        var CurrentDateNow = new Date();
+                        var y = CurrentDateNow.getFullYear();
+                        var m = CurrentDateNow.getMonth();
+                        var dater = CurrentDateNow.getDate();
+                        var stringData = response.blocktime.split("-");
+                        var s = stringData[1].split(":");
+                        var h = s[0];
+                        var min = s[1];
+                        var prevTime = new Date(y, m, dater, h, min, 0, 0);
+                        var diff = prevTime - CurrentDateNow;
+                        var s1 = stringData[0].split(":");
+                        var h1 = s1[0];
+                        var min1 = s1[1];
+                        var prevTime1 = new Date(y, m, dater, h1, min1, 0, 0);
+                        var diff1 = CurrentDateNow - prevTime1;
+                        var secondx = parseInt((diff / 1000) % 60);
+                        var minutes = parseInt((diff / (1000 * 60)) % 60);
+                        var secondx1 = parseInt((diff1 / 1000) % 60);
+                        var minutes1 = parseInt((diff1 / (1000 * 60)) % 60);
+
+
+                        $("#cbdBlockNo").html(response.blockno);
+                        $("#CurrentBlockNumberdata").html(response.blockno);
+                        $("#CurrentBlockTime").html(response.blocktime);
+
+                        $("#CurrentBlockTimedata").text(minutes.toString() + ":" + secondx.toString()).toString();
+                        $("#CurrentBlockTimeElapseddata").text(minutes1.toString() + ":" + secondx1.toString());
+                        $("#cbdBlockTime").html(response.blocktime);
+                        $("#cbdDCMW").html(response.dcmw);
+                        $("#cbdSGMW").html(response.sgmw);
+                        $("#InstMw").html(parseFloat(response.mw).toFixed(3));
+                        $("#AVGMw").html(parseFloat(response.netexbusmw).toFixed(3));
+                        $("#cbdNexExBus").html(parseFloat(response.netexbusmw).toFixed(3));
+                        $("#cbdAvgHz").html(parseFloat(response.avghz).toFixed(2));
+                        $("#AverageBlockHz").html(parseFloat(response.avghz).toFixed(2));
+                        GAvg = parseFloat(response.avghz);
+                        $("#InstHz").html(parseFloat(response.hz).toFixed(2));
+                        $("#cbdExpDC").html(parseFloat(response.expdcperc).toFixed(2)); //current block Exp DC %
+                        $("#cbdExpSG").html(parseFloat(response.expscperc).toFixed(2)); //current block Exp SG %
+
+                        //debugger
+                        $("#dacbAROverInj1").html(parseFloat(response.sgmw * 1.12).toFixed(2));
+                        $("#dacbARUnderInj1").html(parseFloat(response.sgmw * 0.88).toFixed(2));
+                        $("#dacbSG1").html(parseFloat(response.sgmw).toFixed(2));
+
+
+                        $("#cbdBackingDown").html(parseFloat(response.backingdown).toFixed(2));
+                        $("#cbdDevMW").html(parseFloat(response.devmw).toFixed(2));
+                        $("#cbdDevper").html(parseFloat((response.devmw / response.sgmw) * 100).toFixed(2));
+
+                        $("cbdDevRs").html(Math.round(parseFloat(response.devrs).toFixed(2)));
+
+                        $("#cbdTotalDev").html(Math.round(parseFloat(response.totaldevrs).toFixed(2)));
+                        $("#pbdNExBus").html(parseFloat(response.netexbusmw).toFixed(2));
+                        $("#cbdNetGain").html(Math.round(parseFloat(response.netgainloss).toFixed(3)));
+                        $("#cbddevlimit").html(Math.round(parseFloat(response.sgmw) * 0.01.toFixed(3)));
+                        $("#cbdFuelCost").html(Math.round(parseFloat(response.fuelcost).toFixed(3)));
+                        $("#cbdAddiDev").html(Math.round(parseFloat(response.addidevrs).toFixed(2)));
+                        $("#cbdDevRate").html(Math.round(parseFloat(response.devrate).toFixed(3)));
+                        $("#CurrentFualRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#cbdFuelRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#cbdDevRs").html(Math.round(parseFloat(response.devrs).toFixed(2)));
+                        $("#pbdAvgHz").html((response.avghz).toFixed(2));
+                        //$("#pbdAvgHz1").html((response.avghz).toFixed(2));
+                        //$("#pbdBlockNo").html(parseInt(response.cur_blk_no)-1);
+                        //CurBlkAvgMW = parseFloat(response.netexbusmw).toFixed(2);
+                        //$("#pbdAvgHz").html((response.avghz).toFixed(2));
+                        //if (parseFloat(response.devrate).toFixed(2) > parseFloat(response.fuelrate).toFixed(2)) {
+                        //    $("#cbdAvgHz").css("color", "red");
+                        //}
+                        //else {
+                        //    $("#cbdAvgHz").css("color", "#FFBB00");
+                        //}
+                        currentindexno = currentindexno + 1;
+                    }
+                    else {
+                        $("#pbdAvgHz").html((response.avghz).toFixed(2));
+                        $("#pbdDC").html(response.dcmw);
+                        $("#pbdSG").html(response.sgmw);
+
+                        $("#pbdExpDC").html(parseFloat(response.expdcperc).toFixed(2)); //current block Exp DC %
+                        $("#pbdExSG").html(parseFloat(response.expscperc).toFixed(2)); //current block Exp SG %
+
+                        $("#pbdBackDown").html(parseFloat(response.backingdown).toFixed(2));
+                        $("#pbdDevMW").html(parseFloat(response.devmw).toFixed(2));
+                        $("#pbdFuelRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#PrevInstfreq").html(parseFloat(response.hz).toFixed(2));//1
+                        dataflag = 1;
+                        $("#PAvgHZ").html(parseFloat(response.avghz).toFixed(2));
+
+                        $("#pbdDevRs").html(Math.round(parseFloat(response.devrs).toFixed(2)));
+
+                        $("#pbdTotalDev").html(Math.round(parseFloat(response.totaldevrs).toFixed(2)));
+
+                        $("#pbdNetGainLoss").html(Math.round(parseFloat(response.netgainloss).toFixed(3)));
+                        $("#pbdFuelCost").html(Math.round(parseFloat(response.fuelcost).toFixed(3)));
+                        $("#pbdAddiDev").html(Math.round(parseFloat(response.addidevrs).toFixed(2)));
+                        $("#pbdDevRate").html(parseFloat(response.devrate).toFixed(3));
+                        $("#pbdBlockNo").html(response.blockno);
+                        $("#pdbBlockTime").html(response.blocktime);
+                        $("#pbdNExBus").html(parseFloat(response.netexbusmw).toFixed(2));
+                        // $("#AverageExBus").html(parseFloat(response.netexbusmw).toFixed(3));
+                        $("#pbdDevRate").html(parseFloat(response.devrate).toFixed(2));
+                        $("#pbdFuelRate").html(Math.round(parseFloat(response.fuelrate).toFixed(2)));
+                        $("#pbdDevRs").html(Math.round(parseFloat(response.devrs).toFixed(2)));
+
+                        if (parseFloat(response.devrate).toFixed(2) > parseFloat(response.fuelrate).toFixed(2)) {
+                            $("#pbdAvgHz").css("color", "red");
+                        }
+                        else {
+                            // $("#pbdAvgHz").css("color", "#FFBB00");
+                        }
+
+
+                    }
+                });
+
+                //
+
+                $("#dacbSG").html(parseFloat(response.for100sg).toFixed(2));
+
+                $("#dacbOpOverInj").html(parseFloat(response.limopoverinj).toFixed(2));
+                $("#dacbOpUnderInj").html(parseFloat(response.limopunderinj).toFixed(2));
+                $("#dacbAROverInj").html(parseFloat(response.askrateoverinj).toFixed(2));
+                $("#dacbARUnderInj").html(parseFloat(response.askrateunderinj).toFixed(2));
+
+                $("#dacExpDC").html(parseFloat(response.cumexpdcperc).toFixed(2));
+
+                $("#dacPosBlk").html(response.posblk);
+                $("#dacNegBlk").html(response.negblk);
+                $("#dacbOverInjBlk").html(parseFloat(response.overinjoppblk).toFixed(2));
+                $("#dacbUnderInjBlk").html(parseFloat(response.underinjoppblk).toFixed(2));
+
+
+                if (APC != 0) {
+                    if (GAvg < GBreakFrq) {
+
+                        $("#Target").html(parseFloat(response.askrateoverinj + APC).toFixed(2));
+                    }
+                    else if (GBreakFrq <= GAvg && GAvg < 50.05) {
+                        $("#Target").html(parseFloat(response.for100sg + APC).toFixed(2));
+                    }
+                    else if (GAvg > 50.05) {
+                        $("#Target").html(parseFloat(response.askrateunderinj + APC).toFixed(2));
+                    }
+                }
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+        //CURRENT BLOCK & PREVIOUS BLOCK ENDS HERE
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "GadarwaraAPIController/GetNextFourBlocks_Final",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //
+
+                var indexN4 = 1;
+                try {
+                    meters.Data.result.forEach(function (response) {
+                        //
+                        try {
+
+                            if (response.blockno > 0) {
+                                if (response.ftfhz < GBreakFrq) {
+                                    $("#n4BlkDC" + indexN4).html((response.sgvalue * 1.12).toFixed(2));
+
+                                }
+                                else if (GBreakFrq < response.ftfhz < 50.05) {
+                                    $("#n4BlkDC" + indexN4).html(response.sgvalue);
+                                }
+                                else if (response.ftfhz > 50.05) {
+                                    $("#n4BlkDC" + indexN4).html((response.sgvalue * 0.88).toFixed(2));
+
+                                }
+                                // $("#n4BlkDC" + indexN4).html(response.dcvalue);
+                                $("#n4BlkSG" + indexN4).html(response.sgvalue);
+                                $("#N4BlkFTF" + indexN4).html(response.ftfhz.toFixed(2));
+                                $("#n4BlkNo" + indexN4).html(response.blockno);//sagar
+                                indexN4 = indexN4 + 1;
+                            }
+                        } catch (e) {
+
+                        }
+
+                    })
+                }
+                catch (e) {
+
+                }
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "GadarwaraAPIController/GetAllPrevBlkAvg",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //debugger;
+                var currentindexno = 0;
+                var response = meters.Data.result;
+                var blkno = document.getElementById('CurrentBlockNumberdata').innerText;
+                if (response[0].blockno == (blkno - 3)) {
+                    $("#pbdBlockNo3").html(response[0].blockno);
+                    $("#pbdAvgHz3").html(response[0].avg_hz);
+                }
+                if (response[1].blockno == (blkno - 2)) {
+                    $("#pbdBlockNo2").html(response[1].blockno);
+                    $("#pbdAvgHz2").html(response[1].avg_hz);
+                }
+                if (response[2].blockno == (blkno - 1)) {
+                    $("#pbdBlockNo1").html(response[2].blockno);
+                    $("#pbdAvgHz1").html(response[2].avg_hz);
+                }
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+        nextfourblockandlastblkdata();
+    }
+
+
+    function nextfourblockandlastblkdata() {
+        //NEXT FOUR BLOCK DATA
+
+        //NEXT FOUR BLOCK DATA ENDS HERE
+
+        //CUMULATIVE UPTO LAST BLOCK DATA
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "GadarwaraAPIController/GetDCSGLastBlockData_New",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                // debugger
+                $("#culbdDC").html(parseFloat(meters.Data.result.dcvalue));
+                $("#culbdSG").html(parseFloat(meters.Data.result.sgvalue));
+                $("#culbdBackingDown").html(parseFloat(meters.Data.result.backingdown).toFixed(2));
+                $("#culbdExport").html(parseFloat(meters.Data.result.export).toFixed(2));
+                $("#culbdImport").html(parseFloat(meters.Data.result.import).toFixed(2));
+
+                $("#culbdNetExp").html(parseFloat(meters.Data.result.netexp).toFixed(2));
+                $("#culbdExpSg").html(parseFloat((meters.Data.result.netexp / meters.Data.result.sgvalue) * 100).toFixed(2));
+                $("#culbdUnderInj").html(parseFloat(meters.Data.result.underinjectionmwh).toFixed(2));
+                $("#culbdOverInj").html(parseFloat(meters.Data.result.overinjectionmwh).toFixed(2));
+                $("#culbdOverInjLacs").html(parseFloat(meters.Data.result.overinjectionlacs).toFixed(2));
+                $("#culbdUnderInjLacs").html(parseFloat(meters.Data.result.underinjectionlacs).toFixed(2));
+                $("#culbdDevMWh").html(parseFloat(meters.Data.result.devmwh).toFixed(2));
+                $("#culbdDevLacs").html(parseFloat(meters.Data.result.devmwhlacs).toFixed(2));
+                $("#culbdFuelCost").html(parseFloat(meters.Data.result.fuelcost).toFixed(2));
+                $("#culbdTotalDev").html(parseFloat(meters.Data.result.totaldev).toFixed(2));
+                $("#culbdAddiDev").html(parseFloat(meters.Data.result.addidev).toFixed(2));
+                $("#culbdNetGain").html(parseFloat(meters.Data.result.netgainloss).toFixed(2));
+
+
+                $("#UIPayable").html(parseFloat(meters.Data.result.uipayablemonth).toFixed(2));
+                $("#UIReceivable").html(parseFloat(meters.Data.result.uireceivablemonth).toFixed(2));
+                $("#NETUI").html(parseFloat(meters.Data.result.netuimonth).toFixed(2));
+                $("#NETUIGain").html(parseFloat(meters.Data.result.netgainlossmonth).toFixed(2));
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+        //CUMULATIVE UPTO LAST BLOCK DATA ENDS HERE
+    }
+
+    function updateClock() {
+        var currentTime = new Date();
+        var CurrentDate = moment(currentTime).format($("#MainDateTimeformat").val());
+        //var CurrentDate = $.datepicker.formatDate($("#MainDateTimeformat").val(), currentTime)
+        $("#datetidvalue").html(CurrentDate);
+    }
+</script>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box"><h3> Plant Meter Summary <sub id="datetidvalue" style="color: yellowgreen; position: absolute; left:844px; top:75px;"></sub></h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+        </div>
+    </div>
+    <div class="panel-body">
+        <input id="Dateformat" type="hidden" name="Dateformat" />
+        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+        <input type="hidden" id="DatabaseDateformat">
+        <div class="col-lg-12" id="divMainRABT">
+            <div style="display:none">
+                <div class="form-group col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Meter Group</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Meter Name</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2" style="border:0px solid #f00;float:right">
+                    <div class="col-md-12" style="border:0px solid #f00; ">
+                        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label style="border:0px solid #f00; margin:0px 0px;">Bus Frequency</label>
+            <label id="lblBusFreq1" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Bus Voltage</label>
+            <label id="lblBusVolt" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Date</label>
+            <label id="lblDate" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Time</label>
+            <label id="lblBusTime" style="margin-left:10px"></label>
+
+        </div>
+
+        <div class="col-lg-12">
+            <div class="col-md-4">
+                <table class="rabtdt2" style="white-space: nowrap; ">
+                    <caption style="font-weight: bold">Generator</caption>
+                    <tr>
+
+                        <td>Generator #1</td>
+                        <td><label id="gen22"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Generator #2</td>
+                        <td><label id="gen25"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Total Generation</td>
+                        <td><label id="totalgen"></label></td>
+                    </tr>
+                </table>
+
+                <table class="rabtdt2" style="white-space: nowrap; ">
+                    <caption style="font-weight: bold">Feeders</caption>
+                    <tr>
+
+                        <td>JABALPUR_1</td>
+                        <td><label id="fed14"></label></td>
+                    </tr>
+                    <tr>
+                        <td>JABALPUR_2</td>
+                        <td><label id="fed17"></label></td>
+                    </tr>
+                    <tr>
+                        <td>WARORA_LINE_1</td>
+                        <td><label id="fed19"></label></td>
+                    </tr>
+                    <tr>
+                        <td>WARORA_LINE_2</td>
+                        <td><label id="fed20"></label></td>
+                    </tr>
+                </table>
+
+                <table class="rabtdt2" style="white-space: nowrap; ">
+                    <caption style="font-weight: bold">Other's</caption>
+                    <tr>
+                        <td>MUWPH_LINE1</td>
+                        <td><label id="com2"></label></td>
+                    </tr>
+                    <tr>
+                        <td>MUWPH_LINE2</td>
+                        <td><label id="com6"></label></td>
+                    </tr>
+                    <tr>
+                        <td>IBT_1</td>
+                        <td><label id="com5"></label></td>
+                    </tr>
+                    <tr>
+                        <td>IBT_2</td>
+                        <td><label id="com7"></label></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="rabtdt2" style="white-space: nowrap; ">
+                    <caption style="font-weight: bold">Block Information</caption>
+                    <tr class="thheading">
+                        <td>Current BLK. No.</td>
+                        <td><label id="CurrentBlockNumberdata"></label></td>
+                    </tr>
+                    <tr class="thheading">
+                        <td>Time Remaining (mm:ss)</td>
+                        <td><label id="CurrentBlockTimedata"></label></td>
+                    </tr>
+                    <tr class="thheading">
+                        <td>BLK. Time (HH:MM)</td>
+                        <td><label id="CurrentBlockTime"></label></td>
+                    </tr>
+                    <tr class="thheading">
+                        <td>Time Elapsed (mm:ss)</td>
+                        <td><label id="CurrentBlockTimeElapseddata"></label></td>
+                    </tr>
+                    <tr class="thheading">
+                        <td>MW (Export)</td>
+                        <td><label id="cbdNexExBus"></label></td>
+                    </tr>
+                    <tr class="thheading">
+                        <td>MU (Day)</td>
+                        <td><label id="culbdNetExp"></label></td>
+                    </tr>
+                </table>
+                <br />
+                <table class="rabtdtl" style="white-space: nowrap">
+                    <caption style="font-weight:bold">Previous Block Data</caption>
+                    <tr style="font-weight:bold">
+                        <td>Block No</td>
+                        <td>Avg HZ</td>
+                    </tr>
+                    <tr>
+                        <td><label id="pbdBlockNo1" class="label5"></label></td>
+                        <td><label id="pbdAvgHz1" class="label5"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="pbdBlockNo2" class="label5"></label></td>
+                        <td><label id="pbdAvgHz2" class="label5"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><label id="pbdBlockNo3" class="label5"></label></td>
+                        <td><label id="pbdAvgHz3" class="label5"></label></td>
+                    </tr>
+                </table>
+                <br />
+                <table style="white-space: nowrap" class="rabtdtl">
+                    <caption style="font-weight: bold">Next Block Data</caption>
+                    <tr style="font-weight:bold">
+                        <td>Block No</td>
+                        <td style="display: none;">Forecast Gen(MW)</td>
+                        <td>SG(MW)</td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo1"></label></td>
+                        <td style="display: none;"><label class="label5" id="n4BlkDC1"></label></tdstyle>
+                        <td><label class="label5" id="n4BlkSG1"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo2"></label></td>
+                        <td style="display: none;"><label class="label5" id="n4BlkDC2"></label></td>
+                        <td><label class="label5" id="n4BlkSG2"></label></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td><label id="n4BlkNo3"></label></td>
+                        <td><label class="label5" id="n4BlkDC3"></label></td>
+                        <td><label class="label5" id="n4BlkSG3"></label></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td><label id="n4BlkNo4"></label></td>
+                        <td><label class="label5" id="n4BlkDC4"></label></td>
+                        <td><label class="label5" id="n4BlkSG4"></label></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-md-4">
+                <table class="rabtdtl" style="white-space:nowrap">
+                    <caption style="font-weight: bold">Current Block Data</caption>
+                    <tr>
+                        <td><font class="label1">DC </font> </td>
+                        <td><label id="cbdDCMW" class="label1"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label1">SG </font></td>
+                        <td><label id="cbdSGMW" class="label1"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label3">Avg Freq</font></td>
+                        <td><label id="cbdAvgHz" class="label3"></label></td>
+                        <td>HZ</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Instant Gen</font></td>
+                        <td><label class="label2" id="InstMw"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Currnt Blck Avg</font></td>
+                        <td><label class="label2" id="AVGMw"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">Blck AG/SG </font></td>
+                        <td><label class="label5" id="cbdExpSG"></label></td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">Deviation</font></td>
+                        <td><label class="label5" id="cbdDevMW"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">Deviation %</font></td>
+                        <td><label class="label5" id="cbdDevper"></label></td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Blck  Ask Rate</font></td>
+                        <td><label class="label2" id="dacbSG"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Cut off Freq</font></td>
+                        <td><label class="label2" id="cutofffreq">50</label></td>
+                        <td>HZ</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Pre Blck Avg </font></td>
+                        <td><label class="label2" id="pbdNExBus"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Pre Blck Freq </font></td>
+                        <td><label id="pbdAvgHz" class="label3"></label></td>
+                        <td>HZ</td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">Ask Rate 112%</font></td>
+                        <td><label class="label2" id="dacbAROverInj"></label></td>
+                        <td>MW</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> AG/SG %Cum</font></td>
+                        <td><label class="label2" id="culbdExpSg"></label></td>
+                        <td>%</td>
+                    </tr>
+                    <tr>
+                        <td>CUM Dev Amt</td>
+                        <td><label class="label5" id="culbdDevMWh"></label></td>
+                        <td>&#8377;</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label6">CUM Addl Dev</font></td>
+                        <td><label class="label5" id="cbdAddiDev"></label></td>
+                        <td>&#8377;</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label6">Net Gain/Loss.</font></td>
+                        <td><label id="cbdNetGain"></label></td>
+                        <td>&#8377;</td>
+                    </tr>
+                    <tr>
+                        <td><font class="label6">DEV. Limit</font></td>
+                        <td><label id="cbddevlimit"></label></td>
+                        <td>MW</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="col-lg-12" style="display:none">
+            <div class="col-md-6">
+                <table class="rabtdtl" style="font-size: x-small; font-weight: bold; line-height: 14px; white-space: nowrap">
+                    <caption>Previous Block Data</caption>
+                    <tr style="font-weight:bold">
+                        <td>Block No</td>
+                        <td>Avg HZ</td>
+                    </tr>
+                    <tr>
+                        <td><label id="pbdBlockNo1" class="label5"></label></td>
+                        <td><label id="pbdAvgHz1" class="label5"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="pbdBlockNo2" class="label5"></label></td>
+                        <td><label id="pbdAvgHz2" class="label5"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="pbdBlockNo3" class="label5"></label></td>
+                        <td><label id="pbdAvgHz3" class="label5"></label></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table style="font-size: x-small; font-weight: bold; line-height: 14px; white-space: nowrap" class="rabtdtl">
+                    <caption>Next 2 Block Data</caption>
+                    <tr style="font-weight:bold">
+                        <td>Block No</td>
+                        <td>Forecast Gen(MW)</td>
+                        <td>SD(MW)</td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo1"></label></td>
+                        <td><label class="label5" id="n4BlkDC1"></label></td>
+                        <td><label class="label5" id="n4BlkSG1"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo2"></label></td>
+                        <td><label class="label5" id="n4BlkDC2"></label></td>
+                        <td><label class="label5" id="n4BlkSG2"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo3"></label></td>
+                        <td><label class="label5" id="n4BlkDC3"></label></td>
+                        <td><label class="label5" id="n4BlkSG3"></label></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td><label id="n4BlkNo4"></label></td>
+                        <td><label class="label5" id="n4BlkDC4"></label></td>
+                        <td><label class="label5" id="n4BlkSG4"></label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-lg-12" id="containergraph" style="min-width: 310px; height: 300px; margin: 0 auto"></div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var InstHzPerSecondValue;
+                var InstAvzHzPerSecondValue;
+                var InstDefaultHzPerSecondValue;
+                var chk = false;
+                var ts;
+                GetDataForChartForPerviousTwoBlocks();
+                function GetDataForChartForPerviousTwoBlocks() {
+                    var HzData = [];
+                    var AvgHzData = [];
+                    var DefaultHzData = [];
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "PlantSummaryAPI/GetInstanceDataLogsForChart_LastTwoBlocks",
+                        async: false,
+                        dataType: "json",//type of data to be received
+                        success: function (response) {
+                            chk = true;
+                            var resHz = response.Data.result.plantSummaryChartHzs;
+                            var i = 0;
+                            if (resHz != null && resHz != "") {
+                                resHz.forEach(function () {
+                                    HzData.push({
+                                        x: Date.parse(resHz[i].tstamp),
+                                        y: resHz[i].hz
+                                    });
+                                    i = i + 1;
+                                });
+                            }
+                            var resAvgHz = response.Data.result.plantSummaryChartAvgHzs;
+                            var i = 0;
+                            if (resAvgHz != null && resAvgHz != "") {
+                                resAvgHz.forEach(function () {
+                                    AvgHzData.push({
+                                        x: Date.parse(resAvgHz[i].tstamp),
+                                        y: resAvgHz[i].avghz
+                                    });
+                                    i = i + 1;
+                                });
+                            }
+                            var resDefaultHz = response.Data.result.plantSummaryChartDefaultHzs;
+                            var i = 0;
+                            if (resDefaultHz != null && resDefaultHz != "") {
+                                resDefaultHz.forEach(function () {
+                                    DefaultHzData.push({
+                                        x: Date.parse(resDefaultHz[i].tstamp),
+                                        y: resDefaultHz[i].defaulthz
+                                    });
+                                    i = i + 1;
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            // alert(error);
+                            if (box) box.remove();
+                            chk = false;
+                        }
+                    });
+                    if (HzData.length > 0)
+                        renderChart(HzData, AvgHzData, DefaultHzData);
+                    if (!chk)
+                        GetDataForChartForPerviousTwoBlocks();
+                    //return data;
+                }
+
+                function GetDataForChartForCurrentBlock() {
+                    chk = false;
+                    $.ajax({
+                        type: "GET",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+                        //url: BaseAddress + "InstanceDataAPIGMR/GetInstanceDataRABT_CurrentBlockNX4",
+                        url: BaseAddress + "PlantSummaryAPI/GetInstanceDataLogsForChart_CurrentBlock",
+                        async: false,
+                        dataType: "json",//type of data to be received
+                        success: function (response) {
+                            if (response.Data.result.plantSummaryChartHz != null || response.Data.result.plantSummaryChartAvgHz != null) {
+                                chk = true;
+                                if (response.Data.result.plantSummaryChartHz.hz != null)
+                                    InstHzPerSecondValue = response.Data.result.plantSummaryChartHz.hz;
+                                else
+                                    InstHzPerSecondValue = 0;
+                                if (response.Data.result.plantSummaryChartAvgHz.avghz != null)
+                                    InstAvzHzPerSecondValue = response.Data.result.plantSummaryChartAvgHz.avghz;
+                                else
+                                    InstAvzHzPerSecondValue = 0;
+                                if (response.Data.result.plantSummaryChartDefaultHz.defaulthz != null)
+                                    InstDefaultHzPerSecondValue = response.Data.result.plantSummaryChartDefaultHz.defaulthz;
+                                else
+                                    InstDefaultHzPerSecondValue = 0;
+                                if (response.Data.result.plantSummaryChartHz.tstamp != null)
+                                    ts = response.Data.result.plantSummaryChartHz.tstamp
+                                else
+                                    ts = (new Date()).getTime();
+                            }
+                            else
+                                chk = false;
+                            //COMMENT BELOW TWO LINE ON LIVE SERVER
+                            //InstHzPerSecondValue = Math.round(Math.random() * 100);
+                            //InstAvzHzPerSecondValue = Math.round(Math.random() * 100.5);
+                        },
+                        error: function (xhr, status, error) {
+                            // alert(error);
+                            if (box) box.remove();
+                            chk = false;
+                        }
+                    });
+
+                }
+
+                function renderChart(HzData, AvgHzData, DefaultHzData) {
+                    debugger
+                    Highcharts.setOptions({
+                        global: {
+                            useUTC: false
+                        }
+                    });
+                    var chart = new Highcharts.Chart({
+                        chart: {
+                            type: 'spline',
+                            renderTo: 'containergraph',
+                            zoomType: 'x',
+                            //animation: Highcharts.svg, // don't animate in old IE
+                            marginRight: 10,
+                            events: {
+                                load: function () {
+                                    // set up the updating of the chart each second
+                                    var series = this.series[0];
+                                    var series1 = this.series[1];
+                                    var series2 = this.series[2];
+                                    setInterval(function () {
+                                        GetDataForChartForCurrentBlock();
+                                        var x = (new Date()).getTime(), // current time
+                                            y = InstHzPerSecondValue;
+                                        y1 = InstAvzHzPerSecondValue,
+                                        y2 = InstDefaultHzPerSecondValue;
+                                        x = Date.parse(ts);
+                                        if (chk) {
+                                            series.addPoint([x, y], true, true);
+                                            series1.addPoint([x, y1], true, true);
+                                            series2.addPoint([x, y2], true, true);
+                                        }
+                                    }, 4000);
+                                }
+                            }
+                        },
+                        title: {
+                            text: 'Live data'
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            tickPixelInterval: 150
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Value'
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                        },
+                        tooltip: {
+                            formatter: function () {
+                                return '<b>' + this.series.name + '</b><br/>' +
+                                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                                    Highcharts.numberFormat(this.y, 2);
+                            }
+                        },
+                        legend: {
+                            enabled: true
+                        },
+                        exporting: {
+                            enabled: false
+                        },
+                        series: [{
+                            name: 'InstHz',
+                            data: HzData
+                        }
+                        , {
+                            name: 'InstAvgHz',
+                            data: AvgHzData
+                        }
+                        , {
+                            name: 'Default',
+                            data: DefaultHzData
+                        }
+                        ]
+                    });
+                }
+
+
+            });
+        </script>
+
+

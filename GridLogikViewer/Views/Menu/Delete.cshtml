@@ -1,0 +1,91 @@
+﻿@model GridLogik.ViewModels.MstMenuModels
+
+@{
+    ViewBag.Title = "Menu Deletion";
+}
+@section scripts
+{
+    <script>
+    $(document).ready(function () {
+
+
+
+
+    });
+
+</script>
+
+}
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Menu</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Menu</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model=>model.mnurecid)
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.mnuitemname, null, "")
+                                            @Html.TextBoxFor(model => model.mnuitemname, new { @class = "form-control alphanumspace", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.mnuitemname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.link, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.link, new { @class = "form-control", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.link, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.mnuitemposition, null, "")
+                                            @Html.TextBoxFor(model => model.mnuitemposition, new { @class = "decimal form-control", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.mnuitemposition, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.mnumodulid, null, "")
+                                            @Html.DropDownListFor(model => model.mnumodulid, (IEnumerable<SelectListItem>)ViewBag.Modules, "Select Module"
+                          , new { @class = "form-control", required = true, title = "Please Provide Module",disabled="disabled" })
+                                            @Html.ValidationMessageFor(model => model.mnumodulid, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Delete</button>
+                                            
+                                        </div>
+                                        <div>
+                                            <p id="msg" style="color:red">
+                                            </p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

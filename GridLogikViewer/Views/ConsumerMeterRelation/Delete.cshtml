@@ -1,0 +1,417 @@
+@model GridLogikViewer.Models.MstConsumerMeterRelation
+
+@{
+    ViewBag.Title = "Delete";
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            //Set textbox as datepicker
+            $(function () {
+                $('#cmrrelationshipstartdate').datepicker({
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            //Set textbox as datepicker
+            $(function () {
+                $("#cmrrelationshipenddate").datepicker({
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            //Set textbox as datepicker
+            $(function () {
+                $("#cmrservicestartdate").datepicker({
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            //Set textbox as datepicker
+            $(function () {
+                $("#cmrserviceenddate").datepicker({
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumer",
+                url: BaseAddress + "consumer",
+                dataType: "json",
+                async: false,
+                success: function (consumers, status, jqXHR) {
+                    var str = "";
+                    str = "<option value>Select Consumer</option>";
+                    if (consumers.Data.result != undefined) {
+                        var data = consumers.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].csmrmasterid + ">" + data[i].csmrfirstname + "</option>";
+                        }
+                    }
+                    else if (consumers.Data.e == "E") {
+                        if (consumers.Data.d.length > 0)
+                            //     alert(consumers.Data.d);
+                            alert(consumers.Data.d, '', false, "E");
+                    }
+
+                    $("#cmrconsumermasterid").html(str);
+                    $(".consumerclasses").selectpicker();
+                }
+            });
+            //Fill Meter DropDown
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "ConsumerMeterList/1",
+                dataType: "json",
+                async: false,
+                success: function (meters, status, jqXHR) {
+                    var str1 = "";
+                    str1 = "<option value>Select Parent Meter</option>";
+                    $("#parentcmrmeterid").html(str1);
+                    var str = "";
+                    str = "<option value>Select Meter</option>";
+                    if (meters.Data.result != undefined) {
+                        var data = meters.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].id + ">" + data[i].metername + "</option>";
+
+                        }
+                    }
+                    else if (meters.Data.e == "E") {
+                        if (meters.Data.d.length > 0)
+                            alert(meters.Data.d, '', false, "E");
+                    }
+                    $("#cmrmeterid").html(str);
+                    $(".meterclasses").selectpicker();
+                }
+            });
+            //Get Dateformat and Set it to datepickers
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                                $('#cmrrelationshipstartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                                $("#cmrrelationshipenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                                $('#cmrservicestartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                                $("#cmrserviceenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            //  alert(dateformat.Data.d);
+                            alert(dateformat.Data.d, '', false, "E");
+                    }
+                }
+            });
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+                $.ajax({
+                    //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumermeterrelation/" + id,
+                    url: BaseAddress + "consumermeterrelation/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                        if (response.Data.result.cmrrecid == null) {
+                            alert(response.Data.d, '', false, "M");
+                        }
+                        else {
+                            $("#cmrcurrconnloadkw").val(response.Data.result.cmrcurrconnloadkw);
+                            $("#cmdcurrcontractdemandkva").val(response.Data.result.cmdcurrcontractdemandkva);
+                            $("#cmrrecid").val(response.Data.result.cmrrecid);
+                            $("#cmrconsumerid").val(response.Data.result.cmrconsumerid);
+                            $("#cmrconsumermasterid").val(response.Data.result.cmrconsumermasterid);
+                            $(".consumerclasses").selectpicker('val', response.Data.result.cmrconsumermasterid);
+                            $("#cmrmeterid").val(response.Data.result.cmrmeterid);
+                            $(".meterclasses").selectpicker('val', response.Data.result.cmrmeterid);
+                            var cmrId = $('#cmrconsumermasterid').val();
+                            var MeterId = $('#cmrmeterid').val();
+                            if (cmrId != null && cmrId != "" && MeterId != null && MeterId != "") {
+                                $("#parentcmrmeterid").empty();
+                                FillParentMeter(cmrId, MeterId);
+                            } else {
+                                $("#parentcmrmeterid").empty();
+                                var str1 = "";
+                                str1 = "<option value>Select Parent Meter</option>";
+                                $("#parentcmrmeterid").html(str1);
+                            }
+                            var DBDOBDate = Date.parse(response.Data.result.cmrrelationshipstartdate, $("#DatabaseDateformat").val());
+                            var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBDOBDate))
+                            $("#cmrrelationshipstartdate").val(DOBDate);
+                            // $("#cmrrelationshipstartdate").val(response.Data.result.cmrrelationshipstartdate);
+                            //  var DBDOBDate = Date.parse(response.Data.result.cmrrelationshipenddate, $("#DatabaseDateformat").val());
+                            //  var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBDOBDate))
+                            //  $("#cmrrelationshipenddate").val(DOBDate);
+                            // $("#cmrrelationshipenddate").val(response.Data.result.cmrrelationshipenddate);
+                            if (response.Data.result.cmrservicestartdate != null && response.Data.result.cmrservicestartdate != "") {
+                                var DBDOBDate = Date.parse(response.Data.result.cmrservicestartdate, $("#DatabaseDateformat").val());
+                                var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBDOBDate))
+                                $("#cmrservicestartdate").val(DOBDate);
+                            }
+                            // $("#cmrservicestartdate").val(response.Data.result.cmrservicestartdate);
+                            if (response.Data.result.cmrserviceenddate != null && response.Data.result.cmrserviceenddate != "") {
+                                var DBDOBDate = Date.parse(response.Data.result.cmrserviceenddate, $("#DatabaseDateformat").val());
+                                var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBDOBDate))
+                                $("#cmrserviceenddate").val(DOBDate);
+                            }
+                            //  $("#cmrserviceenddate").val(response.Data.result.cmrserviceenddate);
+                            $("#cmrisdeleted").val(response.Data.result.cmrisdeleted);
+                            response.Data.result.tagforsubmeter == 1 ? $('#tagforsubmeter').prop('checked', true) : $('#tagforsubmeter').prop('checked', false);
+
+                            if ($("#tagforsubmeter").prop("checked")) {
+
+                                $("#parentcmrmeterid").val(response.Data.result.cmrparentmeterid);
+                                $(".meterclasses").selectpicker('val', response.Data.result.cmrparentmeterid);
+                                $("#parentcmrmeterid").prop("disabled", true);
+                            } else {
+                                $("#parentcmrmeterid").val('');
+                            }
+                            return false;
+                        }
+                    },
+                    error: function (xhr) {
+
+                        alert(xhr.responseText);
+                    }
+                });
+
+            //alert(mstconsumermeterrelation);
+
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm(DeleteMessage);
+
+            });
+        });
+        $("#cmrconsumermasterid").change(function () {
+            //Fill Parent Meter DropDown
+            var cmrId = $('#cmrconsumermasterid').val();
+            var MeterId = $('#cmrmeterid').val();
+            if (cmrId != null && cmrId != "" && MeterId != null && MeterId != "") {
+                $("#parentcmrmeterid").empty();
+                FillParentMeter(cmrId, MeterId);
+            } else {
+                $("#parentcmrmeterid").empty();
+                var str1 = "";
+                str1 = "<option value>Select Parent Meter</option>";
+                $("#parentcmrmeterid").html(str1);
+            }
+        });
+        $("#cmrmeterid").change(function () {
+            //Fill Parent Meter DropDown
+            var cmrId = $('#cmrconsumermasterid').val();
+            var MeterId = $('#cmrmeterid').val();
+            if (cmrId != null && cmrId != "" && MeterId != null && MeterId != "") {
+                $("#parentcmrmeterid").empty();
+                FillParentMeter(cmrId, MeterId);
+            } else {
+                $("#parentcmrmeterid").empty();
+                var str1 = "";
+                str1 = "<option value>Select Parent Meter</option>";
+                $("#parentcmrmeterid").html(str1);
+            }
+        });
+        function FillParentMeter(cmrId, meterId) {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/meter",
+                url: BaseAddress + "ConsumerMeterRelation/GetParentMeter/" + cmrId + "/" + meterId,
+                dataType: "json",
+                async: false,
+                success: function (meters, status, jqXHR) {
+                    var str1 = "";
+                    //
+                    str1 = "<option value>Select Parent Meter</option>";
+                    if (meters.Data.result != undefined) {
+                        var data = meters.Data.result;
+                        for (var i in data) {
+                            str1 += "<option value=" + data[i].id + ">" + data[i].metername + "</option>";
+                        }
+                    }
+                    else if (meters.Data.e == "E") {
+                        if (box) box.remove();
+                        if (meters.Data.d.length > 0)
+                            alert(meters.Data.d, '', false, meters.Data.e);
+                    }
+                    $("#parentcmrmeterid").html(str1);
+                    $(".meterclasses").selectpicker();
+                    if (box) box.remove();
+                }
+            });
+        }
+
+        function deleterecord() {
+
+            var mstconsumermeterrelation = {
+                "cmrconsumerid": $("#cmrconsumerid").val(),
+                // "cmrconsumerid": $("#ConsumerMasterClasses").val(),
+                "cmrconsumermasterid": $("#cmrconsumermasterid").val(),
+                // "cmrmeterid": $("#cmrmeterid").val(),
+                "cmrmeterid": $("#cmrmeterid").val(),
+                //"cmrrelationshipstartdate": $("#cmrrelationshipstartdate").val(),
+                "cmrrelationshipstartdate": GetFinaldate($("#cmrrelationshipstartdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                //"cmrrelationshipenddate": $("#cmrrelationshipenddate").val(),
+                "cmrrelationshipenddate": GetFinaldate($("#cmrrelationshipenddate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                //"cmrservicestartdate": $("#cmrservicestartdate").val(),
+                "cmrservicestartdate": GetFinaldate($("#cmrservicestartdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                //"cmrserviceenddate": $("#cmrserviceenddate").val(),
+                "cmrserviceenddate": GetFinaldate($("#cmrserviceenddate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                "tagforsubmeter": $("#tagforsubmeter").val(),
+                "cmrisdeleted": 1,
+                "cmrcurrconnloadkw": $("#cmrcurrconnloadkw").val(),
+                "cmdcurrcontractdemandkva": $("#cmdcurrcontractdemandkva").val()
+            };
+
+
+            var RecordID = $("#cmrrecid").val();
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumermeterrelation/"  + RecordID,
+                url: BaseAddress + "consumermeterrelation/" + RecordID,
+                //crossDomain: true,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(mstconsumermeterrelation),//data to be send
+                success: function (response) {
+
+                    if (response.Data.e == "S") {
+                        alert(response.Data.d, '@Url.Action("Index", "ConsumerMeterRelation")', true, response.Data.e);
+                        // window.location.href = '@Url.Action("Index", "ConsumerMeterRelation")';
+                    }
+                    else if (response.Data.e == "M") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+                    else if (response.Data.e == "E") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+
+                    alert(xhr.responseText);
+                }
+            });
+
+            e.preventDefault();
+            // }
+        }
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Assign Meter</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        <div class="form-group">
+                                            <input id="Dateformat" type="hidden" />
+                                            <input id="ServerDateformat" type="hidden" />
+                                            <input type="hidden" id="DatabaseDateformat">
+                                            @Html.HiddenFor(model => model.cmrrecid)
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.cmrconsumerid, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrconsumerid, new { disabled = "disabled", @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.cmrconsumermasterid, new { @class = "" })
+                                            @Html.DropDownList("cmrconsumermasterid", Enumerable.Empty<SelectListItem>(), new { @disabled = "disabled", @class = "form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Consumer" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label class="col-md-2 control-label" for="cmrmeterid">Meter</label>
+                                            @Html.DropDownList("cmrmeterid", Enumerable.Empty<SelectListItem>(), new { @disabled = "disabled", @class = "form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Meter" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.cmrrelationshipstartdate, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrrelationshipstartdate, new { disabled = "disabled", @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-4" style="display:none">
+                                            @Html.LabelFor(model => model.cmrrelationshipenddate, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrrelationshipenddate, new { disabled = "disabled", @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.cmrservicestartdate, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrservicestartdate, new { disabled = "disabled", @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-4" style="display:none">
+                                            @Html.LabelFor(model => model.cmrserviceenddate, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrserviceenddate, new { disabled = "disabled", @class = "form-control" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.tagforsubmeter, new { @class = "" })
+                                            @Html.CheckBoxFor(model => model.tagforsubmeter, new { @disabled = "disabled" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.parentcmrmeterid, new { @class = "" })
+                                            @Html.DropDownListFor(model => model.parentcmrmeterid, Enumerable.Empty<SelectListItem>(), new { @disabled = "disabled", @class = "form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Parent Meter" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.cmrcurrconnloadkw, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmrcurrconnloadkw, new { @placeholder = "0.00", @class = "form-control  decimal", @maxlength = "6" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.cmdcurrcontractdemandkva, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.cmdcurrcontractdemandkva, new { @placeholder = "0.00", @class = "form-control  decimal", @maxlength = "6" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-sm btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

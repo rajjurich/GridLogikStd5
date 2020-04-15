@@ -1,0 +1,183 @@
+﻿@model GridLogikViewer.Models.MstDcu
+
+@{
+    ViewBag.Title = "Delete DCU";
+}
+
+@section scripts
+{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+
+    <script>
+        $(document).ready(function () {
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "dcu/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                success: function (response) {
+                    if (response.Data.result.dcurecid == null) {
+                        alert(response.Data.result.d);
+                    }
+                    else {
+                        $("#dcurecid").val(response.Data.result.dcurecid);
+                        $("#dcuid").val(response.Data.result.dcuid);
+                        $("#dcucomid").val(response.Data.result.dcucomid);
+                        $("#dcupanid").val(response.Data.result.dcupanid);
+                        $("#dcumetercommode").val(response.Data.result.dcumetercommode);
+                        $("#dcumdascommode").val(response.Data.result.dcumdascommode);
+                        $("#dcumetercomprotocol").val(response.Data.result.dcumetercomprotocol);
+                        $("#dcumdascomprotocol").val(response.Data.result.dcumdascomprotocol);
+                        $("#dcuoperatingchannel").val(response.Data.result.dcuoperatingchannel);                        
+                        $("#dcuinstallarea").val(response.Data.result.dcuinstallarea);
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm("Record marked for Deletion. Continue? ");
+                if (msg == false) {
+                    return false;
+                }
+                else {
+                    var mstDcu = {
+                        "dcurecid": $("#dcurecid").val(),
+                        "dcuid": $("#dcuid").val(),
+                        "dcucomid": $("#dcucomid").val(),
+                        "dcupanid": $("#dcupanid").val(),
+                        "dcumetercommode": $("#dcumetercommode").val(),
+                        "dcumdascommode": $("#dcumdascommode").val(),
+                        "dcumetercomprotocol": $("#dcumetercomprotocol").val(),
+                        "dcumdascomprotocol": $("#dcumdascomprotocol").val(),
+                        "dcuoperatingchannel": $('#dcuoperatingchannel').val(),                        
+                        "dcuinstallarea": $("#dcuinstallarea").val(),
+                        "dcuisdeleted": true
+                    };
+                    var RecordID = $("#dcurecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url:  BaseAddress + "Dcu/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstDcu),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                window.location.href = '@Url.Action("Index", "Dcu")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+
+        });
+
+    </script>
+
+}
+
+<h2>Delete DCU</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.HiddenFor(model => model.dcurecid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcuid, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcucomid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcucomid, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcupanid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcupanid, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumetercommode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcumetercommode, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumdascommode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcumdascommode, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumetercomprotocol, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcumetercomprotocol, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumdascomprotocol, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcumdascomprotocol, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuoperatingchannel, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcuoperatingchannel, new { @disabled = "disabled" })                
+            </div>
+        </div>        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcuinstallarea, new { @disabled = "disabled" })                
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Delete" class="btn btn-default" id="btnDelete" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

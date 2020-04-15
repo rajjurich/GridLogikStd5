@@ -1,0 +1,13 @@
+<ul>
+<li>Office number & Document number should be written on the back side of the cheque.</li>
+ <li>Payments will be in favor of "BHARAT DIAMOND BOURSE" & send at our Member Relation Department.</li>
+ <li>Please issue separate cheque for Electricity Reimbursement. Do not mix the same with HVAC Reimbursement
+or any other payment made to us.</li>
+ <li>Kindly do not deduct TDS as HVAC Reimbursement Receivable is purely reimbursement in nature.</li>
+We have not charged Service tax as well on the same.</li>
+ <li>Payment should be made within 7 days from the date of issue</li>
+ <li>Power Factor to be maintained 0.89. Anything below will attract penalty on final Amt, as per standard norms and
+conditions of Tata Power</li>
+ <li>This is electronically generated document
+</li>
+</ul>

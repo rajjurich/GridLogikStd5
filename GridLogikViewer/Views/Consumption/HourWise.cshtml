@@ -1,0 +1,722 @@
+@model GridLogik.ViewModels.ConsumptionDayHourWise
+@{
+    ViewBag.Title = "Hour Wise Consumption";
+}
+<link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/js/bootstrap-multiselect.js"></script>
+@section scripts
+{
+    @* <script src="~/Scripts/jquery.table2excel.js"></script>*@
+    <script language="javascript" type="text/javascript">
+
+    var GraphType = "";
+    var NoDataMessage = "Record not found";
+    $(document).ready(function () {
+
+        $(function () {
+            $('#MeterGroup').multiselect({
+                includeSelectAllOption: true,
+
+                onDropdownHide: function (event) {
+                    FillMeter(jQuery('#availablePositions').val());
+                }
+            });
+
+            $('#ddlMeters').multiselect({
+                includeSelectAllOption: true,
+
+                //onDropdownHide: function (event) {
+                //    FillMeter(jQuery('#availablePositions').val());
+                //}
+            });
+
+        });
+
+        function FillMeter() {
+
+            var selected = $("#MeterGroup option:selected");
+            var grpId = "";
+            selected.each(function () {
+                if (grpId == '')
+                    grpId += $(this).val();
+                else
+                    grpId += "^" + $(this).val();
+            });
+
+            if (grpId == '') {
+                $('#ddlMeters').html('');
+                $("#ddlMeters").multiselect('rebuild');
+
+                $("#ddlMeters").html('');
+                $("#ddlMeters").multiselect('rebuild');
+
+                alert("Please select atleast one group", '', false, 'E')
+                return;
+            }
+            else {
+
+                $.ajax({
+                    url: '@Url.Action("MetersBymultipleGroupID", "GroupView")',
+                    data: { id: grpId },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+                        var markup = "";
+                        //var markup = "<option value=''>Select Meters</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        }
+                        $("#ddlMeters").html(markup).show();
+                        $("#ddlMeters").multiselect('rebuild');
+
+                        @*if ('@Model.Meters' != '0') {
+                                $("#ddlMeters").val(@Model.Meters);
+
+
+                            }*@
+                        if (box) box.remove();
+
+
+                    },
+                    error: function (reponse) {
+                        if (box) box.remove();
+                    }
+                });
+            }
+        }
+
+        $(function () {
+            $("#Date").datepicker({
+                dateFormat: $("#DateField").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+            $('#Date').datepicker('setDate', 'today');
+        });
+
+        $("#divParent").css("display", "none");
+
+        $("#btnPlotChart").on("click", function () {
+            $("#chart_container").empty();
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var ddlParameter = $("#ddlParameter").val();
+
+            if ($("form").valid()) {
+                GraphType = "Chart";
+                //$("#hName").css("color", "#1F475F");
+                //$("#divMain").css("display", "none");
+                //$("#divParent").css("display", "");
+                // AssignLabelValue("1");
+                if (ddlParameter == "C") {
+                    PerformanceChart();
+                }
+                else {
+                    if ($("#ddlMeters :selected").length > 1) {
+                        alert("Only single meter selection allowed for Load", '', false, "M");
+                        if (box) box.remove();
+                        return false;
+                    }
+                    PerformanceChartForLoad();
+                }
+                $("#btnSwitch").html('Table');
+                if (box) box.remove();
+            }
+            else {
+                if (box) box.remove();
+            }
+        });
+
+        $("#btnPlotTable").on("click", function () {
+            $("#chart_container").empty();
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var ddlParameter = $("#ddlParameter").val();
+            if ($("form").valid()) {
+                //$("#hName").css("color", "#1F475F");
+                GraphType = "table";
+                //$("#divMain").css("display", "none");
+                //$("#divParent").css("display", "");
+                // AssignLabelValue("1");
+                //
+                if (ddlParameter == "C") {
+                    PerformanceChart();
+                }
+                else {
+                    if ($("#ddlMeters :selected").length > 1) {
+                        alert("Only single meter selection allowed for Load", '', false, "M");
+                        if (box) box.remove();
+                        return false;
+                    }
+                    PerformanceChartForLoad();
+                }
+
+                $("#btnSwitch").html('Chart');
+                if (box) box.remove();
+            }
+            else {
+                if (box) box.remove();
+            }
+        });
+        $("#btnSwitch").on("click", function () {
+            $("#hName").css("color", "#1F475F");
+            if ($("#btnSwitch").html() == "Chart") {
+                $("#chart_container").empty();
+                GraphType = "chart";
+                $("#btnSwitch").html('Table');
+                AssignLabelValue("1");
+                PerformanceChart();
+            }
+            else {
+                $("#chart_container").empty();
+                GraphType = "table";
+                $("#btnSwitch").html('Chart');
+                AssignLabelValue("1");
+                PerformanceChart();
+            }
+
+        });
+
+
+        $("#btnBack").on("click", function () {
+            $("#hName").css("color", "white");
+            $("#divMain").css("display", "");
+            $("#divParent").css("display", "none");
+            $('#btnReset').click();
+            AssignLabelValue("2");
+        });
+
+
+        $("#btnExport").on("click", function () {
+
+            var currentdate = new Date()
+
+            var month = currentdate.getMonth() + 1
+
+            //var d = currentdate.getDate() + "-" + month + "-" + currentdate.getFullYear();
+            var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+            //debugger;
+
+            $(".rowheader").remove();
+            $('.data').prepend("<tr class='rowheader' style='display:none;'><th>Meter Name : </th> <th>" + $("#ddlMeters option:selected").text() + "</th></tr><tr  class='rowheader'  style='display:none;'><th>Generated For : </th> <th>" + $("#Date").val() + "</th> </tr>   <tr  class='rowheader' style='display:none;'><th></th><th></th><th></th> <th></th> </tr>");
+
+            $(".data").table2excel({
+                exclude: ".noExl",
+                name: "Hour Wise Load",
+                filename: "HourWiseLoad_" + localdate,
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+            //$("#highcharts-12").hide();
+        });
+
+        $("#btnExport").css("display", "none");
+
+    });
+
+    function GetMeters(GroupID) {
+
+        var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+        $.ajax({
+                @*url: '@Url.Action("MetersByGroupID", "Consumption")',*@
+                url: '@Url.Action("MetersBymultipleGroupID", "GroupView")',
+                data: { id: GroupID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+
+                    var markup = "<option value=''>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                    }
+                    $("#ddlMeters").html(markup).show();
+                    if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                    //  alert("error : " + reponse);
+                }
+            });
+
+        }
+        function PerformanceChart() {
+            var selected = $("#ddlMeters option:selected");
+            var grpId = "";
+            selected.each(function () {
+                if (grpId == '')
+                    grpId += $(this).val();
+                else
+                    grpId += "^" + $(this).val();
+            });
+
+            $("#chart_container").empty();
+            var legendArray = new Array();
+            var seriesOptions = "";
+            var FinString = "";
+            //var opt = "table";
+            var opt = GraphType;
+            var SubType = "line";
+            var categories_data = new Array();
+            var day, month, year;
+            var date = $("#Date").val();
+            var MeterID = grpId;// $("#ddlMeters").val();
+            if ($("#DateField").val().toUpperCase() == "DD/MM/YY") {
+                day = date.substr(0, 2);
+                month = date.substr(3, 2);
+                year = date.substr(6, 4);
+            }
+            else if ($("#DateField").val().toUpperCase() == "MM/DD/YY") {
+                month = date.substr(0, 2);
+                day = date.substr(3, 2);
+                year = date.substr(6, 4);
+            }
+
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "consumption/GetHourWiseData/" + MeterID + "/" + day + "/" + month + "/" + year,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger;
+                        //convert Input to normal format
+                        // var jsonObj = JSON.parse(response);
+                        var jsonObj = response;
+                        if (jsonObj != null) {
+                            if (jsonObj.length > 0) {
+
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key != "$id")
+                                        legendArray[legendArray.length] = key;
+                                });
+                                $("#chart_container").empty();
+
+                                if (opt == "table") {
+                                    FinString = "<div class='panel-body'><table class='data table table-bordered table-striped'>";
+                                    FinString += "<tr>";
+                                    for (var j = 0; j < legendArray.length; j++) {
+                                        //var lanme = (legendArray[j] == "Name" ? "Hour" : legendArray[j]);
+                                        //lanme = (legendArray[j] == "Unit" ? "KWH" : legendArray[j])
+                                        FinString += "<th class='tableth text-center text-white bg-dark'>" + (legendArray[j] == "Name" ? "Hour" : legendArray[j]) + "</th>"
+                                    }
+                                    FinString += "</tr>";
+                                    $.each(jsonObj, function (index) {
+                                        FinString += "<tr>";
+                                        $.each(jsonObj[index], function (key, value) {
+                                            if (key != "$id")
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                        });
+                                        FinString += "</tr>";
+                                    });
+                                    FinString += "</table>";
+                                    $("#chart_container").html(FinString);
+
+                                    $("#btnExport").css("display", "block");
+                                } else {
+                                    $.each(jsonObj, function (index) {
+                                        categories_data[categories_data.length] = jsonObj[index][legendArray[0]]
+                                    });
+                                    legendArray.splice(0, 1);
+
+                                    $.each(legendArray, function (index) {
+                                        //   if (index != 0) {
+                                        $.each(jsonObj, function (jsonIndex) {
+                                            if (jsonObj.length - 1 != jsonIndex) {
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                            } else {
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                            }
+
+                                        });
+                                        if (legendArray.length - 1 != index)
+                                            seriesOptions += "~";
+                                        // }
+                                    })
+                                    var FinSeriesOptions = seriesOptions.split('~');
+
+                                    var seriesArr = [];
+                                    // Create Series Array with name and data property
+                                    for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                        var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                        var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+                                        //for (var item = 0; item < seriesOptions1.length; item++) {
+                                        //    seriesOptions2[item] = Number(seriesOptions1[item]);
+                                        //}
+
+                                        var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                        seriesArr.push(series);
+                                    }
+                                    BarChart(categories_data, seriesArr);
+                                    //lineChart(categories_data, seriesArr);
+
+                                    $("#btnExport").css("display", "none");
+                                }
+                            }
+                            else {
+                                alert(NoDataMessage, '', false, "M");
+                                return false;
+                            }
+                        }
+
+                        else {
+                            alert(NoDataMessage, '', false, "M");
+                            return false;
+
+                        }
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+        }
+        function BarChart(categories_data, seriesArr) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    zoomType: 'x',
+                    renderTo: 'chart_container'
+                },
+                title: {
+                    text: 'Hours Wise Load Data'
+                },
+                xAxis: {
+                    title: {
+                        text: 'Hours'
+                    },
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        text: 'Consumption'
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
+                },
+                tooltip: {
+                    crosshairs: false,
+                    shared: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: seriesArr
+            });
+        }
+        function lineChart(categories_data, seriesArr) {
+
+            //var Y_Unit = '';
+            //if ($("#ddlParameter").val() == 'I')
+            //    Y_Unit = "Ampere";
+            //else
+            //    Y_Unit = "Voltage";
+
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'spline',
+                    zoomType: 'x',
+                    renderTo: 'chart_container'
+                },
+                title: {
+                    text: 'Hour Wise Load Data',
+                    x: -20 //center
+                },
+                //subtitle: {
+                //    text: 'Source: WorldClimate.com',
+                //    x: -20
+                //},
+                xAxis: {
+                    title: {
+                        text: 'Hours'
+                    },
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        //text: Y_Unit
+                        text: 'Unit'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                //tooltip: {
+                //    valueSuffix: '°C'
+                //},
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: seriesArr
+            });
+        }
+        function AssignLabelValue(flag) {
+            if (flag == "1") {
+                $("#lblMeterGroup").text($("#MeterGroup option:selected").text());
+                $("#lblMeters").text($("#ddlMeters option:selected").text());
+                $("#lblMonths").text($("#Date").val());
+                // $("#lblYears").text($("#ddlYear option:selected").text());
+            } else {
+                $("#lblMeterGroup").text("");
+                $("#lblMeters").text("");
+                $("#lblMonths").text("");
+                // $("#lblYears").text("");
+            }
+        }
+        function PerformanceChartForLoad() {
+
+            var legendArray = new Array();
+            var seriesOptions = "";
+            var FinString = "";
+            //var opt = "table";
+            var opt = GraphType;
+            var SubType = "line";
+            var categories_data = new Array();
+
+            var ddlParameter = $("#ddlParameter").val();
+            var lowparam = ddlParameter.toLowerCase();
+            var day, month, year;
+            var date = $("#Date").val();
+            var MeterID = $("#ddlMeters").val();
+            if ($("#DateField").val().toUpperCase() == "DD/MM/YY") {
+                day = date.substr(0, 2);
+                month = date.substr(3, 2);
+                year = date.substr(6, 4);
+            }
+            else if ($("#DateField").val().toUpperCase() == "MM/DD/YY") {
+                month = FromDate.substr(0, 2);
+                day = FromDate.substr(3, 2);
+                year = FromDate.substr(6, 4);
+            }
+
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "consumptionapi/GetHourWiseDataparam/" + MeterID + "/" + day + "/" + month + "/" + year + "/" + ddlParameter,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                        //convert Input to normal format
+                        // var jsonObj = JSON.parse(response);
+                        var jsonObj = response;
+
+                        if (jsonObj.length > 0 && jsonObj != null) {
+                            $.each(jsonObj[0], function (key, value) {
+                                if (key != "$id" && (key.trim().startsWith("D") || key.trim().startsWith(lowparam)))
+                                    legendArray[legendArray.length] = key; // Columns from DB
+                            });
+                            $("#chart_container").empty();
+                            if (opt == "table") {
+                                FinString = "<div class='panel-body'><table class='data table table-bordered table-striped'>";
+                                FinString += "<tr>";
+                                for (var j = 0; j < legendArray.length; j++) {
+                                    FinString += "<th class='tableth text-center text-white bg-dark'>" + (legendArray[j] == "Day" ? "Hour" : legendArray[j]) + "</th>"
+                                }
+                                FinString += "</tr>";
+                                $.each(jsonObj, function (index) {
+                                    FinString += "<tr>";
+                                    $.each(jsonObj[index], function (key, value) {
+                                        if (key != "$id" && (key.trim().startsWith("D") || key.trim().startsWith(lowparam)))
+                                            FinString += "<td class='text-center'>" + value + "</td>"
+                                    });
+                                    FinString += "</tr>";
+                                });
+                                FinString += "</table>";
+                                $("#chart_container").html(FinString);
+
+
+                                $("#btnExport").css("display", "block");//new
+                            } else {
+                                $.each(jsonObj, function (index) {
+                                    categories_data[categories_data.length] = jsonObj[index][legendArray[0]]
+                                });
+                                legendArray.splice(0, 1);
+
+                                $.each(legendArray, function (index) {
+                                    //   if (index != 0) {
+                                    $.each(jsonObj, function (jsonIndex) {
+                                        if (jsonObj.length - 1 != jsonIndex) {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                        } else {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                        }
+
+                                    });
+                                    if (legendArray.length - 1 != index)
+                                        seriesOptions += "~";
+                                    // }
+                                })
+                                var FinSeriesOptions = seriesOptions.split('~');
+
+                                var seriesArr = [];
+                                // Create Series Array with name and data property
+                                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                    var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+                                    if (ddlParameter == "V") {
+                                        if (legendArray[ser] == "vrn" || legendArray[ser] == "vbn" || legendArray[ser] == "vyn" || legendArray[ser] == "vry" || legendArray[ser] == "vyb" || legendArray[ser] == "vbr") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                        else {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, visible: false }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "I") {
+                                        if (legendArray[ser] == "ir" || legendArray[ser] == "iy" || legendArray[ser] == "ib" || legendArray[ser] == "i") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                        else {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, visible: false }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+
+                                }
+                                //BarChart(categories_data, seriesArr);
+                                lineChart(categories_data, seriesArr);
+                                $("#btnExport").css("display", "none");//new
+                            }
+                        }
+                        else {
+                            alert(NoDataMessage, '', false, "M");
+                            return false;
+                        }
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+        }
+
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">Group Display</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active"><h2>Hour Wise Load</h2></li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class="dashboard-panel-body-box">Selection </div>
+
+                                </div>
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="panel-body">
+                                        <div id="divMain">                                            
+                                            <div class="row">
+                                            
+                                                    <div class="form-group col-md-2">
+                                                         <div class="row">
+                                                        @Html.LabelFor(model => model.MeterGroup, new { @class = "col-md-12 control-label" })
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.MeterGroup, (IEnumerable<SelectListItem>)ViewBag.MeterGroup, new
+                           { @*@onchange = "javascript:GetMeters(this.value);",*@ @class = "form-control",
+                            @multiple = "multiple"
+                           })
+                                                            @Html.ValidationMessageFor(model => model.MeterGroup, null, new { @class = "validation-redcolor" })
+                                                        </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2">
+                                                          <div class="row">
+                                                        @Html.LabelFor(model => model.Meters, new { @class = "col-md-12 control-label" })
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.Meters, Enumerable.Empty<SelectListItem>(), new { @id = "ddlMeters", @class = "form-control", @multiple = "multiple" })
+                                                            @Html.ValidationMessageFor(model => model.Meters, null, new { @class = "validation-redcolor" })
+                                                            </div> </div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                         <div class="row">
+                                                        @Html.LabelFor(model => model.Parameter, new { @class = "col-md-12  control-label" })
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.Parameter, (IEnumerable<SelectListItem>)ViewBag.Parameters, "Select", new { @id = "ddlParameter", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Parameter)
+                                                            </div> </div>
+                                                    </div>
+                                                    <div class="form-group col-md-2">
+                                                         <div class="row">
+                                                        @Html.LabelFor(model => model.Date, new { @class = "col-md-12 control-label"})
+                                                        <div class="col-md-12">
+                                                            @Html.TextBoxFor(model => model.Date, null, new { @class = "form-control", @readonly = "true", @style = "width:120px;" })
+                                                            @Html.ValidationMessageFor(model => model.Date, null, new { @class = "validation-redcolor" })
+                                                             </div> </div>
+                                                    </div>
+
+                                                    <div class="col-md-2 pull-right" >
+                                                         <div class="row" style="margin-top:22px;">
+                                                        
+                                                            <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 8px;" id="btnPlotChart">Chart</button>
+                                                        
+                                                      
+                                                            <button type="button" class="btn btn-danger" style="font-weight:bold;  margin:0px 8px 0px 0px;" id="btnPlotTable">Table</button>
+
+                                                        </div>
+                                                    </div>
+                                               
+                                            </div>
+                                        </div>
+                                        <input type="reset" value="Reset" class="btn btn-default" id="btnReset" style="display:none;" />
+                                        <div id='chart_container'>
+
+                                        </div>
+
+                                        <div class="form-group col-md-12" style="border:0px solid #000; padding:0px; margin:0px 0px;margin-top:10px;  text-align:left;">
+                                            <button type="button" class="btn btn-success" id="btnExport" style="font-weight:bold;  margin:0px 10px 10px;"><i class="fa fa-file-excel-o"></i> Export To Excel</button>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

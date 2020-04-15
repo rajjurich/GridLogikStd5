@@ -1,0 +1,277 @@
+﻿@model GridLogik.ViewModels.MstSubstationModel
+
+@{
+    ViewBag.Title = "Create SubStaion";
+}
+
+
+<script>
+    $(document).ready(function () {
+        $('#zoneid').attr('disabled', 'disabled');
+        $('#divrgnid').attr('disabled', 'disabled');
+        
+        $("#utilities").change(function () {
+            var items = $("#utilities").val();
+            $('#zoneid').empty();
+            $('#zoneid').removeAttr('disabled');
+
+            $.ajax({
+                type: 'GET',
+                url: BaseAddress + "/GetByIdForDropdown/" + items,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#zoneid').append('<option value=' + data[i].znrecid + '> ' + data[i].znname + '</option>');
+                        console.log(data[i].znname);
+                        console.log(data[i].znrecid)
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            });
+        });
+        //ends utilities
+
+
+        //zone starts
+        $('#zoneid').click(function () {
+            //var items = $("#zoneid").val();
+            $('#divrgnid').empty();
+            $('#divrgnid').removeAttr('disabled');
+            var items = $("#zoneid option:selected").val();
+            console.log(items);
+            $.ajax({
+                type: 'GET',
+                url: BaseAddress + "/GetByIdForRegion/" + items,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#divrgnid').append('<option value=' + data[i].rgnrecid + '> ' + data[i].rgnname + '</option>');
+
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            });
+        });
+        $('#zoneid').change(function () {
+            var items = $("#zoneid").val();
+            $('#divrgnid').empty();
+            $('#divrgnid').removeAttr('disabled');
+
+            $.ajax({
+                type: 'GET',
+                url: BaseAddress + "/GetByIdForRegion/" + items,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#zoneid').append('<option value=' + data[i].rgnrecid + '> ' + data[i].rgnname + '</option>');
+
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            });
+
+
+        });
+        //zone ends
+
+
+        //division starts
+        $('#divrgnid').click(function () {
+            //var items = $("#zoneid").val();
+            $('#ssdivid').empty();
+            $('#ssdivid').removeAttr('disabled');
+            var items = $("#divrgnid option:selected").val();
+            console.log(items);
+            $.ajax({
+                type: 'GET',
+                url: BaseAddress + "/GetByIdForDivision/" + items,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ssdivid').append('<option value=' + data[i].divrecid + '> ' + data[i].divname + '</option>');
+
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            });
+        });
+        $('#divrgnid').change(function () {
+            var items = $("#divrgnid").val();
+            $('#ssdivid').empty();
+            $('#ssdivid').removeAttr('disabled');
+
+            $.ajax({
+                type: 'GET',
+                url: BaseAddress + "/GetByIdForDivision/" + items,
+                success: function (data) {
+                    console.log(data);
+                    for (var i = 0; i < data.length; i++) {
+                        $('#ssdivid').append('<option value=' + data[i].divrecid + '> ' + data[i].divname + '</option>');
+
+                    }
+
+
+                },
+                error: function () {
+
+                }
+            });
+
+
+        });
+        //division ends
+
+
+
+    });
+</script>
+
+
+
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Substation</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2">Utilities</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("utilities", (IEnumerable<SelectListItem>
+      )ViewBag.Utilities, "Select Utility", new { @class = "form-control", required = true, title = "Please Provide Utilities" })
+                                                </div>
+                                                <div class="">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2">Zone</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("zoneid", (IEnumerable<SelectListItem>
+)ViewBag.mstzones, "Select Zone", new { @class = "form-control", required = true, title = "Please Provide Zone" })
+
+                                                </div>
+                                                <div class="">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2">Region</label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("divrgnid", (IEnumerable<SelectListItem>
+)ViewBag.msrregion, "Select Region", new { @class = "form-control", required = true, title = "Please Provide Region" })
+
+                                                </div>
+                                                <div class="">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelFor(model => model.ssdivid, null, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-8">
+                                                    @Html.DropDownListFor(model => model.ssdivid, (IEnumerable<SelectListItem>)ViewBag.mstdivision, "Select Division"
+                          , new { @class = "form-control", required = true, title = "Please Provide Division" })
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.ssdivid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelFor(model => model.ssid, null, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.ssid, new { @class = "form-control alphaspace", @maxlength = "15" })
+
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.ssid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelFor(model => model.ssname, null, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.ssname, new { @class = "form-control", @maxlength = "30" })
+
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.ssname, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelFor(model => model.ssdescription, null, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.ssdescription, new { @class = "form-control", @maxlength = "30" })
+
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.ssdescription, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                                <button type="reset" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                            </div>
+                                            <div>
+                                                <p id="msg" style="color:red">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

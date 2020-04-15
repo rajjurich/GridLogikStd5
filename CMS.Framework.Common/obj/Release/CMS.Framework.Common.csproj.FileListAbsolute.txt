@@ -1,0 +1,24 @@
+D:\Pradnesh\Projects\EEBS\SVN\eebs\CMS.Framework.Common\bin\Release\CMS.Framework.Common.dll
+D:\Pradnesh\Projects\EEBS\SVN\eebs\CMS.Framework.Common\bin\Release\CMS.Framework.Common.pdb
+D:\Pradnesh\Projects\EEBS\SVN\eebs\CMS.Framework.Common\obj\Release\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\Pradnesh\Projects\EEBS\SVN\eebs\CMS.Framework.Common\obj\Release\CMS.Framework.Common.dll
+D:\Pradnesh\Projects\EEBS\SVN\eebs\CMS.Framework.Common\obj\Release\CMS.Framework.Common.pdb
+D:\sachin data\Envisage_std1_consolidated\CMS.Framework.Common\bin\Release\CMS.Framework.Common.dll
+D:\sachin data\Envisage_std1_consolidated\CMS.Framework.Common\bin\Release\CMS.Framework.Common.pdb
+D:\sachin data\Envisage_std1_consolidated\CMS.Framework.Common\obj\Release\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\sachin data\Envisage_std1_consolidated\CMS.Framework.Common\obj\Release\CMS.Framework.Common.dll
+D:\sachin data\Envisage_std1_consolidated\CMS.Framework.Common\obj\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\CMS.Framework.Common\bin\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\CMS.Framework.Common\bin\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\CMS.Framework.Common\obj\Release\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std3_design_MultiLocation\CMS.Framework.Common\obj\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\CMS.Framework.Common\obj\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation_EntityUpdate\CMS.Framework.Common\bin\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation_EntityUpdate\CMS.Framework.Common\bin\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation_EntityUpdate\CMS.Framework.Common\obj\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation_EntityUpdate\CMS.Framework.Common\obj\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\bin\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\bin\Release\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Release\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Release\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Release\CMS.Framework.Common.pdb

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "Feeders";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",                
+                url: BaseAddress + "Feeder",
+                dataType: "json",
+                success: function (feeder, status, jqXHR) {
+                    var str = "";
+                    if (feeder.Data.result != undefined) {
+                        var data = feeder.Data.result
+                        for (var i in data) {
+                            str += "<tr>" +
+                                "<td>" + data[i].fdrid + "</td>" +
+                                "<td>" + data[i].fdrname + "</td>" +
+                                "<td>" + data[i].fdrserialno + "</td>" +
+                                "<td>" + data[i].fdrratedvoltage + "</td>" +
+                                "<td>" + data[i].fdrratedpower + "</td>" +
+                                "<td>" + data[i].fdrconnectedload + "</td>" +
+                                "<td style='text-align:center'><a href='/feeder/Edit/" + data[i].fdrrecid + "' class='editor_edit'>Edit</a> /  <a href='/feeder/Delete/" + data[i].fdrrecid + "' class='editor_remove'>Delete</a></td>" +
+                                "</tr>";
+                        }
+                    }
+
+                    if (feeder.Data.e == "E") {
+                        if (feeder.Data.d.length > 0)
+                            alert(feeder.Data.d);
+
+                    }
+
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false }
+                            ]
+                        });
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+
+    </script>
+
+}
+
+<h2>Feeder List</h2>
+
+<p style="text-align:right;">
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="lsttable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th width="12%" style="text-align:center">Feeder ID</th>
+            <th width="15%" style="text-align:center">Name</th>
+            <th width="16%" style="text-align:center">Serial no</th>
+            <th width="16%" style="text-align:center">Rated Voltage</th>
+            <th width="16%" style="text-align:center">Rated Power</th>
+            <th width="16%" style="text-align:center">Connected Load</th>
+            <th width="9%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+</table>
+

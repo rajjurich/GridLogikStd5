@@ -1,0 +1,418 @@
+﻿@{
+    ViewBag.Title = "UPLOAD";
+}
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                        }
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d, '', false, 'E');
+                    }
+                }
+            });
+
+            var DateFormat = $("#Dateformat").val();
+            $("#txtFrmDate").datepicker({
+                dateFormat: $("#Dateformat").val(),
+                // maxDate: "-0D",
+                changeMonth: true,
+                changeYear: true
+
+            }).datepicker("setDate", new Date());
+
+            $("#txtSearchAppdate").datepicker({
+                dateFormat: $("#Dateformat").val(),
+                //maxDate: "-1D",
+                changeMonth: true,
+                changeYear: true
+            }).datepicker("setDate", new Date());
+
+
+            $('input[name^="Uploadfile"]').each(function () {
+                $(this).rules('add', {
+                    required: true
+                })
+            })
+
+            if ('@TempData["Msg"]' != '' && '@TempData["MsgType"]' != '') {
+
+                if ('@TempData["Msg"]' == 'Code already exists') {
+                    var result = confirm("Records Already Exist for This date. Do you want to update?");
+
+
+                    if (result == true) {
+                        console.log('yes');
+                    }
+                    else {
+                        console.log('no');
+                    }
+
+                }
+                else {
+
+                    alert('@TempData["Msg"]', '', false, '@TempData["MsgType"]')
+
+                }
+
+
+
+            }
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            GetData($('#txtFrmDate').val().replace('/', '-').replace('/', '-'));
+            ////$.ajax({
+            ////    type: "GET",
+            ////    contentType: "application/json;charset=utf-8",//type of data to be send
+
+            ////    url: BaseAddress + "DCSGAPI",
+            ////    dataType: "json",//type of data to be received
+            ////    success: function (rates, status, jqXHR) {
+            ////        var str = "";
+            ////        if (rates.Data.result != undefined) {
+            ////            rates.Data.result.forEach(function (response) {
+
+            ////                str += "<tr>" +
+            ////                    "<td>" + ((response.blockno == null) ? " " : response.blockno) + "</td>" +
+            ////                     "<td>" + ((response.sgvalue == null) ? " " : response.sgvalue) + "</td>" +
+            ////                    "<td>" + ((response.dcvalue == null) ? " " : response.dcvalue) + "</td>" +
+            ////                    //"<td>" + ((response.fuelcost == null) ? " " : response.fuelcost) + "</td>" +
+            ////                    "</tr>";
+
+
+            ////            });
+            ////        }
+            ////        if (rates.Data.e == "E") {
+            ////            if (rates.Data.d.length > 0)
+            ////                alert(rates.Data.d);
+
+            ////        }
+
+            ////        $("#data").html(str);
+            ////        $("#lsttable").dataTable(
+            ////            {
+            ////                pageLength: 10,
+            ////                "aoColumns": [
+            ////                            null,
+            ////                            null,
+            ////                            null//,
+            ////                           // null
+            ////                ]
+            ////            });
+            ////        if (box) box.remove();
+            ////    },
+            ////    error: function (xhr, status, error) {
+            ////        // alert(error);
+            ////        if (box) box.remove();
+            ////    }
+            ////});
+
+
+            $('#txtFrmDate').on("propertychange change keyup paste input", function () {
+                if ($('#txtFrmDate').val() == "") {
+                    return;
+                }
+                var str = $('#txtFrmDate').val().replace('/', '-');
+                str = str.replace('/', '-');
+                //$('#lblappdate').text(((response.tstamp == null) ? " " : newdate));
+                $('#lblappdate').text($('#txtFrmDate').val());
+                console.log(BaseAddress + "DCSGAPI/CheckUpload/" + str + "");
+
+
+                GetData($('#txtFrmDate').val().replace('/', '-').replace('/', '-'));
+
+
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+
+                    url: BaseAddress + "DCSGAPI/CheckUpload/" + str + "",
+                    dataType: "json",//type of data to be received
+                    success: function (rates, status, jqXHR) {
+                        console.log(rates.Data.d);
+
+                        if (rates.Data.d == 'Code already exists') {
+
+                            var result = confirm("Records Already Exist for This date. Do you want to update?");
+                        }
+                        else {
+                            //  $('#btnSubmit').click();
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+            });
+
+            $('#btnSubmit').on('click', function (event) {
+                if ($('#txtFrmDate').val() == '') {
+                    event.preventDefault();
+                    alert('Date is mandatory.');
+
+                }
+            });
+
+            $(".container").on('click', '.btn.btn-danger', function () {
+                console.log('yeey');
+            });
+
+
+
+            $('#btnSearch').on('click', function () {
+                GetData($('#txtSearchAppdate').val().replace('/', '-').replace('/', '-'));
+            });
+
+            if ($('input[type=radio][name=mode]').val == 'Search') {
+                $('#uploadtable').hide();
+                $('#searchtable').show();
+            }
+            else {
+                $('#uploadtable').show();
+                $('#searchtable').hide();
+            }
+
+            $('input[type=radio][name=mode]').change(function () {
+                if (this.value == 'Search') {
+                    $('#uploadtable').hide();
+                    $('#searchtable').show();
+                }
+                else if (this.value == 'Upload') {
+                    $('#uploadtable').show();
+                    $('#searchtable').hide();
+                }
+            });
+
+            function GetData(dt) {
+                console.log($('#txtSearchAppdate').val().replace('/', '-').replace('/', '-'));
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+
+                    url: BaseAddress + "DCSGAPI/GetData" + "/" + dt,
+                    dataType: "json",//type of data to be received
+                    success: function (rates, status, jqXHR) {
+                        var str = "";
+                        if (rates.Data.result != undefined) {
+                            rates.Data.result.forEach(function (response) {
+                                debugger
+                                str += "<tr>" +
+                                    "<td>" + ((response.blockno == null) ? " " : response.blockno) + "</td>" +
+                                     "<td>" + ((response.sgvalue == null) ? " " : response.sgvalue) + "</td>" +
+                                    "<td>" + ((response.dcvalue == null) ? " " : response.dcvalue) + "</td>" +
+                                    "<td>" + ((response.fuelcost == null) ? " " : response.fuelcost) + "</td>" +
+                                    "</tr>";
+                                debugger
+                                var parts = response.tstamp.substring(0, 10).split('-');
+                                var newdate = parts[2] + '-' + parts[1] + '-' + parts[0];
+
+
+
+                                // $('#lblappdate').text(((response.tstamp == null) ? " " : newdate));
+
+
+                            });
+                        }
+                        if (rates.Data.e == "E") {
+                            if (rates.Data.d.length > 0)
+                                alert(rates.Data.d);
+
+                        }
+
+                        //$("#data").html(str);
+                        //$("#lsttable").dataTable(
+                        //    {
+                        //        pageLength: 10,
+                        //        "aoColumns": [
+                        //                    null,
+                        //                    null,
+                        //                    null//,
+                        //                   // null
+                        //        ]
+                        //    });
+
+
+                        if ($.fn.dataTable.isDataTable('#lsttable')) {
+                            var table = $('#lsttable').dataTable();
+
+                            table.fnClearTable();
+                            table.fnDestroy();
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                                {
+                                    pageLength: 10,
+                                    "aoColumns": [
+                                                null,
+                                                null,
+                                                null//,
+                                               // null
+                                    ]
+                                });
+
+                            Highlight();
+                        }
+                        else {
+                            var s = "";
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                               {
+                                   pageLength: 10,
+                                   "aoColumns": [
+                                               null,
+                                               null,
+                                               null//,
+                                              // null
+                                   ]
+                               });
+
+                            Highlight();
+                        }
+
+
+
+
+
+
+
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+
+            if ($('#lblappdate').text() == "") {
+                $('#lblappdate').text($('#txtFrmDate').val());
+            }
+            ///---
+            return false;
+        });
+
+
+
+        function deleterecord() {
+            console.log('deleterec');
+            //    $('#btnSubmit').click();
+        }
+    </script>
+
+}
+
+
+<h2>DCSG List</h2>
+
+<p style="text-align:right;">
+    @using (Html.BeginForm("Upload", "DCSG", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @*@Html.Hidden("DatabaseDateformat", "dd/mm/yy")
+            @Html.Hidden("ServerDatabaseDateformat")*@
+
+        <input id="Dateformat" name="Dateformat" type="hidden" />
+        <input id="ServerDateformat" name="ServerDateformat" type="hidden" />
+
+
+
+        <table style="width:300px;display:none;">
+            <tr>
+                <td><input id="rdoupload" value="Upload" type="radio" name="mode" checked>Upload</td>
+                <td><input id="rdosearch" value="Search" type="radio" name="mode">Search</td>
+            </tr>
+        </table>
+        <table id="uploadtable" style="float:left;">
+            <tr>
+
+                <td colspan="1">
+                    @*<input type="file" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />*@
+                    <input type="file" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                </td>
+                <td>
+                    <input id="txtstageid" name="txtstageid" value="1" class="form-control" type="text" style="display:none;" />
+                </td>
+                <td>
+                    <input id="txtrevisionid" name="txtrevisionid" value="1" class="form-control" type="text" style="display:none;" />
+                </td>
+                <td>Applicable Date </td>
+                <td>
+                    <div id="dtFrmDate">
+                        <input id="txtFrmDate" name="txtFrmDate" class="form-control" type="text" readonly />
+                    </div>
+                </td>
+                <td colspan="3" style="text-align:left;align-items:flex-start">
+                    <input type="submit" name="Upload" value="Upload" id="btnSubmit" class="btn btn-success" />
+                    @*<input type="button" name="Upload" value="Upload" id="btnSubmit" class="btn btn-success" />*@
+                    @Html.ActionLink("Download Template", "download", "DCSG", null, new { @id = "btnDownload", @class = "btn btn-success" })
+                </td>
+
+            </tr>
+        </table>
+        <table id="searchtable" style="float:left;text-align:left; " align="left">
+            <tr>
+                <td style="text-align: left; width: 151px;">Applicable Date </td>
+                <td width="260px">
+                    <div id="dtAppDate">
+                        <input id="txtSearchAppdate" name="txtSearchAppdate" class="form-control" type="text" readonly />
+                    </div>
+                </td>
+                <td align="left" style="text-align:left;float:left;">
+                    <input type="button" name="Search" value="Search" id="btnSearch" class="btn btn-success" />
+                </td>
+            </tr>
+
+        </table>
+
+
+    }
+
+    @*@Html.ActionLink("Create New", "Create")*@
+</p>
+<table style="width: 300px; margin-bottom: 6px;">
+    <tr>
+        <td style="text-align:left;">Data For Applicable Date: <span id="lblappdate"></span></td>
+    </tr>
+</table>
+<table id="lsttable">
+
+    <thead>
+        <tr>
+            <th width="5%" style="text-align:center">Block No</th>
+            <th width="14%" style="text-align:center">SG</th>
+            <th width="14%" style="text-align:center">DC</th>
+            <th width="14%" style="text-align:center">FC</th>
+
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+
+</table> 

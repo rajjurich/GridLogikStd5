@@ -1,0 +1,177 @@
+﻿@model IEnumerable<GridLogik.ViewModels.Consumer>
+@{
+    ViewBag.Title = "Consumer List";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "prmglobal",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (dateformat, status, jqXHR) {
+            //        var str = "";
+            //        if (dateformat.Data.result != undefined) {
+            //            var data = dateformat.Data.result;
+            //            for (var i in data) {
+            //                if (data[i].prmunit == "DateField") {
+            //                    $("#Dateformat").val(data[i].prmvalue);
+            //                }
+            //                else if (data[i].prmunit == "DatabaseDate") {
+            //                    $("#DatabaseDateformat").val(data[i].prmvalue);
+            //                }
+            //            }
+            //        }
+            //        else if (dateformat.Data.e == "E") {
+            //            if (dateformat.Data.d.length > 0)
+            //                //ShowMessage("Error", response.Data.d);
+            //                alert(dateformat.Data.d);
+            //        }
+            //    }
+            //});
+
+            @*$.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "Consumer",
+                dataType: "json",
+                success: function (consumer, status, jqXHR) {
+                    var str = "";
+                    if (consumer.Data.result != undefined) {
+                        var data = consumer.Data.result
+                        for (var i in data) {
+                            var DOBDate = "";
+                            if (data[i].csmrdob != null)
+                                var DBcsmrdob = moment(data[i].csmrdob, $("#DatabaseDateformat").val());
+                            var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcsmrdob))
+
+                            str += "<tr>" +
+                                "<td class='text-center'>" + data[i].csmrmasterid + "</td>" +
+                                "<td class='text-center'>" + data[i].csmrfirstname + "</td>" +
+                                "<td class='text-center'>" + data[i].csmrcompanyname + "</td>" +
+                                "<td class='text-center'>" + data[i].csmrcontactperson + "</td>" +
+                                "<td class='text-center'>" + data[i].csmrmobile + "</td>" +
+                                "<td style='text-align:center;white-space:nowrap;'><a href=@Url.Action("Edit", "consumer")/" + data[i].csmrrecid + " class='btn btn-xs btn-warning fa fa-pencil-square-o'> Edit</a> &nbsp; <a href='@Url.Action("Delete", "consumer")/" + data[i].csmrrecid + "' class='btn btn-xs btn-danger fa fa-trash-o'> Delete</a></td>" +
+                                "</tr>";
+                        }
+                    }
+
+                    if (consumer.Data.e == "E") {
+                        if (consumer.Data.d.length > 0)
+                            alert(consumer.Data.d);
+
+                    }
+
+                    $("#data").html(str);
+                  
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });*@
+            if (box) box.remove();
+
+            $("#lsttable").dataTable(
+                      {
+                          pageLength: 10,
+                          "aoColumns": [
+                                      null,
+                                      null,
+                                      null,
+                                      null,
+                                      null,
+                                      { "bSortable": false, "searchable": false, "width": "144px" }
+                          ]
+                      });
+            Highlight();
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+        });
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Consumer</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+
+
+                                        <input type="hidden" id="Dateformat">
+                                        <input type="hidden" id="DatabaseDateformat">
+                                        <div>
+                                            @*<div class="clearfix"></div>
+                                                <hr />
+                                                <br />*@
+                                            @Html.ActionLink(" Create New", "create", "Consumer", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                            <table id="lsttable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">Consumer ID</th>
+                                                        <th class="text-center">Consumer Name</th>
+                                                        <th class="text-center">Office Name</th>
+                                                        <th class="text-center">Contact Person</th>
+                                                        <th class="text-center">Mobile</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data">
+                                                    @foreach (var response in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">@response.masterid</td>
+                                                            <td class="text-center">@response.firstname</td>
+                                                            <td class="text-center">@response.companyname</td>
+                                                            <td class="text-center">@response.contactperson</td>
+                                                            <td class="text-center">@response.mobile</td>
+                                                            <td class="text-center" style="width:144px">
+                                                                @Html.ActionLink(" Edit", "Edit", new { id = response.id }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                                @Html.ActionLink(" Delete", "Delete", new { id = response.id }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/toucalendar",
+                url: BaseAddress + "toucalendar",
+                dataType: "json",
+                success: function (toucalendars, status, jqXHR) {
+                    
+                    var str = "";
+                    if (toucalendars.Data.result != undefined) {
+                        toucalendars.Data.result.forEach(function (response) {
+                            str += "<tr>" +
+                                "<td>" + response.tctoudescription + "</td>" +
+                                //"<td>" + response.tcmonday + "</td>" +
+                                 "<td style='text-align:center;'> <input type=checkbox " + (response.tcmonday == 1 ? 'checked' : '') + "  disabled='disabled' /></td>" +
+                               // "<td>" + response.tctuesday + "</td>" +
+                                 "<td style='text-align:center;'> <input type=checkbox " + (response.tctuesday == 1 ? 'checked' : '') + "  disabled='disabled' /></td>" +
+                                //"<td>" + response.tcwednesday + "</td>" +
+                                 "<td style='text-align:center;'> <input type=checkbox " + (response.tcwednesday == 1 ? 'checked' : '') + " disabled='disabled'  /></td>" +
+                                //"<td>" + response.tcthursday + "</td>" +
+                                 "<td style='text-align:center;'> <input type=checkbox " + (response.tcthursday == 1 ? 'checked' : '') + " disabled='disabled'  /></td>" +
+                                //"<td>" + response.tcfriday + "</td>" +
+                                "<td style='text-align:center;'> <input type=checkbox " + (response.tcfriday == 1 ? 'checked' : '') + "  disabled='disabled' /></td>" +
+                                //"<td>" + response.tcsaturday + "</td>" +
+                                "<td style='text-align:center;'> <input type=checkbox " + (response.tcsaturday == 1 ? 'checked' : '') + " disabled='disabled' /></td>" +
+                                //"<td>" + response.tcsunday + "</td>" +
+                                "<td style='text-align:center;'> <input type=checkbox " + (response.tcsunday == 1 ? 'checked' : '') + "  disabled='disabled' /></td>" +
+                                //"<td>" + response.tcholiday + "</td>" +
+                                "<td style='text-align:center;'> <input type=checkbox " + (response.tcholiday == 1 ? 'checked' : '') + "  disabled='disabled'  /></td>" +
+                                "<td style='text-align:center'><a href='/TOUCalendar/Edit/" + response.tcrecid + "' class='editor_edit'>Edit</a> / <a href='/TOUCalendar/Delete/" + response.tcrecid + "' class='editor_remove'>Delete</a></td>" +
+                                "</tr>";
+                        });
+                    }
+
+
+
+
+                    if (toucalendars.Data.e == "E") {
+                        if (toucalendars.Data.d.length > 0)
+                            alert(toucalendars.Data.d);
+
+                    }
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false }
+                            ]
+                        });
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+
+    </script>
+
+}
+
+<h2>TOU Calendar List</h2>
+
+<p style="text-align:right;">
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+
+
+<table id="lsttable" class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th width="10%" style="text-align:center">TOU Code</th>
+            <th width="10%" style="text-align:center">Monday</th>
+            <th width="10%" style="text-align:center">Tuesday</th>
+            <th width="10%" style="text-align:center">Wednesday</th>
+            <th width="10%" style="text-align:center">Thursday</th>
+            <th width="10%" style="text-align:center">Friday</th>
+            <th width="10%" style="text-align:center">Saturday</th>
+            <th width="10%" style="text-align:center">Sunday</th>
+            <th width="10%" style="text-align:center">Holiday</th>
+            <th width="10%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+
+</table>

@@ -1,0 +1,212 @@
+@model GridLogik.ViewModels.MstEmployee
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+
+}
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            $("#btnReset").click(function (e) {
+                formmodified = 0;
+                location.reload(true);
+            });
+
+            new confirmexitmsg('form');
+            //Get Data for id and assign it to controls
+            var id =@this.ViewContext.RouteData.Values["id"]
+
+            //$.ajax({
+            //    url: BaseAddress + "employee/" + id,
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (response) {
+
+            //        if (response.Data.result.emprecid == null) {
+            //            if (response.Data.result.d.length > 0)
+            //                alert(response.Data.result.d);
+            //        }
+            //        else {
+
+            //            $("#empid").val(response.Data.result.empid);
+            //            $("#empfirstname").val(response.Data.result.empfirstname);
+            //            $("#empmiddlename").val(response.Data.result.empmiddlename);
+            //            $("#emplastname").val(response.Data.result.emplastname);
+            //            $("#empemailid").val(response.Data.result.empemailid);
+            //            $("#empphoneno1").val(response.Data.result.empphoneno1);
+            //            $("#empphoneno2").val(response.Data.result.empphoneno2);
+            //            $("#emprecid").val(response.Data.result.emprecid);
+            //            response.Data.result.empisactive == 1 ? $('#EmpStatus').prop('checked', false) : $('#EmpStatus').prop('checked', true);
+
+            //        }
+            //    },
+            //    error: function (xhr) {
+            //        // alert(xhr.responseText);
+            //    }
+            //});
+
+
+            //Update Employee Details
+
+            @*$("#btnUpdate").click(function (e) {
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                if ($('form').valid()) {
+                    formmodified = 0;
+                    var active = $("#EmpStatus").prop("checked") == true ? 0 : 1
+
+                    var mstEmployee = {
+                        "emprecid": $("#emprecid").val(),
+                        "empid": $("#empid").val(),
+                        "empfirstname": $("#empfirstname").val(),
+                        "empmiddlename": $("#empmiddlename").val(),
+                        "emplastname": $("#emplastname").val(),
+                        "empemailid": $("#empemailid").val(),
+                        "empphoneno1": $("#empphoneno1").val(),
+                        "empphoneno2": $("#empphoneno2").val(),
+                        "empisdeleted": 0,
+                        "empisactive": active
+                    };
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "employee/" + id,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstEmployee),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d, '@Url.Action("Index", "Employee")', false, response.Data.e);
+                                // window.location.href = '@Url.Action("Index", "Employee")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d, '', false, response.Data.e);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d, '', false, response.Data.e);
+                            }
+                            if (box) box.remove();
+                        },
+                        error: function (xhr, status, error) {
+                            if (box) box.remove();
+                            //alert(xhr.responseText);
+                        }
+                    });
+                }
+                else {
+                    if (box) box.remove();
+                }
+                e.preventDefault();
+            });*@
+
+            });
+
+    </script>
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Employee</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-group col-md-12">
+                                            @Html.HiddenFor(model => model.emprecid)
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(model => model.empid, null, "")
+                                                    @Html.TextBoxFor(model => model.empid, new { @class = "form-control", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.empid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empfirstname, null, "")
+                                            @Html.TextBoxFor(model => model.empfirstname, new { @class = "form-control alphaspace", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.empfirstname, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empmiddlename, null, "")
+                                            @Html.TextBoxFor(model => model.empmiddlename, new { @class = "form-control alphaspace", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.empmiddlename, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.emplastname, null, "")
+                                            @Html.TextBoxFor(model => model.emplastname, new { @class = "form-control alphaspace", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.emplastname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empemailid, null, "")
+                                            @Html.TextBoxFor(model => model.empemailid, new { @class = "form-control", @maxlength = "50" })
+                                            @Html.ValidationMessageFor(model => model.empemailid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empphoneno1, null, "")
+                                            @Html.TextBoxFor(model => model.empphoneno1, new { @class = "form-control number", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.empphoneno1, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empphoneno2, null, "")
+                                            @Html.TextBoxFor(model => model.empphoneno2, new { @class = "form-control number", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.empphoneno2, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4" style="display:block;">
+
+                                            <label for="EmpStatus">Disable?</label>
+                                            @Html.CheckBoxFor(model => model.isactive)
+                                            @*@Html.CheckBox("EmpStatus", false)*@
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnUpdate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-sm btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

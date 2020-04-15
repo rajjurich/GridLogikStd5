@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridLogikViewer", "GridLogikViewer\GridLogikViewer.csproj", "{967AF890-A8E7-4CC4-AFBA-73FF3817B211}"
+	ProjectSection(ProjectDependencies) = postProject
+		{941E8E01-D869-42FB-8F31-CA95381CFCA6} = {941E8E01-D869-42FB-8F31-CA95381CFCA6}
+		{E17511FA-93E1-4A94-A8E9-A149B6A52E5A} = {E17511FA-93E1-4A94-A8E9-A149B6A52E5A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMS.Framework.Common", "CMS.Framework.Common\CMS.Framework.Common.csproj", "{CC9D777F-E02C-4C91-AE41-76512BF39FBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridLogik.API", "GridLogik.API\GridLogik.API.csproj", "{E17511FA-93E1-4A94-A8E9-A149B6A52E5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{941E8E01-D869-42FB-8F31-CA95381CFCA6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GridLogik.ViewModels", "GridLogik.ViewModels\GridLogik.ViewModels.csproj", "{0D150EB6-04C4-4A77-8146-17E1BE3AB212}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{967AF890-A8E7-4CC4-AFBA-73FF3817B211}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{967AF890-A8E7-4CC4-AFBA-73FF3817B211}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{967AF890-A8E7-4CC4-AFBA-73FF3817B211}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{967AF890-A8E7-4CC4-AFBA-73FF3817B211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC9D777F-E02C-4C91-AE41-76512BF39FBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC9D777F-E02C-4C91-AE41-76512BF39FBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC9D777F-E02C-4C91-AE41-76512BF39FBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC9D777F-E02C-4C91-AE41-76512BF39FBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E17511FA-93E1-4A94-A8E9-A149B6A52E5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E17511FA-93E1-4A94-A8E9-A149B6A52E5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E17511FA-93E1-4A94-A8E9-A149B6A52E5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E17511FA-93E1-4A94-A8E9-A149B6A52E5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{941E8E01-D869-42FB-8F31-CA95381CFCA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{941E8E01-D869-42FB-8F31-CA95381CFCA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{941E8E01-D869-42FB-8F31-CA95381CFCA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{941E8E01-D869-42FB-8F31-CA95381CFCA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D150EB6-04C4-4A77-8146-17E1BE3AB212}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D150EB6-04C4-4A77-8146-17E1BE3AB212}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D150EB6-04C4-4A77-8146-17E1BE3AB212}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D150EB6-04C4-4A77-8146-17E1BE3AB212}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

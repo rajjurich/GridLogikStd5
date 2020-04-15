@@ -1,0 +1,149 @@
+﻿@model GridLogikViewer.Models.MstConsumerClass
+
+@{
+    ViewBag.Title = "Create Consumer Class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "prmglobal/GetGlobalParamValue/Global/cclassconsumergroup/cclassconsumergroup",
+                dataType: "json",//type of data to be received
+                success: function (data) {
+                    var items = [];
+                    //items.push("<option>Select</option>");
+
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.prmvalue + ">" + result.prmvalue + "</option>");
+                        });
+                    }
+
+                    $("#cclassconsumergroup").html(items.join(' '));
+                    $(".consumergrpclass").selectpicker();
+
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    if (box) box.remove();
+                }
+            });
+
+            //var items = [];
+            //items.push("<option value=High>High Consumption</option>");
+            //items.push("<option value=Low>Low Consumption</option>");
+
+            //$("#cclassconsumergroup").html(items.join(' '));
+            //$(".consumergrpclass").selectpicker();
+
+
+            $("#btnCreate").click(function (e) {
+
+                if ($('form').valid()) {
+                    var mstconcls = {
+                        "cclassid": $("#cclassid").val(),
+                        "cclassconsumergroup": $("#cclassconsumergroup :selected").val(),
+                        "cclassdescription": $("#cclassdescription").val()
+                    };
+
+                    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "consumerclass",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstconcls),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d);
+                                //$('#btnReset').click();
+                                //window.location.href = '@Url.Action("Index", "consumerclass")';
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d);
+                            }
+                            if (box) box.remove();
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                            if (box) box.remove();
+                        }
+                    });
+
+                }
+                e.preventDefault();
+
+
+            });
+        });
+
+    </script>
+
+}
+
+<h2>Create Consumer Class</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        
+        <hr />
+        @Html.ValidationSummary(true)
+        
+        
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="cclassconsumergroup">Consumer Group</label>
+            <div class="col-md-10">                
+                @Html.DropDownListFor(model => model.cclassconsumergroup, Enumerable.Empty<SelectListItem>(), new { @class = "consumergrpclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Consumer Group" })
+                @Html.ValidationMessageFor(model => model.cclassconsumergroup)
+            </div>
+        </div>        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cclassid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cclassid)
+                @Html.ValidationMessageFor(model => model.cclassid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cclassdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cclassdescription)
+                @Html.ValidationMessageFor(model => model.cclassdescription)
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="btnCreate" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,114 @@
+﻿@model IEnumerable<GridLogik.ViewModels.ClientFolderMap>
+@{
+    ViewBag.Title = "Index";
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Web Reports</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->                                    
+                                    <div class="table-responsive ls-table">
+                                        @Html.ActionLink(" Create New", "create", "WebReports", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Sr. No.
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Role Name
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Folder Path
+                                                    </th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @{var counter = 1;}
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @counter
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.RoleName)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.folderpath)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.ActionLink(" Edit", "Edit", new { id = item.id }, new { @class = "btn btn-xs btn-warning text-white fa fa-pencil-square-o btnEdit" })
+                                                            @Html.ActionLink(" Delete", "Delete", new { id = item.id }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                        </td>
+                                                    </tr>
+                                                    counter++;
+                                                }
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+    var box;
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        if ('@TempData["Success"]' != "") {
+            alert('@TempData["Success"]', '', false, 'S')
+        }
+        $("a").click(function () {
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        });
+        $("#lsttable").dataTable(
+                           {
+                               pageLength: 10,
+                               "aoColumns": [
+                                           null,
+                                           null,
+                                           {
+                                               bSearchable: false,
+                                               "bSortable": false,
+                                               "width": "144px"
+                                           },
+                                           null,
+                               ]
+                           });
+    });
+
+
+</script>

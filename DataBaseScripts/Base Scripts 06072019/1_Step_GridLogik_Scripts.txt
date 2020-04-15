@@ -1,0 +1,2426 @@
+DROP DATABASE IF EXISTS etools_dev;
+CREATE DATABASE etools_dev WITH BUFFERED LOG;
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbinstancedatalogs', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbinstancedatalogs', '30', '10');
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbloadsurvey', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbloadsurvey', '30', '10');
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbloadexport', '1024M', '8K'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbloadexport', '30', '10');
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbloadimport', '500M', '8K');
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbloadimport', '30', '10');
+
+--Change below parameter to onconfig file
+
+BACKUP_FILTER 'C:\cygwin\bin\bin\gzip.exe' C:\Program Files (x86)\GnuWin32\bin
+RESTORE_FILTER 'C:\cygwin\bin\bin\gzip.exe -d'
+TAPEDEV C:\Program Files\IBM Informix Software Bundle\backup\
+
+
+BACKUP_FILTER 'C:\Program Files (x86)\GnuWin32\bin\gzip.exe' 
+---go to command prompt and run below 
+---C:\Program Files\IBM Informix Software Bundle>ontape -s -L 0 -F
+
+
+
+        INSERT INTO CalendarPatterns values ( 'cp_1min', '{1 on},minute');
+	INSERT INTO CalendarPatterns values ( 'cp_15min', '{1 on , 14 off},minute');
+	INSERT INTO CalendarPatterns values ( 'cp_1sec', '{1 on},second');
+	INSERT INTO CalendarPatterns values ( 'cp_1hour', '{1 on},hour');
+	INSERT INTO CalendarPatterns values ( 'cp_1day', '{1 on},day');
+	INSERT INTO CalendarPatterns values ( 'cp_1month', '{1 on},month');
+	INSERT INTO CalendarPatterns values ( 'cp_30sec', '{1 on,29 off},second');
+        INSERT INTO CalendarPatterns values ( 'cp_5sec', '{1 on,4 off},second');
+        INSERT INTO CalendarPatterns values ( 'cp_30min', '{1 on , 30 off},minute');
+
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_15min', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_15min)');
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_1sec', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_1sec)');
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_1hour', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_1hour)');
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_1day', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_1day)');
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_1month', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_1month)');
+	Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_30sec', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_30sec)');
+        Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_5sec', 'startdate(2016-01-01 00:00:00), pattstart(2016-01-01 00:00:00), pattname(cp_5sec)');
+        Insert into CalendarTable(c_name, c_calendar)
+	values ('cal_1min', 'startdate(2016-02-27 15:00:00), pattstart(2016-02-27 15:00:00), pattname(cp_1min)');
+	Insert into CalendarTable(c_name, c_calendar) 
+        values ('cal_30min', 'startdate(2015-01-01 00:00:00), pattstart(2015-01-01 00:00:00), pattname(cp_30min)');
+
+
+Create table "etools_dev".DatabaseVersion
+(
+    id serial8 PRIMARY KEY CONSTRAINT id not null,
+    Version  float not null ,
+    tstamp datetime year to fraction(5)
+) with CRCOLS in datadbs1 extent size 32 next size 32 lock mode row;
+
+DROP TABLE IF EXISTS etools_dev.ClientFolderMap;
+create table etools_dev.ClientFolderMap
+(      
+      id serial8 not null,
+      roleid   integer,
+      username  varchar(100),
+      folderpath  varchar(250),
+      primary key (id)
+) with CRCOLS in datadbs1 extent size 32 next size 32 lock mode row;
+
+Create table "etools_dev".TableWiseParameter
+  (
+    id serial8 not null,
+    parametername varchar(45),
+    tablename varchar(30),
+    isdeleted smallint,   
+    primary key (id)
+  ) with CRCOLS in datadbs1 extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".prmglobal 
+  (
+    prmrecid serial8 not null ,
+    prmmodule varchar(150) not null ,
+    prmunit varchar(150),
+    prmidentifier varchar(150),
+    prmvalue lvarchar(400),
+    rfu1 varchar(150),
+    rfu2 varchar(150),
+    primary key (prmrecid) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+Create table "etools_dev".metermodel
+  (
+    id serial8 not null ,
+    modelname varchar(45),
+    description varchar(100),
+    ConnectTime  smallint,
+    SendDoneWait smallint,
+    Waitconsecutive smallint,
+    OnResponceError  smallint,
+    isdeleted smallint,
+    rolloverlimit int8,
+    primary key (id) 
+  ) with CRCOLS in datadbs1 extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".metertypes 
+  (
+    id serial8 not null ,
+    metertypename varchar(45),
+    meterdescription varchar(150),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".memorymap_range
+  (
+    id serial8 not null ,
+    modelid int8 not null ,
+    startaddress varchar(20),
+    endaddress varchar(20),
+    countaddress varchar(20),
+    rangetype varchar(20),
+    isdeleted smallint,
+    types varchar(30),
+    primary key (id) 
+  ) with CRCOLS in datadbs2 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".memorymap_range add constraint (foreign key (modelid) references "etools_dev".metermodel);
+
+CREATE INDEX IF NOT EXISTS idx_Map_range ON memorymap_range(modelid) ONLINE;
+
+create table "etools_dev".memorymap_addressdetails 
+  (
+    id serial8 not null,
+    modelid int8 not null,
+    rangeid int8 not null,
+    address varchar(150),
+    parametername varchar(45),
+    datatype varchar(20),
+    instancedatamapping varchar(150),
+    multiplicationfactor float,
+    bytecount varchar(150),
+    flag smallint,
+    isdeleted smallint,
+    columntype varchar(20),
+    formula varchar(200),
+    tablename varchar(30),
+    grouptype varchar(30),
+    types varchar(30),
+    primary key (id) 
+  ) with CRCOLS in datadbs2 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".memorymap_addressdetails add constraint (foreign key (modelid) references "etools_dev".metermodel);
+alter table "etools_dev".memorymap_addressdetails add constraint (foreign key (rangeid) references "etools_dev".memorymap_range);
+
+CREATE INDEX IF NOT EXISTS idx_Map_address ON memorymap_addressdetails(modelid) ONLINE;
+
+create table "etools_dev".blockranges 
+  (
+    id serial8 not null ,
+    modelid int8 not null ,
+    blocktype varchar(45),
+    currentblockaddress varchar(45),
+    previousblockaddress varchar(45),
+    isincremental varchar(45),
+    noofregisters varchar(45),
+    primary key (id) 
+  ) with crcols  in datadbs2  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".blockranges add constraint (foreign key (modelid) references "etools_dev".metermodel);
+
+CREATE INDEX IF NOT EXISTS idx_block_ranges ON blockranges(modelid) ONLINE;
+
+create table "etools_dev".blockaddressdetails 
+  (
+    id serial8 not null ,
+    modelid int8 not null ,
+    blockrangeid int8 not null ,
+    address varchar(50),
+    parametername varchar(50),
+    datatype varchar(45),
+    loadservicemapping varchar(45),
+    multiplicationfactor float,
+    tablename varchar(30),
+    grouptype varchar(30),
+    primary key (id) 
+  ) with crcols  in datadbs2  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".blockaddressdetails add constraint (foreign key (modelid) references "etools_dev".metermodel);
+alter table "etools_dev".blockaddressdetails add constraint (foreign key (blockrangeid) references "etools_dev".blockranges);
+
+
+CREATE INDEX IF NOT EXISTS idx_block_address ON blockaddressdetails(modelid) ONLINE;
+
+
+
+
+create table "etools_dev".meters 
+  (
+    id serial8 not null ,
+    metername varchar(45),
+    metertypeid int8 not null ,
+    modelid int8 not null ,
+    ag integer,
+    frequency integer,
+    phase varchar(15),
+    serialno varchar(15),
+    meterno varchar(15),
+    isdeleted smallint default 0,
+    ctprimary int8,
+    ctsecondary int8,
+    blockwisedata smallint default 0,
+    isactive smallint default 0,
+    location varchar(50),
+    replacementremark varchar(100),
+    replacedby int8,
+    replacementdate datetime year to fraction(5),
+    rolloverlimit int8,
+    misemail smallint default 0,
+    mispopup smallint default 0,
+    missms smallint default 0,
+    parameter varchar(15),
+    caltype integer default 0,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".meters add constraint (foreign key (modelid) references "etools_dev".metermodel);
+alter table "etools_dev".meters add constraint (foreign key (metertypeid) references "etools_dev".metertypes);
+
+
+Create table "etools_dev".ipwiselogger
+  (
+    id serial8 not null ,
+    meterid int8,
+    ipaddress varchar(30),
+    comport varchar(30),
+    portnumber varchar(30),
+    primary key (id) 
+  ) with crcols in datadbs2  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".ipwiselogger add constraint (foreign key (meterid) references "etools_dev".meters);
+
+create table "etools_dev".communicationdetails
+  (
+    id serial8 not null ,
+    communicationtypeid int8 not null ,
+    ipaddress varchar(20),
+    port varchar(20),
+    baudrate varchar(20),
+    databits varchar(150),
+    parity varchar(150),
+    stopbits varchar(150),
+    convertordesc lvarchar(299),
+    comport varchar(50),
+    isdeleted smallint default 0,
+    isactive smallint default 0,
+    isemailalarm smallint default 0,
+    ispopupalarm smallint default 0,
+    isalarmraised smallint default 0,
+    issmsalarm smallint default 0,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".communicationdetaillink 
+  (
+    id serial8 not null ,
+    converterid int8,
+    meterid int8,
+    modbusid int8,
+    active smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".communicationdetaillink add constraint (foreign key (converterid) references "etools_dev".communicationdetails);
+alter table "etools_dev".communicationdetaillink add constraint (foreign key (meterid) references "etools_dev".meters);
+
+create table "etools_dev".parametermf 
+  (
+    id serial8 not null ,
+    meterid int8,
+    grouptype varchar(50),
+    multiplicationfactor float,
+    primary key (id) 
+  ) with crcols in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".parametermf add constraint (foreign key (meterid) references "etools_dev".meters);
+
+create table "etools_dev".mstmodule 
+  (
+    id serial8 not null ,    
+    moduleName  varchar(100) not null ,
+    Moduleposition int8 not null ,
+    link varchar(200),
+    isdeleted smallint default 0,
+    primary key (id) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(1,'Meter View',1,'/MeterView/index',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(2,'Group View',2,'/GroupView/index',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(3,'Parameter View',3,'/parameterView/index',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(4,'Query View',4,'/QueryView/index',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(5,'Configurations',5,'',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(6,'Masters',6,'',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(7,'Reports',7,'',0);
+insert into mstmodule(id,moduleName,Moduleposition,link,isdeleted) values(8,'Dashboard',8,'',0);
+
+create table "etools_dev".mstmenu 
+  (
+    mnurecid serial8 not null ,
+    mnuitemname varchar(100) not null ,
+    mnuitemposition float not null ,
+    link varchar(200),
+    mnuisdeleted smallint default 0,
+    mnutype int8 default 0,
+    mnuModulid int8,
+    primary key (mnurecid) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstmenu add constraint (foreign key (mnuModulid) references "etools_dev".mstmodule);
+
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(1,'Meter View',1,'/MeterView/index',0,0,1);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(2,'Group View',1,'/GroupView/index',0,0,2);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(3,'Parameter View',1,'/parameterView/index',0,0,3);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(4,'Query View',1,'/QueryView/index',0,0,4);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(5,'Module',1,'/Module/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(6,'Menu',2,'/Menu/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(7,'Meter Model',3,'/MeterModel/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(8,'Meter Type',4,'/MeterType/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(9,'Role',5,'/Role/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(10,'Employee',6,'/Employee/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(11,'User',7,'/User/index',0,0,6);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(12,'Global Value',8,'/PrmGlobal/index',0,0,6);
+
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(14,'DC SG Stage Wise',1,'/ABTScreen/DCSGFuelStaged/Upload',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(15,'DC SG Revision wise',2,'/ABTScreen/DCSGRevisionwise/Upload',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(16,'UI Rate',3,'/UIRatedatewise/Upload',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(17,'Convertor Configuration',4,'/CommunicationDetail/Index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(18,'Convertor Link',5,'/CommunicationDetailLink/Index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(19,'Convertor Link Serial',6,'/CommunicationDetailLinkSerial/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(20,'Meter',7,'/Meter/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(21,'Meter Groups',8,'/MeterGroup/Index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(22,'Alarm Recipient Info',9,'/ActionType/Index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(23,'Standard Alarm',10,'/StandardAlarm/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(24,'Real Time Alarm',11,'/RealtimeAlarm/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(25,'Role Menu Access',12,'/RoleMenuAccess/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(26,'Assign Meter',13,'/ConsumerMeterRelation/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(27,'Web Reports',14,'/WebReports/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(28,'Report Scheduler',15,'/ReportShedular/Index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(29,'Ui Rate Stage',16,'/UirateStaged/upload',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(30,'DC SG PP',17,'/ABTScreen/DCSGFuelStagePP/upload',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(31,'OPC Server Tag',18,'/OPCServerTag/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(32,'OPC Client Tags',19,'/OpcShortName/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(33,'OPC Server Tag Calculation',20,'/GridLogikCalculation/index',0,0,5);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(34,'DC SG',21,'/ABTScreen/DCSG/upload',0,0,5);
+
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(35,'History Data',1,'/History/Index',0,0,7);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(36,'Group Display',2,'/Groupdisplay/Index',0,0,7);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(37,'Report Viewer',3,'/WebReports/report',0,0,7);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(38,'Manual Report Generation',4,'/ReportManually/Create',0,0,7);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(39,'THD Display',5,'/Harmonic/Harmonic/Harmonicthd',0,0,7);
+
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(40,'Consumption HourWise',1,'/Consumption/HourWise',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(41,'Consumption Daywise',2,'/Consumption/daywise',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(42,'Consumption MonthWise',3,'/Consumption/MonthWise',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(43,'Consumption BlockWise',4,'/Consumption/BlockWiseConsumption',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(44,'Compare Day Wise Consumption',5,'/Consumption/DayWiseConsumption',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(45,'Meter Status',6,'/meterstatus/index',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(46,'Load Profile',7,'/LoadProfile/index',0,0,8);
+insert into mstmenu(mnurecid,mnuitemname,mnuitemposition,link,mnuisdeleted,mnutype,mnuModulid) Values(47,'Compare Load Profile',8,'/LoadProfile/compareloadprofile',0,0,8);
+
+
+create table "etools_dev".mstrole 
+  (
+    rolrecid serial8 not null ,    
+    rolname varchar(150),
+    roldescription varchar(150),
+    rolisdeleted smallint default 0,
+    primary key (rolrecid) 
+  ) with crcols in datadbs1 extent size 16 next size 16 lock mode row;
+
+insert into mstrole(rolrecid,rolname,roldescription,rolisdeleted) values(1,'ADMIN','CMS AUTHORISED USER',0);
+
+create table "etools_dev".mstrolemenuaccess
+  (
+    rmarecid serial8 not null ,
+    rmaroleid int8,
+    rmamnuid int8,
+    rmacreateaccess smallint default 0,
+    rmareadaccess smallint default 0,
+    rmaupdateaccess smallint default 0,
+    rmadeleteaccess smallint default 0,
+    rmaisdeleted smallint default 0,
+    primary key (rmarecid) 
+  ) with crcols in datadbs1 extent size 16 next size 16 lock mode row;
+
+alter table "etools_dev".mstrolemenuaccess add constraint (foreign key (rmaroleid) references "etools_dev".mstrole);
+alter table "etools_dev".mstrolemenuaccess add constraint (foreign key (rmamnuid) references "etools_dev".mstmenu);
+
+insert into mstrolemenuaccess(rmarecid, rmaroleid, rmamnuid, rmacreateaccess, rmareadaccess, rmaupdateaccess, rmadeleteaccess) values(1,1,25,1,1,1,1);
+
+create table "etools_dev".txnloadblocks
+  (
+    txnbid serial8 not null ,
+    txnbparam int8,
+    txnip varchar(60),
+    txnblockdate datetime year to fraction(5),
+    primary key (txnbid) 
+  ) with crcols in datadbs2 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".txnloadblocks add constraint (foreign key (txnbparam) references "etools_dev".meters);
+
+
+create table "etools_dev".mstemployee 
+  (
+    emprecid serial8 not null ,
+    empid varchar(15),
+    empfirstname varchar(150),
+    empmiddlename varchar(150),
+    emplastname varchar(150),
+    empzoneid varchar(15),
+    emprgnid varchar(15),
+    empdivid varchar(15),
+    empsubstnid varchar(15),
+    empisactive smallint default 0,
+    empemailid varchar(150),
+    empphoneno1 varchar(45),
+    empphoneno2 varchar(45),
+    empisdeleted smallint default 0,
+    primary key (emprecid) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".mstuser 
+  (
+    usrrecid serial8 not null ,
+    usrid varchar(15) not null ,
+    usrpassword varchar(150),
+    usrroleid int8,
+    usremployeeid varchar(15),
+    usrisactive smallint default 0,
+    usrcreationdate datetime year to fraction(5),
+    usrcreatedbyuserid varchar(15),
+    usrfirstname varchar(150),
+    usrmiddlename varchar(150),
+    usrlastname varchar(150),
+    usremailid varchar(150),
+    usrphoneno1 varchar(45),
+    usrphoneno2 varchar(45),
+    usrisdeleted smallint default 0,
+    usrtype varchar(2),
+    primary key (usrrecid) 
+  ) with crcols in datadbs1 extent size 16 next size 16 lock mode row;
+
+alter table "etools_dev".mstuser add constraint (foreign key (usrroleid) references "etools_dev".mstrole);
+
+insert into mstuser(usrrecid,usrid,usrpassword,usrroleid,usrisactive,usrcreationdate,usrcreatedbyuserid,usrisdeleted,usrtype)
+values (1,'admin','ZuWVtF6VJrqbDmcp5NzDqw==',1,1,'2016-05-19 11:08:31.00000','admin',0,'S');
+
+create table "etools_dev".stageconfiguration 
+  (
+    id serial8 not null ,
+    stagename varchar(40) not null ,
+    stagenmfrmupload varchar(40) not null ,
+    generator varchar(40) not null ,
+    linemeter varchar(40) not null ,
+    primary key (id) 
+  ) extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".dcsg 
+  (
+    id serial8 not null ,
+    blockno int8,
+    dcvalue decimal(18,8),
+    sgvalue decimal(18,8),
+    revision integer,
+    timestampid int8,
+    fuelcost decimal(18,8),
+    isdeleted smallint default 0,
+    tstamp datetime year to fraction(5),
+    stageid int8,
+    upload_date datetime year to fraction(5) default current year to fraction(5) not null,
+    SGPPA decimal(18,8),
+    SCED decimal(18,8),
+    RRAS decimal(18,8),
+    AGC  decimal(18,8),
+    IEX decimal(18,8) NOT NULL DEFAULT 0,
+    URS decimal(18,8) NOT NULL DEFAULT 0,
+    primary key (id) 
+  ) with crcols  in datadbs2  extent size 32 next size 32 lock mode row;
+
+CREATE INDEX IF NOT EXISTS idx_Map_dcsg ON dcsg(tstamp) ONLINE;
+
+
+create table "etools_dev".uirate 
+  (
+    id serial8 not null ,
+    frequency decimal(18,8),
+    positive decimal(18,8),
+    negative decimal(18,8),
+    tstamp datetime year to fraction(5) default current year to fraction(5) not null ,
+    revision integer,
+    stageid integer,
+    isdeleted smallint default 0,
+    upload_date datetime year to fraction(5) default current year to fraction(5) not null,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+/// OPC Server
+
+create table "etools_dev".opc_metername 
+  (
+    id serial8 not null ,
+    meterid int8,
+    opc_shortname varchar(45),
+    primary key (id) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+CREATE INDEX IF NOT EXISTS idx_opc_met ON opc_metername(meterid) ONLINE;
+
+
+DROP TABLE IF EXISTS etools_dev.OPC_server_Tag;
+create table etools_dev.OPC_server_Tag
+  (
+    id serial8 not null ,
+    TagName varchar(150) not null,
+    DataType varchar(50) not null,
+    MeterId int8,
+    parameter varchar(150) not null ,
+    TableName varchar(50) not null,
+    Query lvarchar(1000),
+    Value float,
+    isTag int8,
+    priority int8,
+    tstamp datetime year to fraction(5),
+    primary key (id) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".standardalarm 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,
+    maxvll float,
+    minvll float,
+    maxamp float,
+    minamp float,
+    maxkw float,
+    minkw float,
+    maxkva float,
+    minkva float,
+    maxhz float,
+    minhz float,
+    maxpf float,
+    minpf float,
+    connectload float,
+    alarmmessages lvarchar(1000),
+    starttime datetime year to fraction(5),
+    endtime datetime year to fraction(5),
+    status smallint,
+    resetstatus integer,
+    duration integer,
+    alarmcommand varchar(150),
+    sendsms smallint,
+    sendemail smallint,
+    givepopup smallint,
+    alarmname varchar(50),
+    isdeleted smallint default 0,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".standardalarm add constraint (foreign key (meterid)  references "etools_dev".meters );
+
+create table "etools_dev".rtalarm 
+  (
+    id serial8 not null ,
+    alarmname varchar(50),
+    alarmmessage varchar(100),
+    fromtime datetime year to fraction(5),
+    totime datetime year to fraction(5),
+    duration integer,
+    status smallint,
+    resetstatus smallint,
+    alarmquery lvarchar(500),
+    condition varchar(150),
+    alarmcommand varchar(100),
+    meterid varchar(45),
+    sendsms smallint,
+    sendemail smallint,
+    givepopup smallint,
+    parameter lvarchar(500),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".actiontype 
+  (
+    id serial8 not null ,
+    alarmid int8 not null ,
+    alarmtype varchar(45),
+    mobileno lvarchar(1000),
+    message varchar(150),
+    emailaddress lvarchar(1000),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".htalarm 
+  (
+    id serial8 not null ,
+    timestampid int8,
+    type varchar(50),
+    isactive smallint,
+    hostip varchar(100),
+    alarmname varchar(50),
+    alarmmessage lvarchar(500),
+    starttime datetime year to fraction(5),
+    endtime datetime year to fraction(5),
+    duration integer,
+    sms smallint,
+    email smallint,
+    popup smallint,
+    alarmid int8,
+    ismanualack smallint,
+    primary key (id) 
+  ) with crcols  in datadbs2  extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".querydetails 
+  (
+    id serial8 not null ,
+    queryname lvarchar(100),
+    property lvarchar(50),
+    setvalue lvarchar(3000),
+    script lvarchar(3000),
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".grouptemplatequery 
+  (
+    id serial8 not null ,
+    queryname varchar(100),
+    queryscript lvarchar(10000),
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+-------------------- Reporter Query start-----------------
+
+create table "etools_dev".backupscheduledetails 
+  (
+    srid serial8 not null ,
+    level varchar(30),
+    frqtype varchar(20),
+    startdate datetime year to fraction(5),
+    triggertime varchar(10),
+    weekdayname varchar(3),
+    monthname varchar(3),
+    dayofmonth int8,
+    isactive smallint,
+    rptflag smallint default 0,
+    intervalb bigint,
+    primary key (srid) 
+  ) with crcols  in datadbs1 extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".reportscheduledetails 
+  (
+    srid serial8 not null ,
+    reportname varchar(30),
+    frqtype varchar(20),
+    startdate datetime year to fraction(5),
+    triggertime varchar(10),
+    weekdayname varchar(3),
+    monthname varchar(3),
+    dayofmonth int8,
+    isactive smallint,
+    rptflag smallint default 0,
+    interval bigint,
+    primary key (srid) 
+  ) with crcols  in datadbs1 extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".manualrptlist 
+  (
+    rlistid serial8 not null ,
+    reptname varchar(250) not null ,
+    primary key (rlistid) 
+  ) with crcols  in datadbs1 extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".manualreports 
+  (
+    reptmid serial8 not null ,
+    rlistid int8 not null ,
+    requestdate datetime year to fraction(5) not null ,
+    frmdate datetime year to fraction(5) not null ,
+    frmtime varchar(8) not null ,
+    todate datetime year to fraction(5),
+    totime varchar(8) not null ,
+    filepath varchar(250),
+    isdownload integer,
+    primary key (reptmid) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".manualreports add constraint (foreign key (RlistID) references "etools_dev".manualrptlist);
+
+create table "etools_dev".smsdetails 
+  (
+    recid serial8 not null ,
+    phnno varchar(20) not null ,
+    msgbody varchar(150) not null ,
+    sendflag integer,
+    primary key (recid) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".emaildetails 
+  (
+    recid serial8 not null ,
+    maillist varchar(150) not null ,
+    filepath varchar(150) not null ,
+    subject varchar(150),
+    mailbody varchar(150) not null ,
+    sendflag integer,
+    primary key (recid) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".emailconfigdetails 
+  (
+    row_id serial8 not null ,
+    emprecid varchar(4),
+    maildetails varchar(4),
+    sendflag integer,
+    primary key (row_id) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+
+create table etools_dev.OPC_ClientTAG
+(      
+	Id serial8 not null,
+        TAG_ID  integer,
+        TAG_Name varchar(150),
+        CalType  varchar(25),       
+	primary key (id)
+) with crcols in datadbs3 extent size 32 next size 32 lock mode row;
+
+// eg. insert into OPC_ClientTAG(TAG_Name, CalType) values('Instance.kwh_exp.U2CA_TR_ESP_PMCC_2A_kwh_exp_1','MAX');
+//insert into OPC_ClientTAG(TAG_Name, CalType) values('Instance.kwh_exp.U2CB_ID_FAN_2B_kwh_exp_27','MAX');
+//insert into OPC_ClientTAG(TAG_Name, CalType) values('Instance.kwh_imp.U2CA_TR_ESP_PMCC_2A_kwh_imp_1','MAX');
+//insert into OPC_ClientTAG(TAG_Name, CalType) values('Instance.kwh_imp.U2CB_ID_FAN_2B_kwh_imp_27','MAX');
+
+-------------------- Reporter Query end-----------------
+
+create table "etools_dev".metergroups 
+  (
+    id serial8 not null ,
+    groupname varchar(45),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".mstmetergroupdetail
+  (
+    mid serial8 not null ,
+    meterid int8,
+    grpid int8,
+    primary key (mid) 
+  ) with crcols  in datadbs1 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstmetergroupdetail add constraint (foreign  key (grpid) references "etools_dev".metergroups );
+alter table "etools_dev".mstmetergroupdetail add constraint (foreign    key (meterid) references "etools_dev".meters );
+
+create table "etools_dev".groupconfiguration
+  (
+    id serial8 not null,
+    groupid int8,
+    meterid int8,
+    parameter varchar(50),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols in datadbs1 extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".groupconfiguration add constraint (foreign  key (groupid) references "etools_dev".metergroups );
+alter table "etools_dev".groupconfiguration add constraint (foreign  key (meterid) references "etools_dev".meters );
+
+create table "etools_dev".contactdetails
+  (
+    id serial8 not null ,
+    emailaddress varchar(50),
+    phonenumber int8,
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".alarmcondition 
+  (
+    id serial8 not null ,
+    parameter varchar(100),
+    operator varchar(20),
+    value varchar(150),
+    alarmid int8,
+    conditions varchar(150),
+    isdeleted smallint,
+    primary key (id) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".alarmhistory 
+  (
+    id serial8 not null ,
+    alarmid int8 not null ,
+    starttime datetime year to fraction(5),
+    endtime datetime year to fraction(5),
+    isdeleted smallint,
+    primary key (id) 
+  ) in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".alarms 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,
+    alarmname varchar(45),
+    message nvarchar(150),
+    status integer,
+    isdeleted smallint,
+    primary key (id) 
+  ) in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".instancedata 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,
+    meter_name varchar(45),
+    tstamp datetime year to fraction(5),
+    vrn float,
+    vbn float,
+    vyn float,
+    vln float,
+    vry float,
+    vyb float,
+    vbr float,
+    vll float,
+    ir float,
+    iy float,
+    ib float,
+    i float,
+    pf float,
+    kw float,
+    kvar float,
+    kva float,
+    hz float,
+    pfr float,
+    pfy float,
+    pfb float,
+    kwr float,
+    kwy float,
+    kwb float,
+    kvarr float,
+    kvary float,
+    kvarb float,
+    kva_r float,
+    kvay float,
+    kvab float,
+    kw_demand float,
+    kvar_demand float,
+    kva_demand float,
+    kw_max_demand float,
+    kvar_max_demand float,
+    kva_max_demand float,
+    kwh_exp float,
+    kwh_imp float,
+    kvah_exp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    kvarh_lag_exp float,
+    kvarh_lead_exp float,
+    kvarh_exp_103 float,
+    kvarh_exp_97 float,
+    kvarh_imp_103 float,
+    kvarh_imp_97 float,
+    day_kwh_exp float,
+    day_kwh_imp float,
+    cblk_kwh_exp float,
+    cblk_kwh_imp float,
+    cblk_kvarh_lag_imp float,
+    cblk_kvarh_lead_imp float,
+    cblk_kvarh_lag_exp float,
+    cblk_kvarh_lead_exp float,
+    cblk_avg_mw float,
+    cblk_avg_hz float,
+    lblk_timestampid float,
+    lblk_avg_mw float,
+    lblk_avg_hz float,
+    lblk_kwh_exp float,
+    lblk_kwh_imp float,
+    lblk_kvah_exp float,
+    lblk_kvah_imp float,
+    lblk_kvarh_lag_imp float,
+    lblk_kvarh_lead_imp float,
+    lblk_kvarh_lag_exp float,
+    lblk_kvarh_lead_exp float,
+    lblk_kvarh_exp_103 float,
+    lblk_kvarh_exp_97 float,
+    lblk_kvarh_imp_103 float,
+    lblk_kvarh_imp_97 float,
+    potime float,
+    lotime float,
+    kwh_net float,
+    temp integer,
+    runhrimp float,
+    runhrexp float,
+    meter_tstamp datetime year to fraction(5),
+    primary key (id) 
+  ) in datadbs1  extent size 32 next size 32 lock mode row;
+
+CREATE INDEX IF NOT EXISTS idx_inst ON instancedata(meterid) ONLINE;
+
+drop table mstsubstation;
+drop table mstdivision ;
+drop table mstregion;
+drop table mstzone;
+drop table mstutility;
+
+create table "etools_dev".mstutility 
+  (
+    utilrecid serial8 not null ,
+    utilid varchar(15),
+    utilname varchar(150),
+    utiladdress1 varchar(150),
+    utiladdress2 varchar(150),
+    utiladdress3 varchar(150),
+    utilpin varchar(6),
+    isdeleted smallint,
+    primary key (utilrecid) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".mstzone 
+  (
+    znrecid serial8 not null ,
+    znid varchar(15) not null ,
+    znname varchar(150) not null ,
+    zndescription varchar(150),
+    znutilityid int8,
+    isdeleted smallint,
+    primary key (znrecid) 
+  ) with crcols in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstzone add constraint (foreign key (znutilityid)  references "etools_dev".mstutility);
+
+create table "etools_dev".mstregion 
+  (
+    rgnrecid serial8 not null ,
+    rgnid varchar(15) not null ,
+    rgnname varchar(150) not null ,
+    rgndescription varchar(150),
+    rgnznid int8 ,
+    isdeleted smallint,
+    primary key (rgnrecid) 
+  ) with crcols in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstregion add constraint (foreign key (rgnznid)  references "etools_dev".mstzone);
+
+create table "etools_dev".mstdivision 
+  (
+    divrecid serial8 not null ,
+    divid varchar(15) not null ,
+    divname varchar(150) not null ,
+    divdescription varchar(150),
+    divrgnid int8 ,
+    isdeleted smallint,
+    primary key (divrecid) 
+  ) with crcols in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstdivision add constraint (foreign key (divrgnid)  references "etools_dev".mstregion);
+
+create table "etools_dev".mstsubstation 
+  (
+    ssrecid serial8 not null ,
+    ssid varchar(15) not null ,
+    ssname varchar(150) not null ,
+    ssdescription varchar(150),
+    ssdivid int8 ,
+    isdeleted smallint,
+    primary key (ssrecid) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".mstsubstation add constraint (foreign key (ssdivid)  references "etools_dev".mstdivision);
+
+create table "etools_dev".mstfeeder 
+  (
+    fdrrecid serial8 not null ,
+    fdrid varchar(15) not null ,
+    fdrname varchar(150),
+    fdrdescription varchar(150),
+    fdrserialno varchar(45),
+    fdrratedvoltage decimal(10,2),
+    fdrratedpower decimal(10,2),
+    fdrconnectedload decimal(10,2),
+    fdrphase varchar(15),
+    fdrmanufacturerid varchar(15),
+    fdrsubstnid varchar(15),
+    fdrinstallarea varchar(200),
+    fdrisdeleted smallint,
+    primary key (fdrrecid) 
+  ) in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+alter table "etools_dev".alarmcondition add constraint (foreign  key (alarmid) references "etools_dev".alarms );
+alter table "etools_dev".alarmhistory add constraint (foreign key (alarmid) references "etools_dev".alarms );
+alter table "etools_dev".alarms add constraint (foreign key (meterid)  references "etools_dev".meters );
+
+
+create table "etools_dev".msterrorlog 
+  (
+    errorid serial8 not null ,
+    errordescription lvarchar(7000),
+    errortrace lvarchar(7000),
+    errormodule lvarchar(7000),
+    errordate datetime year to fraction(5) default current year to fraction(5),
+    primary key (errorid)
+  ) in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+create row type "etools_dev".rtinstancedatalogs 
+	(
+	tstamp datetime year to fraction(5),
+	meter_name lvarchar(50),
+	vrn float,
+	vbn float,
+	vyn float,
+	vln float,
+	vry float,
+	vyb float,
+	vbr float,
+	vll float,
+	ir float,
+	iy float,
+	ib float,
+	i float,
+	pf float,
+	kw float,
+	kvar float,
+	kva float,
+	hz float,
+	pfr float,
+	pfy float,
+	pfb float,
+	kwr float,
+	kwy float,
+	kwb float,
+	kvarr float,
+	kvary float,
+	kvarb float,
+	kva_r float,
+	kvay float,
+	kvab float,
+	kw_demand float,
+	kvar_demand float,
+	kva_demand float,
+	kw_max_demand float,
+	kvar_max_demand float,
+	kva_max_demand float,
+	kwh_exp float,
+	kwh_imp float,
+	kvah_exp float,
+	kvah_imp float,
+	kvarh_lag_imp float,
+	kvarh_lead_imp float,
+	kvarh_lag_exp float,
+	kvarh_lead_exp float,
+	kvarh_exp_103 float,
+	kvarh_exp_97 float,
+	kvarh_imp_103 float,
+	kvarh_imp_97 float,
+	day_kwh_exp float,
+	day_kwh_imp float,
+	cblk_kwh_exp float,
+	cblk_kwh_imp float,
+	cblk_kvarh_lag_imp float,
+	cblk_kvarh_lead_imp float,
+	cblk_kvarh_lag_exp float,
+	cblk_kvarh_lead_exp float,
+	cblk_avg_mw float,
+	cblk_avg_hz float,
+	lblk_timestampid float,
+	lblk_avg_mw float,
+	lblk_avg_hz float,
+	lblk_kwh_exp float,
+	lblk_kwh_imp float,
+	lblk_kvah_exp float,
+	lblk_kvah_imp float,
+	lblk_kvarh_lag_imp float,
+	lblk_kvarh_lead_imp float,
+	lblk_kvarh_lag_exp float,
+	lblk_kvarh_lead_exp float,
+	lblk_kvarh_exp_103 float,
+	lblk_kvarh_exp_97 float,
+	lblk_kvarh_imp_103 float,
+	lblk_kvarh_imp_97 float,
+	potime float,
+	lotime float,
+	kwh_net float,
+	temp integer,
+	runhrimp float,
+	runhrexp float
+	);
+
+create table etools_dev.tsinstancedatalogs
+  (
+    meterid int8 not null ,
+    series timeseries(rtinstancedatalogs),
+    primary key (meterid) 
+  ) in dbinstancedatalogs extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwinstancedatalogs','dbinstancedatalogs','rtinstancedatalogs',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',65, 75, 'dbinstancedatalogs', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.InstanceDataLogs',
+'etools_dev.tsinstancedatalogs',
+'calendar(cal_1sec),
+container(tsconwinstancedatalogs),irregular');
+
+
+drop table if exists PreviousBlkMiss;
+drop table if exists tsPreviousBlkMiss;
+DROP ROW TYPE if exists rtPreviousBlkMiss RESTRICT;
+
+create row type etools_dev.rtPreviousBlkMiss
+(
+tstamp datetime year to fraction(5),
+timestampID int,	
+BlockNo varchar(100),
+IsPending Int,
+issend integer
+);
+
+drop table if exists tsPreviousBlkMiss;
+execute procedure ifx_allow_newline('t');
+create table etools_dev.tsPreviousBlkMiss
+(METERID int8 NOT NULL,
+series timeseries(rtPreviousBlkMiss),
+primary key(METERID)) in dbloadsurvey;
+
+execute procedure tscontainercreate('tsconPreviousBlkMiss','dbloadsurvey','rtPreviousBlkMiss',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',5,8, 'dbloadsurvey', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+drop table if exists PreviousBlkMiss;
+execute procedure TSCreateVirtualTab
+('etools_dev.PreviousBlkMiss',
+'etools_dev.tsPreviousBlkMiss','calendar(cal_15min),
+container(tsconPreviousBlkMiss),irregular');
+
+
+create row type etools_dev.rtloadsurveylogs 
+	(
+	tstamp datetime year to fraction(5),
+	timestampid integer,
+	blockno integer,
+	vll float,
+	i float,
+	pf float,
+	pfy float,
+	pfr float,
+	pfb float,
+	kw float,
+	kvar float,
+	kva float,
+	hz float,
+	vry float,
+	vyb float,
+	vbr float,
+	vrn float,
+	vbn float,
+	vyn float,
+	vln float,
+	ir float,
+	iy float,
+	ib float,
+	kwr float,
+	kwy float,
+	kwb float,
+	kva_r float,
+	kvay float,
+	kvab float,
+	kw_demand float,
+	kva_demand float,
+	kw_max_demand float,
+	kva_max_demand float,
+	kwh_exp float,
+	kwh_imp float,
+	kvah_exp float,
+	kvah_imp float,
+	kvarh_lag_imp float,
+	kvarh_lead_imp float,
+	kvarh_lag_exp float,
+	kvarh_lead_exp float,
+	kvarh_exp_103 float,
+	kvarh_exp_97 float,
+	kvarh_imp_103 float,
+	kvarh_imp_97 float,
+	day_kwh_exp float,
+	day_kwh_imp float,
+	cblk_kwh_exp float,
+	cblk_kwh_imp float,
+	avg_hz float,
+	avg_mw float,
+	pot float,
+	runhr float,
+	runhrimp float,
+	runhrexp float
+	);
+
+create table etools_dev.tsloadsurveylogs
+  (
+    meterid int8 not null ,
+    series timeseries(rtloadsurveylogs),
+    primary key (meterid) 
+  ) in dbloadsurvey extent size 64 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconloadsurveylogs','dbloadsurvey','rtloadsurveylogs',1024,1024);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveyLogs',
+'etools_dev.tsloadsurveylogs','calendar(cal_15min),
+container(tsconloadsurveylogs),irregular');
+
+create row type etools_dev.rtloadsurveyabsfloat 
+	(
+	ts datetime year to fraction(5),
+	a_pf float,
+	a_pfy float,
+	a_pfr float,
+	a_pfb float
+	);
+
+execute procedure TSCreateExpressionVirtualTab
+ ('etools_dev.evt_absloadsurvey','tsinstancedatalogs',
+'aggregateby("avg($a_pf),avg($a_pfy),avg($a_pfr),avg($a_pfb)", "cal_15min",apply("abs($pf),abs($pfy),abs($pfy),abs($pfb)",$ts_begin_time,$ts_end_time,series)::timeseries(rtLoadSurveyAbsfloat))','rtLoadSurveyAbsfloat',0,'series');
+
+
+create table "etools_dev".evt_absloadsurvey 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    a_pf float,
+    a_pfy float,
+    a_pfr float,
+    a_pfb float
+  ) using ts_vtam
+  (
+    basetabname='tsinstancedatalogs',
+    tsfirstcolidx='1',
+    tscolcnt='5',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadsurveyabsfloat',
+    tsexpression='aggregateby&l&davg&l$a_pf&r&cavg&l$a_pfy&r&cavg&l$a_pfr&r&c avg&l$a_pfb&r&d&c &dcal_15min&d&c apply&l&dabs&l$pf&r&cabs&l$pfy&r&cabs&l$pfy&r&c abs&l$pfb&r&d&c$ts_begin_time&c$ts_end_time&cseries&r::timeseries&lrtLoadSurveyAbsfloat&r &r',
+    tsprimarykey='1' 
+  );
+
+create row type "Administrator".rtloadsurveyconsumption 
+	(
+	ts datetime year to fraction(5),
+	kwh_import float
+	);
+
+create table "etools_dev".evt_consumption 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    kwh_import float
+  ) using ts_vtam
+  (
+    basetabname='tsinstancedatalogs',
+    tsfirstcolidx='1',
+    tscolcnt='2',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadsurveyconsumption',
+    tsexpression='apply&l&d $kwh_import - tsprevious&l$kwh_import&r&d&c aggregateby&l&d last&l$kWh_Imp&r&d&c &dcal_15min&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lrtLoadSurveyConsumption&r&r',
+    tsprimarykey='1' 
+  );
+
+  create row type "Administrator".dec_16 
+	(
+	ts datetime year to fraction(5),
+	avg_vrn float,
+	avg_vbn float,
+	avg_vyn float,
+	avg_ir float,
+	avg_iy float,
+	avg_ib float,
+	avg_kw float,
+	avg_kvar float,
+	avg_kva float,
+	avg_pf float,
+	kwh_import float,
+	kwh_import_current float,
+	kvarh_lag_imp float,
+	kvarh_lag_imp_current float,
+	kwh_export float,
+	kwh_export_current float
+	);
+
+create table "etools_dev".hourwise 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_vrn float,
+    avg_vbn float,
+    avg_vyn float,
+    avg_ir float,
+    avg_iy float,
+    avg_ib float,
+    avg_kw float,
+    avg_kvar float,
+    avg_kva float,
+    avg_pf float,
+    kwh_import float,
+    kwh_import_current float,
+    kvarh_lag_imp float,
+    kvarh_lag_imp_current float,
+    kwh_export float,
+    kwh_export_current float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='17',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_16',
+    tsexpression='apply&l&d$avg_vrn&c$avg_vbn&c$avg_vyn&c$avg_ir&c$avg_iy&c $avg_ib&c$avg_kw&c$avg_kvar&c$avg_kva&c$avg_pf&c  $kwh_import - tsprevious&l$kwh_import&r&c$kwh_import&c $kvarh_lag_imp - tsprevious&l$kvarh_lag_imp&r&c$kvarh_lag_imp&c $kwh_export - tsprevious&l$kwh_export&r&c$kwh_export&d&c aggregateby&l&davg&l$vrn&r&c  avg&l$vbn&r&cavg&l$vyn&r&cavg&l$ir&r&cavg&l$iy&r&cavg&l$ib&r&c avg&l$Kw&r&cavg&l$kvar&r&cavg&l$kva&r&cavg&l$pf&r&c min&l$kWh_Imp&r&c min&l$kWh_Imp&r&cmin&l$kVARh_Lag_Imp&r&c min&l$kVARh_Lag_Imp&r&cmin&l$kwh_Exp&r&cmin&l$kwh_Exp&r&d&c &dcal_1hour&d&cseries&c0&c$ts_begin_time&c $ts_end_time&r ::timeseries&ldec_16&r&r',
+    tsprimarykey='1' 
+  );
+                                          
+
+create view etools_dev.EVT_hourwise
+(
+meterid,
+ts,
+avg_vrn,
+avg_vbn,
+avg_vyn,
+avg_ir,
+avg_iy,
+avg_ib,
+avg_kw,
+avg_kvar,
+avg_kva,
+avg_pf,
+kwh_import,
+kvarh_lag_imp
+)
+as
+select 
+meterid,
+ts,
+avg_vrn,
+avg_vbn,
+avg_vyn,
+avg_ir,
+avg_iy,
+avg_ib,
+avg_kw,
+avg_kvar,
+avg_kva,
+avg_pf,
+nvl(kwh_import,kwh_import_current) kwh_import,
+nvl(kvarh_lag_imp,kvarh_lag_imp_current) kvarh_lag_imp
+from 
+hourwise;
+
+
+create table "etools_dev".daywise 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_vrn float,
+    avg_vbn float,
+    avg_vyn float,
+    avg_ir float,
+    avg_iy float,
+    avg_ib float,
+    avg_kw float,
+    avg_kvar float,
+    avg_kva float,
+    avg_pf float,
+    kwh_import float,
+    kwh_import_current float,
+    kvarh_lag_imp float,
+    kvarh_lag_imp_current float,
+    kwh_export float,
+    kwh_export_current float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='17',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_16',
+    tsexpression='apply&l&d$avg_vrn&c$avg_vbn&c$avg_vyn&c$avg_ir&c$avg_iy&c$avg_ib&c $avg_kw&c$avg_kvar&c$avg_kva&c$avg_pf&c  $kwh_import - tsprevious&l$kwh_import&r&c$kwh_import&c $kvarh_lag_imp - tsprevious&l$kvarh_lag_imp&r&c$kvarh_lag_imp&c $kwh_export - tsprevious&l$kwh_export&r&c$kwh_export&d&c aggregateby&l&davg&l$vrn&r&cavg&l$vbn&r&cavg&l$vyn&r&cavg&l$ir&r&c avg&l$iy&r&cavg&l$ib&r&cavg&l$Kw&r&cavg&l$kvar&r&cavg&l$kva&r&cavg&l$pf&r&c  min&l$kWh_Imp&r&cmin&l$kWh_Imp&r&cmin&l$kVARh_Lag_Imp&r&c min&l$kVARh_Lag_Imp&r&cmin&l$kwh_Exp&r&cmin&l$kwh_Exp&r&d&c &dcal_1day&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&ldec_16&r&r',
+    tsprimarykey='1' 
+  );
+
+create view "etools_dev".evt_daywise (meterid,ts,avg_vrn,avg_vbn,avg_vyn,avg_ir,avg_iy,avg_ib,avg_kw,avg_kvar,avg_kva,avg_pf,kwh_import,kvarh_lag_imp,kwh_export) as 
+  select x0.meterid ,x0.ts ,x0.avg_vrn ,x0.avg_vbn ,x0.avg_vyn 
+    ,x0.avg_ir ,x0.avg_iy ,x0.avg_ib ,x0.avg_kw ,x0.avg_kvar 
+    ,x0.avg_kva ,x0.avg_pf ,NVL (x0.kwh_import ,0 ),NVL (x0.kvarh_lag_imp 
+    ,0 ),NVL (x0.kwh_export ,0 )from "etools_dev".daywise x0 ; 
+  
+
+create table "etools_dev".monthwise 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_vrn float,
+    avg_vbn float,
+    avg_vyn float,
+    avg_ir float,
+    avg_iy float,
+    avg_ib float,
+    avg_kw float,
+    avg_kvar float,
+    avg_kva float,
+    avg_pf float,
+    kwh_import float,
+    kwh_import_current float,
+    kvarh_lag_imp float,
+    kvarh_lag_imp_current float,
+    kwh_export float,
+    kwh_export_current float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='17',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_16',
+    tsexpression='apply&l&d$avg_vrn&c$avg_vbn&c $avg_vyn&c$avg_ir&c$avg_iy&c$avg_ib&c$avg_kw&c$avg_kvar&c $avg_kva&c$avg_pf&c$kwh_import - tsprevious&l$kwh_import&r&c$kwh_import&c $kvarh_lag_imp - tsprevious&l$kvarh_lag_imp&r&c$kvarh_lag_imp&c $kwh_export - tsprevious&l$kwh_export&r&c$kwh_export&d&c aggregateby&l&davg&l$vrn&r&cavg&l$vbn&r&cavg&l$vyn&r&cavg&l$ir&r&c avg&l$iy&r&cavg&l$ib&r&cavg&l$Kw&r&cavg&l$kvar&r&cavg&l$kva&r&cavg&l$pf&r&c min&l$kWh_Imp&r&cmin&l$kWh_Imp&r&cmin&l$kVARh_Lag_Imp&r&c min&l$kVARh_Lag_Imp&r&cmin&l$kwh_Exp&r&cmin&l$kwh_Exp&r&d&c &dcal_1month&d&c series&c0&c $ts_begin_time&c $ts_end_time&r::timeseries&ldec_16&r&r',
+    tsprimarykey='1' 
+  );
+
+create view "etools_dev".evt_monthwise (meterid,ts,avg_vrn,avg_vbn,avg_vyn,avg_ir,avg_iy,avg_ib,avg_kw,avg_kvar,avg_kva,avg_pf,kwh_import,kvarh_lag_imp,kwh_export) as 
+  select x0.meterid ,x0.ts ,x0.avg_vrn ,x0.avg_vbn ,x0.avg_vyn 
+    ,x0.avg_ir ,x0.avg_iy ,x0.avg_ib ,x0.avg_kw ,x0.avg_kvar 
+    ,x0.avg_kva ,x0.avg_pf ,NVL (x0.kwh_import ,0 ),NVL (x0.kvarh_lag_imp 
+    ,0 ),NVL (x0.kwh_export ,0 )from "etools_dev".monthwise x0 
+    ;                                        
+
+create table "etools_dev".loadprofile 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_vrn float,
+    avg_vbn float,
+    avg_vyn float,
+    avg_ir float,
+    avg_iy float,
+    avg_ib float,
+    avg_kw float,
+    avg_kvar float,
+    avg_kva float,
+    avg_pf float,
+    kwh_import float,
+    kwh_import_current float,
+    kvarh_lag_imp float,
+    kvarh_lag_imp_current float,
+    kwh_export float,
+    kwh_export_current float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='17',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_16',
+    tsexpression='apply&l&d$avg_vrn&c$avg_vbn&c$avg_vyn&c$avg_ir&c$avg_iy&c$avg_ib&c $avg_kw&c$avg_kvar&c$avg_kva&c$avg_pf&c  $kwh_import - tsprevious&l$kwh_import&r&c$kwh_import&c $kvarh_lag_imp - tsprevious&l$kvarh_lag_imp&r&c$kvarh_lag_imp&c $kwh_export - tsprevious&l$kwh_export&r&c$kwh_export&d&c aggregateby&l&dmax&l$vrn&r&cmax&l$vbn&r&cmax&l$vyn&r&cmax&l$ir&r&c max&l$iy&r&cmax&l$ib&r&cmax&l$Kw&r&cmax&l$kvar&r&cmax&l$kva&r&cmax&l$pf&r&c  last&l$kWh_Imp&r&clast&l$kWh_Imp&r&clast&l$kVARh_Lag_Imp&r&c last&l$kVARh_Lag_Imp&r&clast&l$kWh_Exp&r&clast&l$kWh_Exp&r&d&c &dcal_1day&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&ldec_16&r&r',
+    tsprimarykey='1' 
+  );
+
+create row type "Administrator".dec_voltage 
+	(
+	ts datetime year to fraction(5),
+	avg_vrn float,
+	avg_vbn float,
+	avg_vyn float,
+	avg_vry float,
+	avg_vyb float,
+	avg_vbr float,
+	avg_vln float
+	);
+
+create table "etools_dev".hourwisevoltage
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_vrn float,
+    avg_vbn float,
+    avg_vyn float,
+    avg_vry float,
+    avg_vyb float,
+    avg_vbr float,
+    avg_vln float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='8',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_voltage',
+    tsexpression='apply&l&d$avg_vrn&c$avg_vbn&c$avg_vyn&c $avg_vry&c$avg_vyb&c$avg_vbr&c$avg_vln&d&c aggregateby&l&davg&l$vrn&r&cavg&l$vbn&r&cavg&l$vyn&r&cavg&l$vry&r&cavg&l$vyb&r&cavg&l$vbr&r&cavg&l$vln&r&d&c &dcal_1hour&d&cseries&c0&c$ts_begin_time&c $ts_end_time&r ::timeseries&ldec_voltage&r&r',
+    tsprimarykey='1' 
+  );
+
+create view "etools_dev".evt_hourwisevoltage (meterid,ts,avg_vrn,avg_vbn,avg_vyn,avg_vry,avg_vyb,avg_vbr,avg_vln) as 
+  select x0.meterid ,x0.ts ,x0.avg_vrn ,x0.avg_vbn ,x0.avg_vyn 
+    ,x0.avg_vry ,x0.avg_vyb ,x0.avg_vbr ,x0.avg_vln from "etools_dev"
+    .hourwisevoltage x0 ;
+
+
+create row type "Administrator".dec_current 
+	(
+	ts datetime year to fraction(5),
+	avg_ir float,
+	avg_iy float,
+	avg_ib float,
+	avg_i float
+	);
+
+
+create table "etools_dev".hourwisecurrent 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    avg_ir float,
+    avg_iy float,
+    avg_ib float,
+    avg_i float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='5',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='dec_current',
+    tsexpression='apply&l&d$avg_ir&c$avg_iy&c$avg_ib&c$avg_i&d&c aggregateby&l&davg&l$ir&r&cavg&l$iy&r&cavg&l$ib&r&cavg&l$i&r&d&c &dcal_1hour&d&cseries&c0&c$ts_begin_time&c $ts_end_time&r ::timeseries&ldec_current&r&r',
+    tsprimarykey='1' 
+  );
+
+create view "etools_dev".evt_hourwisecurrent (meterid,ts,avg_ir,avg_iy,avg_ib,avg_i) as 
+  select x0.meterid ,x0.ts ,x0.avg_ir ,x0.avg_iy ,x0.avg_ib ,x0.avg_i 
+    from "etools_dev".hourwisecurrent x0 ;
+
+create row type "Administrator".reportqueryparam 
+	(
+	tstamp datetime year to fraction(5),
+	param float
+	);
+
+create row type "Administrator".rtprofileloadsurveyfloat 
+	(
+	ts datetime year to fraction(5),
+	vll float,
+	i float,
+	kw float,
+	kvar float,
+	kva float,
+	hz float,
+	vry float,
+	vyb float,
+	vbr float,
+	vrn float,
+	vbn float,
+	vyn float,
+	vln float,
+	ir float,
+	iy float,
+	ib float,
+	kwr float,
+	kwy float,
+	kwb float,
+	kva_r float,
+	kvay float,
+	kvab float,
+	kwh_exp float,
+	kwh_imp float,
+	kvah_exp float,
+	kvah_imp float,
+	kvarh_lag_imp float,
+	kvarh_lead_imp float,
+	kvarh_lag_exp float,
+	kvarh_lead_exp float,
+	kvarh_exp_103 float,
+	kvarh_exp_97 float,
+	kvarh_imp_103 float,
+	kvarh_imp_97 float,
+	day_kwh_exp float,
+	day_kwh_imp float,
+	cblk_kwh_exp float,
+	cblk_kwh_imp float,
+	kw_demand float,
+	kva_demand float,
+	kw_max_demand float,
+	kva_max_demand float,
+	cblk_avg_mw float,
+	cblk_avg_hz float,
+	potime float,
+	lotime float,
+	runhrimp float,
+	runhrexp float
+	);
+
+create table "etools_dev".evt_loadsurvey 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    vll float,
+    i float,
+    kw float,
+    kvar float,
+    kva float,
+    hz float,
+    vry float,
+    vyb float,
+    vbr float,
+    vrn float,
+    vbn float,
+    vyn float,
+    vln float,
+    ir float,
+    iy float,
+    ib float,
+    kwr float,
+    kwy float,
+    kwb float,
+    kva_r float,
+    kvay float,
+    kvab float,
+    kwh_exp float,
+    kwh_imp float,
+    kvah_exp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    kvarh_lag_exp float,
+    kvarh_lead_exp float,
+    kvarh_exp_103 float,
+    kvarh_exp_97 float,
+    kvarh_imp_103 float,
+    kvarh_imp_97 float,
+    day_kwh_exp float,
+    day_kwh_imp float,
+    cblk_kwh_exp float,
+    cblk_kwh_imp float,
+    kw_demand float,
+    kva_demand float,
+    kw_max_demand float,
+    kva_max_demand float,
+    cblk_avg_mw float,
+    cblk_avg_hz float,
+    potime float,
+    lotime float,
+    runhrimp float,
+    runhrexp float
+  ) using ts_vtam
+  (
+    basetabname='tsinstancedatalogs',
+    tsfirstcolidx='1',
+    tscolcnt='49',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtprofileloadsurveyfloat',
+    tsexpression='aggregateby("avg($vll),avg($i),avg($kw), avg($kvar),avg($kva),avg($hz),avg($vry), avg($vyb),avg($vbr),avg($vrn), avg($vbn), avg($vyn),avg($vln),avg($ir), avg($iy),avg($ib),avg($kwr), avg($kwy), avg($kwb),avg($kva_r),avg($kvay),avg($kvab), max($kwh_exp),last($kwh_imp),last($kvah_exp), last($kvah_imp),last($kvarh_lag_imp), last($kvarh_lead_imp),last($kvarh_lag_exp), last($kvarh_lead_exp),last($kvarh_exp_103), last($kvarh_exp_97),last($kvarh_imp_103), last($kvarh_imp_97),last($day_kwh_exp), last($day_kwh_imp),last($cblk_kwh_exp), last($cblk_kwh_imp),last($kw_demand), last($kva_demand),last($kw_max_demand), last($kva_max_demand), last($cblk_avg_mw),last($cblk_avg_hz), last($potime),last($lotime),last($runhrimp),last($runhrexp)", "cal_15min", series,0,$ts_begin_time, $ts_end_time)',
+    tsprimarykey='1' 
+  );
+
+create table "etools_dev".evt_loadsurvey_modify 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    vll float,
+    i float,
+    kw float,
+    kvar float,
+    kva float,
+    hz float,
+    vry float,
+    vyb float,
+    vbr float,
+    vrn float,
+    vbn float,
+    vyn float,
+    vln float,
+    ir float,
+    iy float,
+    ib float,
+    kwr float,
+    kwy float,
+    kwb float,
+    kva_r float,
+    kvay float,
+    kvab float,
+    kwh_exp float,
+    kwh_imp float,
+    kvah_exp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    kvarh_lag_exp float,
+    kvarh_lead_exp float,
+    kvarh_exp_103 float,
+    kvarh_exp_97 float,
+    kvarh_imp_103 float,
+    kvarh_imp_97 float,
+    day_kwh_exp float,
+    day_kwh_imp float,
+    cblk_kwh_exp float,
+    cblk_kwh_imp float,
+    kw_demand float,
+    kva_demand float,
+    kw_max_demand float,
+    kva_max_demand float,
+    cblk_avg_mw float,
+    cblk_avg_hz float,
+    potime float,
+    lotime float,
+    runhrimp float,
+    runhrexp float
+  ) using ts_vtam
+  (
+    basetabname='tsinstancedatalogs',
+    tsfirstcolidx='1',
+    tscolcnt='49',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtprofileloadsurveyfloat',
+    tsexpression='aggregateby("avg($vll),avg($i),avg($kw), avg($kvar),avg($kva),avg($hz),avg($vry), avg($vyb),avg($vbr),avg($vrn), avg($vbn), avg($vyn),avg($vln),avg($ir), avg($iy),avg($ib),avg($kwr), avg($kwy), avg($kwb),avg($kva_r),avg($kvay),avg($kvab), max($kwh_exp),last($kwh_imp),last($kvah_exp), last($kvah_imp),last($kvarh_lag_imp), last($kvarh_lead_imp),last($kvarh_lag_exp), last($kvarh_lead_exp),last($kvarh_exp_103), last($kvarh_exp_97),last($kvarh_imp_103), last($kvarh_imp_97),last($day_kwh_exp), last($day_kwh_imp),last($lblk_kwh_exp), last($lblk_kwh_imp),last($kw_demand), last($kva_demand),last($kw_max_demand), last($kva_max_demand), last($lblk_avg_mw),last($lblk_avg_hz), last($potime),last($lotime),last($runhrimp),last($runhrexp)", "cal_15min", series,0,$ts_begin_time, $ts_end_time)',
+    tsprimarykey='1' 
+  );
+
+create row type "Administrator".seventeen_float 
+	(
+	ts datetime year to fraction(5),
+	t_vrn float,
+	t_vbn float,
+	t_vyn float,
+	t_vln float,
+	t_vry float,
+	t_vyb float,
+	t_vbr float,
+	t_vll float,
+	t_ir float,
+	t_iy float,
+	t_ib float,
+	t_i float,
+	t_pf float,
+	t_kw float,
+	t_kvar float,
+	t_kva float,
+	t_hz float
+	);
+
+create table "etools_dev".evt_30secdatalogs 
+  (
+    meterid int8 not null ,
+    ts datetime year to fraction(5),
+    t_vrn float,
+    t_vbn float,
+    t_vyn float,
+    t_vln float,
+    t_vry float,
+    t_vyb float,
+    t_vbr float,
+    t_vll float,
+    t_ir float,
+    t_iy float,
+    t_ib float,
+    t_i float,
+    t_pf float,
+    t_kw float,
+    t_kvar float,
+    t_kva float,
+    t_hz float
+  ) using ts_vtam
+  (
+    basetabname='tsinstancedatalogs',
+    tsfirstcolidx='1',
+    tscolcnt='18',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='seventeen_float',
+    tsexpression='apply&l&d$vrn&c$vbn&c$vyn&c$vln&c$vry&c$vyb&c$vbr&c$vll&c $ir&c$iy&c$ib&c$i&c$pf&c$kw&c$kvar&c$kva&c$hz&d&c$ts_begin_time&c$ts_end_time&c applycalendar&lseries&c&dcal_30sec&d&r&r',
+    tsprimarykey='1' 
+  );
+                                                            
+create row type "Administrator".mqueryconsumption 
+	(
+	tstamp datetime year to fraction(5),
+	kwh_exp float,
+	kwh_imp float,
+	kvah_exp float,
+	kvah_imp float,
+	kvarh_lag_exp float,
+	kvarh_lag_imp float,
+	kvarh_lead_exp float,
+	kvarh_lead_imp float
+	);                 
+                                              
+  
+create table "etools_dev".mquery_consumption 
+  (
+    meterid int8 not null ,
+    tstamp datetime year to fraction(5),
+    kwh_exp float,
+    kwh_imp float,
+    kvah_exp float,
+    kvah_imp float,
+    kvarh_lag_exp float,
+    kvarh_lag_imp float,
+    kvarh_lead_exp float,
+    kvarh_lead_imp float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadSurveyLogs',
+    tsfirstcolidx='1',
+    tscolcnt='9',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='mqueryconsumption',
+    tsexpression='apply&l&d$kwh_exp-tsprevious&l$kwh_exp&r&c$kwh_imp-tsprevious&l$kwh_imp&r&c$kvah_exp-tsprevious&l$kvah_exp&r&c$kvah_imp-tsprevious&l$kvah_imp&r&c$kvarh_lag_exp- tsprevious&l$kvarh_lag_exp&r&c$kvarh_lag_imp-tsprevious&l$kvarh_lag_imp&r&c$kvarh_lead_exp-tsprevious&l$kvarh_lead_exp&r&c$kvarh_lead_imp-tsprevious&l$kvarh_lead_imp&r&d&c aggregateby&l&dfirst&l$kWh_Exp&r&cfirst&l$kWh_Imp&r&cfirst&l$kVAh_Exp&r&cfirst&l$kVAh_Imp&r&cfirst&l$kVARh_Lag_Exp&r&cfirst&l$kVARh_Lag_Imp&r&cfirst&l$KVARh_Lead_exp&r&cfirst&l$kVARh_Lead_Imp&r&d&c&dcal_15min&d&cseries&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lmqueryconsumption&r&r',
+    tsprimarykey='1' 
+  );
+
+                                  
+create view "etools_dev".evt_mquery_consumption_b (meterid,tstamp,kwh_exp,kwh_imp,kvah_exp,kvah_imp,kvarh_lag_exp,kvarh_lag_imp,kvarh_lead_exp,kvarh_lead_imp) as 
+  select x0.meterid ,x0.tstamp ,NVL (x0.kwh_exp ,0 ),NVL (x0.kwh_imp 
+    ,0 ),NVL (x0.kvah_exp ,0 ),NVL (x0.kvah_imp ,0 ),NVL (x0.kvarh_lag_exp 
+    ,0 ),NVL (x0.kvarh_lag_imp ,0 ),NVL (x0.kvarh_lead_exp ,0 
+    ),NVL (x0.kvarh_lead_imp ,0 )from "etools_dev".mquery_consumption 
+    x0 ;
+
+
+
+
+
+------------------------------------------------------------------ 
+
+create table "etools_dev".consumercategory 
+  (
+    categoryrecid serial8 not null ,
+    categoryid varchar(15) not null ,
+    categorydescription varchar(100) not null ,
+    categorytariffid varchar(15),
+    categoryisdeleted smallint,
+    categoryfixedstatus integer,
+    primary key (categoryrecid) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".consumer 
+  (
+    id serial8 not null ,
+    masterid varchar(30) not null ,
+    firstname varchar(150),
+    middlename varchar(150),
+    lastname varchar(150),
+    billingunitid varchar(15),
+    classid varchar(15),
+    categoryid int8 not null ,
+    userid varchar(15),
+    gender varchar(15),
+    maritalstatus varchar(15),
+    dob datetime year to fraction(5),
+    address1 varchar(150),
+    address2 varchar(150),
+    city varchar(150),
+    state varchar(150),
+    country varchar(150),
+    pincode varchar(15),
+    landline varchar(25),
+    mobile varchar(15),
+    emailid varchar(150),
+    education varchar(150),
+    incomerange varchar(150),
+    occupation varchar(150),
+    companyname varchar(150),
+    contactperson varchar(150),
+    incorporationdate datetime year to fraction(5),
+    incorporationtype varchar(150),
+    isdeleted smallint,
+    type varchar(15),
+    primary key (id) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".consumer add constraint (foreign key (categoryid)  references "etools_dev".consumercategory);
+
+done here 1
+
+create table "etools_dev".msttou 
+  (
+    tourecid serial8 not null ,
+    touid varchar(15) not null ,
+    touconsumercatid varchar(45),
+    toumaxslots integer,
+    toudescription varchar(150),
+    touisdeleted smallint,
+    primary key (tourecid) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".msttariff 
+  (
+    trfrecid serial8 not null ,
+    trfid varchar(15) not null ,
+    trftouid varchar(15),
+    trfschemename varchar(150),
+    trfutilityid varchar(15),
+    trffromdate datetime year to fraction(5),
+    trftodate datetime year to fraction(5),
+    trfisdeleted smallint,
+    trftouslotid varchar(15),
+    trfrevision integer,
+    primary key (trfrecid) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".consumercategorytariff 
+  (
+    recid serial8 not null ,
+    categoryid varchar(15),
+    tariffid varchar(15),
+    fromdate datetime year to fraction(5),
+    todate datetime year to fraction(5),
+    isdeleted smallint,
+    primary key (recid) 
+  ) with CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".consumercategorytariff add constraint (foreign key (categoryid)  references "etools_dev".consumercategory);
+alter table "etools_dev".consumercategorytariff add constraint (foreign key (tariffid)  references "etools_dev".consumercategory);
+
+create table "etools_dev".consumermeterrelation 
+  (
+    cmrrecid serial8 not null ,
+    cmrconsumerid varchar(30) not null ,
+    cmrconsumermasterid varchar(30),
+    cmrmeterid int8,
+    cmrrelationshipstartdate datetime year to fraction(5),
+    cmrrelationshipenddate datetime year to fraction(5),
+    cmrservicestartdate datetime year to fraction(5),
+    cmrserviceenddate datetime year to fraction(5),
+    isdeleted smallint,
+    tagforsubmeter smallint,
+    cmrparentmeterid varchar(45),
+    cmrcurrconnloadkw float,
+    cmdcurrcontractdemandkva float,
+    primary key (cmrrecid) 
+  ) with  CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+alter table "etools_dev".consumermeterrelation add constraint (foreign key (cmrconsumerid)  references "etools_dev".consumer);
+alter table "etools_dev".consumermeterrelation add constraint (foreign key (cmrmeterid)  references "etools_dev".meters);
+
+
+
+create table "etools_dev".mstholiday 
+  (
+    holrecid serial8 not null ,
+    holid varchar(15),
+    holdescription varchar(150),
+    holdate datetime year to fraction(5),
+    hollegaldate datetime year to fraction(5),
+    holisdeleted smallint,
+    primary key (holrecid) 
+  ) with  CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".mstdtr 
+  (
+    dtrrecid serial8 not null ,
+    dtrid varchar(15) not null ,
+    dtrdescription varchar(45),
+    dtrratedvoltage varchar(45),
+    dtrratedpower varchar(45),
+    dtrconnectedload varchar(45),
+    dtrphase integer,
+    dtrmanufacturerid varchar(45),
+    dtrinstallarea varchar(200),
+    dtrserialno varchar(45),
+    dtrfeederid varchar(45),
+    dtrname varchar(150),
+    dtrisdeleted smallint,
+    primary key (dtrrecid) 
+  ) with  CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".metertarif 
+  (
+    id serial8 not null ,
+    tarifid varchar(45),
+    meterid int8,
+    startdate datetime year to fraction(5),
+    enddate datetime year to fraction(5),
+    isdeleted smallint,
+    primary key (id) 
+  ) with  CRCOLS  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".inputdata 
+  (
+    ipno serial8 not null ,
+    paraname varchar(50),
+    paravalue float,
+    paraunit varchar(50),
+    query varchar(150),
+    condition varchar(150),
+    isdeleted smallint,
+    primary key (ipno) 
+  )  with  CRCOLS in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".mstconsumerclass 
+  (
+    cclassrecid serial8 not null ,
+    cclassid varchar(15) not null ,
+    cclassdescription varchar(150),
+    cclassconsumergroup varchar(45),
+    cclassisdeleted smallint,
+    primary key (cclassrecid) 
+  ) with crcols  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".msttariffdetail 
+  (
+    tdlrecid serial8 not null ,
+    tdltrfid varchar(15) not null ,
+    tdlslotno varchar(15),
+    tdlunitsfrom float,
+    tdlunitsto float,
+    tdltarifffcperkva float,
+    tdltariffecperkwh float,
+    tdlgovtsubsidyfcperkva float,
+    tdigovtsubsidyecperkwh float,
+    tdinetratefcperkva float,
+    tdinetrateecperkva float,
+    tdlfromdate datetime year to fraction(5),
+    tdltodate datetime year to fraction(5),
+    tdiisdeleted smallint,
+    tdltariffwcperkwh float,
+    tdlrevision integer,
+    tdlregassetchg float,
+    tdlfueladjchg float,
+    tdlelectricityduty float,
+    tdlpfincentive float,
+    tdlsalestax float,
+    tdlpmtdisc float,
+    primary key (tdlrecid) 
+  ) with  CRCOLS  in datadbs1  extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".msttarifftoudetail 
+  (
+    ttdlrecid serial8 not null ,
+    ttdltrfid varchar(15) not null ,
+    ttdltouslotid int8,
+    ttdladditionalcharge float,
+    ttdlisdeleted smallint,
+    ttdrevision integer,
+    primary key (ttdlrecid) 
+  )  with  CRCOLS extent size 32 next size 32 lock mode row;
+
+
+create table "etools_dev".touslot 
+  (
+    tsrecid serial8 not null ,
+    tsid varchar(15),
+    tstouid varchar(15) not null ,
+    tsslotno text,
+    tsslotstart text,
+    tsslotend varchar(45),
+    tsmaxdemandlimit text,
+    tsisdeleted smallint,
+    ts varchar(45),
+    primary key (tsrecid) 
+  )  with  CRCOLS extent size 32 next size 32 lock mode row;
+
+create table "etools_dev".eventlog 
+  (
+    elrecid serial8 not null ,
+    elmeterid varchar(20) not null ,
+    elmetercommid integer not null ,
+    eldcuid varchar(15) not null ,
+    eldcucommid integer not null ,
+    eltimestamp datetime year to fraction(5),
+    eleventid integer not null ,
+    eleventtype varchar(2),
+    elv float,
+    eli float,
+    elload float,
+    elvrn float,
+    elvyn float,
+    elvbn float,
+    elirn float,
+    eliyn float,
+    elibn float,
+    elkvarhlag float,
+    elkvarhlead float,
+    elkvah float,
+    primary key (elrecid) 
+  )  with  CRCOLS  in datadbs1  extent size 32 next size 32 lock mode row;
+
+
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','REPORT_DISPLAY','Format','dd/MM/yyyy HH:mm:ss');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','CurrentDateTimeField','Format','Do MMM YYYY | h:mm:ss A zz');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','ServerDate','Format','mm/dd/yy');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','DateField','Format','dd/mm/yy');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','DateFieldcs','Format','dd/MM/yyyy hh:mm tt');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','DatabaseDate','Format','YYYY-MM-DDTHH:mm:ss');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','Phase','Phase','Three');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','Phase','Phase','Single');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','Gender','Gender','Male');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','Gender','Gender','Female');
+
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','MaritalStatus','MaritalStatus','Single');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','MaritalStatus','MaritalStatus','Married');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','MaritalStatus','MaritalStatus','Divorced');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','MaritalStatus','MaritalStatus','Widowed');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Global','MaritalStatus','MaritalStatus','Separated');
+
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('CommunicationType','CommunicationType','TCP','1');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('CommunicationType','CommunicationType','Serial','2');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('CommunicationType','CommunicationType','Modbus/TCP','3');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue,rfu1) values('QueryView','Parameter','LodSurvey','loadsurveylogs','1,17');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue,rfu1) values('QueryView','Parameter','LodSurvey','loadsurveylogs','1,17');
+
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','v yb','vyb');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','v ry','vry');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','v rn','vrn');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','i b','ib');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','i r','ir');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','i y','iy');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Hz','hz');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kw','kw');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kvah exp','kvah_exp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kvah imp','kvah_imp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kvarh Lead Imp','kvarh_lead_imp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kvarh Lead Exp','kvarh_lead_exp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kvarh Lag imp','kvarh_lag_imp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kwh Imp','kwh_imp');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('HistoryData','Parameter','Kwh Exp','kwh_exp');
+
+====== Normal Wise ===
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Energy Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Volt Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Power Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Pf Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Frequency Scale','Scaling','Energy Scale','Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Time Scale','Scaling','Time Scale','Time Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Current Scale','Scaling','Current Scale','Current Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('AVGHZ Scale','Scaling','AVGHZ Scale','AVGHZ Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('AVGMW Scale','Scaling','AVGMW Scale','AVGMW Scale','','');
+====== Block Wise ===
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Energy Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Energy Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Volt Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Block Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Power Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Pf Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Frequency Scale','Scaling','Block Energy Scale','Block Energy Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Time Scale','Scaling','Block Time Scale','Block Time Scale','','');
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2) values('Block Current Scale','Scaling','Block Current Scale','Block Current Scale','','');
+
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('dcsgStage','Parameter','Stage 1','1');
+insert into prmglobal(prmmodule,prmunit,prmidentifier,prmvalue) values('Locationfilter','Parameter',1,'Bhandup');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('ConsumptionType','ConsumptionType','Kwh_Imp','Kwh_Imp','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('ConsumptionType','ConsumptionType','Kwh_Exp','Kwh_Exp','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','I','i-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','IR','ir-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','IB','ib-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','IY','iy-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','KW','kw-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','KVA','kva-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','HZ','hz-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','VBN','vbn-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','VLN','vln-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','VLL','vll-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','VYN','vyn-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','KWH_EXP','KWH_EXP-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','KWH_IMP','KWH_IMP-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','Con_KWH_IMP','KWH_IMP-evt_kwh_imp_con_1','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('GroupDisplay','Parameter','Con_KWH_Exp','KWH_exp-evt_kwh_exp_con_1','','');
+
+===========Instance Data====
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','I','i-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','IR','ir-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','IB','ib-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','IY','iy-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','KW','kw-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','KVA','kva-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','HZ','hz-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','PF','pf-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','VBN','vbn-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','VLN','vln-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','VLL','vll-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','VYN','vyn-instancedatalogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','KWH_EXP','KWH_EXP-instancedatalogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','KWH_IMP','KWH_IMP-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','cblk avg mw','cblk_avg_mw-instancedatalogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('instantaneous','Parameter','cblk avg hz','cblk_avg_hz-instancedatalogs','','');
+
+===========block Display===
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','I','i-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','IR','ir-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','IB','ib-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','IY','iy-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','KW','kw-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','KVA','kva-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','HZ','hz-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','VBN','vbn-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','VLN','vln-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','VLL','vll-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','VYN','vyn-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','KWH_EXP','KWH_EXP-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','KWH_IMP','KWH_IMP-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','Con_KWH_IMP','KWH_IMP-evt_kwh_imp_con_1-KWH_IMP_Con','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('BlockDisplay','Parameter','Con_KWH_Exp','KWH_exp-evt_kwh_exp_con_1-KWH_EXP_Con','','');
+
+========= Hour Display==
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','I','i-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','IR','ir-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','IB','ib-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','IY','iy-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','KW','kw-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','KVA','kva-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','HZ','hz-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','VBN','vbn-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','VLN','vln-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','VLL','vll-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','VYN','vyn-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','KWH_EXP','KWH_EXP-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','KWH_IMP','KWH_IMP-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','Con_KWH_IMP','KWH_IMP-evt_kwh_imp_con_3-KWH_IMP_Con','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('HourDisplay','Parameter','Con_KWH_Exp','KWH_exp-evt_kwh_exp_con_3-KWH_EXP_Con','','');
+
+==== DayDisplay===
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','I','i-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','IR','ir-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','IB','ib-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','IY','iy-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','KW','kw-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','KVA','kva-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','HZ','hz-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','VBN','vbn-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','VLN','vln-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','VLL','vll-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','VYN','vyn-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','KWH_EXP','KWH_EXP-loadsurveylogs','',''); 
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','KWH_IMP','KWH_IMP-loadsurveylogs','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','Con_KWH_IMP','KWH_IMP-evt_kwh_imp_con_5-KWH_IMP_Con','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('DayDisplay','Parameter','Con_KWH_Exp','KWH_exp-evt_kwh_exp_con_5-KWH_EXP_Con','','');
+
+
+
+
+
+
+

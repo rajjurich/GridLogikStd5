@@ -1,0 +1,2277 @@
+﻿@model GridLogik.ViewModels.ProfileLogViewModel
+
+
+@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+    //Layout = null;
+}
+<link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/Content/js/bootstrap-multiselect.js" type="text/javascript"></script>
+<style>
+    .input-group .form-control {
+        z-index: 999;
+    }
+</style>
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-control {
+        height: 32px !important;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    .panel-default {
+        border-color: #ddd;
+    }
+
+        .panel-default > .panel-heading {
+            color: #fff;
+            background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F));
+            background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%);
+            border-color: #d1d1d1;
+        }
+
+            .panel-default > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #ddd;
+            }
+
+        .panel-default > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #ddd;
+        }
+
+    .black-bg, .black-bg table tr {
+        background: #2f2f2f;
+        color: #f7943c;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .black-bg {
+        padding: 0;
+    }
+
+        .black-bg table th {
+            background: #0f0f0f;
+            text-align: center;
+            color: #1ef200;
+        }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .text-orange {
+        color: #f7943c;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .dashboard-panel-body-box {
+        /*display: block !important;*/
+    }
+
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+
+    .class-tbl-remove tr td {
+        background-color: none !important;
+        color: #000 !important;
+    }
+
+    .data {
+        background: #0f0f0f !important;
+        color: #f7943c;
+        padding: 0px;
+        font-weight: bold;
+    }
+
+    .value {
+        color: #00FF00;
+        padding: 0px;
+        background: #2f2f2f !important;
+    }
+
+    .p0 {
+        padding: 0 !important;
+    }
+
+        .p0 table {
+            margin-bottom: 0 !important;
+        }
+
+    .radio-inline input[type="radio"] {
+        margin-top: 3px !important;
+    }
+</style>
+
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    div.dt-buttons {
+        position: relative;
+        float: left;
+        /*bottom: -823px;
+                        left: 211px;*/
+    }
+
+    .dt-buttons .buttons-pdf {
+        color: #fff;
+        background-color: #d2322d !important;
+        background-image: none !important;
+        border-color: #ac2925;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.35;
+        border-radius: 2px;
+        margin-left: 4px;
+    }
+</style>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script src="~/Scripts/graph_diglog.js"></script>
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.table2excel.js"></script>
+@*<link href="~/Content/css/jqx.base.css" rel="stylesheet" />*@
+@*<script src="~/Scripts/jqxcore.js"></script>
+    <script src="~/Scripts/jqxbuttons.js"></script>
+    <script src="~/Scripts/jqxlistbox.js"></script>
+    <script src="~/Scripts/jqxscrollbar.js"></script>
+    <script src="~/Scripts/jqxdragdrop.js"></script>*@
+@*<script src="~/Scripts/jquery.dataTables.js"></script>*@
+@*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+<script src="~/Scripts/Datatablejs/jquery.dataTables.min.js"></script>
+@*<script src="~/Scripts/dataTables.colReorder.js"></script>*@
+<script src="~/Scripts/dataTables.buttons.js"></script>
+<script src="~/Scripts/pdfmake.js"></script>
+<script src="~/Scripts/vfs_fonts.js"></script>
+<script src="~/Scripts/buttons.html5.js"></script>
+<script type="text/javascript">
+    var selectedData = new Array();
+    var formatedDate = 0;
+    var responseData = 0;
+    var initialformatedDate = 0;
+    var initialbackresponseData = 0;
+    var isInstanceData = 1;
+    var isLineGraph = 0;
+    var series = [];
+    var chart1;
+    var box;
+    var pvoltage = []; // create an empty array
+    var lvoltage = []; // create an empty array
+    var pcurrent = []; // create an empty array
+    var kw = []; // create an empty array
+    var kvar = []; // create an empty array
+    var kva = []; // create an empty array
+    var pf = []; // create an empty array
+    var hz = []; // create an empty array
+    var ph = [];
+    var opningtype = "na";
+    var categories_data_OT = new Array();
+    var categories_data_PH = new Array();
+    $(document).ready(function () {
+
+        $(function () {
+            $('#groupList').multiselect({
+                includeSelectAllOption: true,
+
+                onDropdownHide: function (event) {
+                    FillMeter(jQuery('#availablePositions').val());
+                }
+            });
+
+
+            $('#meterList').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    var interval = $('#ddlInterval option:selected').text();
+                    FillParameter(interval);
+                }
+            });
+
+            $("#ddlInterval").change(function () {
+                var interval = $('#ddlInterval option:selected').text();
+                if (interval == 'instantaneous') {
+                    document.getElementById("instanceDataDiv").style.display = "block";
+                    document.getElementById("instanceGraphDiv").style.display = "block";
+                    document.getElementById("queryDataDiv").style.display = "none";
+                }
+                else {
+                    document.getElementById("instanceDataDiv").style.display = "none";
+                    document.getElementById("instanceGraphDiv").style.display = "none";
+                    document.getElementById("queryDataDiv").style.display = "block";
+                }
+                FillParameter(interval);
+            });
+            $("#chart_dialog").dialog({
+                autoOpen: false,
+                resizable: false,
+                width: '85%',
+                modal: true,
+                draggable: true,
+                open: function (event, ui) {
+                },
+            });
+            $('#ddlQuery').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    var interval = $('#ddlInterval option:selected').text();
+                    if (interval == 'instantaneous') {
+                        document.getElementById("instanceDataDiv").style.display = "block";
+                        document.getElementById("instanceGraphDiv").style.display = "block";
+                        document.getElementById("queryDataDiv").style.display = "none";
+                        $("#chart_type").show();
+                        FillTable(jQuery('#availablePositions').val());
+                        //ABTMeterInstanceData();
+                        ABTMeterDetails();
+                        ABTMeterDetailsForBarchart();
+                    }
+                }
+
+            });
+            var DateFormat = $("#DateField").val();
+            $("#FromDate").datepicker({
+                dateFormat: $("#DateField").val(),
+                changeMonth: true,
+                changeYear: true,
+                maxDate: '0',
+                onSelect: function (selected) {
+                    HideQueryData();
+
+                    var dt = $("#FromDate").datepicker('getDate');
+                    dt.setDate(dt.getDate() + 30);
+                    var currentDt = $("#CurrentDate").datepicker('getDate');
+                    if (dt > currentDt) {
+                        currentDt.setDate(currentDt.getDate() + 1);
+                        dt = currentDt;
+                    }
+
+                    $("#ToDate").datepicker("option", "minDate", selected);
+                    $("#ToDate").datepicker("option", "maxDate", dt);
+
+                    //var Todate = GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val());
+                    //var currdate = new Date();
+                    //var dt = new Date(Todate);
+                    //var dt1 = new Date(Todate);
+                    //dt.setDate(dt.getDate());
+                    //dt1.setDate(dt1.getDate() + 1);
+                    //$("#ToDate").datepicker("setDate", dt);
+                    //$("#ToDate").datepicker("option", "minDate", dt);
+                    //$("#ToDate").datepicker("option", "maxDate", dt1.getDate() + 1);
+
+                }
+            }).datepicker('setDate', new Date());
+            $("#ToDate").datepicker({
+                dateFormat: $("#DateField").val(),
+                changeMonth: true,
+                changeYear: true,
+                //  minDate: '0',
+                //maxDate: '+1D',
+                onSelect: function (selected) {
+                    HideQueryData();
+                }
+            }).datepicker('setDate', new Date());
+
+            function FillParameter(interval) {
+
+                //var grpId1 = "";
+                //var selected = $("#meterList option:selected");
+                //selected.each(function () {
+                //    if (grpId1 == '')
+                //        grpId1 += $(this).val();
+                //    else
+                //        grpId1 += "^" + $(this).val();
+                //});
+
+                //var ParameterList = "";
+                //if (grpId1 != '') {
+
+                //    var columns = ["vrn", "vbn", "vyn", "vln", "vry", "vyb", "vbr", "vll", "ir", "iy", "ib", "i", "pf", "kw", "kvar", "kva", "hz", "pfr", "pfy", "pfb",
+                //        "kwr", "kwy", "kwb", "kvarr", "kvary", "kvarb", "kva_r", "kvay", "kvab", "kw_demand", "kvar_demand", "kva_demand", "kw_max_demand", "kvar_max_demand",
+                //        "kva_max_demand", "kwh_exp", "kwh_imp", "kwh_imp_raw", "kvah_exp", "kvah_imp", "kvarh_lag_imp", "kvarh_lead_imp", "kvarh_lag_exp", "kvarh_lead_exp",
+                //        "kvarh_exp_103", "kvarh_exp_97", "kvarh_imp_103", "kvarh_imp_97", "day_kwh_exp", "day_kwh_imp", "cblk_kwh_exp", "cblk_kwh_imp", "cblk_kvarh_lag_imp",
+                //        "cblk_kvarh_lead_imp", "cblk_kvarh_lag_exp", "cblk_kvarh_lead_exp", "cblk_avg_mw", "cblk_avg_hz", "lblk_timestampid", "lblk_avg_mw", "lblk_avg_hz", "lblk_kwh_exp",
+                //        "lblk_kwh_imp", "lblk_kvah_exp", "lblk_kvah_imp", "lblk_kvarh_lag_imp", "lblk_kvarh_lead_imp", "lblk_kvarh_lag_exp", "lblk_kvarh_lead_exp", "lblk_kvarh_exp_103",
+                //        "lblk_kvarh_exp_97", "lblk_kvarh_imp_103", "lblk_kvarh_imp_97", "potime", "lotime", "kwh_netfloat"];
+
+                //    for (var x = 0; x < columns.length; x++) {
+                //        ParameterList += "<option value=" + columns[x] + ">" + columns[x] + "</option>";
+                //    }
+                //}
+                //else {
+
+                //    //alert("Please select atleast one Meter", '', false, 'E')
+                //    //return;
+                //}
+
+
+                //$("#ddlQuery").html(ParameterList).show();
+                //$("#ddlQuery").multiselect('rebuild');
+
+
+                $.ajax({
+                    type: 'GET',
+                    contentType: "application/json;charset=utf-8",
+                    url: BaseAddress + "prmglobal/GetIdentifiersOnModuleNew/" + interval,
+                    dataType: "json",
+                    success: function (data) {
+                        var markup = "";
+                        $("#ddlQuery").empty();
+                        //markup = "<option value=''>Select Meters</option>";
+                        $.each(data, function (val, text) {
+                            markup += "<option value=" + text.prmvalue + ">" + text.prmidentifier + "</option>";
+                        });
+                        $("#ddlQuery").html(markup);
+                        $("#ddlQuery").multiselect('rebuild');
+                        if (box) box.remove();
+                    },
+                    error: function (jqXHR) {
+                        if (box) box.remove();
+                    }
+
+                });
+
+
+            }
+        });
+        clearData();
+        HideQueryData();
+        function FillTable() {
+
+
+            $('#instancebody').empty();
+            $('#instanceHead').empty();
+
+            var selectedMeter = $("#meterList option:selected");
+            var SelectParameter = $("#ddlQuery option:selected");
+            var html;
+            var htmlhead = "";
+
+            SelectParameter.each(function () {
+                htmlhead += "<th>" + $(this).text() + " </th>"
+            });
+
+            selectedMeter.each(function () {
+                var Count = $(this).val();
+
+                html += "<tr id=" + $(this).val() + ">"
+                    + "<td>" + $(this).text() + "</td>"
+
+                SelectParameter.each(function () {
+                    html += "<td id=" + $(this).text() + Count + "> " + "0.00" + " </td>"
+
+                });
+                + "</tr>"
+            });
+
+            $('#instanceHead').append("<tr><th>Meter Name</th>" + htmlhead + "</tr>");
+            $('#instancebody').append(html);
+
+
+            //  ABTMeterDetails();
+            // setInterval(ABTMeterDetails, 6000);
+
+        }
+
+
+        function FillMeter() {
+
+            var selected = $("#groupList option:selected");
+            var grpId = "";
+            selected.each(function () {
+                if (grpId == '')
+                    grpId += $(this).val();
+                else
+                    grpId += "^" + $(this).val();
+            });
+
+            if (grpId == '') {
+                $('#meterList').html('');
+                $("#meterList").multiselect('rebuild');
+
+                $("#ddlQuery").html('');
+                $("#ddlQuery").multiselect('rebuild');
+
+                //alert("Please select atleast one group", '', false, 'E')
+                return;
+            }
+            else {
+
+                $.ajax({
+                    url: '@Url.Action("MetersBymultipleGroupID", "GroupView")',
+                    data: { id: grpId },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+
+                        var markup = "";
+                        //var markup = "<option value=''>Select Meters</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        }
+                        $("#meterList").html(markup).show();
+                        $("#meterList").multiselect('rebuild');
+
+                        if ('@Model.MeterId' != '0') {
+                            $("#meterList").val(@Model.MeterId);
+
+
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (reponse) {
+                        if (box) box.remove();
+                    }
+                });
+            }
+        }
+
+
+
+
+        $("#instancetable_type").hide();
+        //lineChart();
+
+        //BarChart(formatedDate, responseData);
+        $("#ddlQuery").change(function () {
+            HideQueryData();
+        });
+        $("#startTime").change(function () {
+            HideQueryData();
+        });
+        $("#endTime").change(function () {
+            HideQueryData();
+        });
+        $("#ddlInterval").change(function () {
+            HideQueryData();
+        });
+        $("#btnExport").on("click", function () {
+            Export();
+        });
+    });
+
+    function Export() {
+        if (ValidationData()) {
+
+            var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+            var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+
+            var fromTime = $('#startTime option:selected').text() == "select" ? "12:00 AM" : $('#startTime option:selected').text();
+            var ToTime = $('#endTime option:selected').text() == "select" ? "11:45 PM" : $('#endTime option:selected').text();
+            // var InvoiceMeterData = $("#groupList option:selected").text() + "~" + $("#meterList option:selected").text() + "$" + $("#meterList").val() + "~" + fromTime + "~" + ToTime + "~" + frmDate + "~" + Todate + "~" + $("#ddlInterval  option:selected").text() + "$" + $("#ddlInterval").val() + "~" + $('#ddlQuery').val();
+            var LabelValue = $("#groupList option:selected").text() + "~" + $("#meterList option:selected").text() + "~" + $("#ddlInterval  option:selected").text() + "~" + $('#ddlQuery option:selected').text();
+            var SelectValue = $("#meterList").val() + "~" + fromTime + "~" + ToTime + "~" + frmDate + "~" + Todate + "~" + $("#ddlInterval").val() + "~" + $('#ddlQuery').val();
+            document.getElementById('InputString').value = LabelValue;
+            document.getElementById('InputStr').value = SelectValue;
+        }
+    }
+
+    function HideQueryData() {
+        $('#divExcel').hide();
+        $("#tblquery_type").empty();
+    }
+    function clearData() {
+        pvoltage = []; // create an empty array
+        lvoltage = []; // create an empty array
+        pcurrent = []; // create an empty array
+        kw = []; // create an empty array
+        kvar = []; // create an empty array
+        kva = []; // create an empty array
+        pf = []; // create an empty array
+        hz = []; // create an empty array
+        ph = [];
+        opningtype = "na";
+        $('#chart_type').hide();
+        $('#instancetable_type').hide();
+        $('#query_type').hide();
+        $('#divExcel').hide();
+    }
+    function ABTMeterDetails() {
+
+        var selected = $("#meterList option:selected");
+        var MeterIdList = "";
+        selected.each(function () {
+            if (MeterIdList == '')
+                MeterIdList += $(this).val();
+            else
+                MeterIdList += "," + $(this).val();
+        });
+
+        var MeterIdList = {
+            "MeterString": MeterIdList
+
+        };
+
+        var selectedData = $("#ddlQuery option:selected");
+        //  var ParamTableList = "";
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "instancedata/instancedatabymeterids",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+
+                var jsonObj = response;
+                var G1Status = false;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+                    //KV=vll/1000, MW=kw/1000
+                    jsonObj.forEach(function (responseobj) {
+
+                        //selectedData.each(function () {
+                        //    $('#' + $(this).text() + responseobj.meterid).html((responseobj.vrn).toFixed(3));
+
+                        //});
+                        selectedData.each(function (s) {
+                            var data = selectedData[s].innerHTML;//innertext change to innerHTML
+                            $('#' + $(this).text() + responseobj.meterid).html(responseobj[data]);
+                            var dateToFrmat = responseobj.tstamp;
+                            var splitDate = (formatDate(dateToFrmat)).split(",")
+                            formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                            //responseData = responseobj[data];
+                            initialformatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                            //initialbackresponseData = responseobj[data];
+                            //BarChart(initialformatedDate, responseobj[data]);
+                        });
+                        //selectedData.each(function (s) {
+                        //    var dateToFrmat = responseobj.tstamp;
+                        //    var splitDate = (formatDate(dateToFrmat)).split(",")
+                        //    //formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                        //    //responseData = responseobj[data];
+                        //    initialformatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                        //    var data = selectedData[s].innerHTML;
+                        //    initialbackresponseData = responseobj[data];
+                        //    BarChart(initialformatedDate, initialbackresponseData);
+                        //});
+
+                        //$('#mw' + responseobj.meterid).html((responseobj.kw / 1000).toFixed(3));
+                        //$('#vrn' + responseobj.meterid).html(responseobj.vrn.toFixed(2));
+                        //$("#i1").html(((responseobj.ir + responseobj.iy + responseobj.ib).toFixed(2) / 3).toFixed(2));
+                        //$("#pf1").html(responseobj.pf);
+                        //$("#hz1").html(responseobj.hz);
+                        //$("#mn1").html(responseobj.meter_name);
+
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+    //function ABTMeterDetailsForBarchart() {
+    //    var selected = $("#meterList option:selected");
+    //    var MeterIdList = "";
+    //    var arr = [];
+    //    selected.each(function () {
+    //        if (MeterIdList == '')
+    //            MeterIdList += $(this).val();
+    //        else
+    //            MeterIdList += "," + $(this).val();
+    //    });
+
+    //    var MeterIdList = {
+    //        "MeterIdString": MeterIdList
+
+    //    };
+    //    //var MeterInstanceData = {
+    //    //    "MeterString": MeterIdList,
+    //    //    "backTime": 15
+    //    //};
+
+    //    var selectedData = $("#ddlQuery option:selected");
+    //    $.ajax({
+
+    //        type: "POST",
+    //        url: BaseAddress + "GetAllInstanceData/",
+    //        contentType: "application/json; charset=utf-8",
+    //        data: JSON.stringify(MeterIdList),
+    //        dataType: "json",
+
+    //        success: function (response, status, jqXHR) {
+    //            var jsonObj = response.Data.result;
+    //            if (jsonObj != undefined && jsonObj.length > 0) {
+    //                var data = [];
+    //                for (var i = 0; i < $("#meterList :selected").length; i++) {
+    //                    jsonObj.forEach(function (responseobj) {
+    //                        var ycoordinate = "responseobj." + $("#ddlQuery option:selected")[0].innerHTML;
+    //                        if (responseobj.meter_name == $("#meterList :selected")[i].text) {
+    //                            var dateToFrmat = responseobj.tstamp;
+    //                            var splitDate = (formatDate(dateToFrmat)).split(",")
+    //                            formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+    //                            data.push({
+    //                                x: formatedDate,
+    //                                y: eval(ycoordinate)
+    //                            });
+
+    //                        }
+    //                    });
+    //                    arr.push({ "name": $("#meterList :selected")[i].text, "data": data });
+    //                }
+    //            }
+    //            series = arr;
+    //            RenderBarChart(series);
+    //        },
+    //        error: function (xhr, status, error) {
+    //            if (box) box.remove();
+    //        }
+    //    });
+    //}
+    function ABTMeterDetailsForBarchart() {
+        $("#instancetable_type").empty();
+        var selected = $("#meterList option:selected");
+        var MeterIdList = "";
+        var arr = [];
+        selected.each(function () {
+            if (MeterIdList == '')
+                MeterIdList += $(this).val();
+            else
+                MeterIdList += "," + $(this).val();
+        });
+
+        var MeterIdList = {
+            "MeterString": MeterIdList
+
+        };
+
+        var selectedData = $("#ddlQuery option:selected");
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "instancedata/instancedatabymeterids",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                $.each(selectedData, function (key, value) {
+                    series = [];
+                    arr = [];
+                    var selectedValue = value.value;
+                    var data = [];
+                    var jsonObj = response;
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+
+                        for (var i = 0; i < $("#meterList :selected").length; i++) {
+                            jsonObj.forEach(function (responseobj) {
+                                var ycoordinate = "responseobj." + selectedValue;
+                                if (responseobj.meter_name == $("#meterList :selected")[i].text) {
+                                    var dateToFrmat = responseobj.tstamp;
+                                    var splitDate = (formatDate(dateToFrmat)).split(",")
+                                    formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                                    data.push({
+                                        x: formatedDate,
+                                        y: eval(ycoordinate)
+                                    });
+                                    arr.push({ "name": $("#meterList :selected")[i].text, "data": data });
+                                }
+                            });
+
+                        }
+                        series = arr;
+                        RenderBarChart(series, selectedValue, arr);
+                    }
+
+                });
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+    }
+    function ABTMeterDetailsForBarchart1(selectedMeter, selectedValue) {
+        var selected = $("#meterList option:selected");
+        var MeterIdList = "";
+        var arr = [];
+        selected.each(function () {
+            if (MeterIdList == '')
+                MeterIdList += $(this).val();
+            else
+                MeterIdList += "," + $(this).val();
+        });
+
+        var MeterIdList = {
+            "MeterString": MeterIdList
+
+        };
+
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "instancedata/instancedatabymeterids",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+
+
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+                    //var data = [];
+                    //for (var i = 0; i < $("#meterList :selected").length; i++) {
+                    jsonObj.forEach(function (responseobj) {
+                        var ycoordinate = "responseobj." + selectedValue;
+                        if (responseobj.meter_name == selectedMeter) {
+                            var dateToFrmat = responseobj.tstamp;
+                            var splitDate = (formatDate(dateToFrmat)).split(",")
+                            formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                            responseData = eval(ycoordinate);
+                            //data.push({
+                            //    x: formatedDate,
+                            //    y: eval(ycoordinate)
+                            //});
+
+                        }
+                    });
+                    //arr.push({ "name": $("#meterList :selected")[i].text, "data": data });
+                    //}
+                }
+
+                //series = arr;
+                //RenderBarChart(series);
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+    }
+    function ABTMeterInstanceData() {
+        var selected = $("#meterList option:selected");
+        var MeterIdList = "";
+        selected.each(function () {
+            if (MeterIdList == '')
+                MeterIdList += $(this).val();
+            else
+                MeterIdList += "," + $(this).val();
+        });
+
+        var MeterInstanceData = {
+            "MeterString": MeterIdList,
+            "backTime": 15
+        };
+        var selectedData = $("#ddlQuery option:selected");
+        //  var ParamTableList = "";
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "instancedata/instancedatabymeterids",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterInstanceData),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var jsonObj = response.Data.result;
+                var G1Status = false;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+                    //KV=vll/1000, MW=kw/1000
+                    jsonObj.forEach(function (responseobj) {
+                        //selectedData.each(function () {
+                        //    $('#' + $(this).text() + responseobj.meterid).html((responseobj.vrn).toFixed(3));
+
+                        //});
+                        var dateToFrmat = responseobj.tstamp;
+                        var splitDate = (formatDate(dateToFrmat)).split(",")
+                        formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                        //responseData = responseobj[data];
+                        //initialformatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                        //responseData = responseobj.kwh_imp;
+                        //selectedData.each(function (s) {
+                        //    var data = selectedData[s].innerHTML;//innertext change to innerHTML
+                        //    $('#' + $(this).text() + responseobj.meterid).html(responseobj[data]);
+                        //    var dateToFrmat = responseobj.tstamp;
+                        //    var splitDate = (formatDate(dateToFrmat)).split(",")
+                        //    formatedDate = Date.UTC(parseInt(splitDate[0]), parseInt(splitDate[1]), parseInt(splitDate[2]), parseInt(splitDate[3]), parseInt(splitDate[4]), parseInt(splitDate[5]));
+                        //    responseData = responseobj[data];
+                        //});
+
+                        //BarChart(initialformatedDate, initialbackresponseData);
+                        //$('#mw' + responseobj.meterid).html((responseobj.kw / 1000).toFixed(3));
+                        //$('#vrn' + responseobj.meterid).html(responseobj.vrn.toFixed(2));
+                        //$("#i1").html(((responseobj.ir + responseobj.iy + responseobj.ib).toFixed(2) / 3).toFixed(2));
+                        //$("#pf1").html(responseobj.pf);
+                        //$("#hz1").html(responseobj.hz);
+                        //$("#mn1").html(responseobj.meter_name);
+
+                    });
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+    }
+    function formatDate(dateToFrmat) {
+        var d = new Date(dateToFrmat),
+            hour = '' + d.getHours(),
+            minutes = '' + d.getMinutes(),
+            seconds = '' + d.getSeconds(),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+
+        return [year, month, day, hour, minutes, seconds].join(',');
+    }
+    function upperDipper(type, subtype) {
+        var chart = "chart_type";
+        var itable = "instancetable_type";
+        var query = "query_type";
+        if (type == "chart") {
+            if (subtype == 'o') {
+                $('#' + itable).hide();
+                $('#' + query).hide();
+                $('#' + chart).show();
+                opningtype = "chart";
+                isInstanceData = 1;
+                isLineGraph = 0;
+            } else {
+                $('#' + chart).hide();
+                opningtype = "na";
+            }
+        } else if (type == "instancetable") {
+            if (subtype == 'o') {
+                $('#' + itable).show();
+                $('#' + chart).hide();
+                $('#' + query).hide();
+                opningtype = "instancetable";
+                isInstanceData = 0;
+                isLineGraph = 1;
+            } else {
+                $('#' + itable).hide();
+                opningtype = "na";
+            }
+        }
+        else {
+            if (subtype == 'o') {
+                $('#' + query).show();
+                $('#' + itable).hide();
+                $('#' + chart).hide();
+                opningtype = "query";
+            } else {
+                $('#' + query).hide();
+                opningtype = "na";
+            }
+        }
+    }
+    function ValidationData() {
+
+        if ($("#groupList").val() == "0" || $("#groupList").val() == "" || $("#groupList").val() == null) {
+            alert('Please Select Meter Group', '', false, "M");
+            return false;
+        }
+        
+        if ($("#meterList").val() == "" || $("#meterList").val() == "" || $("#meterList").val() == null) {
+            alert('Please Select Meter', '', false, "M");
+            return false;
+        }
+        if ($("#ddlQuery").val() == "0" || $("#ddlQuery").val() == "" || $("#ddlQuery").val() == null) {
+            alert('Please Select Query', '', false, "M");
+            return false;
+        }
+        if ($("#FromDate").val() == "0" || $("#FromDate").val() == "") {
+            alert('Please Select From date', '', false, "M");
+            return false;
+        }
+        if ($("#ToDate").val() == "0" || $("#ToDate").val() == "") {
+            alert('Please Select To date', '', false, "M");
+            return false;
+        }
+        if ($("#ddlInterval").val() == "" || $("#ddlInterval").val() == "") {
+            alert('Please Select Interval', '', false, "M");
+            return false;
+        }
+        if ($("#ddlType").val() == "" || $("#ddlType").val() == "") {
+            alert('Please Select Type', '', false, "M");
+            return false;
+        }
+
+
+        return true;
+    }
+    function FillQueryData() {
+
+        var interval = $('#ddlInterval option:selected').text();
+        if (interval == 'instantaneous') {
+
+            if (box) box.remove();
+            alert('instantaneous data go to meter view', '', false, "M");
+            return false;
+        } else {
+            var opt = $("#ddlType option:selected").text();
+            document.getElementById("divExcel").style.display = "none";
+            if (ValidationData()) {
+                document.getElementById("instanceDataDiv").style.display = "none";
+                document.getElementById("instanceGraphDiv").style.display = "none";
+                document.getElementById("queryDataDiv").style.display = "block";
+                var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+                var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+                frmDate = $("#FromDate").val();
+                Todate = $("#ToDate").val();
+
+
+                var params = []
+                var queryList = $("#ddlQuery option:selected");
+                $.each(queryList, function (key, val) {
+                    params.push(val.value);
+                });
+
+                var meters = []
+                var meterList = $("#meterList option:selected");
+                $.each(meterList, function (key, val) {
+                    meters.push(val.value);
+                });
+
+                var InvoiceMeterData = {
+                    "Meters": meters, //Category code
+                    "GroupId": $("#groupList").val(),
+                    "StartTime": $('#startTime').val(), //date code
+                    "EndTime": $('#endTime').val(),
+                    "FromDate": frmDate, //date code
+                    "ToDate": Todate,
+                    "Interval": $("#ddlInterval").val(),
+                    "Params": params
+                };
+                $("#lblInterval").text($("#ddlInterval  option:selected").text());
+                $("#lblQuery").text($('#ddlQuery option:selected').text());
+                $("#lblMname").text($("#meterList option:selected").text());
+                var jdata = JSON.stringify(InvoiceMeterData);
+                opningtype = "query";
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                try {
+                    $.ajax({
+                        type: "POST",
+                        url: BaseAddress + "MeterView/CommonView",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(InvoiceMeterData),
+                        dataType: "json",
+                        success: function (response, status, jqXHR) {
+                            var jsonObj = response;
+                            var legendArray = new Array();
+                            var seriesOptions = "";
+                            var FinString = "";
+
+                            var categories_data = new Array();
+
+                            if (jsonObj != null && jsonObj.length > 0) {
+                                if ($('#ddlQuery').val() == "E") {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                } else if ($('#ddlQuery').val() == "P") {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toLowerCase() == "date" || key.toLowerCase() == "vll" || key.toLowerCase() == "i" || key.toLowerCase() == "pf" || key.toLowerCase() == "kw" || key.toLowerCase() == "kva" || key.toLowerCase() == "kvar" || key.toLowerCase() == "hz" || key.toLowerCase() == "vry" || key.toLowerCase() == "vyb" || key.toLowerCase() == "vbr" || key.toLowerCase() == "vrn" || key.toLowerCase() == "vyn" || key.toLowerCase() == "vbn" || key.toLowerCase() == "vln" || key.toLowerCase() == "ir" || key.toLowerCase() == "iy" || key.toLowerCase() == "ib" || key.toLowerCase() == "kwr" || key.toLowerCase() == "kwy" || key.toLowerCase() == "kwb" || key.toLowerCase() == "kvay" || key.toLowerCase() == "kvab" || key.toLowerCase() == "kw_demand" || key.toLowerCase() == "kva_demand")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                } else if ($('#ddlQuery').val() == "C") {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                } else if ($('#ddlQuery').val() == "CI") {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                } else if ($('#ddlQuery').val() == "CE") {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                }
+                                else {
+                                    $.each(jsonObj[0], function (key, value) {
+                                        legendArray[legendArray.length] = key;
+                                    })
+                                }
+
+
+                                $("#tblquery_type").empty();
+                                if (opt.toLowerCase() == "table") {
+                                    FinString = "<table id='tableProfileLog' class='table table-striped'  runat='server'>";
+                                    FinString += "<thead>";
+                                    FinString += "<tr>";
+                                    for (var j = 0; j < legendArray.length; j++) {
+                                        FinString += "<th class='tableth'>" + legendArray[j].toUpperCase().replace("_", " ") + "</th>"
+                                    }
+                                    FinString += "</tr>";
+                                    FinString += "</thead>";
+                                    FinString += "<tbody>";
+                                    $.each(jsonObj, function (index) {
+                                        FinString += "<tr>";
+                                        $.each(jsonObj[index], function (key, value) {
+                                            value = (value == null ? "-" : value);
+                                            if ($('#ddlQuery').val() == "E") {
+                                                if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                    FinString += "<td>" + value + "</td>";
+                                                }
+                                            } else if ($('#ddlQuery').val() == "P") {
+                                                if (key.toLowerCase() == "date" || key.toLowerCase() == "vll" || key.toLowerCase() == "i" || key.toLowerCase() == "pf" || key.toLowerCase() == "kw" || key.toLowerCase() == "kva" || key.toLowerCase() == "kvar" || key.toLowerCase() == "hz" || key.toLowerCase() == "vry" || key.toLowerCase() == "vyb" || key.toLowerCase() == "vbr" || key.toLowerCase() == "vrn" || key.toLowerCase() == "vyn" || key.toLowerCase() == "vbn" || key.toLowerCase() == "vln" || key.toLowerCase() == "ir" || key.toLowerCase() == "iy" || key.toLowerCase() == "ib" || key.toLowerCase() == "kwr" || key.toLowerCase() == "kwy" || key.toLowerCase() == "kwb" || key.toLowerCase() == "kvay" || key.toLowerCase() == "kvab" || key.toLowerCase() == "kw_demand" || key.toLowerCase() == "kva_demand") {
+                                                    FinString += "<td>" + value + "</td>";
+                                                }
+                                            } else if ($('#ddlQuery').val() == "C") {
+                                                if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                    FinString += "<td>" + value + "</td>";
+                                                }
+                                            }
+                                            else if ($('#ddlQuery').val() == "CI") {
+                                                if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp") {
+                                                    FinString += "<td>" + value + "</td>";
+                                                }
+                                            }
+                                            else if ($('#ddlQuery').val() == "CE") {
+                                                if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                    FinString += "<td>" + value + "</td>";
+                                                }
+                                            }
+                                            else {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        });
+                                        FinString += "</tr>";
+                                    });
+                                    FinString += "</tbody></table><br/>";
+                                    FinString += "<div class='colorstrip'>";
+                                    FinString += "<label for='Sum_:'>Sum :</label>";
+                                    FinString += "<label for='Sum' id='Sum'></label>";
+                                    FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                    FinString += "<label for='Avg_:'>Avg :</label>";
+                                    FinString += "<label for='Avg' id='average'></label>";
+                                    FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                    FinString += "<label for='Min_:'>Min :</label>";
+                                    FinString += "<label for='Min' id='Minimum'></label>";
+                                    FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                    FinString += "<label for='Max_:'>Max :</label>";
+                                    FinString += "<label  for='Max' id='Maximum'></label></div>";
+
+                                    $("#tblquery_type").show();
+                                    $("#tblquery_type").html(FinString);
+
+                                    $('.dt-buttons').remove();
+
+                                    $('#tableProfileLog').dataTable(
+                                    {
+                                        dom: 'lBfrtip',
+                                        "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000, "All"]],
+                                        buttons: [{
+                                            extend: 'pdfHtml5',
+                                            orientation: 'landscape',
+                                            pageSize: 'LEGAL',
+                                            text: 'Export to PDF',
+                                            title: 'GroupViewData'
+                                        }],
+                                        pageLength: 10,
+                                        "scrollX": true,
+                                        select: true
+                                    });
+                                    $('.dt-buttons').insertAfter('#graph');
+                                    $("#query_type").show();
+                                    $('#chart_type').hide();
+                                    $('#instancetable_type').hide();
+                                    document.getElementById("divExcel").style.display = "block";
+                                    if (box) box.remove();
+                                }
+                                else {
+                                    $("#tblquery_type").hide();
+                                    $("#query_type").show();
+                                    $("#grapharea").show();
+                                    $.each(jsonObj, function (index) {
+                                        categories_data[categories_data.length] = new Date(jsonObj[index][legendArray[0]].replace("T", " "))
+                                    });
+                                    debugger;
+                                    legendArray.splice(0, 1);
+                                    $.each(legendArray, function (index) {
+                                        //   if (index != 0) {
+                                        $.each(jsonObj, function (jsonIndex) {
+                                            if (jsonObj.length - 1 != jsonIndex) {
+
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+
+
+                                            } else {
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                            }
+
+                                        });
+                                        if (legendArray.length - 1 != index)
+                                            seriesOptions += "~";
+                                        // }
+                                    })
+                                    var FinSeriesOptions = seriesOptions.split('~');
+
+                                    var seriesArr = [], series = []; var countx = 0;
+                                    // Create Series Array with name and data property
+                                    for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                        var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                        var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+                                        // debugger;
+                                        series = { name: legendArray[ser], data: seriesOptions2, yAxis: countx };
+                                        seriesArr.push(series);
+                                        countx = countx + 1;
+
+
+                                    }
+                                    renderChart(categories_data, seriesArr, $("#ddlType").val());
+                                    if (box) box.remove();
+                                }
+                            } else {
+                                $("#tblquery_type").empty();
+                                $("#query_type").hide();
+                                $('#chart_type').hide();
+                                $('#instancetable_type').hide();
+                                document.getElementById("divExcel").style.display = "none";
+                                if (box) box.remove();
+                                alert('No Data Found', '', false, "M");
+                                return false;
+                            }
+                        },
+                        failure: function (msg) {
+                            if (box) box.remove();
+                            alert(msg, '', false, "M");
+                        }
+                    });
+                }
+
+                catch (err) {
+                    if (box) box.remove();
+                }
+            }
+        }
+    }
+    function addMenuItem(title, arr) {
+        arr.push({
+            "name": title,
+            "data": (function () {
+                // generate an array of random data
+                var data = [],
+                  time = (new Date()).getTime(),
+                  i;
+
+                for (i = -50; i <= 0; i += 1) {
+                    data.push({
+                        //x: initialformatedDate,
+                        //y: initialresponseData
+                        x: initialformatedDate,
+                        y: initialbackresponseData
+                    });
+                }
+                return data;
+            }())
+        });
+    }
+    if ($("#meterList :selected").length != 0) {
+        for (var b = 0; b < $("#meterList :selected").length; b++) {
+            addMenuItem($("#meterList :selected")[b].innerHTML, Series);
+        }
+    }
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
+
+    Highcharts.theme = {
+        colors: ['#ff3a00', '#fff700', '#80ff00', '#00ffe8', '#0078ff', '#e000ff', '#b600ff'],
+        chart: {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: [
+                    [0, '#2a2a2b'],
+                    [1, '#3e3e40']
+                ]
+            },
+            style: {
+                fontFamily: '\'Unica One\', sans-serif'
+            },
+            plotBorderColor: '#606063'
+        },
+        title: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase',
+                fontSize: '20px'
+            }
+        },
+        subtitle: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase'
+            }
+        },
+        xAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        yAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            tickWidth: 1,
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            style: {
+                color: '#F0F0F0'
+            }
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    color: '#F0F0F3',
+                    style: {
+                        fontSize: '13px'
+                    }
+                },
+                marker: {
+                    lineColor: '#333'
+                }
+            },
+            boxplot: {
+                fillColor: '#505053'
+            },
+            candlestick: {
+                lineColor: 'white'
+            },
+            errorbar: {
+                color: 'white'
+            }
+        },
+        legend: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            itemStyle: {
+                color: '#E0E0E3'
+            },
+            itemHoverStyle: {
+                color: '#FFF'
+            },
+            itemHiddenStyle: {
+                color: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#C0C0C0'
+                }
+            }
+        },
+        credits: {
+            style: {
+                color: '#666'
+            }
+        },
+        labels: {
+            style: {
+                color: '#707073'
+            }
+        },
+        drilldown: {
+            activeAxisLabelStyle: {
+                color: '#F0F0F3'
+            },
+            activeDataLabelStyle: {
+                color: '#F0F0F3'
+            }
+        },
+        navigation: {
+            buttonOptions: {
+                symbolStroke: '#DDDDDD',
+                theme: {
+                    fill: '#505053'
+                }
+            }
+        },
+        // scroll charts
+        rangeSelector: {
+            buttonTheme: {
+                fill: '#505053',
+                stroke: '#000000',
+                style: {
+                    color: '#CCC'
+                },
+                states: {
+                    hover: {
+                        fill: '#707073',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    },
+                    select: {
+                        fill: '#000003',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    }
+                }
+            },
+            inputBoxBorderColor: '#505053',
+            inputStyle: {
+                backgroundColor: '#333',
+                color: 'silver'
+            },
+            labelStyle: {
+                color: 'silver'
+            }
+        },
+        navigator: {
+            handles: {
+                backgroundColor: '#666',
+                borderColor: '#AAA'
+            },
+            outlineColor: '#CCC',
+            maskFill: 'rgba(255,255,255,0.1)',
+            series: {
+                color: '#7798BF',
+                lineColor: '#A6C7ED'
+            },
+            xAxis: {
+                gridLineColor: '#505053'
+            }
+        },
+        scrollbar: {
+            barBackgroundColor: '#808083',
+            barBorderColor: '#808083',
+            buttonArrowColor: '#CCC',
+            buttonBackgroundColor: '#606063',
+            buttonBorderColor: '#606063',
+            rifleColor: '#FFF',
+            trackBackgroundColor: '#404043',
+            trackBorderColor: '#404043'
+        }
+    };
+    // Apply the theme
+    Highcharts.setOptions(Highcharts.theme);
+
+    function renderChart(categories_data, seriesArr, graphtype) {
+        //debugger
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: graphtype,
+                zoomType: 'x',
+
+                renderTo: 'grapharea',
+
+            },
+            title: {
+                text: 'TREND DATA'
+            },
+            xAxis: {
+                categories: categories_data,
+                title: {
+                    text: 'HOUR:MINUTES', style: { fontSize: '30px', fontWeight: 'bold' },
+                },
+
+
+                type: 'datetime',
+
+                labels: {
+                    format: '{value:%H:%M}', rotation: -45,
+                    align: 'left',
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+
+
+                    }
+                }
+            },
+            yAxis: [{
+                lineWidth: 3,
+                lineColor: '#ff3a00',
+                title: {
+                    text: 'VALUES'
+                    , style: {
+                        fontSize: '30px'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#ff3a00',
+                        fontSize: '25px'
+                    }
+                },
+
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#fff700',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#fff700',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#80ff00',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#80ff00',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#00ffe8',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#0078ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#0078ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#e000ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#e000ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#b600ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#b600ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: 'black',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#ffc100',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }
+
+
+
+
+            ],
+
+
+            tooltip: {
+                shared: true, headerFormat: '<small>{point.key}</small><br>', style: { fontSize: '20px' }
+
+            },
+            scrollbar: {
+                enabled: true
+            },
+            legend: {
+                enabled: true, style: {
+
+                    fontSize: '20px',
+                    fontWeight: 'bold'
+                }
+
+            },
+
+
+            exporting: {
+                enabled: true
+            },
+            plotOptions: {
+                series: {
+                    lineWidth: 4
+                }
+            },
+            series: seriesArr
+
+
+        });
+
+
+
+    }
+
+    //for (var b = 0; b <= 1; b++) {
+    //    addMenuItem('Meter Name', Series);
+    //}
+    //function BarChart(tstamp, vrn) {
+    //    chart1 = Highcharts.Chart('LineGraph_container', {
+    //        chart: {
+    //            type: 'spline',
+    //            animation: Highcharts.svg, // don't animate in old IE
+    //            marginRight: 10,
+    //            events: {
+    //                load: function () {
+    //                    chart1 = this;
+    //                    // set up the updating of the chart each second
+
+    //                    setInterval(function () {
+    //                        for (var b = 0; b <= $("#meterList :selected").length; b++) {
+    //                            //ABTMeterDetails();
+    //                            ABTMeterInstanceData();
+    //                            tstamp = formatedDate;
+    //                            vrn = responseData;
+    //                            var series = chart1.series[b];
+    //                            var x = tstamp, // current time
+    //                            y = vrn;
+    //                            series.addPoint([x, y], true, true);
+    //                        }
+    //                    }, 10000);
+
+    //                }
+    //            }
+    //        },
+    //        title: {
+    //            text: 'Meter data'
+    //        },
+    //        xAxis: {
+    //            type: 'datetime',
+    //            tickPixelInterval: 150
+    //        },
+    //        yAxis: {
+    //            title: {
+    //                text: 'Value'
+    //            },
+    //            plotLines: [{
+    //                value: 0,
+    //                width: 1,
+    //                color: '#808080'
+    //            }]
+    //        },
+    //        tooltip: {
+    //            formatter: function () {
+    //                return '<b>' + this.series.name + '</b><br/>' +
+    //                  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+    //                  Highcharts.numberFormat(this.y, 2);
+    //            }
+    //        },
+    //        legend: {
+    //            enabled: false
+    //        },
+    //        exporting: {
+    //            enabled: false
+    //        },
+    //        series: Series
+    //    });
+    //}
+
+
+
+    //function lineChart() {
+    //    Highcharts.setOptions({
+    //        global: {
+    //            useUTC: false
+    //        }
+    //    });
+    //    var chart = Highcharts.Chart('container', {
+    //        chart: {
+    //            type: 'spline',
+    //            animation: Highcharts.svg, // don't animate in old IE
+    //            marginRight: 10,
+    //            events: {
+    //                load: function () {
+
+    //                    // set up the updating of the chart each second
+    //                    var series = this.series[0];
+    //                    setInterval(function () {
+    //                        var x = (new Date()).getTime(), // current time
+    //                            y = Math.random();
+    //                        series.addPoint([x, y], true, true);
+    //                    }, 1000);
+    //                }
+    //            }
+    //        },
+    //        title: {
+    //            text: 'Live random data'
+    //        },
+    //        xAxis: {
+    //            type: 'datetime',
+    //            tickPixelInterval: 150
+    //        },
+    //        yAxis: {
+    //            title: {
+    //                text: 'Value'
+    //            },
+    //            plotLines: [{
+    //                value: 0,
+    //                width: 1,
+    //                color: '#808080'
+    //            }]
+    //        },
+    //        tooltip: {
+    //            formatter: function () {
+    //                return '<b>' + this.series.name + '</b><br/>' +
+    //                    Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+    //                    Highcharts.numberFormat(this.y, 2);
+    //            }
+    //        },
+    //        legend: {
+    //            enabled: false
+    //        },
+    //        exporting: {
+    //            enabled: false
+    //        },
+    //        series: [{
+    //            name: 'Random data',
+    //            data: (function () {
+    //                // generate an array of random data
+    //                var data = [],
+    //                    time = (new Date()).getTime(),
+    //                    i;
+
+    //                for (i = -19; i <= 0; i += 1) {
+    //                    data.push({
+    //                        x: time + i * 1000,
+    //                        y: Math.random()
+    //                    });
+    //                }
+    //                return data;
+    //            }())
+    //        }]
+    //    });
+    //}
+</script>
+
+
+
+<style>
+    .table-responsive {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-group, .btn-group-vertical, .btn {
+        /*width: 100% !important;*/
+    }
+</style>
+
+
+<!--Top breadcrumb start -->
+<ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-home"></i></a></li>
+    @*<li><a href="#">Configurations</a></li>*@
+    <li class="active">Group View</li>
+</ol>
+<div class="row">
+    <div class="col-lg-12">
+        <hr>
+        <div class="panel panel-light-blue">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box">Query Selection</div>
+
+            </div>
+
+            <div class="panel-body">
+
+                <div id="dvSelectionFilters">
+                    <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <div class="row">
+
+                                    <div class="col-lg-4" style="padding-right:0px">
+                                        <div class="row">
+                                            <label for="select" class="col-lg-12" style="margin:0px 0px;">Group</label>
+                                            <div class="col-lg-12 col-md-12">
+                                                @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), new { @id = "groupList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                                @Html.ValidationMessageFor(model => Model.GroupId, null, new { @class = "validation-redcolor" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="row">
+                                            <label for="select" class="col-lg-12" style="margin:0px 0px;">Meter</label>
+                                            <div class="col-lg-12 col-md-12">
+                                                @Html.DropDownListFor(model => Model.MeterId, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), new { @id = "meterList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+
+
+                                    <div class="col-lg-3" style="padding-left:0px">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select"> Interval</label>
+                                        <select id="ddlInterval" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                            <option value="">Select</option>
+                                            <option value="I">instantaneous</option>
+                                            <option value="B">BlockDisplay</option>
+                                            <option value="H">HourDisplay</option>
+                                            <option value="D">DayDisplay</option>
+                                            <option value="M">MonthDisplay</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                @*<div class="form-group col-md-4" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+
+                                        <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                            @Html.LabelFor(model => model.GroupId, null, "col-md-5 control-label")
+
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+
+                                        <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                            @Html.LabelFor(model => model.MeterId, null, "col-md-5 control-label")
+
+                                            @Html.ValidationMessageFor(model => Model.MeterId, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+
+                                        <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                            @Html.LabelFor(model => model.parameterlist, null, "col-md-5 control-label")
+                                            @Html.DropDownListFor(model => Model.parameterlist, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), new { @id = "parameterList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                            @Html.ValidationMessageFor(model => Model.parameterlist, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                    </div>*@
+
+                            </div>
+
+                            <div class="col-md-7" style=" padding:0;">
+                                <div class="row">
+
+
+                                    <div class="col-lg-2 col-sm-12">
+                                        <label style=" border:0px solid #000; padding:0px; margin:0px 0px;" for="select">
+                                            Parameter
+                                        </label>
+                                        @*@Html.DropDownListFor(model => Model.parameterlist, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), new { @id = "parameterList", @class = "form-control", @size = "1", @multiple = "multiple" })*@
+                                        @Html.DropDownList("ddlQuery", Enumerable.Empty<SelectListItem>(), new { @id = "ddlQuery", @class = "form-control", @multiple = "multiple", required = true, title = "Please Provide Columns" })
+                                        <br />
+                                        @*@Html.ValidationMessageFor(model => Model.parameterlist, null, new { @class = "validation-redcolor" })*@
+                                        @Html.ValidationMessage("ddlQuery", "", new { @class = "text-danger" })
+
+                                    </div>
+                                    <div class="form-group col-sm-3" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                        <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">From Date</label>
+                                            </div>
+                                            <div id="dtFrmDate" class="input-group date">
+                                                @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="border:0px solid #000; padding:0 0 1px 0;  ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                            </div>
+                                            <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "col-md-12 form-control", @size = "1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-3" style=" padding-left:6px; padding-right:0px; margin:0px 0px;">
+                                        <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">To Date</label>
+                                            </div>
+                                            <div id="dtToDate" class="input-group date">
+                                                @Html.TextBoxFor(m => m.ToDate, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtToDate" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="border:0px solid #000;  padding:0; ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                            </div>
+                                            <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "endTime", @class = "form-control", @size = "1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2" style="padding-right:0px">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Type</label>
+                                        <select id="ddlType" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                            <option value="">Select</option>
+                                            <option value="T">Table</option>
+                                            <option value="spline">Spline</option>
+                                            <option value="column">Column</option>
+                                            <option value="bar">Bar</option>
+                                            <option value="line">Line</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-1" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary" id="btnSearch" onclick="FillQueryData()" style="font-weight:bold;  margin:0px 10px;">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*//new control starts here*@
+
+                    </div>
+                    @*end*@
+
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-light-blue" id="instanceDataDiv" style="display:none">
+            <div class="panel-heading">
+                <div class="dashboard-panel-body-box">
+                    <span class="pull-left">Instance Data</span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                        <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('chart', 'o');"><i class="fa fa-chevron-down"></i></a>
+                        <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('chart', 'c');"><i class="fa fa-times"></i></a>
+                    </span>
+                    <span class="clearfix"></span>
+                </div>
+
+
+            </div>
+
+            <div class="panel-body" id="chart_type">
+                <div class="table-responsive">
+                    <table id="Instancedata" class="table table-bordered table-striped dataTable no-footer">
+                        <thead id="instanceHead"></thead>
+                        <tbody id="instancebody"></tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-light-blue" id="instanceGraphDiv" style="display:none">
+            <div class="panel-heading">
+                <div class="dashboard-panel-body-box">
+                    <span class="pull-left">Line Graph</span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                        <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('instancetable', 'o');"><i class="fa fa-chevron-down"></i></a>
+                        <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('instancetable', 'c');"><i class="fa fa-times"></i></a>
+                    </span>
+                    <span class="clearfix"></span>
+                </div>
+            </div>
+            <div id="instancetable_type" class="row">
+                @*<div id="LineGraph_container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>*@
+            </div>
+        </div>
+        <div class="row" id="queryDataDiv" style="display:none">
+            <div class="col-sm-12">
+                <div class="panel panel-light-blue">
+                    <div class="panel-heading p5">
+                        <div class="dashboard-panel-body-box">
+                            <span class="pull-left"> Query Data</span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                                <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('query', 'o');"><i class="fa fa-chevron-down"></i></a>
+                                <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('query', 'c');"><i class="fa fa-times"></i></a>
+                            </span>
+                            <span class="clearfix"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="panel-body table" id="query_type">
+
+
+                        @*<div class="row">
+
+                                <div class="col-lg-12 col-sm-12">
+                                    <div class="col-lg-3 col-sm-12">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Select Query</label>
+                                       <select id="ddlQuery" tabindex="1" data-placeholder="Select here.." class="form-control" multiple="multiple">
+                                                <option value="0">Select Query</option>
+                                                <option value="E">Energy Data</option>
+                                                <option value="P">Profile Data</option>
+                                                <option value="CI">Consumption Imp</option>
+                                                <option value="CE">Consumption Export</option>
+                                            </select>
+                                    </div>
+                                    <div class="form-group col-sm-3" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                        <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">From Date</label>
+                                            </div>
+                                            <div id="dtFrmDate" class="input-group date">
+                                                @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="border:0px solid #000;  ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                            </div>
+                                            <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "col-md-12 form-control", @size = "1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-3" style=" padding:0px; margin:0px 0px;">
+                                        <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">To Date</label>
+                                            </div>
+                                            <div id="dtToDate" class="input-group date">
+                                                @Html.TextBoxFor(m => m.ToDate, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtToDate" })
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="border:0px solid #000;  ">
+                                            <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                            </div>
+                                            <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "endTime", @class = "form-control", @size = "1" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-12" style="width:16.2%;">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Select Interval</label>
+                                        <select id="ddlInterval" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                            <option value="B">Block Wise</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-1" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                                        <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary" id="btnSearch" onclick="FillQueryData()" style="font-weight:bold;  margin:0px 10px;">Search</button>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="clearfix"></div>
+                      
+                        <div id="divExcel">
+                            <div class="form-group col-md-12 pull-right"  style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:left;">
+                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                @using (Html.BeginForm("Export", "MeterView", FormMethod.Get, new { id = "PdfForm" }))
+                                {
+                                    @Html.Hidden("InputString")
+                                    @Html.Hidden("InputStr")
+                                    <button type="submit" class="btn btn-success btn-sm" onclick="return Export()" id="btnExport" style="font-weight:bold;  margin:0px 10px;"><i class="fa fa-file-excel-o"></i> Export To excel</button>
+                                    <button type="button" class="btn btn-info btn-sm" id="graph"><i class="fa fa-bar-chart-o"></i> Graph</button>
+                                }
+                            </div>
+                        </div>
+                        <div id="tblquery_type" style="overflow-x:scroll; width:100%;">
+                        </div>
+                        
+                        <div class="col-lg-12" style="border:0px solid  #000; ">
+                            <div id="grapharea" style="height:500px;width:auto;display:none"> </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div id="chart_dialog">
+            <input type="hidden" id="diaTblName" value="tableProfileLog" />
+            <a href="javascript:printDiv('divchart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+
+            <div id="divchart_container" style="height:700px ! important">
+                <table class="class-tbl-remove" style="width:100%; clear:both;">
+                    <tr>
+                        <td>Meter Name : </td>
+                        <td> <label id="lblMname"></label></td>
+                        <td>Query : </td>
+                        <td><label id="lblQuery"></label> </td>
+                        <td>Interval : </td>
+                        <td><label id="lblInterval"></label> </td>
+                    </tr>
+                </table>
+                <div id="chart_container" style="width:100%; clear:both; max-width:1247px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    //var series = GetrandomData();
+    function RenderBarChart(series, selectedValue, arr) {
+        //series = GetrandomData();
+        //arr = GetrandomData();
+        var containerName = selectedValue + "_LineGraph_container";
+        $("#instancetable_type").append("<div id=" + containerName + " class='col-md-9' style='min-width: 310px; height: 400px; margin: 0 auto'></div>");
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                renderTo: containerName,
+                zoomType: 'x',
+                //animation: Highcharts.svg, // don't animate in old IE
+                marginRight: 10,
+                events: {
+                    load: function () {
+                        //chart1 = this;
+                        //var sellist = '';
+                        //var series = [];
+
+
+
+                        for (var i = 0; i <= arr.length; i++) {
+
+                            eval("var series" + i + ' = this.series[i] ');
+
+                            // var series0 = this.series[0];
+                            //    var series1 = this.series[1];
+                            //    // var series2 = this.series[2];
+                            //    //var series3 = this.series[3];
+                        }
+                        setInterval(function () {
+                            //series = this.series[i];
+                            ABTMeterDetailsForBarchart1(arr[0].name, selectedValue);
+                            // current time
+                            var x = (new Date()).getTime();
+                            for (var i = 0; i <= arr.length; i++) {
+                                eval(" var y" + i + " = Math.random();");
+                            }
+
+                            //for (var i = 0; i < arr.length; i++) {
+                            //    var series = this.series[i]
+                            //    var y = Math.random();
+                            //    series.addPoint([x, y], true, true);
+                            //}
+                            // var y = Math.random();
+                            //var y1 = Math.random();
+                            // var y2 = Math.random();
+                            // var y3 = Math.random();
+                            //series0.addPoint([x, Math.random()], true, true);
+                            //series1.addPoint([x, Math.random()], true, true);
+                            // series1.addPoint([x, y1], true, true);
+                            // series2.addPoint([x, y2], true, true);
+                            // series3.addPoint([x, y3], true, true);
+                            for (var i = 0; i <= arr.length; i++) {
+                                eval("series" + i + ".addPoint([x, y" + i + "], true, true);");
+                            }
+                            //    x = x + i * 1000;
+                            //eval("series" + i + ".addPoint([x, y], true, true)");
+                            //    series.addPoint([x, y], true, true);
+                            //    series1.addPoint([x, y], true, true);
+                            //    series2.addPoint([x, y], true, true);
+                            //    //var series&i = this.series[0];
+                            //}
+                            //series.addPoint([x, y], true, true);
+
+                            //chart1.series[i].addPoint([x, y], true, true);
+
+                        }, 1000);
+                        // }
+
+
+                    }
+                }
+            },
+            title: {
+                text: 'Live data'
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 150
+            },
+            yAxis: {
+                title: {
+                    text: selectedValue
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' +
+                        Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+                        Highcharts.numberFormat(this.y, 2);
+                }
+            },
+            legend: {
+                enabled: true
+            },
+            exporting: {
+                enabled: false
+            },
+            series: series
+        });
+    }
+    function GetrandomData() {
+        var arr = [];
+        for (var j = 0; j < 22; j++) {
+
+            var data = []
+            var time = (new Date()).getTime();
+            var i;
+
+            for (i = -19; i <= 0; i += 1) {
+                data.push({
+                    x: time + i * 1000,
+                    y: Math.random()
+                });
+            }
+            arr.push({ "name": "Meter Name", "data": data });
+        }
+        return arr;
+    }
+</script>

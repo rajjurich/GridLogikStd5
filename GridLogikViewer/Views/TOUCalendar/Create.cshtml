@@ -1,0 +1,205 @@
+﻿@model GridLogikViewer.Models.MstTOUCalendar
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost:8487/GridLogikViewerWebAPI/api/tou",
+                url: BaseAddress + "tou",
+                dataType: "json",
+                async: false,
+                success: function (tous, status, jqXHR) {
+                    var str = "";
+                    
+                    if (tous.Data.result != undefined) {
+                        var data = tous.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].touid + ">" + data[i].toudescription + "</option>";
+                        }
+                    }
+                    else if (tous.Data.e == "E") {
+                        if (tous.Data.d.length > 0)
+                            alert(tous.Data.d);
+                    }
+
+                    $("#tctouid").html(str);
+                    $(".touclasses").selectpicker();
+                }
+            });
+
+
+            $("#btnCreate").click(function (e) {
+
+                if ($('form').valid()) {
+                    formmodified = 0;
+                    
+                    var msttoucalendar = {
+                        "tctouid": $("#tctouid").val(),
+                        "tcmonday": $("#tcmonday").prop("checked") ? 1 : 0,
+                        "tctuesday": $("#tctuesday").prop("checked") ? 1 : 0,
+                        "tcwednesday": $("#tcwednesday").prop("checked") ? 1 : 0,
+                        "tcthursday": $("#tcthursday").prop("checked") ? 1 : 0,
+                        "tcfriday": $("#tcfriday").prop("checked") ? 1 : 0,
+                        "tcsaturday": $("#tcsaturday").prop("checked") ? 1 : 0,
+                        "tcsunday": $("#tcsunday").prop("checked") ? 1 : 0,
+                        "tcholiday": $("#tcholiday").prop("checked") ? 1 : 0
+                    };
+
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost:8487/GridLogikViewerWebAPI/api/toucalendar",
+                        url: BaseAddress + "toucalendar",
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttoucalendar),//data to be send
+                        success: function (response) {
+
+                            
+                            if (response.Data.e == "S") {
+
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d);
+                                $("#tctouid").selectpicker("refresh");
+                                $('#btnReset').click();
+                                //window.location.href = '@Url.Action("Index", "TouCalendar")';
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                alert(response.Data.d);
+                            }
+
+
+                        },
+                        error: function (xhr, status, error) {
+                            
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+        });
+
+    </script>
+}
+
+<h2>Create Role</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+
+        <hr />
+        @Html.ValidationSummary(true)
+  
+        <div class="form-group">
+            @Html.LabelFor(model => model.tctouid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("tctouid", Enumerable.Empty<SelectListItem>(), new { @class = "touclasses", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select TOU" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcmonday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                
+                @Html.CheckBoxFor(model => model.tcmonday, new {  })
+                @Html.ValidationMessageFor(model => model.tcmonday)
+            </div>
+        </div>
+
+            <div class="form-group">
+
+            @Html.LabelFor(model => model.tctuesday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tctuesday, new {  })
+                    @Html.ValidationMessageFor(model => model.tctuesday)
+                </div>
+             </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcwednesday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcwednesday, new {  })
+                    @Html.ValidationMessageFor(model => model.tcwednesday)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcthursday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcthursday, new {  })
+                    @Html.ValidationMessageFor(model => model.tcthursday)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcfriday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcfriday, new { })
+                    @Html.ValidationMessageFor(model => model.tcfriday)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcsaturday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcsaturday, new {  })
+                    @Html.ValidationMessageFor(model => model.tcsaturday)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcsunday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcsunday, new {  })
+                    @Html.ValidationMessageFor(model => model.tcsunday)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.tcholiday, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.CheckBoxFor(model => model.tcholiday, new { })
+                    @Html.ValidationMessageFor(model => model.tcholiday)
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" id="btnCreate" />
+                    <input type="reset" value="Reset" class="btn btn-default" id="btnReset" />
+                </div>
+            </div>
+            <div>
+                <p id="msg" style="color:red">
+                </p>
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

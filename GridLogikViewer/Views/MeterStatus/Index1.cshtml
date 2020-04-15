@@ -1,0 +1,383 @@
+﻿@model IEnumerable<GridLogik.ViewModels.MeterStatus>
+@{
+    ViewBag.Title = "Meter Online/Offline";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .ui-th-ltr, .ui-jqgrid .ui-jqgrid-htable th.ui-th-ltr {
+        border-left: 0 none;
+        min-width: auto !important;
+    }
+
+    .ui-jqgrid .ui-jqgrid-hbox {
+        float: left;
+        padding-right: 0px !important;
+    }
+
+    .ui-jqgrid tr.ui-row-ltr td {
+        min-width: auto !important;
+    }
+
+    tr.ui-search-toolbar input {
+        margin: 1px 0px 0px 0px;
+    }
+
+    tr.ui-search-toolbar select {
+        margin: 1px 0px 0px 0px;
+    }
+    /* body */
+    -.ui-jqgrid .ui-jqgrid-bdiv {
+        position: relative;
+        margin: 0em;
+        padding: 0;
+        overflow: auto;
+    }
+
+    + .ui-jqgrid .ui-jqgrid-bdiv {
+        position: relative;
+        margin: 0em;
+        padding: 0;
+        overflow: auto;
+        text-align: left;
+    }
+
+    .ui-jqgrid .ui-jqgrid-btable {
+        table-layout: fixed;
+        margin: 0em;
+    }
+
+    .ui-jqgrid tr.jqgrow td {
+        font-weight: normal;
+        overflow: hidden;
+        white-space: pre;
+        height: 22px;
+        padding: 0 2px 0 2px;
+        border-bottom-width: 1px;
+        border-bottom-color: inherit;
+        border-bottom-style: solid;
+    }
+
+    .ui-jqgrid tr.ui-row-ltr td {
+        text-align: left;
+        border-right-width: 1px;
+        border-right-color: inherit;
+        border-right-style: solid;
+    }
+</style>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">Group Display</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">Meter Status</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class="dashboard-panel-body-box">Selection </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <input type="hidden" id="Dateformat">
+                                        <input type="hidden" id="DatabaseDateformat">
+                                        <div style="overflow-x:scroll">
+                                            <table style="margin-bottom: 2em;" width="100%">
+                                                <tr>                                                  
+
+                                                    <td style="text-align:right !important">
+                                                        <label> Meter Group</label> &nbsp;
+                                                    </td>
+                                                    <td>
+                                                        @Html.DropDownList("select", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "GroupName"), "All", new { @class = "form-control", @id = "meterGroupFilter", @name = "meterGroupFilter", @onchange = "HideGrids()" })
+                                                    </td>
+                                                    
+                                                    @*<td style="text-align:right !important">
+                                                            <label> Location</label> &nbsp;
+                                                        </td>
+                                                        <td>
+                                                            @Html.DropDownList("select", (IEnumerable<SelectListItem>)ViewBag.locationfill, "All", new { @class = "form-control", @id = "ddlLocation", @name = "ddlLocation" })
+                                                        </td>*@
+
+                                                    <td style="text-align: right !important; display: none">
+                                                        <label>Meter</label>
+                                                    </td>
+                                                    <td style="display:none">
+                                                        @Html.DropDownList("select", new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), "All", new { @class = "form-control", @id = "meterFilter", @name = "meterFilter" })
+                                                    </td>
+
+                                                    <td style="text-align:right !important">
+                                                        <label> Status </label> &nbsp;
+                                                    </td>
+                                                    <td style="text-align: left !important; width:20%">
+                                                        @Html.RadioButton("Status", "0", true, new { @ID = "Status",@class="mt0" }) All &nbsp;&nbsp;
+                                                        @Html.RadioButton("Status", "1", new { @ID = "Status", @class = "mt0" }) Online &nbsp;&nbsp;
+                                                        @Html.RadioButton("Status", "2", new { @ID = "Status", @class = "mt0" }) Offline
+                                                    </td>
+                                                    <td style="text-align: left !important">
+                                                        <input type="submit" value="Filter" class="btn btn-warning" id="btnRefresh" />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            @*  <div id="mtrData">@Html.Partial("_MeterStatus", Model)</div>*@
+
+                                            <div class="dataTables_scroll">
+
+                                                <div style="overflow: hidden; position: relative; border: 0px none; width: 100%;" class="dataTables_scrollHead">
+                                                    <div style="box-sizing: content-box; width: 100%; padding-right: 0px;" class="dataTables_scrollHeadInner">
+                                                        <div style="position: relative; overflow: auto; width: 100%;">
+                                                            <table id="ConfigurationTable" class="table table-bordered table-striped"></table>
+                                                        </div>
+                                                    </div>
+                                                </div><div class="dataTables_scrollBody">
+                                                    <div id="ConfigurationTablePager" class="dataTable no-footer">
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div id="divExcel">
+                                                    @using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export1" }))
+                                                    {
+                                                        <button type="submit" class="fa fa-file-excel-o btn btn-success btn-sm"> Export to Excel</button>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+    {
+    @* <link href="~/Content/css/jquery-ui-1.9.2.custom.css" rel="stylesheet" />*@
+    <link href="~/Content/jquery.jqGrid/ui.jqgrid.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery-migrate-1.4.1.js"></script>
+    <script src="~/Scripts/grid.locale-en.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.min.js"></script>
+    <script src="~/Scripts/jquery.jqGrid.src.js"></script>
+    <script>
+        var box;
+        //var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+        var Conturl = "http://localhost/GridLogikViewer";
+        $(document).ready(function () {
+            //$.fn.jqm = undefined;
+            @*$("#ConfigurationTable").jqGrid({
+                // Ajax related configurations
+                url: 'InitiateConfirmationLoadGrid',
+                datatype: "json",
+                gridview: true,
+                autoencode: true,
+                mtype: "POST",
+                postData: { MeterID: function () { return $("#meterFilter").val(); }, MeterGroupID: function () { return $("#meterGroupFilter").val(); }, UtilityID: function () { return $("#meterUtilityFilter").val(); }, StatusType: function () { return $("input[name=Status]:checked").val(); }, uid: '@Session["usrrecid"].ToString()', loc: function () { return $("#ddlLocation").val(); } },
+                // Specify the column names
+                colNames: ["METERID", "Meter Name", "SerialNo", "Location", "IpAddress", "ModBusID", "MeterType1", "ModelName", "Status"],
+                // Configure the columns  "Date_Time", "GroupName",
+                colModel: [
+                 { name: "METERID", index: "METERID", width: 100, align: 'center' },
+                  { name: "Meter_Name", index: "Meter_Name", width: 250, align: "left" },
+                 { name: "SerialNo", index: "SerialNo", width: 100, align: "left" },
+                  { name: "Location", index: "Location", width: 100, align: "left" },
+               //  { name: "Date_Time", index: "Date_Time", width: 88, align: "left", formatter: 'date' },
+              //   { name: "GroupName", index: "GroupName", width: 50, align: "left" },
+                  { name: "IpAddress", index: "IpAddress", width: 100, align: "left" },
+                   { name: "ModBusID", index: "ModBusID", width: 100, align: "left" },
+                    { name: "MeterType1", index: "MeterType1", width: 100, align: "left" },
+                     { name: "ModelName", index: "ModelName", width: 100, align: "left" },
+                 { name: "Status", index: "Status", width: 55, align: "center", formatter: renderImages }
+                ],
+                search: true,
+                shrinkToFit: true,
+                pager: '#ConfigurationTablePager',
+                toppager: true,
+                jsonReader: { repeatitems: false },
+                rowNum: 1000,
+                rowList: [1000, 2000, 3000, 4000],
+                sortname: 'id',
+                sortorder: 'asc',
+                height: 'auto',
+                autowidth: true,
+                viewrecords: true,
+            }).jqGrid('navGrid', '#ConfigurationTablePager', { add: false, edit: false, del: false, search: false, refresh: false },
+                        {}, {}, {}, { multipleSearch: false, multipleGroup: false, showQuery: false });*@
+            //.navGrid("#ConfigurationTablePager",
+            // { add: false, edit: false, del: false, search: false, refresh: false });
+
+            function renderImages(cellvalue, options, rowobject) {
+                var obj = "";
+                if (cellvalue == "No")
+                    obj = "<img src='../Content/images/icon_img/Red.png' width='18px' height='18px' style='padding-right:5px'> ";
+                else if (cellvalue == "Yes")
+                    obj = "<img src='../Content/images/icon_img/Green.png' width='18px' height='18px' style='padding-right:5px'> ";
+                //"<td style='text-align:center'><a href='#' class='editor_edit label btn-success'>&nbsp;&nbsp;Active&nbsp;&nbsp;</a></td>";
+                return obj;
+            }
+            //$("#divExcel").hide();
+
+            //Global Date Format Setting
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            //ShowMessage("Error", response.Data.d);
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            //Global Date Format Setting
+            FillMeterGroups();
+
+            //Load Instance data on Page
+            var strFilter = {
+                "MeterID": "0", "MeterGroupID": "0", "UtilityID": "0", "StatusType": "0",
+            }
+            //Load Instance data on Page
+
+
+
+            //Load Instance data on button Click
+            $('#btnRefresh').click(function (e) {
+                var strFilter = {
+
+                    "MeterID": $("#meterFilter").val(),
+                    "MeterGroupID": $("#meterGroupFilter").val(),
+                    "UtilityID": $("#meterUtilityFilter").val(),
+                    "StatusType": $("input[name=Status]:checked").val(),
+                }
+                // var StatusType = $("input[name=Status]:checked").val() //O
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                $("#ConfigurationTable").trigger("reloadGrid");
+                if (box) box.remove();
+                @*window.location.href = '@Url.Action("Index", "MeterStatus")?MeterID=' + $("#meterFilter").val() +
+                    '&MeterGroupID=' + $("#meterGroupFilter").val() + '&UtilityID=' + $("#meterUtilityFilter").val() + '&StatusType=' + $("input[name=Status]:checked").val();*@
+            });
+
+            if ('@ViewBag.Utility' != "")
+                $("#meterUtilityFilter").val('@ViewBag.Utility');
+            if ('@ViewBag.MeterGroup' != "") {
+                FillMeterGroups();
+                $("#meterGroupFilter").val('@ViewBag.MeterGroup');
+            }
+            if ('@ViewBag.Status' != "")
+                $("input[name=Status]").val(['@ViewBag.Status']);
+            //Load Instance data on button Click
+
+            //$("#lsttable").dataTable(
+            //   {
+            //       "lengthMenu": [[1000, 2000, 3000, 4000, 5000], [1000, 2000, 3000, 4000, 5000]],
+            //       pageLength: 1000,
+            //       scrollX: true,
+            //   });
+        });
+
+
+        function FillMeterGroups() {
+            //HideGrids();
+            var iUtlityId = $('#meterUtilityFilter').val();
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                //url: '/MeterStatus/MeterGroupByUtilityID',
+                url: Conturl+ '/MeterStatus/MeterGroupByUserId',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "JSON",
+                //data: { utilityId: iUtlityId },
+                async: false,
+                success: function (response, status, jqXHR) {
+                    $("#meterGroupFilter").html("");
+                    $("#meterGroupFilter").append($('<option></option>').val(0).html("All"));
+                    $.each(response, function (i, MeterGroup) {
+
+                        $("#meterGroupFilter").append(
+                            $('<option></option>').val(response[i].Value).html(response[i].Text));
+                    });
+                    if (box) box.remove();
+                }, error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    if (box) box.remove();
+                }
+            });
+        }
+
+        function FillMeters() {
+            var iGroupId = $('#meterGroupFilter').val();
+            $.ajax({
+                url: '/MeterStatus/MetersByGroupID',
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "JSON",
+                data: { groupId: iGroupId },
+                success: function (response, status, jqXHR) {
+                    $("#meterFilter").html(""); // clear before appending new list
+
+                    $("#meterFilter").append($('<option></option>').val(0).html("All"));
+                    $.each(response, function (i, Meter) {
+                        $("#meterFilter").append(
+                            $('<option></option>').val(response[i].Value).html(response[i].Text));
+                    });
+
+                }
+            });
+        }
+
+        function HideGrids() {
+            try {
+
+                if ($.fn.dataTable.isDataTable('#lsttable')) {
+                    var table = $('#lsttable').dataTable();
+
+                    table.fnClearTable();
+                    table.fnDestroy();
+                }
+                else {
+                    $("#lsttable").removeData();
+                }
+                //$("#lsttable").hide();
+                //$("#divExcel").hide();
+
+            } catch (ex) {
+            }
+        }
+
+        $("input[name=Status]").click(function () {
+            HideGrids();
+        });
+        $("#btnExport").click(function (e) {
+            window.open('data:application/vnd.ms-excel');
+            e.preventDefault();
+        });
+
+    </script>
+}

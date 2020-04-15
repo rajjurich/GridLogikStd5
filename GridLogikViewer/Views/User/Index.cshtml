@@ -1,0 +1,202 @@
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/moment.js"></script>
+    <script>
+        // var box;
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal/getdateformat/",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.length > 0) {
+                        $.each(dateformat, function (key, value) {
+                            var data = value;
+                            if (data.prmunit == "DateTimeField") {
+                                $("#Dateformat").val(data.prmvalue);
+                            }
+                            else if (data.prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data.prmvalue);
+                            }
+                        })
+                    }                    
+                }
+            });
+
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "user",
+                dataType: "json",//type of data to be received
+                success: function (users, status, jqXHR) {
+                    var str = "";
+                    if (users.length > 0) {
+
+                        $.each(users, function (key, value) {
+                            var data = value
+
+                            var CreationDate = "";
+                            if (data.usrcreationdate != null) {
+
+                                //var DBcsmrdob = Date.parse(data[i].usrcreationdate, $("#DatabaseDateformat").val());
+                                CreationDate = moment(data.usrcreationdate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                //CreationDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcsmrdob))
+                            }
+                            else {
+                                CreationDate = "";
+                            }
+                            str += "<tr>" +
+                                "<td class='text-center'>" + data.usrid + "</td>" +
+                               "<td class='text-center'>" + ((data.usrfirstname == null) ? " " : data.usrfirstname) + "</td>" +
+                                //"<td>" + ((data[i].usrmiddlename == null) ? " " : data[i].usrmiddlename) + "</td>" +
+                                "<td class='text-center'>" + ((data.usrlastname == null) ? " " : data.usrlastname) + "</td>" +
+                                "<td class='text-center'>" + ((data.usremailid == null) ? " " : data.usremailid) + "</td>" +
+                                "<td class='text-center'>" + ((data.usrphoneno1 == null) ? " " : data.usrphoneno1) + "</td>" +
+                                //"<td>" + ((data[i].usrphoneno2 == null) ? " " : data[i].usrphoneno2) + "</td>" +
+                                "<td class='text-center'>" + ((data.usrrolename == null) ? " " : data.usrrolename) + "</td>" +
+                                "<td class='text-center'>" + ((data.usremployeename == null) ? " " : data.usremployeename) + "</td>" +
+                              //  "<td>" + ((data[i].usrcreatedbyuserid == null) ? " " : data[i].usrcreatedbyuserid) + "</td>" +
+                                //"<td>" + ((data[i].usrcreationdate == null) ? " " : data[i].usrcreationdate.substr(8, 2) + "/" +
+                                //data[i].usrcreationdate.substr(5, 2) + "/" + data[i].usrcreationdate.substr(0, 4) +
+                                //" " + data[i].usrcreationdate.substr(11, 5)) + "</td>" +
+                               //   "<td>" + CreationDate + "</td>" +
+                                "<td class='text-center'>" + ((data.usrisactive == 1) ? "Active" : "Inactive") + "</td>" +
+                                "<td class='text-center'><a href='" + envisageURL + "/user/Edit/" + data.usrrecid + "' class='btn btn-xs btn-warning fa fa-pencil-square-o'>  Edit</a> &nbsp;" +
+                                " <a href='" + envisageURL + "/user/Delete/" + data.usrrecid + "' class='btn btn-xs btn-danger fa fa-trash-o btnDelete'> Delete</a></td>" +
+                                "</tr>";
+
+
+                        });
+
+                        //var data = users.Data.result
+                        //for (var i in data) {
+                           
+
+                        //}
+                    }
+                    //if (users.Data.e == "E") {
+                    //    if (users.Data.d.length > 0)
+                    //        alert(users.Data.d);
+
+                    //}
+
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        //null,
+                                        //null,
+                                       // null,
+                                       // null,
+                                        null,
+                                        null,
+                                        { "bSortable": false, "searchable": false }
+                            ]
+                        });
+                    Highlight();
+                    if (box) {
+                        if ('@ViewBag.CreateAccess' == "False") {
+                            $("#btnCreate").hide();
+                        }
+                        if ('@ViewBag.EditAccess' == "False") {
+                            $(".btnEdit").hide();
+                        }
+                        if ('@ViewBag.DeleteAccess' == "False") {
+                            $(".btnDelete").hide();
+                        }
+                        box.remove();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // alert(error);
+                    if (box) box.remove();
+                }
+            });
+            return false;
+        });
+
+    </script>
+
+}
+<style>
+    #lsttable th {
+        width: 0 !important;
+    }
+</style>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">User Master</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @*<button class="btn btn-success pull-right btn-sm"><i class="fa fa-plus-circle"></i> Create New</button>*@
+                                        @Html.ActionLink(" Create New", "create", "User", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        @*<div class="clearfix"></div>
+                                            <hr />
+                                            <br />*@
+                                        <input type="hidden" id="Dateformat">
+                                        <input type="hidden" id="DatabaseDateformat">
+
+                                        <table id="lsttable" class="table table-bordered table-striped">
+
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">User ID</th>
+                                                    <th class="text-center">First Name</th>
+                                                    <th class="text-center">Last Name</th>
+                                                    <th class="text-center">Email ID</th>
+                                                    <th class="text-center">Phone 1</th>
+                                                    <th class="text-center">Role</th>
+                                                    <th class="text-center">Employee</th>
+                                                    <th class="text-center">Status</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

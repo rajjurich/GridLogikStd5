@@ -1,0 +1,408 @@
+﻿@model GridLogikViewer.APIModels.HormonicDayThd
+@{
+    ViewBag.Title = "Harmonic";
+}
+@section scripts
+{
+    <script src="~/Scripts/jquery.table2excel.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        var GraphType = "";
+        var NoDataMessage = "Record not found";
+        var meterId;
+        var tableData = []; // create an empty array
+
+        function clearData() {
+            tableData = []; // create an empty array
+            $("#btnExport").hide();
+        }
+
+        $(document).ready(function () {
+            clearData();
+            $("#divParent").css("display", "none");
+
+            $("#btnPlotChart").on("click", function () {
+                $("#chart_container").empty();
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                var ddlParameter = $("#ddlParameter").val();
+
+                if ($("form").valid()) {
+                    GraphType = "Chart";
+                    if (ddlParameter == "T") {
+                        PerformanceChart();
+                    }
+
+                    if (box) box.remove();
+                }
+                else {
+                    if (box) box.remove();
+                }
+            });
+
+            $("#btnPlotTable").on("click", function () {
+                $("#chart_container").empty();
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                var ddlParameter = $("#ddlParameter").val();
+                if ($("form").valid()) {
+                    GraphType = "table";
+                    if (ddlParameter == "T") {
+                        PerformanceChart();
+                    }
+                    else {
+                        PerformanceChartForLoad();
+                    }
+
+                    //$("#btnSwitch").html('Chart');
+                    if (box) box.remove();
+                }
+                else {
+                    if (box) box.remove();
+                }
+            });
+
+            $("#btnExport").on("click", function () {
+                var currentdate = new Date()
+                var month = currentdate.getMonth() + 1
+                var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+                $(".rowheader").remove();
+                $('.data').prepend("<tr class='rowheader' style='display:none;'><th>Meter Name : </th> <th>" + $("#ddlMeters option:selected").text() + "</th></tr><tr  class='rowheader' style='display:none;'><th></th><th></th><th></th> <th></th> </tr>");
+                $(".data").table2excel({
+                    exclude: ".noExl",
+                    name: "Harmonicthd Load",
+                    filename: "Harmonicthd_" + localdate,
+                    fileext: ".xls",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true
+                });
+            });
+            $("#btnExport").css("display", "none");
+            $("#chart_container").empty();
+        });
+
+        function GetMeters(GroupID) {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                url: '@Url.Action("MetersByGroupID", "Harmonic")',
+                data: { id: GroupID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value=''>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#ddlMeters").html(markup).show();
+                    if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                }
+            });
+        }
+
+        function auto_load(meterId) {
+            meterId = $('#ddlMeters').val();
+            if (meterId != null && meterId != "" && meterId != "undefined") {
+                PerformanceChart();
+            }
+            if (box) box.remove();
+            return false;
+        }
+
+        setInterval(auto_load, 180000);
+
+        function HideData() {
+            $("#chart_container").empty();
+        }
+
+
+        function PerformanceChart() {
+            $("#chart_container").empty();
+            var legendArray = new Array();
+            var seriesOptions = "";
+            var FinString = "";
+            //var opt = "table";
+            var opt = GraphType;
+            var SubType = "line";
+            var categories_data = new Array();
+            var MeterID = $("#ddlMeters").val();
+            var MeterName = $('#ddlMeters  option:selected').text();
+            //alert(MeterName, '', false, "M");
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: BaseAddress + "Harmonicthdapi/GetData/" + MeterID,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var jsonObj = response;
+                        if (jsonObj != null) {
+                            if (jsonObj.length > 0) {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toString() == "TimeStamp") {
+
+                                        value.Value = moment(value).format("dd/MM/yy hh:mm:ss");
+                                        legendArray[legendArray.length] = key;
+                                    }
+                                    if (key.toString() != "$id" && key.toString() != "tstamp")
+                                        legendArray[legendArray.length] = key;
+                                });
+
+                                $("#chart_container").empty();
+
+                                if (opt == "table") {
+                                    legendArray.length = 0;
+                                    $.each(jsonObj[0], function (key, value) {
+                                        if (key.toString() != "$id")
+                                            legendArray[legendArray.length] = key;
+                                    });
+                                    FinString = "<div class='panel-body'><table class='data'>";
+                                    FinString += "<tr>";
+                                    legendArray.shift();
+
+                                    for (var j = 0; j < legendArray.length; j++) {
+                                        FinString += "<th class='tableth'>" + (legendArray[j] == "Name" ? "Hour" : legendArray[j]) + "</th>"
+                                    }
+                                    FinString += "</tr>";
+                                    $.each(jsonObj, function (index) {
+                                        FinString += "<tr>";
+                                        $.each(jsonObj[index], function (key, value) {
+                                            if (key != "meter_name") {
+                                                if (key != "$id")
+                                                    FinString += "<td>" + value + "</td>"
+                                            }
+                                        });
+                                        FinString += "</tr>";
+                                    });
+                                    FinString += "</table>";
+                                    $("#chart_container").html(FinString);
+
+                                    $("#btnExport").css("display", "block");
+                                } else {
+                                    $("#chart_container").empty();
+                                    $.each(jsonObj, function (index) {
+                                        categories_data[categories_data.length] = jsonObj[index][legendArray[0]]
+                                    });
+                                    legendArray.splice(0, 2);
+
+                                    $.each(legendArray, function (index) {
+                                        //   if (index != 0) {
+                                        $.each(jsonObj, function (jsonIndex) {
+                                            if (jsonObj.length - 1 != jsonIndex) {
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                            } else {
+                                                seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                            }
+
+                                        });
+                                        if (legendArray.length - 1 != index)
+                                            seriesOptions += "~";
+                                        // }
+                                    })
+                                    var FinSeriesOptions = seriesOptions.split('~');
+
+                                    var seriesArr = [];
+                                    // Create Series Array with name and data property
+                                    for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                        var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                        var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+                                        var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                        seriesArr.push(series);
+                                    }
+
+                                    BarChart(categories_data, seriesArr);
+                                    //lineChart(categories_data, seriesArr);
+
+                                    $("#btnExport").css("display", "none");
+                                }
+                            }
+                            else {
+                                alert(NoDataMessage, '', false, "M");
+                                return false;
+                            }
+                        }
+                        else {
+                            alert(NoDataMessage, '', false, "M");
+                            return false;
+                        }
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    }
+                });
+            }
+            catch (err) {
+            }
+        }
+
+        function BarChart(categories_data, seriesArr) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    zoomType: 'x',
+                    renderTo: 'chart_container'
+                },
+                title: {
+                    text: 'Harmonic Load Data'
+                },
+                xAxis: {
+                    title: {
+                        text: ''
+                    },
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
+                },
+                legend: {
+                    position: 'labeled',
+                    labeledValueText: 'both',
+                    maxLines: '10',
+                    textStyle: {
+                        color: 'black',
+                        fontSize: 12,
+                    }
+                },
+
+                tooltip: {
+                    crosshairs: [true, true]
+                },
+                series: seriesArr
+            });
+        }
+
+        function lineChart(categories_data, seriesArr) {
+
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'spline',
+                    zoomType: 'x',
+                    renderTo: 'chart_container'
+                },
+                title: {
+                    text: 'Harmonic Data',
+                    x: -20 //center
+                },
+                xAxis: {
+                    title: {
+                        text: 'Hours'
+                    },
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        //text: Y_Unit
+                        text: 'Unit'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: seriesArr
+            });
+        }
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Harmonic Data</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <strong>Selection</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                            <div class="panel-body">
+                                                <div id="divMain">
+                                                    <input id="Dateformat" type="hidden" />
+                                                    <input id="ServerDateformat" type="hidden" />
+                                                    <div class="row">
+                                                        <div class="col-md-12" style="border: 0px solid #000; padding: 0px; margin: 0px 10px; margin-bottom: 10px;">
+                                                            <div class="form-group col-md-2" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                                @Html.LabelFor(model => model.MeterGroup, new { @class = "col-md-12 control-label", @style = "border:0px solid #000; padding:0px; margin:5px 0px;" })
+                                                                <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                                    @Html.DropDownListFor(model => model.MeterGroup, (IEnumerable<SelectListItem>)ViewBag.MeterGroup, "Select", new { @id = "ddlMeterGroup", @onchange = "javascript:GetMeters(this.value);", @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.MeterGroup, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                                @Html.LabelFor(model => model.Meters, new { @class = "col-md-12 control-label", @style = "border:0px solid #000; padding:0px; margin:5px 0px;" })
+                                                                <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                                    @Html.DropDownListFor(model => model.Meters, Enumerable.Empty<SelectListItem>(), "Select", new { @id = "ddlMeters", @onchange = "javascript:HideData();", @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.Meters, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-2" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                                @Html.LabelFor(model => model.Parameter, new { @class = "col-md-12  control-label", @style = "border:0px solid #000; padding:0px; margin:5px 0px;" })
+                                                                <div class="col-md-12" style="border: 0px solid #000; padding: 0px;">
+                                                                    @Html.DropDownListFor(model => model.Parameter, (IEnumerable<SelectListItem>)ViewBag.Parameters, "Select", new { @id = "ddlParameter", @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.Parameter)
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group col-md-2" style="border: 0px solid #000; padding: 25px 0px 0px; margin: 0px 0px; float: right;">
+                                                                <div class="col-md-6" style="border:0px solid #000; padding:0px; margin:0px 0px; ">
+                                                                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 8px;" id="btnPlotChart">Chart</button>
+                                                                </div>
+                                                                <div class="col-md-6" style="border: 0px solid #000; padding: 0px; margin: 0px 0px;  ">
+                                                                    <button type="button" class="btn btn-danger" style="font-weight:bold;  margin:0px 8px 0px 0px;" id="btnPlotTable">Table</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="reset" value="Reset" class="btn btn-default" id="btnReset" style="display:none;" />
+                                                <div id='chart_container'>
+                                                </div>
+
+                                                <div class="form-group col-md-12" style="border:0px solid #000; padding:0px; margin:0px 0px;margin-top:10px;  text-align:left;">
+                                                    <button type="button" class="btn btn-success" id="btnExport" style="font-weight:bold;  margin:0px 10px 10px;"><i class="fa fa-file-excel-o"></i>Export To Excel</button>
+                                                </div>
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

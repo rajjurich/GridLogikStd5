@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f79a556b567d4885ba025ba710560486" Name="Diagram1">
+        <EntityTypeShape EntityType="etools_devModel.actiontype" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.alarmcondition" Width="1.5" PointX="7.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.alarmhistory" Width="1.5" PointX="7.5" PointY="15.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.alarm" Width="1.5" PointX="5.25" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.backupscheduledetail" Width="1.5" PointX="2.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.blockaddressdetail" Width="1.5" PointX="5.25" PointY="25.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.blockranx" Width="1.5" PointX="3" PointY="27.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.clientfoldermap" Width="1.5" PointX="4.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.communicationdetaillink" Width="1.5" PointX="5.25" PointY="19.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.communicationdetail" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumer" Width="1.5" PointX="17" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumercategory" Width="1.5" PointX="14.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.contactdetail" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.databaseversion" Width="1.5" PointX="0.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.dcsg" Width="1.5" PointX="14.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.emailconfigdetail" Width="1.5" PointX="2.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.emaildetail" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.groupconfiguration" Width="1.5" PointX="8.25" PointY="21.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.grouptemplatequery" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.htalarm" Width="1.5" PointX="10.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.instancedata" Width="1.5" PointX="16.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.ipwiselogger" Width="1.5" PointX="5.25" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.manualreport" Width="1.5" PointX="14" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.manualrptlist" Width="1.5" PointX="11.75" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.memorymap_addressdetails" Width="1.5" PointX="5.25" PointY="30.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.memorymap_range" Width="1.5" PointX="3" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.metergroup" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.metermodel" Width="1.5" PointX="0.75" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.meter" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.metertype" Width="1.5" PointX="0.75" PointY="21.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstdivision" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstemployee" Width="1.5" PointX="18.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.msterrorlog" Width="1.5" PointX="18.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstfeeder" Width="1.5" PointX="18.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstholiday" Width="1.5" PointX="19.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstmenu" Width="1.5" PointX="9.75" PointY="24.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstmetergroupdetail" Width="1.5" PointX="8.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstmodule" Width="1.5" PointX="7.5" PointY="25.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstregion" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstrole" Width="1.5" PointX="9.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstrolemenuaccess" Width="1.5" PointX="12" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstsubstation" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstuser" Width="1.5" PointX="12" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstutility" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mstzone" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.opc_clienttag" Width="1.5" PointX="19.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.opc_metername" Width="1.5" PointX="19.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.opc_server_tag" Width="1.5" PointX="12.75" PointY="19.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.parametermf" Width="1.5" PointX="5.25" PointY="36" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.prmglobal" Width="1.5" PointX="20.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.querydetail" Width="1.5" PointX="20.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.reportscheduledetail" Width="1.5" PointX="20.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.rtalarm" Width="1.5" PointX="20.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.smsdetail" Width="1.5" PointX="21.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.stageconfiguration" Width="1.5" PointX="21.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.standardalarm" Width="1.5" PointX="5.25" PointY="38.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tablewiseparameter" Width="1.5" PointX="21.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tsinstancedatalog" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tsloadsurveyexport" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tsloadsurveyimport" Width="1.5" PointX="22.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tsloadsurveylog" Width="1.5" PointX="22.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.tspreviousblkmiss" Width="1.5" PointX="22.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.txnloadblock" Width="1.5" PointX="5.25" PointY="45.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.uirate" Width="1.5" PointX="22.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionexpdaywise" Width="1.5" PointX="22.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionexphourwise" Width="1.5" PointX="23.75" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionexpmonthwise" Width="1.5" PointX="23.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionimpdaywise" Width="1.5" PointX="11.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionimphourwise" Width="1.5" PointX="13.75" PointY="23.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.consumptionimpmonthwise" Width="1.5" PointX="24.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.daywise" Width="1.5" PointX="24.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_30secdatalogs" Width="1.5" PointX="24.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_absloadsurvey" Width="1.5" PointX="25.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_consumption" Width="1.5" PointX="25.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_consumption_blocks" Width="1.5" PointX="25.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_loadsurvey" Width="1.5" PointX="26.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_loadsurvey_modify" Width="1.5" PointX="18.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.expconsumption_blocks" Width="1.5" PointX="20.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.hourwise" Width="1.5" PointX="26.75" PointY="22.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.hourwisecurrent" Width="1.5" PointX="22.75" PointY="26.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.hourwisevoltage" Width="1.5" PointX="27.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.impconsumption_blocks" Width="1.5" PointX="27.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.instancedatalog" Width="1.5" PointX="11.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.kwh_exp_con_1" Width="1.5" PointX="13.75" PointY="27.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.kwh_exp_read_1" Width="1.5" PointX="7.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.kwh_imp_con_1" Width="1.5" PointX="28.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.kwh_imp_read_1" Width="1.5" PointX="28.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.loadprofile" Width="1.5" PointX="28.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.loadsurveyexport" Width="1.5" PointX="28.75" PointY="20.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.loadsurveyimport" Width="1.5" PointX="24.75" PointY="28.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.loadsurveylog" Width="1.5" PointX="28.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.monthwise" Width="1.5" PointX="29.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.mquery_consumption" Width="1.5" PointX="0.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.previousblkmiss" Width="1.5" PointX="30.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conexp_blockwise" Width="1.5" PointX="30.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conexp_daywise" Width="1.5" PointX="30.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conexp_hourwise" Width="1.5" PointX="13.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conexp_monthwise" Width="1.5" PointX="30.75" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conimp_blockwise" Width="1.5" PointX="20.75" PointY="30.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conimp_daywise" Width="1.5" PointX="30.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conimp_hourwise" Width="1.5" PointX="30.75" PointY="25.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_conimp_monthwise" Width="1.5" PointX="30.75" PointY="29.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_daywise" Width="1.5" PointX="31.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_hourwise" Width="1.5" PointX="7.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_hourwisecurrent" Width="1.5" PointX="15.75" PointY="31.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_hourwisevoltage" Width="1.5" PointX="32.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_kwh_exp_con_1" Width="1.5" PointX="32.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_kwh_exp_read_1" Width="1.5" PointX="32.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_kwh_imp_con_1" Width="1.5" PointX="32.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_kwh_imp_read_1" Width="1.5" PointX="32.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_monthwise" Width="1.5" PointX="32.75" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="etools_devModel.evt_mquery_consumption_b" Width="1.5" PointX="32.75" PointY="26.75" IsExpanded="true" />
+        <AssociationConnector Association="etools_devModel.r165_237" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r166_238" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r167_239" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r130_84" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r130_85" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r129_79" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r134_100" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r134_101" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r180_267" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r163_200" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r163_201" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r132_94" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r157_180" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r128_74" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r128_75" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r127_69" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r162_196" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r131_90" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r131_91" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r135_104" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r140_122" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r148_271" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r162_197" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r172_231" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r173_236" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r137_113" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r237_334" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r171_226" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r142_128" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r237_333" ManuallyRouted="false" />
+        <AssociationConnector Association="etools_devModel.r170_221" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

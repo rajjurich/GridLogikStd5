@@ -1,0 +1,137 @@
+﻿@model GridLogikViewer.APIModels.MemoryMap_Addressdetails
+
+@{
+    ViewBag.Title = "EditDriverDetails";
+}
+<div class="container">
+    <h2>Edit Driver Details</h2>
+    @if (Model.ListAddressDetails1.Count != 0)
+    {
+        using (Html.BeginForm("EditDriverDetails", "DriverConfiguration", FormMethod.Post, new { id = "formDriverConfigEdit" }))
+        {
+            @Html.AntiForgeryToken()
+     
+        <p>
+
+
+        <label for="Day">Day</label>
+           
+            @Html.HiddenFor(model => Model.ListAddressDetails2[0].ID, new { @id = "idday" })
+            @Html.HiddenFor(model => Model.ListAddressDetails2[0].MemoryMap_Range.ID, new { @id = "idday1" })
+             @Html.TextBoxFor(model => Model.ListAddressDetails2[0].Address, new { @name = "", @id = "Day", @class = "form-control addressRange", @onblur = " return GenerateSequence();" })
+           
+    
+        <label for="Month">Month</label>
+            @Html.HiddenFor(model => Model.ListAddressDetails2[1].ID, new { @id = "idmonth" })
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[1].Address, new { @name = "", @id = "Month", @class = "form-control addressRange" })
+    
+        <label for="Year">Year</label>
+            @Html.HiddenFor(model => Model.ListAddressDetails2[2].ID, new { @id = "idyear" })
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[2].Address, new { @name = "", @id = "Year", @class = "form-control addressRange" })
+    
+        <label for="Hr">Hr</label>
+     
+            @Html.HiddenFor(model => Model.ListAddressDetails2[3].ID, new { @id = "idhr" })
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[3].Address, new { @name = "", @id = "Hr", @class = "form-control addressRange" })
+    
+        <label for="Min">Min</label>
+            @Html.HiddenFor(model => Model.ListAddressDetails2[4].ID, new { @id = "idmin" })
+          @Html.TextBoxFor(model => Model.ListAddressDetails2[4].Address, new { @name = "", @id = "Min", @class = "form-control addressRange" })
+
+   
+        <label for="Sec">Sec</label>
+            @Html.HiddenFor(model => Model.ListAddressDetails2[5].ID, new { @id = "idsec" })
+         @Html.TextBoxFor(model => Model.ListAddressDetails2[5].Address, new { @name = "", @id = "Sec", @class = "form-control addressRange" })
+       
+
+    </p>
+            <div class="panel panel-default">
+                @Html.HiddenFor(model => Model.ModelID)
+                @Html.DropDownListFor(model => model.ModelID, new SelectList(Model.ListMeterModel, "ID", "ModelName"), "select meter", new { @id = "ddlModelList", @class = "form-control" })
+                <label id="modelError" hidden="hidden"><font color="red">Please select value</font></label>
+
+                <div class="col-md-12 table-responsive dashboard-selectoption-panel-body">
+                    <table class="table table-bordered table-hover table-sortable" id="tab_logicEdit">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.Address)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.ParameterName)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.DataType)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.InstanceDataMapping)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.MultiplicationFactor)
+                                </th>
+                                <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;"></th>
+                            </tr>
+                        </thead>
+                        @for (int i = 0; i < Model.ListAddressDetails1.Count(); i++)
+                        {
+                            @Html.HiddenFor(model => Model.ListAddressDetails1[i].ID, new { @id = "id" + (i + 1) })
+                            @Html.HiddenFor(model => Model.ListAddressDetails1[i].RangeId, new { @id = "rangeId" + (i + 1) })
+                            @Html.HiddenFor(model => Model.ListAddressDetails1[i].ModelID, new { @id = "modelId" + (i + 1) })
+                            
+                            
+                           
+                          
+                            <tr id='addr0' data-id="0">
+                                <td data-name="name">
+                                    @Html.TextBoxFor(model => Model.ListAddressDetails1[i].Address, new { @name = "name", @id = "address" + (i + 1), @class = "form-control addressRange" })
+                                </td>
+                                <td data-name="parameter">
+                                    @Html.TextBoxFor(model => Model.ListAddressDetails1[i].ParameterName, new { @id = "parameter" + (i + 1), @name = "parameter" + (i + 1), @class = "form-control" })
+                                </td>
+                                <td data-name="dataType">
+                                    @Html.DropDownListFor(model => Model.ListAddressDetails1[i].DataType, new SelectList(ViewBag.DataTypelist, "Value", "Text", Model.ListAddressDetails1[i].DataType), "select", new { @id = "dataType", @name = "sel0", @class = "form-control" })
+                                </td>
+                                <td data-name="instanceData">
+                                    @Html.DropDownListFor(model => Model.ListAddressDetails1[i].InstanceDataMapping, new SelectList(ViewBag.InstanceParameterID, "Text", "Value", Model.ListAddressDetails1[i].InstanceDataMapping), "select", new { @id = "dataMapping", @class = "form-control" })
+                                </td>
+                                <td data-name="multification">
+                                    @Html.TextBoxFor(model => Model.ListAddressDetails1[i].MultiplicationFactor, new { @id = "MultiplicationFactor" + (i + 1), name = "MultiplicationFactor" + (i + 1), @class = "form-control" })
+                                </td>
+                                <td data-name="del">
+                                    <button type="button" name="del0" id=@Model.ListAddressDetails1[i].RangeId class='btn btn-danger glyphicon glyphicon-remove row-remove' onclick="Remove(this)"></button>
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+            <input type="submit" value="Save" id="saveDetailEdit" class="btn btn-default" />
+            <input type="button" value="Add Row" id="add_rowEdit" class="btn btn-default pull-right" />
+        }
+    }
+    else
+    {
+        <h3>No Records Found!!!</h3>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Content/Template/js/jquery/jquery-2.1.4.min.js"></script>
+<script src="@Url.Content("~/Scripts/DriverConfiguration/EditDriverDetails.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    function GenerateSequence() {
+        //Your logic here
+      
+        var day = document.getElementById('@Html.Id("Day")').value;
+       @*// var month = document.getElementById('@Html.Id("Month")');*@
+        
+        document.getElementById('@Html.Id("Month")').value = parseInt(document.getElementById('@Html.Id("Day")').value)+1;
+        document.getElementById('@Html.Id("Year")').value = parseInt(document.getElementById('@Html.Id("Month")').value) + 1;
+        document.getElementById('@Html.Id("Hr")').value =parseInt(document.getElementById('@Html.Id("Year")').value) + 1;
+        document.getElementById('@Html.Id("Min")').value =parseInt(document.getElementById('@Html.Id("Hr")').value) + 1;
+        document.getElementById('@Html.Id("Sec")').value =parseInt(document.getElementById('@Html.Id("Min")').value) + 1;
+
+
+    }
+</script>

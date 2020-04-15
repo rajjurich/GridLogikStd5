@@ -1,0 +1,98 @@
+execute procedure ifx_allow_newline('t');
+
+
+drop table if exists ir_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.ir_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($ir)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_ir_read_2;
+create view etools_dev.evt_ir_read_2
+(
+meterid,
+tstamp,
+ir
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) ir
+from
+ir_read_2;
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists ir_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.ir_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($ir)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_ir_read_3;
+create view etools_dev.evt_ir_read_3
+(
+meterid,
+tstamp,
+ir
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) ir
+from
+ir_read_3;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists ir_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.ir_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($ir)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_ir_read_5;
+create view etools_dev.evt_ir_read_5
+(
+meterid,
+tstamp,
+ir
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) ir
+from
+ir_read_5;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists ir_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.ir_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($ir)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_ir_read_6;
+create view etools_dev.evt_ir_read_6
+(
+meterid,
+tstamp,
+ir
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) ir
+from
+ir_read_6;

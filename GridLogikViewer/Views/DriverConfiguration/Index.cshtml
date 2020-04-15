@@ -1,0 +1,44 @@
+﻿@model IEnumerable<GridLogikViewer.APIModels.MeterModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Driver Configuration</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ModelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @if (item.MemoryMap_Addressdetails.Count == 0)
+                {
+                    @Html.ActionLink("Add", "GetMeterDetails")
+                }
+                else
+                {
+                    @Html.ActionLink("Edit", "GetMeterDetailsForEdit", new { id = item.ID })<span>&nbsp</span>
+                    @Html.ActionLink("Details", "GetMeterDetails", new { id = item.ID, actionName = "Read" })<span>&nbsp</span>
+                    @Html.ActionLink("Delete", "GetMeterDetails", new { id = item.ID, actionName = "Delete" })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

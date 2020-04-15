@@ -1,0 +1,227 @@
+﻿@model GridLogikViewer.ViewModel.GroupCallViewModel
+@using GridLogikViewer.Extensions
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                $("#DateField").val(data[i].prmvalue);
+                                var dateFormat = data[i].prmvalue;
+                                dateFormat = dateFormat.toUpperCase();
+                                if (dateFormat != null) {
+                                    var dateObj = new Date();
+                                    //var month = dateObj.getUTCMonth() + 1; //months from 1-12
+                                    //var day = dateObj.getUTCDate();
+                                    //var year = dateObj.getUTCFullYear();
+                                    var month = ("0" + (dateObj.getMonth() + 1)).slice(-2); //months from 1-12
+                                    var day = ("0" + dateObj.getDate()).slice(-2);
+                                    var year = dateObj.getUTCFullYear();
+
+                                    if (dateFormat == "DD/MM/YYYY" || dateFormat == "DD/MM/YY") {
+                                        var frm = day + '/' + month + '/' + year;
+                                        $("#ToDate").val(frm);
+                                        $("#FromDate").val(frm);
+                                    } else if (dateFormat == "MM/DD/YYYY" || dateFormat == "MM/DD/YY") {
+                                        var frm = month + '/' + day + '/' + year;
+                                        $("#ToDate").val(frm);
+                                        $("#FromDate").val(frm);
+                                    } else if (dateFormat == "YYYY/MM/DD" || dateFormat == "YY/MM/DD") {
+                                        var frm = year + '/' + month + '/' + day;
+                                        $("#ToDate").val(frm);
+                                        $("#FromDate").val(frm);
+                                    }
+                                }
+                            }
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDate").val(data[i].prmvalue);
+                        }
+                    }
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E')
+                }
+            }
+        });
+
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0',
+            onSelect: function (selected) {
+                //HideQueryData();
+                var today = new Date();
+                var dt = new Date(GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val()));
+                var dt1 = new Date(GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val()));
+                dt.setDate(dt.getDate());
+                $("#ToDate").datepicker("option", "minDate", dt);
+                dt1.setDate(dt1.getDate() + 1);
+                //$("#ToDate").datepicker("option", "minDate", dt);
+                if (dt1 > today) {
+
+
+                } else {
+                    $("#ToDate").datepicker("option", "maxDate", dt1);
+                    $("#ToDate").datepicker("setDate", dt1);
+                }
+
+                //var Todate = GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val());
+                //var currdate = new Date();
+                //var dt = new Date(Todate);
+                //var dt1 = new Date(Todate);
+                //dt.setDate(dt.getDate());
+                //dt1.setDate(dt1.getDate() + 1);
+                //$("#ToDate").datepicker("setDate", dt);
+                //$("#ToDate").datepicker("option", "minDate", dt);
+                //$("#ToDate").datepicker("option", "maxDate", dt1.getDate() + 1);
+            }
+        });
+        $("#ToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0',
+            maxDate: '0',
+            onSelect: function (selected) {
+                // HideQueryData();
+            }
+        });
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "InvoiceGenerationAPI/GetGroupNamePDF",
+            dataType: "json",
+            success: function (group, status, jqXHR) {
+                var str = "";
+
+                str = "<option value='select'>Select Group</option>";
+                if (group.Data.result != undefined) {
+                    if (group.Data.result.length > 0) {
+                        var data = group.Data.result;
+
+                        for (var i in data) {
+                            if (data[i].groupname != undefined && data[i].groupname != "" && data[i].id != undefined && data[i].id != "") {
+                                str += "<option value=" + data[i].id.toString() + ">" + data[i].groupname + "</option>";
+                            }
+                        }
+                    }
+                }
+                $("#groupid").html(str);
+            }
+        });
+
+        $("#btnCreate").click(function () {
+
+            if ($("#FromDate").val() > $("#ToDate").val()) {
+                alert('From Date not grater than ToDate', '', false, 'M');
+            }
+            if ($("#groupid").val() == "select" || $("#groupid :selected").val() == "") {
+                alert('Please Select Meter Group', '', false, "M");
+                return false;
+            } else {
+                var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+                var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+                var data = {
+                    "fromdate": frmDate,
+                    "todate": Todate,
+                    "groupid": $("#groupid :selected").val(),
+                    "flagprocess": 0,
+                    "filepath": null,
+                    "filename": null
+                };
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+                    url: BaseAddress + "GroupCalIntimationAPI/insertserviceintimation",
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    success: function (group, status, jqXHR) {
+                        var count = group;
+                        if (count == 0) {
+                            alert('Record with same date and group name already exists', '', true, 'S');
+                            return false;
+                        }
+                        else if (count == 1) {
+                            alert('Data Saved Successfully...!!', '', true, 'S');
+                            return false;
+                        }
+                    }
+                });
+            }
+        });
+    });
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Group Calculation Intimation</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+
+                                        <input id="DateField" type="hidden" />
+                                        <input id="ServerDate" type="hidden" />
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelForRequired(model => model.FromDate, null)
+                                            @Html.TextBoxFor(model => model.FromDate, new { @id = "FromDate", @class = "form-control" })
+                                            @*@Html.ValidationMessageFor(model => model.FromDate)*@
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelForRequired(model => model.ToDate, null)
+                                            @Html.TextBoxFor(model => model.ToDate, new { @id = "ToDate", @class = "form-control" })
+                                            @*@Html.ValidationMessageFor(model => model.ToDate)*@
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelForRequired(model => model.groupname, null)
+                                            @Html.DropDownListFor(model => Model.ID, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "groupname"), "select Group", new { @id = "groupid", @class = "form-control" })
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-success" id="btnCreate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick=""><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

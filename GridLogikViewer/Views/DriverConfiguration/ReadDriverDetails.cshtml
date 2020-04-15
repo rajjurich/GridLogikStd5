@@ -1,0 +1,74 @@
+﻿@model GridLogikViewer.APIModels.MemoryMap_Addressdetails
+
+@{
+    ViewBag.Title = "DriverDetails";
+}
+
+<div class="container">
+    <h2>Driver Details</h2>
+    @if (Model.ListAddressDetails.Count != 0)
+    {
+        using (Html.BeginForm("ReadAddressDetails", "DriverConfiguration", FormMethod.Post, new { id = "formDriverConfigRead" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="panel panel-default">
+                @Html.DropDownListFor(model => model.ModelID, new SelectList(Model.ListMeterModel, "ID", "ModelName"), "select meter", new { @class = "form-control" })
+                <div class="col-md-12 table-responsive dashboard-selectoption-panel-body">
+                    <table class=" table table-bordered table-hover table-sortable" id="tab_logicRead">
+                        <thead>
+                            <tr>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.Address)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.ParameterName)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.DataType)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.InstanceDataMapping)
+                                </th>
+                                <th class="text-center">
+                                    @Html.LabelFor(model => model.MultiplicationFactor)
+                                </th>
+                            </tr>
+                        </thead>
+                        @foreach (var item in Model.ListAddressDetails)
+                        {
+                            @Html.HiddenFor(model => item.ID, new { @id = "id" + (1) })
+                            <tr id='addr0'>
+                                <td>
+                                    @Html.TextBoxFor(model => item.Address, new { name = "name", @id = "address" + (1), @class = "form-control addressRange" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => item.ParameterName, new { @id = "parameter" + (1), name = "parameter" + (1), @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => item.DataType, new SelectList(ViewBag.DataTypelist, "Value", "Text", item.DataType), "select", new { @id = "dataType", @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.DropDownListFor(model => item.InstanceDataMapping, new SelectList(ViewBag.InstanceParameterID, "Value", "Text", item.InstanceDataMapping), "select", new { @id = "dataMapping", @class = "form-control" })
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => item.MultiplicationFactor, new { @id = "MultiplicationFactor" + (1), name = "MultiplicationFactor" + (1), @class = "form-control" })
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <h3>No Records Found!!!</h3>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Content/Template/js/jquery/jquery-2.1.4.min.js"></script>
+<script src="@Url.Content("~/Scripts/DriverConfiguration/ReadDriverDetails.js")" type="text/javascript"></script>
+

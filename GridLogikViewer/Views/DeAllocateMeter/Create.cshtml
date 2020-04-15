@@ -1,0 +1,394 @@
+@model GridLogikViewer.APIModels.DeAllocateMeter
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Create";
+}
+
+@section scripts
+{
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            //Get Dateformat and Set it to datepickers
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                                //$("#ServerDateformat").val("dd/MM/yy");
+                            }
+                        }
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            $("#txtToDate").datepicker({
+                dateFormat: $("#Dateformat").val(),
+                minDate: "0D",
+                changeMonth: true,
+                changeYear: true
+            });
+            //Fill Consumer DropDown
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumer",
+                url: BaseAddress + "consumer",
+                dataType: "json",
+                async: false,
+                success: function (consumers, status, jqXHR) {
+                    var str = "";
+                    var str1 = "";
+                    str = "<option value>Select Consumer</option>";
+                    str1 = "<option value>Select Meter</option>";
+                    if (consumers.Data.result != undefined) {
+                        var data = consumers.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].csmrmasterid + ">" + (data[i].csmrfirstname == "0" ? "" : data[i].csmrfirstname) + " " + (data[i].csmrlastname == "0" ? "" : data[i].csmrlastname) + "</option>";
+                        }
+                    }
+                    else if (consumers.Data.e == "E") {
+                        if (consumers.Data.d.length > 0)
+                            alert(consumers.Data.d, '', false, "M");
+                    }
+
+                    $("#drpConsumerID").html(str);
+                    $("#drpMeterID").html(str1);
+
+                    $(".consumerclasses").selectpicker();
+                }
+            });
+
+        });
+
+        $("#drpConsumerID").change(function () {
+            //Fill Parent Meter DropDown
+            var cmrId = $('#drpConsumerID').val();
+            if (cmrId != null && cmrId != "") {
+                $("#drpMeterID").empty();
+                FillSearchMeter(cmrId);
+            } else {
+                if ($.fn.dataTable.isDataTable('#lsttable')) {
+                    var table = $('#lsttable').dataTable();
+                    table.fnClearTable();
+                    table.fnDestroy();
+                    $("#data").empty();
+                    $('#subGrid').hide();
+                    $('#divDate').hide();
+                }
+                else {
+                    $("#data").empty();
+                    $('#subGrid').hide();
+                    $('#divDate').hide();
+                }
+            }
+        });
+        function FillSearchMeter(cmrId) {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/meter",
+                url: BaseAddress + "ConsumerMeterList/GetMetersAccordingConsumer/" + cmrId,
+                dataType: "json",
+                async: false,
+                success: function (consumermeterrelations, status, jqXHR) {
+                    var str = "";
+                    if (consumermeterrelations.Data.result != undefined) {
+                        consumermeterrelations.Data.result.forEach(function (response) {
+
+                            var startDate = "";
+                            if (response.cmrrelationshipstartdate != null) {
+
+                                var DBcmrrelationshipstartdate = Date.parse(response.cmrrelationshipstartdate, $("#DatabaseDateformat").val());
+                                //startDate = Date.parse(response.cmrrelationshipstartdate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                startDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrrelationshipstartdate))
+                            }
+                            else {
+                                startDate = "";
+                            }
+                            var endDate = "";
+                            if (response.cmrrelationshipenddate != null) {
+
+                                var DBcmrrelationshipenddate = Date.parse(response.cmrrelationshipenddate, $("#DatabaseDateformat").val());
+                                // endDate = Date.parse(response.cmrrelationshipenddate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                endDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrrelationshipenddate))
+                            }
+                            else {
+                                endDate = "";
+                            }
+
+                            var ServiceStartDate = "";
+                            if (response.cmrservicestartdate != null) {
+
+                                var DBcmrservicestartdate = Date.parse(response.cmrservicestartdate, $("#DatabaseDateformat").val());
+                                //startDate = Date.parse(response.cmrrelationshipstartdate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                ServiceStartDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrservicestartdate))
+                            }
+                            else {
+                                ServiceStartDate = "";
+                            }
+                            var ServiceEndDate = "";
+                            if (response.cmrserviceenddate != null) {
+
+                                var DBcmrserviceenddate = Date.parse(response.cmrserviceenddate, $("#DatabaseDateformat").val());
+                                // endDate = Date.parse(response.cmrrelationshipenddate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                ServiceEndDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrserviceenddate))
+                            }
+                            else {
+                                ServiceEndDate = "";
+                            }
+                            var temp = "";
+                            var classR = "";
+                            var chkMethod = "";
+                            if (response.tagforsubmeter == "0") {
+                                temp = "Yes";
+                                classR = "PCLASS";
+                                chkMethod = "CheckAllCheck(1)"
+                            } else {
+                                temp = "No";
+                                classR = "CCLASS";
+                                chkMethod = "CheckAllCheck(0)"
+                            }
+                            str += "<tr>" +
+                                "<td> <input id='chk_" + response.cmrmeterid + "'  type='checkbox' class='" + classR + "' onclick='" + chkMethod + "'/></td>" +
+                                 "<td>" + response.cmrconsumerid + "</td>" +
+                                 "<td>" + startDate + "</td>" +
+                                "<td>" + endDate + "</td>" +
+                                "<td>" + ServiceStartDate + "</td>" +
+                                "<td>" + ServiceEndDate + "</td>" +
+                                "<td>" + temp + "</td>" +
+                                "</tr>";
+                        });
+                        $("#data").html(str);
+                        if (box) box.remove();
+                        $('#subGrid').show();
+                        $('#divDate').show();
+
+                    } else {
+                        $("#data").empty();
+                        $('#subGrid').hide();
+                        $('#divDate').hide();
+                        if (box) box.remove();
+                    }
+
+                    if (consumermeterrelations.Data.e == "E") {
+                        if (consumermeterrelations.Data.d.length > 0)
+                            alert(consumermeterrelations.Data.d);
+
+                    }
+
+                }
+            });
+        }
+        function CheckAllCheck(flag) {
+            if (flag == "1") {
+                if ($('input:checkbox.PCLASS').is(':checked')) {
+                    $('input:checkbox.CCLASS').each(function () {
+                        this.checked = true;
+                    });
+                } else {
+                    $('input:checkbox.CCLASS').each(function () {
+                        this.checked = false;
+                    });
+                }
+            } else {
+                $('input:checkbox.PCLASS').prop('checked', false);
+            }
+        }
+        function CheckRelationship() {
+            if ($('#chk_DCREL').is(':checked')) {
+                $('#chk_DCMETER').prop('checked', true);
+            }
+        }
+        $("#updateDetail").click(function (e) {
+            debugger;
+            var count = 0;
+            var flag = 0;
+            var MeterString = "";
+            if ($('input:checkbox.PCLASS').is(':checked')) {
+                if (MeterString.length == 0) {
+                    MeterString = $('input:checkbox.PCLASS').attr("id").replace("chk_", "") + ",";
+                } else {
+                    MeterString += $('input:checkbox.PCLASS').attr("id").replace("chk_", "") + ",";
+                }
+                count++;
+                $('input:checkbox.CCLASS').each(function () {
+                    MeterString += this.id.replace("chk_", "") + ",";
+                    count++;
+                });
+            } else {
+                $('input:checkbox.CCLASS').each(function () {
+                    if (this.checked) {
+                        count++;
+                        MeterString += this.id.replace("chk_", "") + ",";
+                    }
+                });
+            }
+            debugger;
+            if (MeterString.length > 0) {
+                MeterString = MeterString.substring(0, MeterString.length - 1);
+            }
+            if (count == 0) {
+                alert('Please select at least one meter for Disconnection', '', false, "M");
+                return false;
+
+            }
+            if ($('#chk_DCMETER').is(':checked')) {
+                flag = 1
+            }
+            if ($('#chk_DCREL').is(':checked')) {
+                flag = 2;
+            }
+
+            if (flag == 0) {
+                alert('Please select at least one  Disconnection Option', '', false, "M");
+                return false;
+            }
+            if ($('#txtToDate').val() == "" || $('#txtToDate').val() == null) {
+                alert('Please select Date', '', false, "M");
+                return false;
+            }
+            var frmdate = GetFinaldate($('#txtToDate').val(), $("#Dateformat").val(), $("#ServerDateformat").val());
+            var DisconnectMeterData = {
+                "date": $('#txtToDate').val(),
+                "meterString": MeterString,
+                "flag": flag
+            };
+            var jdata = JSON.stringify(DisconnectMeterData);
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: BaseAddress + "ConsumerMeterList/",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(DisconnectMeterData),
+                    dataType: "json",
+                    success: function (response, status, jqXHR) {
+
+                        if (box) box.remove();
+                        if (response == "0") {
+                            alert('Meter Disconnected Successfully', '', true, "M");
+                            var cmrId = $('#drpConsumerID').val();
+                            FillSearchMeter(cmrId)
+                            $('#chk_DCMETER').prop('checked', false);
+                            $('#chk_DCREL').prop('checked', false);
+                            $('#txtToDate').val('')
+                            return false;
+                        } else {
+                            alert('Error Occur during Meter Disconnection', '', false, "M");
+                            return false;
+                        }
+                    },
+                    failure: function (msg) {
+                        if (box) box.remove();
+                        alert(msg, '', false, "M");
+                    }
+                });
+            }
+            catch (err) {
+                if (box) box.remove();
+            }
+        });
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Disconnect Meter</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Disconnect Meter</li>
+                    </ol>
+                      <a href='@Url.Action("Index")' class="btn btn-warning pull-right btn-sm"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back to List</a>
+                                        <div class="clearfix"></div>
+                                        <hr />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                      
+                                        <input id="Dateformat" type="hidden" />
+                                        <input id="ServerDateformat" type="hidden" />
+                                        <div class="form-group col-md-6">
+                                            <span><strong>@Html.LabelForRequired(model => model.drpConsumerID, null, "")</strong></span>
+                                            @Html.DropDownListFor(model => model.drpConsumerID, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Consumer" })
+                                            @Html.ValidationMessageFor(model => model.drpConsumerID)
+
+                                        </div>
+                                        <div class="clearfix"></div>
+
+                                        <div id="subGrid" style="display:none" class="panel-body">
+                                            <table id="lsttable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">Select</th>
+                                                        <th class="text-center">Consumer Code</th>
+                                                        <th class="text-center">Rel. Start Date</th>
+                                                        <th class="text-center">Rel.End Date</th>
+                                                        <th class="text-center">Service Start Date</th>
+                                                        <th class="text-center">Service  End Date</th>
+                                                        <th class="text-center">Parent</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data"></tbody>
+                                            </table>
+                                            <div class="clearfix"></div>
+                                            <div class="panel-body">
+                                                <div class="form-group col-md-4">
+                                                    <input id='chk_DCMETER' type='checkbox' class='DCMETER'><label class="col-md-6 control-label"><span><strong>Disconnect Meter</strong></span></label>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <input id='chk_DCREL' type='checkbox' class='DCDCREL' onclick="CheckRelationship()" /><label class="col-md-8 control-label"><span><strong>Disconnect Relationship</strong></span></label>
+                                                </div>
+                                                <div id="divDate" class="form-group col-md-3" style="display: none">
+                                                    <label class="col-md-4 control-label"><b>Date</b><span class="validation-redcolor">*</span></label>
+                                                    <div id="dtToDate" class="col-md-6" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                        <input id="txtToDate" class="form-control" type="text" readonly />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-sm btn-success" id="updateDetail"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                                </div>
+                            </div>
+                        </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

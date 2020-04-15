@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> </html><![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> </html><![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> </html><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+<head>
+    <title>Gridlogik - Energy</title>
+    <link rel="shortcut icon" href="~/Content/images/logo_img/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="~/Content/images/logo_img/favicon1.ico" type="image/x-icon">
+    <meta charset="utf-8" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link href="~/Content/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    @*<link href="~/Content/css/bootstrap-datepicker.css" rel="stylesheet" />*@
+    <link href="~/Content/css/bootstrap-progressbar-3.1.1.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/responsive.css" rel="stylesheet" />
+    <link href="~/Content/css/oldcss/target-admin.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/css/oldcss/jquery-ui-1.9.2.custom.min.css" />
+    <link rel="stylesheet" href="~/Content/css/oldcss/custom.css" />
+    <link href="~/Content/css/oldcss/dataTables.bootstrap.css" rel="stylesheet" />
+    @*<link href="~/Content/css/oldcss/bootstrap.widgetbox-min.css" rel="stylesheet" />*@
+    @*<link href="~/Content/css/oldcss/main-stylesheet.css" rel="stylesheet" />*@
+    <link href="~/Content/css/oldcss/bootstrap-select.css" rel="stylesheet" />
+    @*<link href="~/Content/css/oldcss/style-stickyheader.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/Content/css/oldcss/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/css/styleForTopScroll.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+    @*<script src="~/Scripts/jquery-ui-1.11.4.min.js"></script>*@
+    @*<script src="~/Content/js/jquery-1.11.min.js"></script>*@
+    @*<script src="~/Scripts/respond.js"></script>*@
+    @*<script src="~/Content/js/bootstrap.min.js"></script>*@
+    @*<script src="~/Scripts/Highcharts-4.0.1/js/HighChart_Modify.js"></script>*@
+    @*<script src="~/Scripts/zoom.js"></script>*@
+    @*<script src="~/Content/js/target-admin.js"></script>*@
+    @*<script src="~/Scripts/jquery.dataTables.js"></script>*@
+    @*<script src="~/Scripts/dataTables.bootstrap.js"></script>*@
+
+
+
+    @*<script src="~/Scripts/ProjectType.js"></script>*@
+
+
+    @*<script src="~/Scripts/ConfirmExit.js"></script>*@
+    @*<script src="~/Scripts/moment.js"></script>*@
+    @*<script src="~/Scripts/bootstrap-select.js"></script>*@
+    <script src="~/Scripts/progress.bar.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="~/Content/css/oldcss/Site.css" rel="stylesheet" />
+    @*<link rel="shortcut icon" href="~/Content/images/favicon.png" type="image/x-icon" />*@
+    @*<script src="~/Scripts/jquery.jmHighlight.js"></script>*@
+    @*<link href="~/Content/css/oldcss/chosen.css" rel="stylesheet" />*@
+
+    <link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+    @*<script src="~/Scripts/chosen.jquery.js"></script>*@
+    @*<link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />*@
+    @*<script src="~/Content/select2/js/select2.min.js"></script>*@
+    <link href="~/Content/css/oldcss/jquery-confirm.css" rel="stylesheet" />
+    @*<script src="~/Scripts/jquery-confirm.js"></script>*@
+    @*<script src="~/Scripts/Print.js"></script>*@
+    @*<script src="~/Scripts/graphDateFormat.js"></script>*@
+    @*<script src="~/Scripts/jquery.table2excel.js"></script>*@
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    @RenderSection("head", required: false)
+    <script>
+        //$(document).ready(function () {
+        //var LogDetail = 0;
+
+        $(document).ready(function () {
+            $("#btn-success-trigger").trigger('click');
+            $("#btn-error-trigger").trigger('click');
+            //var LogDetail = 0;
+            @if (@Session["userid"] == null || @Session["userid"] == "")
+            {
+
+                <text>
+            //alert('session expired', '@Url.Action("Login", "Home", new { area = "" })', false, "M");
+            window.location.href = '@Url.Action("Login", "Home", new { area = "" })';
+            return false;
+            </text>
+            }
+
+
+         
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal/getdateformat",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.length > 0) {
+                        $.each(dateformat, function (key, value) {
+                            var data = value;
+                            if (data.prmunit == "CurrentDateTimeField") {
+                                $("#MainDateTimeformat").val(data.prmvalue);
+                            }
+                            else if (data.prmunit == "DatabaseDate") {
+                                $("#MainDatabaseDateformat").val(data.prmvalue);
+                            }
+                            else if (data.prmunit == "REPORT_DISPLAY") {
+                                $("#MainServerDate").val(data.prmvalue);
+                            } else if (data.prmunit == "DateField") {
+                                $("#DateField").val(data.prmvalue);
+                            }
+                        });
+                    }
+                 
+                }
+            });
+
+            setInterval(updateClock, 1000);
+            var myInterval = setInterval('KeepAlive()', 1 * 30 * 1000);
+
+            $("#CurrentDate").datepicker({
+                dateFormat: $("#DateField").val(),
+                changeMonth: true,
+                changeYear: true,
+
+            }).datepicker('setDate', new Date());
+
+        });
+
+            
+        function updateClock() {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: '@Url.Content("~/Login/GetCurrentTime")',
+                async: false,
+                success: function (data, status, jqXHR) {
+                    var CurrentDate = moment(data).format($("#MainDateTimeformat").val());
+                    $("#realtime").html(CurrentDate);
+                }
+
+            });
+
+        }
+
+        function KeepAlive() {
+            // debugger;
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: '@Url.Content("~/Login/KeepSessionAlive")',
+                dataType: "json",
+                async: false,
+                success: function (data, status, jqXHR) {
+                    // alert(data);
+                }
+
+            });
+
+        };
+
+       
+
+    </script>
+    <style>
+        .modal-dialog.modal-sm {
+            width: 300px;
+            margin: 195px auto;
+        }
+
+            .modal-dialog.modal-sm .modal-header {
+                color: #fff;
+            }
+
+                .modal-dialog.modal-sm .modal-header.bg-success {
+                    background-color: #449d44;
+                }
+
+                .modal-dialog.modal-sm .modal-header.bg-red {
+                    background-color: #d43f3a;
+                }
+    </style>
+</head>
+<body class="black-color">
+    @RenderSection("HTML", required: false)
+    <!--Navigation Top Bar Start-->
+    <nav class="navigation">
+        <div class="container-fluid">
+            <!--Logo text start-->
+            <div class="header-logo">
+                @{
+                    var VersionCheck = Session["Version_display"];
+                }
+                <a id="hrMasterDashboard" href="@Url.Action("Index", "Dashboard")">
+                    <img src="~/Content/glimages/logo-main.png" style=" width: 100%; border-right: 1px solid #ccc; padding: 10px 10px 5px 10px;">
+                </a>
+            </div>
+            <!--Logo text End-->
+            <div class="top-navigation">
+                <!--Collapse navigation menu icon start -->
+                <div id="menuControl" class="menu-control hidden-xs" style="margin-left:15px;">
+                    <a href="javascript:void(0)">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                </div>
+
+                <!--Collapse navigation menu icon end -->
+                <!--Top Navigation Start-->
+
+                <ul>
+                    <li>
+                        <a href="javascript:;">
+                            <input id="CurrentDate" name="CurrentDate" class="form-control" type="text" readonly style="display:none" />
+                             <span id="realtime" class="textcolordatetime"></span>
+                        </a>
+                    </li>
+                    @{
+                        var username = Session["userid"];
+                    }
+                    <li class="dropdown navbar-profile">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                            <img src="~/Content/images/other_img/avatars/avatar-1-xs.jpg" class="navbar-profile-avatar" alt="" />
+                            @username
+                            <span class="navbar-profile-label">@User.Identity.Name&nbsp;</span>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+
+                        <div class="dropdown-menu">
+
+                            <ul>
+                                <li> <a href='@Url.Action("Index", "ChangePassword")' class="textColor">Change Password</a> </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li>
+                        <a id="hrlogout" href='@Url.Action("Logout", "Home")'>
+                            <i class="fa fa-power-off"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <img src="~/Content/glimages/cms-logo.png" style="width:80%; margin-top:3px; padding-left:10px; border-left:1px solid #ccc;">
+                    </li>
+                </ul>
+                <!--Top Navigation End-->
+            </div>
+        </div>
+    </nav>
+    <!--Navigation Top Bar End-->
+    <section id="main-container">
+
+        <!--Left navigation section start-->
+        <section id="left-navigation">
+
+            <!--Phone Navigation Menu icon start-->
+            <div class="phone-nav-box visible-xs">
+                <a class="phone-logo" href="index.html" title="">
+                    <img src="~/Content/glimages/logo-main.png" style=" width: 80%;">
+                </a>
+                <a class="phone-nav-control" href="javascript:void(0)" onclick="mobileNav()">
+                    <span class="fa fa-bars"></span>
+                </a>
+                <div class="clearfix"></div>
+            </div>
+            <!--Phone Navigation Menu icon start-->
+            <!--Left navigation start-->
+            <ul class="mainNav" id="menu"></ul>
+            <!--Left navigation end-->
+        </section>
+        <!--Left navigation section end-->
+        <!--Page main section start-->
+        <section id="min-wrapper">
+            <div id="main-content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <input type="hidden" id="MainDateTimeformat">
+                        <input type="hidden" id="MainDatabaseDateformat">
+                        <input type="hidden" id="MainServerDate">
+                        <input type="hidden" id="DateField">
+                        <iframe name="print_frame" width="0" height="0" frameborder="0" src="about:blank"></iframe>
+                        <div class="container-fluid">
+
+                            <div class="modal fade" id="modal_message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel5" aria-hidden="true" style="display: none;">
+                                <div class="modal-dialog modal-sm">
+                                    <div class="modal-content">
+                                        @if (@ViewBag.Status == "Success")
+                                        {
+                                            <div class="modal-header text-center bg-success">
+                                                <h3>@ViewBag.Status</h3>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="modal-header text-center bg-red">
+                                                <h3>@ViewBag.Status</h3>
+                                            </div>
+                                        }
+                                        <div class="modal-body text-center">
+                                            
+                                            <p>@ViewBag.InnerMessage</p>
+                                            <button type="button" class="btn btn-success" data-dismiss="modal"><i class="fa fa-check"></i> OK</button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="background-color:white; color:#222222; margin-bottom:5px; margin-top:-5px;">
+                                <center style="width:100%; padding-right:10px;">
+                                    <marquee width="100%" onmouseover="this.stop();" onmouseout="this.start();">
+                                        @Html.Partial("_GetWebAlarms")
+                                    </marquee>
+                                </center>
+                            </div>
+                            <div>
+                                @Html.Raw(@ViewBag.Message)
+                            </div>
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                </div>
+                <a href="#0" class="cd-top js-cd-top">Top</a>
+            </div>
+
+            <section id="footer" class="footer">Ⓒ CMS Computers Ltd. <span style="color:blue">@VersionCheck</span> </section>
+        </section>
+        <!--Page main section end -->
+    </section>
+
+    @*<script src="~/Scripts/jquery.validate.js"></script>*@
+    @*<script src="/GridLogikViewer/Scripts/jquery.validate.unobtrusive.js"></script>*@
+
+    @*<script src="~/Content/js/multipleAccordion.js"></script>*@
+    @*<script src="~/Content/js/layout.js"></script>*@
+    @*  <script src="~/Scripts/ConfirmExitGridLogik.js"></script>*@
+
+
+    @*<script src="~/Content/js/dashboard.js"></script>*@
+</body>
+</html>
+<script type="text/javascript">
+    var box;
+    //var box;
+
+    $(document).ready(function () {
+        var uri = '@System.Configuration.ConfigurationManager.AppSettings["APIUrl"].ToString()';
+        $('input').attr('autocomplete', 'off');
+        //$("a").click(function () {
+        //    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //});
+        if ('@Session["userid"]' == "") {
+            window.location = envisageURL + "/home/login";
+        }
+        //}*
+
+
+        var userid = '@Session["usrrecid"]'
+        var Mnutype = '@Session["mnutype"]';
+        var urls = "";
+        //if (ProjectType == "P") {
+        //    urls = BaseAddress + "MenuApi/GetMenuByType/" + userid + "/" + Mnutype;
+        //}
+        //else {
+        //    // url = BaseAddress + "MenuApi/" + userid;
+        //    Mnutype = 2;
+        //    urls = BaseAddress + "MenuApi/GetMenuByType/" + userid + "/" + Mnutype;
+        //}
+        urls = uri + "menu/GetByUserId/" + userid;
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        try {
+            //if (Mnutype != null && Mnutype != -1) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: urls,
+                dataType: "json",
+                success: function (menus, status, jqXHR) {
+                    var temp1 = 0;
+                    var str = "";
+                    var i = 0;
+                    var bool = false;
+                    debugger;
+                    var modulename = "";
+                    if (menus != undefined) {
+                        menus.forEach(function (response) {
+                            var temp = response.mnuitemposition;
+                            var modname = response.mstmodule.modulename;
+                            var f = "li";
+                            var logout = document.getElementById('hrlogout'); //dynamically logut button
+                            logout.href = envisageURL + "/Home/Logout";
+
+                            var MSdashboard = document.getElementById('hrMasterDashboard'); //dynamically Add Matser Page
+                            MSdashboard.href = envisageURL + "/Dashboard/Index";
+
+                            if (modulename != modname) {
+                                bool = true;
+                                f = "li" + i;
+                                if (modulename != "") {
+                                    str += "</ul></li>"
+                                };
+                                if (modname== 'Meter View')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-tachometer'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Query View')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-question-circle'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Group View')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-users'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Parameter View')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-list'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Masters')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-clipboard'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Reports')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-list-alt'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Logs')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-file-text-o'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Configurations')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-cogs'></i><span>" + modname + "</span></a><ul>";
+                                else if (modname == 'Dashboard')
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-dashboard'></i><span>" + modname + "</span></a><ul>";       
+                                else 
+                                    str += "<li  id='" + f + "'> <a href='" + envisageURL + response.link + "'><i class='fa fa-dashboard'></i><span>" + modname + "</span></a><ul>";
+
+                                i++;
+                            }
+                            if (response.mstmodule.link == null || response.mstmodule.link == '')
+                            str += " <li ><a href='" + envisageURL + response.link + "'><i class='fa fa-angle-right'></i> " + response.mnuitemname + "</a></li>";
+                          
+
+
+                            temp1 = temp;
+                            modulename = modname;
+                        });
+
+                        $("#menu").html(str);
+                    }
+                     debugger;
+                    var s = $("#menu").children().length;
+                    for (var i = 0; i < s; i++) {
+
+                        if ($("#li" + i).children("ul").length > 0 && $("#li" + i).children("ul").children("li").length > 0) {
+                            //$("#li" + i + " a").eq(0).append("<span class='caret'></span>");
+                            //$("#li" + i + " a").eq(0).addClass("dropdown-toggle");
+                            $("#li" + i + " a").eq(0).attr("data-toggle", "dropdown");
+                        }
+                    }
+
+                    //debugger;
+                    //var path = window.location.pathname;
+
+                    //$(".mainNav ul a").each(function () {
+                    //    debugger;
+                    //    var href = $(this).attr('href');
+                    //    if (path.substring(0, href.length) == href) {
+                    //        $(this).closest('li').closest('ul').closest('li').addClass('open');
+                    //        $(this).addClass('active');
+                    //    }
+                    //})
+
+
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    if (box) box.remove();
+                }
+            });
+
+          
+        } catch (err) {
+            if (box) box.remove();
+        }
+
+      
+
+    });
+    $("#menuControl").click(function () {
+        if ($(".mainNav").hasClass("active")) {
+            $(".mainNav").removeClass("active")
+            $("#left-navigation").removeClass("active");
+            $("#min-wrapper").removeClass("active");
+        } else {
+            $(".mainNav").addClass("active")
+            $("#left-navigation").addClass("active");
+            $("#min-wrapper").addClass("active");
+        }
+    });
+
+    function mobileNav() {
+        //document.getElementById("menu").style.display = "block";
+        var x = document.getElementById("menu");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    };
+    
+    $('#left-navigation').on("mouseenter", function () {
+        if ($(".mainNav").hasClass("active")) {
+            $(".mainNav").removeClass("active")
+            $("#left-navigation").removeClass("active");
+            $("#min-wrapper").removeClass("active");
+        }
+    }).on("mouseleave", function () {
+        $(".mainNav").addClass("active")
+        $("#left-navigation").addClass("active");
+        $("#min-wrapper").addClass("active");
+    })
+
+    $(".mainNav").addClass("active")
+    $("#left-navigation").addClass("active");
+    $("#min-wrapper").addClass("active");
+</script>
+@RenderSection("scripts", required: false)

@@ -1,0 +1,1 @@
+﻿$("#formDriverConfigRead").find('input,select').attr("disabled", true);

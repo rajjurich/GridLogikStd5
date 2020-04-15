@@ -1,0 +1,55 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var cols = [];
+        cols.push("meterid");
+        cols.push("tstamp");
+        cols.push("blockno");
+        cols.push("kw");
+        cols.push("kwh_exp");        
+
+        var meters = [];
+        meters.push(1);
+        meters.push(2);
+
+        var meters2 = [];
+        meters2.push(1);
+        meters2.push(2);
+
+        var dt = {
+            "FromDate": new Date("2017/03/04").toLocaleString(),
+            "ToDate": new Date("2017/03/05").toLocaleString(),
+            "Meters": meters,
+            "Columns": cols
+        }
+        var dt2 = {
+            "FromDate": new Date("2017/03/03").toLocaleString(),
+            "ToDate": new Date("2017/03/04").toLocaleString(),
+            "Meters": meters2,
+            "Columns": cols
+        }
+        var obj = [];
+        obj.push(dt);
+        obj.push(dt2);
+
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            url: BaseAddress + "loadsurveydataapi",
+            data: JSON.stringify(obj),
+            success: function (data) {
+                debugger;
+            },
+            error: function (jqXHR) {
+                debugger;
+            }
+        });
+    });
+</script>

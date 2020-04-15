@@ -1,0 +1,114 @@
+﻿@model IEnumerable<GridLogik.ViewModels.MstZoneModel>
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+
+@section scripts
+{
+    <script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#lsttable").dataTable(
+                         {
+                             pageLength: 10,
+                             "aoColumns": [
+                                         null,
+                                         null,
+                                         null,
+                                         null,
+                                         { "bSortable": false, "width": "144px" }
+                             ]
+                         });
+
+    })
+    </script>
+
+}
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Zone</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+
+                                        @*<div class="clearfix"></div>
+                                            <hr />
+                                            <br />*@
+                                        @Html.ActionLink(" Create New", "create", "Zone", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%" style="text-align:center">Code</th>
+                                                    <th width="14%" style="text-align:center">Name</th>
+                                                    <th width="10%" style="text-align:center">Description</th>
+                                                    <th width="10%" style="text-align:center">Utility</th>
+                                                    <th width="10%" style="text-align:center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data">
+
+                                                @{
+                                                    foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.znid)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.znname)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.zndescription)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.znutilityid)
+                                                            </td>
+
+                                                            <td class="text-center">
+
+                                                                @Html.ActionLink(" Edit", "Edit", new { id = item.znrecid }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+
+                                                                @Html.ActionLink(" Delete", "Delete", new { id = item.znrecid }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                            </td>
+                                                        </tr>
+                                                    }}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

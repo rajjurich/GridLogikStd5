@@ -1,0 +1,579 @@
+@model GridLogikViewer.APIModels.RealTimeTrend
+@{
+    ViewBag.Title = "Real Time Trend Data";
+    <style type="text/css">
+        td, th {
+            text-align: center !important;
+        }
+        /*#container {
+            padding-top:4% !important;
+        }*/
+    </style>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        var typeid = "";
+        var GraphType = "";
+        var LastTime = "";
+        var CurrentTime = "";
+        var TmpStap = "";
+        var start = 1;
+        var box;
+        function GetMeters(GroupID) {
+            HideGrid();
+            if (GroupID == "" || GroupID == null) {
+                $("#ddlMeters").val("");
+            }
+            var url1 = "/RealTimeTrendData/MetersByGroupID/";
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                url: '@Url.Action("MetersByGroupID","RealTimeTrendData")',
+                data: { id: GroupID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "";
+                    var markup = "<option value=''>Select Meters</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                    }
+                    $("#ddlMeters").html(markup).show();
+                    if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                    //  alert("error : " + reponse);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                                // $("#DatabaseDateformat").val('dd/MM/yy');
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                //  $("#ServerDateformat").val('dd/MM/yy');
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            ShowMessage("Error", response.Data.d);
+                        //alert(dateformat.Data.d);
+                    }
+                }
+            });
+
+            $("#divParent").css("display", "none");
+
+            $("#btnPlotChart").on("click", function () {
+                if ($("form").valid()) {
+                    GraphType = "Chart";
+                    $("#container").empty();
+                    ////$("#divMain").css("display", "none");
+                    $("#divParent").css("display", "");
+                    CurrentTime = ConvertMMDDYYYY();
+                    var Detail = $("#ddlMeters").val() + "~" + CurrentTime + "~" + LastTime + "~" + "0";
+                    //AssignLabelValue("1");
+                    if ($("#MeterGroup").val() != "" || $("#MeterGroup").val() != null || $("#ddlMeters").val() != "" || $("#ddlMeters").val() != null) {
+                        PerformanceChart(Detail);
+                        // ////$("#btnSwitch").html('Table');
+                    }
+                }
+                else {
+                }
+            });
+
+            $("#btnPlotTable").on("click", function () {
+                if ($("form").valid()) {
+                    GraphType = "table";
+                    $("#container").empty();
+                    //$("#divMain").css("display", "none");
+                    $("#divParent").css("display", "");
+                    CurrentTime = ConvertMMDDYYYY();
+                    var Detail = $("#ddlMeters").val() + "~" + CurrentTime + "~" + LastTime + "~" + "0";
+                    // AssignLabelValue("1");
+                    PerformanceChart(Detail);
+                    // $("#btnSwitch").html('Chart');
+                }
+                else {
+                }
+            });
+            $("#btnSwitch").on("click", function () {
+                if ($("#btnSwitch").html() == "Chart") {
+                    GraphType = "chart";
+                    $("#container").empty();
+                    //$("#btnSwitch").html('Table');
+                    CurrentTime = ConvertMMDDYYYY();
+                    var Detail = $("#ddlMeters").val() + "~" + CurrentTime + "~" + LastTime + "~" + "0";
+                    //AssignLabelValue("1");
+                    PerformanceChart(Detail);
+                }
+                else {
+                    GraphType = "table";
+                    $("#container").empty();
+                    // $("#btnSwitch").html('Chart');
+                    CurrentTime = ConvertMMDDYYYY();
+                    var Detail = $("#ddlMeters").val() + "~" + CurrentTime + "~" + LastTime + "~" + "0";
+                    // AssignLabelValue("1");
+                    PerformanceChart(Detail);
+                }
+
+            });
+
+
+            $("#btnBack").on("click", function () {
+                $("#divMain").css("display", "");
+                $("#divParent").css("display", "none");
+                $('#btnReset').click();
+                //  AssignLabelValue("2");
+            });
+
+        });
+
+
+        function formatDate(date) {
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var ampm = hours >= 12 ? 'pm' : 'am';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // the hour '0' should be '12'
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            var strTime = hours + ':' + minutes + ' ' + ampm;
+            return date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear() + "  " + strTime;
+        }
+
+
+        function PerformanceChart(Detail) {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var opt = "";
+            var legendArray = new Array();
+            var seriesOptions = "";
+            var FinString = "";
+            var ddlParameter = $("#ddlEnergy").val();
+            //  if (typeid == 2) {
+            // opt = "table";
+
+            opt = GraphType;
+            //GraphType = "table";
+            // }
+            // CurrentTime = ConvertMMDDYYYY();
+
+            var SubType = "line";
+            var categories_data = new Array();
+            //var RecordID = $("#ddlMeters").val();
+            // var Detail = RecordID + "~" + CurrentTime + "~" + LastTime + "~"+"0";
+            try {
+                $.ajax({
+                    type: "GET",
+                    // url: "http://localhost:8487/EToolsAPI/api/RealTimeTrendData/" + RecordID,
+                    url: BaseAddress + "RealTimeTrendData/" + Detail,
+                    //" + $("#ddlMeters").val(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                        //convert Input to normal format
+                        var jsonObj = response;
+                        if (jsonObj.length > 0) {
+
+                            $.each(jsonObj[0], function (key, value) {
+                                if (key != "$id")
+                                    legendArray[legendArray.length] = key;
+                            });
+                            //legendArray.splice(0, 1);//Remove Id json Filed from legend
+                            $("#container").empty();
+                            if (opt == "table") {
+                                FinString = "<div class='panel-body'><table class='table table-bordered table-striped dataTable no-footer'>";
+                                FinString += "<tr>";
+                                for (var j = 0; j < legendArray.length; j++) {
+                                    FinString += "<th class='tableth'>" + legendArray[j] + "</th>"
+                                }
+                                FinString += "</tr>";
+
+
+                                $.each(jsonObj, function (index) {
+                                    FinString += "<tr>";
+                                    $.each(jsonObj[index], function (key, value) {
+
+                                        if (key == "Date_Time") {
+                                            FinString += "<td>" + value.split('T')[1] + "</td>"
+                                        } else if (key != "$id") {
+                                            FinString += "<td>" + value + "</td>"
+                                        }
+
+
+                                    });
+                                    FinString += "</tr>";
+                                });
+                                FinString += "</table></div>";
+                                $("#container").html(FinString);
+                                if (box) box.remove();
+                            } else {
+                                LastTime = CurrentTime;
+                                $.each(jsonObj, function (index) {
+                                    categories_data[categories_data.length] = jsonObj[index][legendArray[0]].split('T')[1]
+                                });
+                                legendArray.splice(0, 1);
+                                $.each(legendArray, function (index) {
+                                    //   if (index != 0) {
+                                    $.each(jsonObj, function (jsonIndex) {
+                                        if (jsonObj.length - 1 != jsonIndex) {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                        } else {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                        }
+
+                                    });
+                                    if (legendArray.length - 1 != index)
+                                        seriesOptions += "~";
+                                    // }
+                                })
+                                var FinSeriesOptions = seriesOptions.split('~');
+
+                                var seriesArr = [];
+                                // Create Series Array with name and data property
+                                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                    var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+                                    if (ddlParameter == "V") {
+                                        if (legendArray[ser] == "Vrn" || legendArray[ser] == "Vbn" || legendArray[ser] == "Vyn") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                        else {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, visible: false }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "I") {
+                                        if (legendArray[ser] == "Ir" || legendArray[ser] == "Iy" || legendArray[ser] == "Ib") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                        else {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, visible: false }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    // var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+
+                                    //seriesArr.push(series);
+
+                                }
+                                lineChart(categories_data, seriesArr);
+                            }
+                        } else {
+                            if (box) box.remove();
+                            alert('No data Found', '', false, "M");
+                            return false;
+
+                        }
+                    },
+                    failure: function (msg) {
+                        if (box) box.remove();
+                        alert(msg, '', false, "M");
+                    }
+                });
+            }
+            catch (err) {
+                if (box) box.remove();
+            }
+        }
+
+
+        function RealTime(Detail, maxSeries, chart) {
+            if ($("#btnSwitch").html() != "Chart") {
+                var opt = "";
+                var legendArray = new Array();
+                var seriesOptions = "";
+                var FinString = "";
+                var SubType = "line";
+                var categories_data = new Array();
+
+                try {
+                    $.ajax({
+                        type: "GET",
+                        url: BaseAddress + "RealTimeTrendData/" + Detail,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            LastTime = CurrentTime;
+                            var jsonObj = response;
+                            if (jsonObj.length > 0) {
+
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key != "$id")
+                                        legendArray[legendArray.length] = key;
+                                });
+                                $.each(jsonObj, function (index) {
+                                    categories_data[categories_data.length] = jsonObj[index][legendArray[0]].split('T')[1]
+                                });
+                                chart.xAxis[0].setCategories(categories_data, true, true);
+                                legendArray.splice(0, 1);
+                                $.each(legendArray, function (index) {
+                                    $.each(jsonObj, function (jsonIndex) {
+                                        if (jsonObj.length - 1 != jsonIndex) {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                        } else {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                        }
+
+                                    });
+                                    if (legendArray.length - 1 != index)
+                                        seriesOptions += "~";
+                                })
+                                var FinSeriesOptions = seriesOptions.split('~');
+                                var seriesArr = [];
+                                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                    var seriesOptions2 = seriesOptions1.map(Number);
+                                    chart.series[ser].setData(seriesOptions2);
+                                }
+                                chart.redraw();
+                            }
+                        },
+                        failure: function (msg) {
+                            alert(msg, '', false, "M");
+                        }
+                    });
+                }
+                catch (err) {
+                }
+            }
+        }
+
+        function lineChart(categories_data, seriesArr) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'spline',
+                    marginRight: 10,
+                    events: {
+                        load: function () {
+
+                            // set up the updating of the chart each second
+                            var chart = this;
+                            var series = this.series;
+
+                            setInterval(function () {
+                                if ($("#ddlMeters").val() != "" && $("#MeterGroup").val() != null && $("#btnSwitch").html() != "Chart") {
+                                    CurrentTime = ConvertMMDDYYYY();
+                                    var Detail = $("#ddlMeters").val() + "~" + CurrentTime + "~" + LastTime + "~" + "1";
+                                    RealTime(Detail, series, chart);
+                                }
+
+                            }, 18000);
+                        }
+                    },
+                    renderTo: 'container'
+                },
+                title: {
+                    text: 'Real Time Trend Data',
+                    x: -20 //center
+                },
+
+                xAxis: {
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        text: "Units"
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: 'Unit'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: seriesArr
+            });
+            if (box) box.remove();
+        }
+        //Manohar
+        //Date Padding
+        Number.prototype.padLeft = function (base, chr) {
+            var len = (String(base || 10).length - String(this).length) + 1;
+            return len > 0 ? new Array(len).join(chr || '0') + this : this;
+        }
+        function ConvertMMDDYYYY() {
+            var dateFormat = $("#ServerDateformat").val();
+            var d;
+            var DateArr;
+
+
+            if (dateFormat.indexOf("/") > 0) {
+                while (dateFormat.indexOf("/") > 0) {
+                    dateFormat = dateFormat.replace("/", "-");
+                }
+            }
+            if (dateFormat.toUpperCase() == "DD-MM-YY" || dateFormat.toUpperCase() == "DD-MM-YYYY") {
+                d = new Date,
+               DateArr = [d.getDate().padLeft(),
+                         (d.getMonth() + 1).padLeft(),
+                         d.getFullYear()].join('-') +
+                           '^' +
+                         [d.getHours().padLeft(),
+                           d.getMinutes().padLeft(),
+                           d.getSeconds().padLeft()].join('$');
+                return DateArr;
+            } else if (dateFormat.toUpperCase() == "MM-DD-YY" || dateFormat.toUpperCase() == "MM-DD-YYYY") {
+
+                d = new Date,
+               DateArr = [(d.getMonth() + 1).padLeft(),
+                           d.getDate().padLeft(),
+                            d.getFullYear()].join('-') +
+                           '^' +
+                           [d.getHours().padLeft(),
+                           d.getMinutes().padLeft(),
+                           d.getSeconds().padLeft()].join('$');
+                return DateArr;
+            } else if (dateFormat.toUpperCase() == "YY-MM-DD" || dateFormat.toUpperCase() == "YYYY-MM-DD") {
+                d = new Date,
+             DateArr = [d.getFullYear(),
+                      (d.getMonth() + 1).padLeft(),
+                         d.getDate().padLeft()].join('-') +
+                         '^' +
+                         [d.getHours().padLeft(),
+                         d.getMinutes().padLeft(),
+                         d.getSeconds().padLeft()].join('$');
+                return DateArr;
+            }
+        }
+        function AssignLabelValue(flag) {
+            if (flag == "1") {
+                $("#lblMeterGroup").text($("#MeterGroup option:selected").text());
+                $("#lblMeters").text($("#ddlMeters option:selected").text());
+            } else {
+                $("#lblMeterGroup").text("");
+                $("#lblMeters").text("");
+            }
+        }
+        function HideGrid() {
+            $("#container").empty();
+            $("#divParent").css("display", "none");
+        }
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter Groups</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Real Time Trend Data</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <strong>Selection</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="row" id="divMain">
+                                           
+                                                <input type="hidden" id="Dateformat">
+                                                <input type="hidden" id="DatabaseDateformat">
+                                                <input type="hidden" id="ServerDateformat">
+                                                <div class="form-group col-md-4">
+                                                    <div class="row">
+                                                    <label class="col-md-4">Meter Group <span class="validation-redcolor">*</span></label>
+                                                    <div class="form-group col-md-7">
+                                                        @Html.DropDownListFor(model => model.MeterGroup, (IEnumerable<SelectListItem>)ViewBag.MeterGroup, "Select Meter Group", new { @onchange = "javascript:GetMeters(this.value);", @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.MeterGroup, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                        </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <div class="row">
+                                                    <label class="col-md-4 control-label">Meter Name <span class="validation-redcolor">*</span></label>
+                                                    <div class="form-group col-md-8">
+                                                        @Html.DropDownListFor(model => model.Meters, Enumerable.Empty<SelectListItem>(), "Select Meter", new { @id = "ddlMeters", @onchange = "javascript:HideGrid();", @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.Meters, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                        </div>
+                                                </div>
+                                                <div class="form-group col-md-3">
+                                                    <div class="row">
+                                                    <label class="col-md-4">Parameter</label>
+                                                    <div class="form-group col-md-8">
+                                                        <select class="form-control valid" id="ddlEnergy" name="MeterGroup" onchange="javascript: HideGrid();">
+                                                            <option value="V">Voltage</option>
+                                                            <option value="I">Current</option>
+                                                        </select>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <div class="row">
+                                                        <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 5px;" id="btnPlotChart">Chart</button>
+                                                   
+
+                                                  
+                                                        <button type="button" class="btn btn-danger" style="font-weight: bold; margin: 0px 5px; " id="btnPlotTable">Table</button>
+                                                        <input type="reset" value="Reset" class="btn btn-default" id="btnReset" style="display:none;" />
+                                                    
+                                                    </div></div>
+                                              
+                                         
+                                        </div>
+
+                                        <div id="divParent">
+                                            <div class="col-md-14" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                            </div>
+                                            <div id='container'>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,568 @@
+﻿@model GridLogik.ViewModels.Consumer
+@{
+    ViewBag.Title = "Delete Consumer";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            //Get Dateformat and Set it to datepickers
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat != undefined) {
+                        var data = dateformat;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                                //$('#csmrdob').datepicker("option", "dateFormat", "dd/mm/yy");
+                                //$("#csmrincorporationdate").datepicker("option", "dateFormat", data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            // alert(dateformat.Data.d);
+                            alert(dateformat.Data.d, '', false, dateformat.Data.e);
+                    }
+                }
+            });
+
+            //Fill Consumer category
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "consumercategory",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (consumercategory, status, jqXHR) {
+            //        var str = "";
+            //        if (consumercategory.Data.result != undefined) {
+            //            var data = consumercategory.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].ccatid + ">" + data[i].ccatdescription + "</option>";
+            //            }
+            //        }
+            //        else if (consumercategory.Data.e == "E") {
+            //            if (consumercategory.Data.d.length > 0)
+            //                // alert(consumercategory.Data.d);
+            //                alert(consumercategory.Data.d, '', false, consumercategory.Data.e);
+            //        }
+
+            //        $("#csmrcategoryid").html(str);
+            //        //$("#csmrcategoryid").selectpicker();
+            //    }
+            //});
+
+            //Fill Users
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "user",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (user, status, jqXHR) {
+            //        var str = "";
+            //        if (user.Data.result != undefined) {
+            //            var data = user.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].usrid + ">" + data[i].usrfirstname + " " + data[i].usrlastname + "</option>";
+            //            }
+            //        }
+            //        else if (user.Data.e == "E") {
+            //            if (user.Data.d.length > 0)
+            //                // alert(user.Data.d);
+            //                alert(user.Data.d, '', false, user.Data.e);
+            //        }
+
+            //        $("#csmruserid").html(str);
+            //        //$("#csmruserid").selectpicker();
+            //    }
+            //});
+
+            hideUsetype($('input[type=radio][name=type]:checked').val());
+            $('input[type=radio][name=type]').on('change', function () {
+                hideUsetype($(this).val());
+            });
+
+            function hideUsetype(c) {
+                switch (c) {
+                    case 'I':
+                        $("#divPersonal").show();
+                        $("#divCompany").hide();
+                        break;
+                    case 'C':
+                        $("#divPersonal").hide();
+                        $("#divCompany").show();
+                        break;
+                }
+            }
+
+            //Get Data for id and assign it to controls
+            var id =@this.ViewContext.RouteData.Values["id"]
+                //$.ajax({
+                //    url: BaseAddress + "consumer/" + id,
+                //    type: "GET",
+                //    contentType: "application/json;charset=utf-8",
+                //    dataType: "json",
+                //    async: false,
+                //    success: function (response) {
+                //        if (response.Data.result.recid == null) {
+                //            //  alert(response.Data.result.d);
+                //            alert(response.Data.d, '', false, "M");
+                //        }
+                //        else {
+                //            $("#csmrrecid").val(response.Data.result.recid);
+                //            $("#csmrmasterid").val(response.Data.result.masterid);
+                //            $("#csmrfirstname").val(response.Data.result.firstname);
+                //            // $("#csmrmiddlename").val(response.Data.result.middlename);
+                //            // $("#csmrlastname").val(response.Data.result.lastname);
+                //            //$("#csmrbillingunitid").selectpicker('val', response.Data.result.billingunitid);
+                //            // $("#csmrclassid").selectpicker('val', response.Data.result.classid);
+                //            //$("#csmrcategoryid").selectpicker('val', response.Data.result.categoryid);
+                //            $("#csmrcategoryid").val(response.Data.result.categoryid);
+                //            //$("#csmruserid").selectpicker('val', response.Data.result.userid);
+                //            // $("#csmruserid").val(response.Data.result.userid);
+                //            $("#csmrgender").val(response.Data.result.gender);
+                //            $("#csmrmaritalstatus").val(response.Data.result.maritalstatus);
+
+                //            var DBDOBDate = moment(response.Data.result.dob, $("#DatabaseDateformat").val());
+                //            //var DBDOBDate = Date.parse(response.Data.result.dob, $("#DatabaseDateformat").val());
+                //            var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBDOBDate))
+                //            $("#csmrdob").val(DOBDate);
+
+                //            $("#csmraddress1").val(response.Data.result.address1);
+                //            $("#csmraddress2").val(response.Data.result.address2);
+                //            $("#csmrcity").val(response.Data.result.city);
+                //            $("#csmrstate").val(response.Data.result.state);
+                //            $("#csmrcountry").val(response.Data.result.country);
+                //            $("#csmrpincode").val(response.Data.result.pincode);
+                //            $("#csmrlandline").val(response.Data.result.landline);
+                //            $("#csmrmobile").val(response.Data.result.mobile);
+                //            $("#csmremailid").val(response.Data.result.emailid);
+                //            $("#csmreducation").val(response.Data.result.education);
+                //            $("#csmrincomerange").val(response.Data.result.incomerange);
+                //            $("#csmroccupation").val(response.Data.result.occupation);
+                //            $("#csmrcompanyname").val(response.Data.result.companyname);
+                //            $("#csmrcontactperson").val(response.Data.result.contactperson);
+
+                //            var DBincorporationdate = moment(response.Data.result.incorporationdate, $("#DatabaseDateformat").val());
+                //            var incorporationdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBincorporationdate))
+                //            $("#csmrincorporationdate").val(incorporationdate);
+
+                //            $("#csmrincorporationtype").val(response.Data.result.incorporationtype);
+
+                //            if (response.Data.result.type == "C") {
+                //                $('#rdoCompany').click();
+                //            }
+                //            else {
+                //                $('#rdoIndividual').click();
+                //            }
+
+
+                //        }
+                //    },
+                //    error: function (xhr) {
+                //        alert(xhr.responseText);
+                //    }
+                //});
+
+            // Update function call to API
+            $("#btnDelete").click(function (e) {
+
+                // var msg = confirm(DeleteMessage);
+
+
+            });
+            IsDeleteUtility();
+
+
+            function IsDeleteUtility() {
+
+                @*var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "consumer/IsUsed/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                success: function (response) {
+
+                    if (response.Data.e != null) {
+                        if (response.Data.e == "M") {
+
+                            $("#btnDelete").attr("disabled", true);
+                            // alert(response.Data.d);
+                            alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        else {
+                            $("#btnDelete").attr("disabled", false);
+                        }
+
+
+                    }
+
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });*@
+            }
+            $('input[type=radio][name=usetype]').attr("disabled", true);
+
+        });
+        function deleterecord() {
+            //if (msg == false) {
+            //    if (box) box.remove();
+            //    return false;
+            //}
+            //else {
+            @*var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var mstConsumer = {
+                "csmrrecid": $("#csmrrecid").val(),
+                "csmrmasterid": $("#csmrmasterid").val(),
+                "csmrfirstname": $("#csmrfirstname").val(),
+                "csmrmiddlename": "",
+                "csmrlastname": "",
+                "csmrbillingunitid": "0",
+                "csmrclassid": "0",
+                "csmrcategoryid": $("#csmrcategoryid").val(),
+                "csmruserid": "0",
+                "csmrgender": $("#csmrgender").val(),
+                "csmrmaritalstatus": $("#csmrmaritalstatus").val(),
+                "csmrdob": ($("#csmrdob").val() === "" ? "" : GetFinaldate($("#csmrdob").val(), $("#ServerDateformat").val(), $("#Dateformat").val())),
+                "csmraddress1": $("#csmraddress1").val(),
+                "csmraddress2": $("#csmraddress2").val(),
+                "csmrcity": $("#csmrcity").val(),
+                "csmrstate": $("#csmrstate").val(),
+                "csmrcountry": $("#csmrcountry").val(),
+                "csmrpincode": $("#csmrpincode").val(),
+                "csmrlandline": $("#csmrlandline").val(),
+                "csmrmobile": $("#csmrmobile").val(),
+                "csmremailid": $("#csmremailid").val(),
+                "csmreducation": $("#csmreducation").val(),
+                "csmrincomerange": $("#csmrincomerange").val(),
+                "csmroccupation": $("#csmroccupation").val(),
+                "csmrcompanyname": $("#csmrcompanyname").val(),
+                "csmrcontactperson": $("#csmrcontactperson").val(),
+                "csmrincorporationdate": ($("#csmrincorporationdate").val() === "" ? "" : GetFinaldate($("#csmrincorporationdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())),
+                "csmrincorporationtype": $("#csmrincorporationtype").val(),
+                "csmrtype": $('input[name=usetype]:checked').val(),
+                "csmrisdeleted": 1
+            };
+            var RecordID = $("#csmrrecid").val();
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "consumer/" + RecordID,
+                //crossDomain: true,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(mstConsumer),//data to be send
+                success: function (response) {
+                    if (response.Data.e == "S") {
+                        alert(response.Data.d, '@Url.Action("Index", "Consumer")', true, response.Data.e);
+                        //  window.location.href = '@Url.Action("Index", "Consumer")';
+                    }
+                    else if (response.Data.e == "M") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+                    else if (response.Data.e == "E") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                    alert(xhr.responseText);
+                }
+            });
+            //   }
+            e.preventDefault();*@
+        }
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Consumer</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="panel-body">
+                                            <div class="form-horizontal">
+                                                @Html.ValidationSummary(true)
+
+                                                <div class="form-group">
+                                                    <input id="Dateformat" type="hidden" />
+                                                    <input id="ServerDateformat" type="hidden" />
+                                                    <input type="hidden" id="DatabaseDateformat">
+                                                    @Html.HiddenFor(model => model.id)
+                                                    @Html.LabelFor(model => model.masterid, null, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.masterid, new { @class = "form-control alphanumspace", @maxlength = "30", @disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.masterid)
+                                                    </div>
+                                                    @Html.LabelFor(model => model.firstname, null, new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.firstname, new { @class = "form-control alphanumspace", @maxlength = "50", @disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.firstname)
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-horizontal">
+                                                <div class="panel-body">
+                                                    <h4>Billing Details</h4>
+                                                    <hr />
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.categoryid, null, new { @class = "control-label col-sm-1" })
+                                                        <div class="col-sm-3">
+                                                            @Html.DropDownListFor(model => model.categoryid, (IEnumerable<SelectListItem>)ViewBag.Categories, "Select", new { @class = "csmrcategoryidclass form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Category" })
+                                                            @Html.ValidationMessageFor(model => model.categoryid)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-horizontal">
+                                                <div class="panel-body">
+                                                    <h4>Type of Use</h4>
+                                                    <hr />
+                                                    <div class="col-md-6">
+                                                        <label class="radio-inline">
+                                                            @Html.RadioButtonFor(m => m.type, "C", new { id = "rdoCompany", Value = "C", name = "Company" })
+                                                            Company
+                                                            @*<input type="radio" name="usetype" value="C" id="rdoCompany">Company*@
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            @Html.RadioButtonFor(m => m.type, "I", new { id = "rdoIndividual", Value = "I", name = "Individual" })
+                                                            Individual
+                                                            @*<input type="radio" name="usetype" value="I" id="rdoIndividual">*@
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-horizontal" id="divCompany">
+                                                <div class="panel-body">
+                                                    <h4>Company Details</h4>
+                                                    <hr />
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.companyname, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.companyname, new { @class = "form-control alphanumspace", @maxlength = "50", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.companyname)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.contactperson, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.contactperson, new { @class = "form-control alphanumspace", @maxlength = "50", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.contactperson)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.incorporationdate, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.incorporationdate, new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.incorporationdate)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.incorporationtype, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.incorporationtype, new { @class = "form-control alphanumspace", @maxlength = "25", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.incorporationtype)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-horizontal" id="divPersonal">
+                                                <div class="panel-body">
+                                                    <h4>Personal Details</h4>
+                                                    <hr />
+
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.gender, new { @class = " control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => model.gender, (IEnumerable<SelectListItem>)ViewBag.Genders, "Select", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.gender)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.maritalstatus, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => model.maritalstatus, (IEnumerable<SelectListItem>)ViewBag.MaritalStatus, "Select", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.maritalstatus)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.dob, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.dob, new { @class = "form-control", @readonly = "readonly", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.dob)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.education, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.education, new { @class = "form-control alphanumspace", @maxlength = "30", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.education)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.incomerange, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.incomerange, new { @class = "form-control alphanumspace", @maxlength = "50", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.incomerange)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.occupation, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.occupation, new { @class = "form-control alphanumspace", @maxlength = "25", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.occupation)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-horizontal">
+                                                <div class="panel-body">
+                                                    <h4>Address Details</h4>
+                                                    <hr />
+
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.address1, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextAreaFor(model => model.address1, new { @class = "form-control", @maxlength = "100", @style = "resize:none;", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.address1)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.address2, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextAreaFor(model => model.address2, new { @class = "form-control", @maxlength = "100", @style = "resize:none;", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.address2)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.pincode, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.pincode, new { @class = "form-control number", @maxlength = "10", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.pincode)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.city, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.city, new { @class = "form-control alphaspace", @maxlength = "25", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.city)
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.state, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.state, new { @class = "form-control alphaspace", @maxlength = "25", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.state)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.country, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.country, new { @class = "form-control alphaspace", @maxlength = "25", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.country)
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.landline, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.landline, new { @class = "form-control number", @maxlength = "15", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.landline)
+                                                        </div>
+                                                        @Html.LabelFor(model => model.mobile, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mobile, new { @class = "form-control number", @maxlength = "15", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.mobile)
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.emailid, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.emailid, new { @class = "form-control", @maxlength = "50", @disabled = "disabled" })
+                                                            @Html.ValidationMessageFor(model => model.emailid)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                                <button type="reset" class="btn btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

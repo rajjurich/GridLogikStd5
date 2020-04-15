@@ -1,0 +1,960 @@
+﻿
+<style>
+    .btn-minimize, .btn-close {
+        color: #fff;
+    }
+</style>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script type="text/javascript">
+    var opningtype = "na";
+    $(document).ready(function () {
+        upperDipper(opningtype, "o");
+        $.ajax({
+            url: BaseAddress + "UnilinkDashboardAPI/GetArea",
+            type: "Get",
+            dataType: "json",
+            success: function (data) {
+                if (data == null) {
+                    alert('Data Not Found', '', false, "E");
+                }
+                else {
+                    var opt = "";
+                    for (var i = 0; i < data.length; i++) {
+                        opt += "<option value=" + data[i].recid + ">" + data[i].area_name + "</option>";
+                    }
+                    $('#area').append(opt);
+                }
+            }
+        });
+
+        $("#area").change(function () {
+            opningtype = "na";
+            upperDipper(opningtype, "o");
+            $("#duration").val('0');
+            $("#chart_container").empty();
+            $("#view").hide();
+            $("#datehide").hide();
+            return false;
+        });
+
+        $("#Date").change(function () {
+            //  $("#table_type").hide();
+            var areaid = $("#area").val();
+            var date = $("#Date").val();
+            var day, month, year;
+            var table = "";
+            day = date.substr(3, 2);
+            month = date.substr(0, 2);
+            year = date.substr(6, 4);
+            $.ajax({
+                url: BaseAddress + "UnilinkDashboardAPI/GetDayWise/" + areaid + "/" + day + "/" + month + "/" + year,
+                type: "Get",
+                dataType: "json",
+                success: function (result) {
+
+                    table = "";
+                    if (result.length == 0) {
+                        upperDipper(opningtype, "o");
+                        alert('Data Not Found', '', false, "E");
+                        $("#view").hide();
+                    }
+                    else {
+                        upperDipper(opningtype, "o");
+                        for (var v in result.Table1) {
+                            var date = (result.Table1[v].tstamp).replace("T", " ");
+                            table += "<tr>";
+                            table += "<td>" + date + "</td>";
+                            table += "<td>" + parseFloat(result.Table1[v].sgvalue).toFixed(2) + "</td>";
+                            table += "<td>" + parseFloat(result.Table2[v].avg_mw).toFixed(2) + "</td>";
+                            table += "</tr>";
+                        }
+
+                        var data = result.Table1;
+                        var data1 = result.Table2;
+                        var categories_data = new Array();
+                        for (var i in data) {
+                            categories_data[i] = data[i].tstamp;
+                            categories_data[i] = categories_data[i].replace("T", " ");
+                            var str = "";
+                            for (var j = 11; j <= 15 ; j++) {
+                                str = str + categories_data[i][j];
+                            }
+                            categories_data[i] = str;
+                        }
+                        var seriesArr = [];
+                        var sg1 = [];
+                        for (var i = 0; i < data.length; i++) {
+                            var date = (data[i].tstamp).replace("T", " ");
+                            var dts = ConvertYYYYMMDDHHmmss_Unilink(date);
+                            var sg = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), data[i].sgvalue];
+                            // var sg = data[i].sgvalue;
+                            //   var d = data[i].tstamp;
+                            sg1.push(sg);
+                        }
+
+                        var seriesArr1 = [];
+                        var sg2 = [];
+                        for (var i = 0; i < data1.length; i++) {
+                            var date = (data1[i].tstamp).replace("T", " ");
+                            var dts = ConvertYYYYMMDDHHmmss_Unilink(date);
+                            var sg = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), data1[i].avg_mw];
+                            //  var sg = data1[i].avg_mw;
+                            //    var d = data1[i].tstamp;
+                            sg2.push(sg);
+                        }
+
+                        var series = { name: 'MW', data: sg1 };
+                        var series1 = { name: 'Avg_MW', data: sg2 };
+                        var seriesArr2 = [];
+                        seriesArr2.push(series);
+                        seriesArr2.push(series1);
+                        lineChart(seriesArr2);
+                        $("#view").show();
+                        $("#databody").html(table);
+                        // $("#table").DataTable();
+                        $("#table").DataTable();
+                        $('select[name=table_length]').val('10').change();
+
+                    }
+                }
+            });
+
+        });
+
+        $("#duration").change(function () {
+            $("#datehide").hide();
+            $("#todatehide").hide();
+
+            upperDipper(opningtype, "o");
+            $("#chart_container").empty();
+            //   $("#table_type").hide();
+            var areaid = $("#area").val();
+            var id = $("#duration").val();
+            var date = $("#Date").val();
+            var day, month, year;
+            day = date.substr(3, 2);
+            month = date.substr(0, 2);
+            year = date.substr(6, 4);
+            if (id == "Select Duration") {
+                alert('Please Select Duration', '@Url.Action("Index")', false, "E");
+            }
+            else if (areaid == "Select Area") {
+                alert('Please Select Area', '@Url.Action("Index")', false, "E");
+            }
+            else if (id == 1) {
+                $("#lblfromdate").html("Date : ")
+                $("#datehide").show();
+                $('#Date').datepicker('setDate', 'today');
+                var tday = new Date().getDate();
+                var tmonth = new Date().getMonth() + 1;
+                var tyear = new Date().getFullYear();
+                $.ajax({
+                    url: BaseAddress + "UnilinkDashboardAPI/GetDayWise/" + areaid + "/" + tday + "/" + tmonth + "/" + tyear,
+                    type: "Get",
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.length == 0) {
+                            opningtype = "na";
+                            upperDipper(opningtype, "o");
+                            alert('Data Not Found', '', false, "E");
+                            $("#view").hide();
+                        }
+                        else {
+                            if (opningtype == "na" || opningtype == "query")
+                                opningtype = "chart";
+
+                            var table = "";
+                            for (var v in result.Table1) {
+                                var date = (result.Table1[v].tstamp).replace("T", " ");
+                                table += "<tr>";
+                                table += "<td>" + date + "</td>";
+                                table += "<td>" + parseFloat(result.Table1[v].sgvalue).toFixed(2) + "</td>";
+                                table += "<td>" + parseFloat(result.Table2[v].avg_mw).toFixed(2) + "</td>";
+                                table += "</tr>";
+                            }
+
+                            var data = result.Table1;
+                            var data1 = result.Table2;
+                            var categories_data = new Array();
+                            for (var i in data) {
+                                categories_data[i] = data[i].tstamp;
+                                categories_data[i] = categories_data[i].replace("T", " ");
+                                var str = "";
+                                for (var j = 11; j <= 15 ; j++) {
+                                    str = str + categories_data[i][j];
+                                }
+                                categories_data[i] = str;
+                            }
+                            var seriesArr = [];
+                            var sg1 = [];
+                            for (var i = 0; i < data.length; i++) {
+                                var date = (data[i].tstamp).replace("T", " ");
+                                var dts = ConvertYYYYMMDDHHmmss_Unilink(date);
+                                var sg = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), data[i].sgvalue];
+                                // var sg = data[i].sgvalue;
+                                // var d = data[i].tstamp;
+                                sg1.push(sg);
+                            }
+
+                            var seriesArr1 = [];
+                            var sg2 = [];
+                            for (var i = 0; i < data1.length; i++) {
+                                var date = (data1[i].tstamp).replace("T", " ");
+                                var dts = ConvertYYYYMMDDHHmmss_Unilink(date);
+                                var sg = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), data1[i].avg_mw];
+                                //  var sg = data1[i].avg_mw;
+                                // var d = data1[i].tstamp;
+                                sg2.push(sg);
+                            }
+
+                            var series = { name: 'MW', data: sg1 };
+                            var series1 = { name: 'Avg_MW', data: sg2 };
+                            var seriesArr2 = [];
+                            seriesArr2.push(series);
+                            seriesArr2.push(series1);
+                            upperDipper(opningtype, "o");
+                            lineChart(seriesArr2);
+                            $("#databody").html(table);
+                            //  $("#table").DataTable();
+                            $("#table").DataTable();
+                            $('select[name=table_length]').val('10').change();
+                            $("#view").show();
+
+                        }
+
+                    }
+                });
+            }
+            else if (id == 2) {
+                $.ajax({
+                    url: BaseAddress + "UnilinkDashboardAPI/GetWeekWise/" + areaid,
+                    type: "Get",
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.length == 0) {
+                            alert('Data Not Found', '', false, "E");
+                            $("#view").hide();
+                        }
+                        else {
+                            var table = "";
+                            for (var v in result.Table2) {
+                                var date = (result.Table1[v].tstamp).replace("T", " ");
+                                table += "<tr>";
+                                table += "<td>" + date + "</td>";
+                                table += "<td>" + parseFloat(result.Table1[v].sgvalue).toFixed(2) + "</td>";
+                                table += "<td>" + parseFloat(result.Table2[v].avg_mw).toFixed(2) + "</td>";
+                                table += "</tr>";
+                            }
+                            $("#databody").html(table);
+                            $("#table").DataTable();
+                            $('select[name=table_length]').val('10').change();
+                            var data = result.Table1;
+                            var data1 = result.Table2;
+                            var categories_data = new Array();
+                            var categories_data2 = new Array();
+                            for (var i in data) {
+                                categories_data[i] = data[i].tstamp;
+                                categories_data[i] = categories_data[i].replace("T", " ");
+                                var str = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str = str + categories_data[i][j];
+                                }
+                                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno = categories_data[i][5] + "" + categories_data[i][6];
+                                var month = monthNames[monthno - 1];
+                                categories_data[i] = str + " " + month;
+                            }
+                            for (var i in data1) {
+                                categories_data2[i] = data1[i].tstamp;
+                                categories_data2[i] = categories_data2[i].replace("T", " ");
+                                var str1 = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str1 = str1 + categories_data2[i][j];
+                                }
+                                var monthNames1 = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno1 = categories_data2[i][5] + "" + categories_data2[i][6];
+                                var month1 = monthNames1[monthno1 - 1];
+                                categories_data2[i] = str1 + " " + month1;
+                            }
+                            var sgadd = [];
+                            var temp = 0;
+                            var count = -1;
+                            var count1 = 0;
+                            var categories_data1 = [];
+                            var sgaddtemp = 0;
+                            for (var s in categories_data) {
+                                if (temp != categories_data[s]) {
+                                    count++;
+                                    categories_data1[count] = categories_data[s];
+                                    if (temp == 0) {
+                                        sgaddtemp = data[0].sgvalue
+                                    }
+                                    else {
+                                        sgadd[count1] = sgaddtemp;
+                                        sgaddtemp = data[s].sgvalue;
+                                        count1++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp = sgaddtemp + data[s].sgvalue;
+                                }
+                                temp = categories_data[s];
+                            }
+                            sgadd[count1] = sgaddtemp;
+                            var sgadd1 = [];
+                            var temp1 = 0;
+                            var count2 = -1;
+                            var count3 = 0;
+                            var categories_data3 = [];
+                            var sgaddtemp1 = 0;
+                            for (var s in categories_data2) {
+                                if (temp != categories_data2[s]) {
+                                    count2++;
+                                    categories_data3[count] = categories_data2[s];
+                                    if (temp1 == 0) {
+                                        sgaddtemp1 = data1[0].avg_mw;
+                                    }
+                                    else {
+                                        sgadd1[count3] = sgaddtemp1;
+                                        sgaddtemp1 = data1[s].avg_mw;
+                                        count3++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp1 = sgaddtemp1 + data1[s].avg_mw;
+                                }
+                                temp1 = categories_data3[s];
+                            }
+                            sgadd1[count3] = sgaddtemp1;
+                            var seriesArr = [];
+                            var sg1 = [];
+                            for (var i = 0; i < sgadd.length; i++) {
+                                var sg = sgadd[i];
+                                //sg pass with date time value
+                                sg1.push(sg);
+                            }
+                            var series = { name: 'MW', data: sg1 };
+                            var sg2 = [];
+                            for (var i = 0; i < sgadd1.length; i++) {
+                                var sg = sgadd1[i];
+                                //sg pass with date time value
+                                sg2.push(sg);
+                            }
+                            var series1 = { name: 'Avg_MW', data: sg2 };
+                            seriesArr.push(series);
+                            seriesArr.push(series1);
+                            lineChart(categories_data1, seriesArr);
+                            $("#view").show();
+                            $("#databody").html(table);
+                            //  $("#table").DataTable();
+                            $("#table").DataTable();
+                            $('select[name=table_length]').val('10').change();
+                        }
+                    }
+                });
+            }
+            else if (id == 3) {
+                $.ajax({
+                    url: BaseAddress + "UnilinkDashboardAPI/GetMonthWise/" + areaid,
+                    type: "Get",
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.length == 0) {
+                            alert('Data Not Found', '', false, "E");
+                            $("#view").hide();
+                        }
+                        else {
+                            var table = "";
+                            for (var v in result.Table2) {
+                                var date = (result.Table1[v].tstamp).replace("T", " ");
+                                table += "<tr>";
+                                table += "<td>" + date + "</td>";
+                                table += "<td>" + parseFloat(result.Table1[v].sgvalue).toFixed(2) + "</td>";
+                                table += "<td>" + parseFloat(result.Table2[v].avg_mw).toFixed(2) + "</td>";
+                                table += "</tr>";
+                            }
+                            var data = result.Table1;
+                            var data1 = result.Table2;
+                            var categories_data = new Array();
+                            var categories_data2 = new Array();
+                            for (var i in data) {
+                                categories_data[i] = data[i].tstamp;
+                                categories_data[i] = categories_data[i].replace("T", " ");
+                                var str = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str = str + categories_data[i][j];
+                                }
+                                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno = categories_data[i][5] + "" + categories_data[i][6];
+                                var month = monthNames[monthno - 1];
+                                categories_data[i] = str + " " + month;
+                            }
+                            for (var i in data1) {
+                                categories_data2[i] = data1[i].tstamp;
+                                categories_data2[i] = categories_data2[i].replace("T", " ");
+                                var str1 = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str1 = str1 + categories_data2[i][j];
+                                }
+                                var monthNames1 = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno1 = categories_data2[i][5] + "" + categories_data2[i][6];
+                                var month1 = monthNames1[monthno1 - 1];
+                                categories_data2[i] = str1 + " " + month1;
+                            }
+                            var sgadd = [];
+                            var temp = 0;
+                            var count = -1;
+                            var count1 = 0;
+                            var categories_data1 = [];
+                            var sgaddtemp = 0;
+                            for (var s in categories_data) {
+                                if (temp != categories_data[s]) {
+                                    count++;
+                                    categories_data1[count] = categories_data[s];
+                                    if (temp == 0) {
+                                        sgaddtemp = data[0].sgvalue
+                                    }
+                                    else {
+                                        sgadd[count1] = sgaddtemp;
+                                        sgaddtemp = data[s].sgvalue;
+                                        count1++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp = sgaddtemp + data[s].sgvalue;
+                                }
+                                temp = categories_data[s];
+                            }
+                            sgadd[count1] = sgaddtemp;
+
+                            var sgadd1 = [];
+                            var temp1 = 0;
+                            var count2 = -1;
+                            var count3 = 0;
+                            var categories_data3 = [];
+                            var sgaddtemp1 = 0;
+                            for (var s in categories_data2) {
+                                if (temp != categories_data2[s]) {
+                                    count2++;
+                                    categories_data3[count] = categories_data2[s];
+                                    if (temp1 == 0) {
+                                        sgaddtemp1 = data1[0].avg_mw;
+                                    }
+                                    else {
+                                        sgadd1[count3] = sgaddtemp1;
+                                        sgaddtemp1 = data1[s].avg_mw;
+                                        count3++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp1 = sgaddtemp1 + data1[s].avg_mw;
+                                }
+                                temp1 = categories_data3[s];
+                            }
+                            sgadd1[count3] = sgaddtemp1;
+
+                            var seriesArr = [];
+                            var sg1 = [];
+                            for (var i = 0; i < sgadd.length; i++) {
+                                var sg = sgadd[i];
+                                sg1.push(sg);
+                            }
+                            var series = { name: 'MW', data: sg1 };
+
+                            var sg2 = [];
+                            for (var i = 0; i < sgadd1.length; i++) {
+                                var sg = sgadd1[i];
+                                sg2.push(sg);
+                            }
+                            var series1 = { name: 'Avg_MW', data: sg2 };
+                            seriesArr.push(series);
+                            seriesArr.push(series1);
+                            lineChart(categories_data1, seriesArr);
+                            $("#databody").html(table);
+                            $("#table").DataTable();
+                            $('select[name=table_length]').val('10').change();
+                            $("#view").show();
+                        }
+                    }
+                });
+            }
+            else if (id == 4) {
+                $("#lblfromdate").html("From Date : ")
+                $("#datehide").show();
+                $("#todatehide").show();
+                var Todate = $("#ToDate").val();
+                var Today, Tomonth, Toyear;
+                Today = Todate.substr(3, 2);
+                Tomonth = Todate.substr(0, 2);
+                Toyear = Todate.substr(6, 4);
+                $.ajax({
+                    url: BaseAddress + "UnilinkDashboardAPI/GetDateRangeWise/" + areaid + "/" + day + "/" + month + "/" + year + "/" + Today + "/" + Tomonth + "/" + Toyear,
+                    type: "Get",
+                    dataType: "json",
+                    success: function (result) {
+
+                        if (result.length == 0) {
+                            alert('Data Not Found', '', false, "E");
+                            $("#view").hide();
+                        }
+                        else {
+                            var table = "";
+                            for (var v in result.Table2) {
+                                var date = (result.Table1[v].tstamp).replace("T", " ");
+                                table += "<tr>";
+                                table += "<td>" + date + "</td>";
+                                table += "<td>" + parseFloat(result.Table1[v].sgvalue).toFixed(2) + "</td>";
+                                table += "<td>" + parseFloat(result.Table2[v].avg_mw).toFixed(2) + "</td>";
+                                table += "</tr>";
+                            }
+                            var data = result.Table1;
+                            var data1 = result.Table2;
+                            var categories_data = new Array();
+                            var categories_data2 = new Array();
+                            for (var i in data) {
+                                categories_data[i] = data[i].tstamp;
+                                categories_data[i] = categories_data[i].replace("T", " ");
+                                var str = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str = str + categories_data[i][j];
+                                }
+                                var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno = categories_data[i][5] + "" + categories_data[i][6];
+                                var month = monthNames[monthno - 1];
+                                categories_data[i] = str + " " + month;
+                            }
+                            for (var i in data1) {
+                                categories_data2[i] = data1[i].tstamp;
+                                categories_data2[i] = categories_data2[i].replace("T", " ");
+                                var str1 = "";
+                                for (var j = 8; j <= 9 ; j++) {
+                                    str1 = str1 + categories_data2[i][j];
+                                }
+                                var monthNames1 = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                                var monthno1 = categories_data2[i][5] + "" + categories_data2[i][6];
+                                var month1 = monthNames1[monthno1 - 1];
+                                categories_data2[i] = str1 + " " + month1;
+                            }
+                            var sgadd = [];
+                            var temp = 0;
+                            var count = -1;
+                            var count1 = 0;
+                            var categories_data1 = [];
+                            var sgaddtemp = 0;
+                            for (var s in categories_data) {
+                                if (temp != categories_data[s]) {
+                                    count++;
+                                    categories_data1[count] = categories_data[s];
+                                    if (temp == 0) {
+                                        sgaddtemp = data[0].sgvalue
+                                    }
+                                    else {
+                                        sgadd[count1] = sgaddtemp;
+                                        sgaddtemp = data[s].sgvalue;
+                                        count1++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp = sgaddtemp + data[s].sgvalue;
+                                }
+                                temp = categories_data[s];
+                            }
+                            sgadd[count1] = sgaddtemp;
+
+                            var sgadd1 = [];
+                            var temp1 = 0;
+                            var count2 = -1;
+                            var count3 = 0;
+                            var categories_data3 = [];
+                            var sgaddtemp1 = 0;
+                            for (var s in categories_data2) {
+                                if (temp != categories_data2[s]) {
+                                    count2++;
+                                    categories_data3[count] = categories_data2[s];
+                                    if (temp1 == 0) {
+                                        sgaddtemp1 = data1[0].avg_mw;
+                                    }
+                                    else {
+                                        sgadd1[count3] = sgaddtemp1;
+                                        sgaddtemp1 = data1[s].avg_mw;
+                                        count3++;
+                                    }
+                                }
+                                else {
+                                    sgaddtemp1 = sgaddtemp1 + data1[s].avg_mw;
+                                }
+                                temp1 = categories_data3[s];
+                            }
+                            sgadd1[count3] = sgaddtemp1;
+
+                            var seriesArr = [];
+                            var sg1 = [];
+                            for (var i = 0; i < sgadd.length; i++) {
+                                var sg = sgadd[i];
+                                sg1.push(sg);
+                            }
+                            var series = { name: 'MW', data: sg1 };
+
+                            var sg2 = [];
+                            for (var i = 0; i < sgadd1.length; i++) {
+                                var sg = sgadd1[i];
+                                sg2.push(sg);
+                            }
+                            var series1 = { name: 'Avg_MW', data: sg2 };
+                            seriesArr.push(series);
+                            seriesArr.push(series1);
+                            lineChart(categories_data1, seriesArr);
+                            $("#databody").html(table);
+                            $("#table").DataTable();
+                            $('select[name=table_length]').val('10').change();
+                            $("#view").show();
+                        }
+                    }
+                });
+            }
+        });
+
+        $("#export").click(function (e) {
+            $('select[name=table_length]').val('100').change();
+            $("#table").table2excel({
+                name: "Table2Excel",
+                filename: "ExcelDoc",
+                fileext: ".xls"
+            });
+            $('select[name=table_length]').val('10').change();
+        });
+    });
+    $(function () {
+        var currentdate = new Date();
+        $("#Date").datepicker({
+            dateFormat: $("#Dateformat").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: 0,
+            onSelect: function (selected) {
+            }
+        });
+        $('#Date').datepicker('setDate', 'today');
+
+
+
+        $("#ToDate").datepicker({
+            dateFormat: $("#Dateformat").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: 0
+        });
+        $('#ToDate').datepicker('setDate', 'today');
+
+        //var DateFormat = $("#Dateformat").val();
+        //$("#Date").datepicker({
+        //    dateFormat: $("#Dateformat").val(),
+        //    changeMonth: true,
+        //    changeYear: true,
+        //    maxDate: '0',
+        //    onSelect: function (selected) {
+        //        //var dt = new Date(selected);
+        //        //dt.setDate(dt.getDate());
+        //        //$("#ToDate").datepicker("option", "minDate", dt);
+        //        var dt = new Date(selected);
+        //        var dt1 = new Date(selected);
+        //        var currentDate = new Date(dateFormat);
+        //        dt.setDate(dt.getDate());
+        //        if (dt1 >= currentDate) {
+        //            $("#ToDate").datepicker("option", "minDate", dt);
+        //            $("#ToDate").datepicker("option", "maxDate", currentDate);
+        //        }
+        //        else
+        //        {
+        //            $("#ToDate").datepicker("option", "minDate", dt);
+
+        //            dt1.setDate(dt1.getDate() + 30);
+        //            //$("#ToDate").datepicker("option", "minDate", dt);
+        //            $("#ToDate").datepicker("option", "maxDate", dt1);
+        //            $("#ToDate").datepicker("setDate", dt1);
+        //            //$("#ToDate").datepicker("option", "maxDate", 30);
+        //        }
+
+                
+        //    }
+        //});
+        //$("#ToDate").datepicker({
+        //    dateFormat: $("#Dateformat").val(),
+        //    changeMonth: true,
+        //    changeYear: true,
+        //    minDate: '0',
+        //    maxDate: '0'
+        //});
+    });
+    function upperDipper(type, subtype) {
+        var chart = "chart_type";
+        var itable = "table_type";
+        var query = "query_type";
+        if (type == "chart") {
+            if (subtype == 'o') {
+                $('#' + itable).hide();
+                $('#' + query).hide();
+                $('#export').hide();
+                $('#' + chart).show();
+                opningtype = "chart";
+            } else {
+                $('#' + chart).hide();
+                opningtype = "na";
+            }
+        } else if (type == "table") {
+            if (subtype == 'o') {
+                $('#' + itable).show();
+                $('#' + chart).hide();
+                $('#' + query).hide();
+                var rowCount = $('#table tr').length;
+                if (rowCount > 1) {
+                    $('#export').show();
+                } else {
+                    $('#export').hide();
+                }
+                opningtype = "table";
+            } else {
+                $('#' + itable).hide();
+                $('#export').hide();
+                opningtype = "na";
+            }
+        } else {
+            if (subtype == 'o') {
+                $('#' + query).show();
+                $('#' + itable).hide();
+                $('#' + chart).hide();
+                $('#export').hide();
+                opningtype = "query";
+            } else {
+                $('#' + query).hide();
+                opningtype = "na";
+            }
+        }
+    }
+    function lineChart(seriesArr) {
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_container'
+            },
+            title: {
+                text: 'System Demand & Wind Generation',
+                x: -20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'MW'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: seriesArr
+        });
+    }
+    function ConvertYYYYMMDDHHmmss_Unilink(dates) {
+        var hours;
+        var DateArr;
+        var dFormat = "YYYY-MM-DD";
+        dFormat = dFormat.ltrim();
+        dFormat = dFormat.rtrim();
+        dates = dates.ltrim();
+        dates = dates.rtrim();
+
+        var jsDate = new Array();
+        jsDate[jsDate.length] = "2016";//yyyy 0
+        jsDate[jsDate.length] = "01";//mm 1
+        jsDate[jsDate.length] = "01";//dd 2
+        jsDate[jsDate.length] = "00";//hh 3
+        jsDate[jsDate.length] = "00";//mm 4
+        jsDate[jsDate.length] = "00";//ss 5
+
+
+        var date = dates.split(' ')[0];
+        var dateFormat = dFormat.split(' ')[0];
+        if (dates.split(' ').length >= 1) {
+            hours = dates.split(' ')[1];
+        } else {
+            hours = "00:00:00";
+        }
+        if (dateFormat == "")
+            dateFormat = "mm/dd/yy";
+
+        if (date.indexOf("/") > 0) {
+            while (date.indexOf("/") > 0) {
+                date = date.replace("/", "-");
+            }
+        }
+        if (dateFormat.indexOf("/") > 0) {
+            while (dateFormat.indexOf("/") > 0) {
+                dateFormat = dateFormat.replace("/", "-");
+            }
+        }
+
+        if (dateFormat.toUpperCase() == "DD-MM-YY" || dateFormat.toUpperCase() == "DD-MM-YYYY") {
+            DateArr = date.split('-');
+            jsDate[0] = DateArr[2];//yyyy 0
+            jsDate[1] = parseInt(DateArr[1]) - 1;//mm 1
+            jsDate[2] = DateArr[0];//dd 2
+        } else if (dateFormat.toUpperCase() == "MM-DD-YY" || dateFormat.toUpperCase() == "MM-DD-YYYY") {
+            DateArr = date.split('-');
+            jsDate[0] = DateArr[2];//yyyy 0
+            jsDate[1] = parseInt(DateArr[0]) - 1;//mm 1
+            jsDate[2] = DateArr[1];//dd 2
+        } else if (dateFormat.toUpperCase() == "YY-MM-DD" || dateFormat.toUpperCase() == "YYYY-MM-DD") {
+            DateArr = date.split('-');
+            jsDate[0] = DateArr[0];//yyyy 0
+            jsDate[1] = parseInt(DateArr[1]) - 1;//mm 1
+            jsDate[2] = DateArr[2];//dd 2
+        }
+        if (hours.indexOf(":") > 0) {
+            while (hours.indexOf(":") > 0) {
+                hours = hours.replace(":", "-");
+            }
+        }
+        var hhmmss = hours.split('-');
+        if (hhmmss.length == 4 || hhmmss.length == 3) {
+            jsDate[3] = hhmmss[0];//hh 3
+            jsDate[4] = hhmmss[1];//mm 4
+            jsDate[5] = hhmmss[2];//ss 5
+        } else if (hhmmss.length == 2) {
+            jsDate[3] = hhmmss[0];//hh 3
+            jsDate[4] = hhmmss[1];//mm 4
+            jsDate[5] = "00";//ss 5
+        } if (hhmmss.length == 1) {
+            jsDate[3] = hhmmss[0];//hh 3
+            jsDate[4] = "00";//mm 4
+            jsDate[5] = "00";//ss 5
+        }
+        return jsDate;
+    }
+    String.prototype.trim = function () {
+        return this.replace(/^\s+|\s+$/g, "");
+    }
+    String.prototype.ltrim = function () {
+        return this.replace(/^\s+/, "");
+    }
+    String.prototype.rtrim = function () {
+        return this.replace(/\s+$/, "");
+    }
+</script>
+<h2>Unilink Dashboard</h2>
+<div class="panel panel-default">
+    <div class="panel-heading" id="query_type">
+        <div class=" dashboard-panel-body-box">Query Selection</div>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="form-group ">
+                <div class="col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-3" for="ccyear" style="border:0px solid #f00; margin:0px 0px; text-align:right;">Area : </label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="area" name="Area" class="form-control">
+                            <option value='Select Area'>Select Area</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 " style="border:0px solid #f00;">
+                    <label class="col-md-4" for="ccyear" style="border: 0px solid #f00; margin: 0px 0px; text-align: right;">Duration : </label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="duration" name="Duration" class="form-control">
+                            <option value='0'>Select Duration</option>
+                            <option value='1'>Day</option>
+                            @*<option value='2'>Week</option>
+                                <option value='3'>Month</option>*@
+                            <option value='4'>Date Range</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" id="datehide" style="border:0px solid #000; padding:0px; display:none;">
+                    <label id="lblfromdate" class="col-md-3" for="ccyear" style="border:0px solid #f00; margin:0px 0px; text-align:right;">Date : </label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <input type="text" id="Date" class="form-control">
+                    </div>
+                </div>
+                <div class="col-md-4" id="todatehide" style="border: 0px solid #000; padding: 0px; display: none;">
+                    <label class="col-md-3" for="ccyear" style="border:0px solid #f00; margin:0px 0px; text-align:right;">To Date : </label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <input type="text" id="ToDate" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box">Chart</div><div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+            <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('chart', 'o');"><i class="fa fa-chevron-down"></i></a>
+            <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('chart', 'c');"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    <div class="panel-body" id="chart_type">
+        <div class="row">
+            <div id='chart_container'>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box">Table</div><div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+            <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('table', 'o');"><i class="fa fa-chevron-down"></i></a>
+            <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('table', 'c');"><i class="fa fa-times"></i></a>
+        </div>
+    </div>
+    <div class="panel-body" id="table_type">
+        <div class="row">
+            <div id="tablebtn">
+                <div>
+                    <table id="table">
+                        <thead>
+                            <tr>
+                                <th>DateTime</th>
+                                <th>SG</th>
+                                <th>Avg_MW</th>
+                            </tr>
+                        </thead>
+                        <tbody id="databody"></tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="button" class="btn btn-success" id="export"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Export</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

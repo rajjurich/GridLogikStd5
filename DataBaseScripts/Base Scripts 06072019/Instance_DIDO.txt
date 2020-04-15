@@ -1,0 +1,179 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbDIDO', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbDIDO', '30', '10');
+
+create table "etools_dev".instancedataDI 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,
+    meter_name varchar(45),
+    tstamp datetime year to fraction(5),
+    DI1 float,
+    DI2 float,
+    DI3 float,
+    DI4 float,
+    DI5 float,
+    DI6 float,
+    DI7 float,
+    DI8 float,
+    DI9 float,
+    DI10 float,
+    DI11 float,
+    DI12 float,
+    DI13 float,
+    DI14 float,
+    DI15 float,
+    DI16 float,
+    DI17 float,
+    DI18 float,
+    DI19 float,
+    DI20 float,
+    DI21 float,
+    DI22 float,
+    DI23 float,
+    DI24 float,
+    DI25 float,
+    DI26 float,
+    DI27 float,
+    DI28 float,
+    DI29 float,
+    DI30 float,
+    DI31 float,
+    DI32 float,
+    primary key (id) 
+  ) in dbDIDO extent size 32 next size 32 lock mode row;
+
+
+create row type "etools_dev".rtinstancedatalogsDI 
+(
+    tstamp datetime year to fraction(5),
+    meter_name lvarchar(50),
+    DI1 float,
+    DI2 float,
+    DI3 float,
+    DI4 float,
+    DI5 float,
+    DI6 float,
+    DI7 float,
+    DI8 float,
+    DI9 float,
+    DI10 float,
+    DI11 float,
+    DI12 float,
+    DI13 float,
+    DI14 float,
+    DI15 float,
+    DI16 float,
+    DI17 float,
+    DI18 float,
+    DI19 float,
+    DI20 float,
+    DI21 float,
+    DI22 float,
+    DI23 float,
+    DI24 float,
+    DI25 float,
+    DI26 float,
+    DI27 float,
+    DI28 float,
+    DI29 float,
+    DI30 float,
+    DI31 float,
+    DI32 float
+);
+
+
+
+create table etools_dev.tsinstancedatalogsDI
+  (
+    meterid int8 not null ,
+    series timeseries(rtinstancedatalogsDI),
+    primary key (meterid) 
+  ) in dbDIDO extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwinstancedataDi','dbdido','rtinstancedatalogsdi',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',45, 15, 'dbdido', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.InstanceDataDILogs',
+'etools_dev.tsinstancedatalogsDI',
+'calendar(cal_1sec),
+container(tsconwinstancedataDi),irregular');
+
+
+create table "etools_dev".instancedataDO 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,
+    meter_name varchar(45),
+    tstamp datetime year to fraction(5),
+    DO1 float,
+    DO2 float,
+    DO3 float,
+    DO4 float,
+    DO5 float,
+    DO6 float,
+    DO7 float,
+    DO8 float,
+    DO9 float,
+    DO10 float,
+    DO11 float,
+    DO12 float,
+    DO13 float,
+    DO14 float,
+    DO15 float,
+    DO16 float,   
+    primary key (id) 
+  ) in dbDIDO extent size 32 next size 32 lock mode row;
+
+create row type "etools_dev".rtinstancedatalogsDO 
+(
+    tstamp datetime year to fraction(5),
+    meter_name lvarchar(50),
+    DO1 float,
+    DO2 float,
+    DO3 float,
+    DO4 float,
+    DO5 float,
+    DO6 float,
+    DO7 float,
+    DO8 float,
+    DO9 float,
+    DO10 float,
+    DO11 float,
+    DO12 float,
+    DO13 float,
+    DO14 float,
+    DO15 float,
+    DO16 float
+);
+
+create table etools_dev.tsinstancedatalogsDO
+  (
+    meterid int8 not null ,
+    series timeseries(rtinstancedatalogsDO),
+    primary key (meterid) 
+  ) in dbDIDO extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwinstancedataDO','dbDIDO','rtinstancedatalogsdo',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',45, 15, 'dbdido', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.InstanceDataDOLogs',
+'etools_dev.tsinstancedatalogsDO',
+'calendar(cal_1sec),
+container(tsconwinstancedataDO),irregular');
+
+
+============================
+
+create table "etools_dev".DOWrite 
+  (
+    id serial8 not null ,
+    meterid int8 not null ,   
+    memoryadd float,
+    Flag float,
+    isActive int,
+    primary key (id) 
+  ) in dbDIDO extent size 32 next size 32 lock mode row;
+
+

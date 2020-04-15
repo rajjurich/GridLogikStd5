@@ -1,0 +1,243 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .unlink {
+        background-color: #000000;
+        color: #fff;
+        border-collapse: collapse;
+    }
+
+        .unlink tr {
+            background: #000000 !important;
+        }
+
+        .unlink th {
+            border: 1px solid #fff;
+            padding: 7px 3px;
+            text-transform: uppercase;
+            text-align: center;
+            background: #000000 !important;
+        }
+
+        .unlink td {
+            border-width: 0 1px;
+            padding: 5px 3px;
+            text-align: center;
+            border-color: #fff;
+            border-style: solid;
+        }
+
+            .unlink td label {
+                padding: 2px 3px;
+                border: 2px groove;
+            }
+
+    .station {
+        background-color: #cccccc;
+        padding: 3px 0;
+        color: #000;
+        margin: 3px auto 0;
+        box-shadow: 1px 1px 1px #ccc;
+        text-transform: uppercase;
+        width: 96%;
+        display: block;
+        font-weight: bold;
+    }
+
+        .station a {
+            color: #000;
+            text-decoration: none;
+        }
+
+    .bg_red {
+        background-color: red;
+    }
+
+    .green_txt {
+        color: #00c100;
+    }
+
+    .orange_txt {
+        color: #f09a4e;
+    }
+
+    .pink_txt {
+        color: #cb74cc;
+    }
+</style>
+<script type="text/javascript">
+    var BlFlag = false;
+    var AreaStr = "4,5,6";
+    var id = 0;
+    $(document).ready(function () {
+        GetArea();
+        HideData(2);
+    });
+    function GetArea() {
+        var AreaArr = AreaStr.split(',');
+        if (AreaArr.length > 0) {
+            for (var i = 0; i < AreaArr.length; i++) {
+                if (AreaArr[i] != "") {
+                    var ddlArea = AreaArr[i];
+                    GetPreviousblkData(ddlArea);
+                }
+            }
+        }
+    }
+    function HideData(flag) {
+        if (flag == 1) {
+            $("#divMainblk").hide()
+            BlFlag = false;
+        } else {
+            $("#divMainblk").show();
+            BlFlag = true;
+        }
+    }
+    function GetPreviousblkData(ddlArea) {
+        try {
+            if (ddlArea != 0 && ddlArea != null) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/GetMainScreenDetail/" + ddlArea + "/" + ddlArea,
+                    dataType: "json",//type of data to be received
+                    async: false,
+                    success: function (MainScreenDetail, status, jqXHR) {
+                        if (MainScreenDetail != null) {
+                            var AreaName = MainScreenDetail.AreaName;
+                            var Areaid = MainScreenDetail.area_id;
+                            $("#" + Areaid + "_ac").html(parseFloat(MainScreenDetail.pre_dc).toFixed(2));
+                            $("#" + Areaid + "_ag").html(parseFloat(MainScreenDetail.pre_ag).toFixed(2));
+                            $("#" + Areaid + "_frequency").html(parseFloat(MainScreenDetail.pre_frequency).toFixed(2));
+                            $("#" + Areaid + "_sg").html(parseFloat(MainScreenDetail.pre_sg).toFixed(2));
+                            $("#" + Areaid + "_abserror").html(parseFloat(MainScreenDetail.pre_abserror).toFixed(2));
+                            $("#" + Areaid + "_uimw").html(parseFloat(MainScreenDetail.pre_uimw).toFixed(2));
+                            $("#" + Areaid + "_with15").html(MainScreenDetail.count_with15);
+
+                            if (parseFloat(MainScreenDetail.pre_abserror) > 15) {
+                                $("#" + Areaid + "_abserror").addClass("bg_red");;
+                            }
+                            else {
+                                $("#" + Areaid + "_abserror").removeClass("bg_red").addClass("green_txt");
+                            }
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+            if (box) box.remove();
+        }
+
+    }
+    function UptoGetPreviousblkData(ddlArea) {
+        try {
+
+            //var State = $('#ddlState :selected').val();
+            //var Statetext = $('#ddlState :selected').text();
+            //var stateId = 1;
+            //var ddlArea = $('#ddlArea :selected').val();
+            //var ddlAreatext = $('#ddlArea :selected').text();
+            if (ddlArea != 0 && ddlArea != null) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/GetUPToPreblockMainScreenDetail/" + ddlArea + "/" + ddlArea,
+                    dataType: "json",//type of data to be received
+                    async: false,
+                    success: function (MainScreenDetail, status, jqXHR) {
+
+                        if (MainScreenDetail != null) {
+                            $("#upto_sg").html(MainScreenDetail.upto_sg);
+                            $("#upto_ag").html(MainScreenDetail.upto_ag);
+                            $("#upto_uimw").html(MainScreenDetail.upto_uimw);
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+            if (box) box.remove();
+        }
+
+    }
+
+    function LoadData() {
+        var crrdate = new Date();
+        var Mintes = crrdate.getMinutes();
+        var ModTime = Mintes % 15;
+        if (ModTime > 0 && ModTime < 6) {
+            GetArea();
+        }
+    }
+    setInterval(function () { LoadData(); }, 60000);
+</script>
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="unlink">
+    <thead>
+        <tr>
+            <td colspan="8" style="background-image: url(/Areas/Unilink/Image/unlink-logo.png); background-repeat: no-repeat; height: 83px; background-position: center right; color: #ffcccc; font-size: 24px; text-transform: uppercase; font-weight: bold; ">
+                Unlink Engineering corporation Pvt. Ltd.
+            </td>
+        </tr>
+        <tr>
+            <th>Wind Staion</th>
+            <th>AC</th>
+            <th>SG</th>
+            <th>AG</th>
+            <th>Ui MW</th>
+            <th>Means Abs. Error%</th>
+            <th>Frequency</th>
+            <th>(-/+) 15% Counter</th>
+        </tr>
+    </thead>
+    <tbody id="tblData">
+        <tr id="1_tr">
+            <td><span class="station"><a href="/Unilink/summary/summary/4">UKHEDA</a></span></td>
+            @*stationId_paramname*@
+            <td><label id="4_ac" class="green_txt">00</label></td>
+            <td><label id="4_sg" class="green_txt">00</label></td>
+            <td><label id="4_ag" class="green_txt">00</label></td>
+            <td><label id="4_uimw" class="green_txt">00</label></td>
+            <td><label id="4_abserror" class="green_txt">00</label></td>
+            <td><label id="4_frequency" class="green_txt">00</label></td>
+            <td><label id="4_with15" class="orange_txt">00</label></td>
+        </tr>
+        <tr>
+            <td><span class="station"><a href="/Unilink/summary/summary/5">DEGAM</a></span></td>
+            <td><label id="5_ac" class="green_txt">00</label></td>
+            <td><label id="5_sg" class="green_txt">00</label></td>
+            <td><label id="5_ag" class="green_txt">00</label></td>
+            <td><label id="5_uimw" class="green_txt">00</label></td>
+            <td><label id="5_abserror" class="green_txt">00</label></td>
+            <td><label id="5_frequency" class="green_txt">00</label></td>
+            <td><label id="5_with15" class="orange_txt">00</label></td>
+        </tr>
+ <tr>
+            <td><span class="station"><a href="/Unilink/summary/summary/6">SHEVDIVADAR</a></span></td>
+            <td><label id="6_ac" class="green_txt">00</label></td>
+            <td><label id="6_sg" class="green_txt">00</label></td>
+            <td><label id="6_ag" class="green_txt">00</label></td>
+            <td><label id="6_uimw" class="green_txt">00</label></td>
+            <td><label id="6_abserror" class="green_txt">00</label></td>
+            <td><label id="6_frequency" class="green_txt">00</label></td>
+            <td><label id="6_with15" class="orange_txt">00</label></td>
+        </tr>
+    </tbody>
+</table>

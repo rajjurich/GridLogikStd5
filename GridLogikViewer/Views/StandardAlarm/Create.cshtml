@@ -1,0 +1,343 @@
+@model GridLogik.ViewModels.StandardAlarmModel
+
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $(":checkbox").attr("checked", false);
+        $('input[type=text]').val('');
+
+        $("#shiftright").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleft").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+        })
+
+        $("#shiftrightall").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftall").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+
+
+
+        $(".btn-default").click(function () {
+
+            if ($('form').valid()) {
+                //alert(); $("#ddlmeterselect option").prop("selected", true);
+            }
+            else {
+                //alert('not valid');
+            }
+
+        })
+
+    })
+    function AlarmNameExist(AlrmName) {
+        if ($("#alarmname").val() != null && $("#alarmname").val() != "") {
+            var da = $("#alarmname").val();
+            console.log(da);
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "StandardAlaram/AlramNameExits/" + $("#alarmname").val(),
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    console.log(dateformat);
+                    var str = "";
+                    if (dateformat.length>0) {
+                        console.log(dateformat[0].alarmname.toLowerCase());
+                        if (dateformat[0].alarmname.toLowerCase() == da.toLowerCase()) {
+                            console.log("in");
+                            alert('Alarm with ' + $("#alarmname").val() + ' name already Exit');
+                            $("#alarmname").val('');
+                            return false;
+                        }
+                    }
+                }
+            });
+        }
+    }
+</script>
+<style>.checkbox-inline input[type="checkbox"] {
+    margin-top: 3px;
+}
+</style>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Standard Alarm </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Standard Alarm</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-square"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true)
+                                                            
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Enter Alarm Name <span class="text-danger">*</span></label>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.alarmname, new { @class = "form-control alphaspace", @onblur = "AlarmNameExist()" })
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.ValidationMessageFor(model => model.alarmname, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Meters</strong></div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9 bg-white">
+                                                                    @Html.DropDownListFor(model => model.meterid, (IEnumerable<SelectListItem>)ViewBag.meterids, new { @id = "ddlmeter", @class = "form-control", @multiple = "multiple" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2 col-sm-2 col-sm-2 col-xs-12">
+                                                    <div class="text-center">
+                                                        <div class="row multi-btn">
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftright" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftrightall" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12 mb5">
+                                                                <button type="button" id="shiftleft" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-left"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftleftall" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-left"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Selected Meters</strong></div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9">
+                                                                    @Html.DropDownListFor(model => model.multiplemeterID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlmeterselect", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                                                    @Html.ValidationMessageFor(model => model.multiplemeterID, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                            
+
+                                            <div>
+
+                                                <table class="table bootstrap-datatable datatable small-font">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Parameters</th>
+                                                            <th class="text-center">Minimum Value</th>
+                                                            <th class="text-center">Maximum Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-success">Voltage <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minvll, new { @placeholder = "0.00", @class = "form-control  decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minvll, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxvll, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxvll, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-warning">Current <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minamp, new { @placeholder = "0.00", @class = "form-control  decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minamp, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxamp, new { @placeholder = "0.00", @class = "form-control  decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxamp, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-primary">Active Power <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minkw, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minkw, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxkw, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxkw, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-danger">Avg KVA <span class="text-white">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minkva, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minkva, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxkva, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxkva, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-success">Frequency <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minhz, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minhz, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxhz, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxhz, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-warning">Power Factor <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minpf, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.minpf, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxpf, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.maxpf, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-info">Connect Load <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center" colspan="2">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.connectload, new { @placeholder = "0.00", @class = "form-control decimal", @maxlength = "6" })
+                                                                    @Html.ValidationMessageFor(model => model.connectload, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </td>
+
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="text-center"><div class="label label-blue">Alerts <span class="text-danger">*</span></div></td>
+                                                            <td class="text-center" colspan="2">
+                                                                <div class="form-group col-md-6 col-centered">
+                                                                    <div class="checkbox-inline col-md-12">
+                                                                        <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            @Html.CheckBoxFor(model => model.SendSMSChecked)
+                                                                            @Html.Label("Send SMS")
+                                                                        </div>
+
+                                                                        <div class="col-md-4">
+                                                                            @Html.CheckBoxFor(model => model.SendEmailChecked)
+                                                                            @Html.Label("Send Email")
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                            @Html.CheckBoxFor(model => model.GivePopupChecked)
+                                                                            @Html.Label("Give Popup")
+                                                                        </div>
+                                                                        </div></div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+
+
+                                            </div>
+    <div class="panel-footer col-md-12 text-center">
+                <button type="submit" class="btn btn-sm btn-success" id="btnCreate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                <button type="reset" class="btn btn-sm btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+    </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

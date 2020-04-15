@@ -1,0 +1,310 @@
+﻿@{
+    ViewBag.Title = "SLD_MBPL";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+    .bgimg {
+        background-image: url('../../../KRAHEJA/Images/GEPL.png');
+    }
+
+    .lblthm {
+        position: absolute;
+        font-size: 11px;
+        margin: auto;
+        left: 20px;
+        padding: 2px;
+    }
+
+    .mwcolor {
+        color: violet;
+    }
+
+    .kvcolor {
+        color: violet;
+    }
+
+    .icolor {
+        color: violet;
+    }
+
+    .pfcolor {
+        color: violet;
+    }
+
+    .ccode {
+        left: 1050px;
+        font-size: 15px;
+    }
+</style>
+<div class="col-lg-12">
+
+    <div class="form-group col-md-12" style="border:0px solid #f00;">
+        <h2>Single Line Diagram: GEPL </h2>
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12" style="border: 0px solid #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @*<div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">SLD One<!--<b style="font-size:16px;">Energy</b>--></div>*@
+
+            </div>
+            <div style="height: 605px;width: 1009px; margin: auto;  background-repeat:no-repeat; border: 0px solid #000; background-image: url(../../Areas/KRAHEJA/Images/GEPL.png); ">
+
+
+                <label id="mwcolor" style="position: absolute; top: 150px; left: 480px; width: 100%; font-size: 20px; " class="mwcolor lblthm ccode">MW</label><br />
+                <label id="kwcolor" style="position: absolute; top: 180px; left: 480px; width: 100%; font-size: 20px; " class="kvcolor lblthm ccode">KV</label><br />
+                <label id="icolor" style="position: absolute; top: 210px; left: 480px; width: 100%; font-size: 20px; " class="icolor lblthm ccode">I</label><br />
+                <label id="vcolor" style="position: absolute; top: 240px; left: 480px; width: 100%; font-size: 20px; " class="pfcolor lblthm ccode">PF</label><br />
+		<label id="vcolor" style="position: absolute; top: 270px; left: 480px; width: 100%; font-size: 20px; " class="pfcolor lblthm ccode">HZ</label><br />
+
+                <label id="mn1" style="position: absolute; top: 140px; left: 625px; width: 100%; font-size: 20px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 150px; left: 240px; width: 100%; font-size: 16px; " class="mwcolor">MW-</label>*@
+                <label id="mw1" style="position: absolute; top: 150px; left: 625px; width: 100%; font-size: 20px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 170px; left: 240px; width: 100%; font-size: 16px; " class="kvcolor">KV-</label>*@
+                <label id="kv1" style="position: absolute; top: 180px; left: 625px; width: 100%; font-size: 20px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 190px; left: 240px; width: 100%; font-size: 16px; " class="icolor">I-</label>*@
+                <label id="i1" style="position: absolute; top: 210px; left: 625px; width: 100%; font-size: 20px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 210px; left: 240px; width: 100%; font-size: 16px; " class="pfcolor">PF-</label>*@
+                <label id="pf1" style="position: absolute; top: 240px; left: 625px; width: 100%; font-size: 20px; " class="pfcolor"></label>
+		<label id="hz1" style="position: absolute; top: 270px; left: 625px; width: 100%; font-size: 20px; " class="pfcolor"></label>
+
+
+
+                <label id="mn2" style="position: absolute; top: 210px; left: 407px; width: 100%; font-size: 16px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 330px; left: 350px; width: 100%; font-size: 16px; " class="mwcolor">MW-</label>*@
+                <label id="mw2" style="position: absolute; top: 235px; left: 407px; width: 100%; font-size: 16px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 350px; left: 350px; width: 100%; font-size: 16px; " class="kvcolor">KV-</label>*@
+                <label id="kv2" style="position: absolute; top: 260px; left: 407px; width: 100%; font-size: 16px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 370px; left: 350px; width: 100%; font-size: 16px; " class="icolor">I-</label>*@
+                <label id="i2" style="position: absolute; top: 285px; left: 407px; width: 100%; font-size: 16px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 390px; left: 350px; width: 100%; font-size: 16px; " class="pfcolor">PF-</label>*@
+                <label id="pf2" style="position: absolute; top: 310px; left: 407px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+		<label id="hz2" style="position: absolute; top: 335px; left: 407px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+
+
+                <label id="mn3" style="position: absolute; top: 210px; left: 640px; width: 100%; font-size: 16px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 330px; left: 860px; width: 100%; font-size: 16px; " class="mwcolor">MW-</label>*@
+                <label id="mw3" style="position: absolute; top: 235px; left: 640px; width: 100%; font-size: 16px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 350px; left: 860px; width: 100%; font-size: 16px; " class="kvcolor">KV-</label>*@
+                <label id="kv3" style="position: absolute; top: 260px; left: 640px; width: 100%; font-size: 16px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 370px; left: 860px; width: 100%; font-size: 16px; " class="icolor">I-</label>*@
+                <label id="i3" style="position: absolute; top: 285px; left: 640px; width: 100%; font-size: 16px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 390px; left: 860px; width: 100%; font-size: 16px; " class="pfcolor">PF-</label>*@
+                <label id="pf3" style="position: absolute; top: 310px; left: 640px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+		<label id="hz3" style="position: absolute; top: 335px; left: 640px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+
+                <label id="mn4" style="position: absolute; top: 210px; left: 888px; width: 100%; font-size: 16px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 330px; left: 970px; width: 100%; font-size: 16px; " class="mwcolor">MW-</label>*@
+                <label id="mw4" style="position: absolute; top: 235px; left: 888px; width: 100%; font-size: 16px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 170px; left: 970px; width: 100%; font-size: 16px; " class="kvcolor">KV-</label>*@
+                <label id="kv4" style="position: absolute; top: 260px; left: 888px; width: 100%; font-size: 16px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 190px; left: 970px; width: 100%; font-size: 16px; " class="icolor">I-</label>*@
+                <label id="i4" style="position: absolute; top: 285px; left: 888px; width: 100%; font-size: 16px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 210px; left: 970px; width: 100%; font-size: 16px; " class="pfcolor">PF-</label>*@
+                <label id="pf4" style="position: absolute; top: 310px; left: 888px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+		<label id="hz4" style="position: absolute; top: 335px; left: 888px; width: 100%; font-size: 16px; " class="pfcolor"></label>
+
+
+                <label id="2" style="position: absolute; top: 135px; left: 262px; width: 100%; font-size: 8px; ">4B</label>
+                <label id="2" style="position: absolute; top: 175px; left: 262px; width: 100%; font-size: 8px; ">12</label>
+                <label id="2" style="position: absolute; top: 214px; left: 262px; width: 100%; font-size: 8px; ">9</label>
+                <label id="2" style="position: absolute; top: 255px; left: 262px; width: 100%; font-size: 8px; ">3B</label>
+
+                <label id="3" style="position: absolute; top: 135px; left: 465px; width: 100%; font-size: 8px; ">88</label>
+                <label id="3" style="position: absolute; top: 175px; left: 465px; width: 100%; font-size: 8px; ">7</label>
+                <label id="3" style="position: absolute; top: 214px; left: 465px; width: 100%; font-size: 8px; ">1B</label>
+                <label id="3" style="position: absolute; top: 255px; left: 465px; width: 100%; font-size: 8px; ">14B</label>
+                <label id="3" style="position: absolute; top: 296px; left: 465px; width: 100%; font-size: 8px; ">6B</label>
+                <label id="3" style="position: absolute; top: 335px; left: 465px; width: 100%; font-size: 8px; ">2B</label>
+                <label id="3" style="position: absolute; top: 375px; left: 465px; width: 100%; font-size: 8px; ">5B</label>
+
+                <label id="4" style="position: absolute; top: 135px; left: 695px; width: 100%; font-size: 8px; ">5A</label>
+                <label id="4" style="position: absolute; top: 175px; left: 695px; width: 100%; font-size: 8px; ">2A</label>
+                <label id="4" style="position: absolute; top: 214px; left: 695px; width: 100%; font-size: 8px; ">6A</label>
+                <label id="4" style="position: absolute; top: 255px; left: 695px; width: 100%; font-size: 8px; ">14A</label>
+                <label id="4" style="position: absolute; top: 296px; left: 695px; width: 100%; font-size: 8px; ">4A</label>
+                <label id="4" style="position: absolute; top: 335px; left: 695px; width: 100%; font-size: 8px; ">11</label>
+                <label id="4" style="position: absolute; top: 375px; left: 695px; width: 100%; font-size: 8px; ">8A</label>
+
+                <label id="5" style="position: absolute; top: 135px; left: 918px; width: 100%; font-size: 8px; ">7A</label>
+                <label id="5" style="position: absolute; top: 175px; left: 918px; width: 100%; font-size: 8px; ">3A</label>
+                <label id="5" style="position: absolute; top: 214px; left: 918px; width: 100%; font-size: 8px; ">1</label>
+                <label id="5" style="position: absolute; top: 296px; left: 918px; width: 100%; font-size: 8px; ">1</label>
+                
+
+                @*<label id="mn5" style="position: absolute; top: 130px; left: 570px; width: 100%; font-size: 13px; color: black"></label>
+                <label id="1" style="position: absolute; top: 150px; left: 600px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>
+                <label id="mw5" style="position: absolute; top: 150px; left: 600px; width: 100%; font-size: 13px;" class="mwcolor"></label>
+                <label id="2" style="position: absolute; top: 170px; left: 600px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>
+                <label id="kv5" style="position: absolute; top: 170px; left: 600px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                <label id="3" style="position: absolute; top: 190px; left: 600px; width: 100%; font-size: 13px; " class="icolor">I-</label>
+                <label id="i5" style="position: absolute; top: 190px; left: 600px; width: 100%; font-size: 13px; " class="icolor"></label>
+                <label id="4" style="position: absolute; top: 210px; left: 600px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>
+                <label id="pf5" style="position: absolute; top: 210px; left: 600px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+
+                <label id="mn6" style="position: absolute; top: 310px; left: 570px; width: 100%; font-size: 13px; color: black"></label>
+                <label id="1" style="position: absolute; top: 330px; left: 600px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>
+                <label id="mw6" style="position: absolute; top: 330px; left: 600px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                <label id="2" style="position: absolute; top: 350px; left: 600px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>
+                <label id="kv6" style="position: absolute; top: 350px; left: 600px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                <label id="3" style="position: absolute; top: 370px; left: 600px; width: 100%; font-size: 13px; " class="icolor">I-</label>
+                <label id="i6" style="position: absolute; top: 370px; left: 600px; width: 100%; font-size: 13px; " class="icolor"></label>
+                <label id="4" style="position: absolute; top: 390px; left: 600px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>
+                <label id="pf6" style="position: absolute; top: 390px; left: 600px; width: 100%; font-size: 13px; " class="pfcolor"></label>*@
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "kw";
+    var MeterString = "10000";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        ABTMeterDetails();
+    });
+
+    setInterval(ABTMeterDetails, 1000);
+
+    function ABTMeterDetails() {
+
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+
+                var jsonObj = response.Data.result;
+                var G1Status = false;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+                    //KV=vll/1000, MW=kw/1000
+                    jsonObj.forEach(function (responseobj) {
+
+if(responseobj.meterid==10000)
+{
+$("#mw1" ).html((responseobj.kw/1000).toFixed(3));
+ $("#kv1").html(((responseobj.vry+responseobj.vyb+responseobj.vbr).toFixed(2)/3).toFixed(2));
+ $("#i1" ).html(((responseobj.ir+responseobj.iy+responseobj.ib).toFixed(2)/3).toFixed(2));
+$("#pf1" ).html(responseobj.pf);
+$("#hz1" ).html(responseobj.hz);
+$("#mn1" ).html(responseobj.meter_name);
+}
+else if(responseobj.meterid==2)
+{
+$("#mw2" ).html(responseobj.kw);
+ $("#kv2").html(((responseobj.vry+responseobj.vyb+responseobj.vbr).toFixed(2)/3).toFixed(2));
+ $("#i2" ).html(((responseobj.ir+responseobj.iy+responseobj.ib).toFixed(2)/3).toFixed(2));
+$("#pf2" ).html(responseobj.pf);
+$("#hz2" ).html(responseobj.hz);
+$("#mn2" ).html(responseobj.meter_name);
+}
+else if(responseobj.meterid==3)
+{
+$("#mw3" ).html(responseobj.kw);
+ $("#kv3").html(((responseobj.vry+responseobj.vyb+responseobj.vbr).toFixed(2)/3).toFixed(2));
+ $("#i3" ).html(((responseobj.ir+responseobj.iy+responseobj.ib).toFixed(2)/3).toFixed(2));
+$("#pf3" ).html(responseobj.pf);
+$("#hz3" ).html(responseobj.hz);
+$("#mn3").html(responseobj.meter_name);
+}
+else if(responseobj.meterid==4)
+{
+$("#mw4" ).html(responseobj.kw);
+ $("#kv4").html(((responseobj.vry+responseobj.vyb+responseobj.vbr).toFixed(2)/3).toFixed(2));
+ $("#i4" ).html(((responseobj.ir+responseobj.iy+responseobj.ib).toFixed(2)/3).toFixed(2));
+$("#pf4" ).html(responseobj.pf);
+$("#hz4" ).html(responseobj.hz);
+$("#mn4" ).html(responseobj.meter_name);
+}
+
+                        
+
+
+                      
+
+                    });
+                   
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+
+
+    }
+    
+
+
+</script>

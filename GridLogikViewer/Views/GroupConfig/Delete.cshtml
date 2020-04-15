@@ -1,0 +1,203 @@
+﻿@model GridLogikViewer.APIModels.GroupConfiguration
+
+@{
+    ViewBag.Title = "Delete Meter Group";
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">
+                        Meter Groups
+                    </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Meter Groups</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i> <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm("Delete", "GroupConfig", FormMethod.Post, new { id = "deleteGrpConfig" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(model => model.SelectedMeterID)
+                                        @Html.HiddenFor(model => model.SelectedParameterID)
+
+                                        <div class="form-horizontal">
+                                            <hr />
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.GroupName, new { @class = "col-md-3 control-label text-info" })
+                                                <div class="col-md-3">
+                                                    @Html.DisplayFor(model => model.GroupName)
+                                                    @Html.ValidationMessageFor(model => model.GroupName)
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="panel panel-red">
+                                                            <div class="panel-heading">
+                                                                <div><strong>Selected Meter</strong></div>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                    <div class="col-md-8">
+                                                                        @Html.DropDownListFor(model => model.multiplemeterID, (IEnumerable<SelectListItem>)ViewBag.SelectedMeters, new { @id = "ddlmeter", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                                                        @Html.ValidationMessageFor(model => model.MeterName)
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-lg-6 col-sm-6 col-sm-6 col-xs-12">
+                                                    <div class="panel panel-red">
+                                                        <div class="panel-heading">
+                                                            <label><strong>Selected Parameter</strong></label>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9">
+                                                                    @Html.DropDownListFor(model => model.InstanceParameterID, (IEnumerable<SelectListItem>)ViewBag.SelectedParameter, new { @id = "ddlparameter", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                                                    @Html.ValidationMessageFor(model => model.InstanceParameterID)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                                    <div class="panel-footer col-md-12 text-center">
+                                                        <button type="button" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                                    </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+<script>
+    var box;
+    $(document).ready(function () {
+        $("#deleteGrpConfig").find('select').attr("disabled", true)
+        $("#btnDelete").click(function () {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var msg = confirm(DeleteMessage);
+            //if (msg == false) {
+            //    if (box) box.remove();
+            //    return false;
+            //}
+            //else {
+            //    $("#deleteInputData").find('input,select,radio').removeAttr("disabled");
+            //    return true;
+            //}
+        });
+        //$("#btnDelete").click(function () {
+        //    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //});
+        $("#ddlmeterselect option").prop("selected", true);
+        $("#ddlparameterselect option").prop("selected", true);
+        $("#shiftrightmeter").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftmeter").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+        })
+
+        $("#shiftrightallmeter").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallmeter").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+        $(".btn-default").click(function () { $("#ddlmeterselect option").prop("selected", true); })
+
+        $("#shiftrightparameter").click(function () {
+            $('#ddlparameter option:selected').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftparameter").click(function () {
+            $('#ddlparameterselect option:selected').appendTo("#ddlparameter")
+        })
+
+        $("#shiftrightallparameter").click(function () {
+            $('#ddlparameter option').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallparameter").click(function () {
+            $('#ddlparameterselect option').appendTo("#ddlparameter")
+        })
+
+        $(".btn-default").click(function () { $("#ddlparameterselect option").prop("selected", true); })
+    })
+    function deleterecord() {
+
+        var mstgrpmodel = {
+            "MeterId": null
+        };
+        var id =@this.ViewContext.RouteData.Values["id"]
+        $.ajax({
+            type: "POST",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: '@Url.Action("Delete", "GroupConfig")',//+ id,
+            dataType: "json",//type of data to be received
+            data: JSON.stringify(mstgrpmodel),//data to be send
+            success: function (response) {
+                ;
+                if (response.e == "S") {
+                    if (response.d.length > 0)
+                        alert(response.d, '@Url.Action("Index", "GroupConfig")', false, 'S')
+                }
+                else if (response.e == "M") {
+                    if (response.d.length > 0) {
+                        alert(response.d, '', false, 'M')
+                    }
+                }
+                else if (response.e == "E") {
+                    if (response.d.length > 0)
+                        alert(response.d, '', false, 'E')
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText, '', false, 'E')
+            }
+        });
+        e.preventDefault();
+    }
+
+</script>

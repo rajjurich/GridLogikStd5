@@ -1,0 +1,71 @@
+﻿@model GridLogik.ViewModels.MeterType
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter Type</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Meter Type</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.ID)
+
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelForRequired(model => model.MeterTypeName, null, "")
+                                            @Html.TextBoxFor(model => model.MeterTypeName, new { @class = "form-control",disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.MeterTypeName)
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelForRequired(model => model.meterdescription, null, "")
+                                            @Html.TextBoxFor(model => model.meterdescription, new { @class = "form-control commonformele_textarea_style", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.meterdescription)
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-offset-2 col-md-10">
+                                                <span>
+                                                    @Html.Raw(ViewBag.ErrorMessage)
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

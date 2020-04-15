@@ -1,0 +1,37 @@
+<html>
+<head>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script>
+$(document).ready(function(){
+var MeterString = "17";
+    var MeterIdList = {
+        "MeterString": MeterString,
+		"FromSelectionFilter" : "Current Date" ,
+        "ToSelectionFilter" : "Current Block" ,
+		"FromTime":"00:00",
+		"ToTime":"00:00"
+
+    };
+ $.ajax({
+
+            type: "POST",
+            url: "http://localhost/etoolsapi/api/instancedatadynamic/instancedatadilogs/meterid",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                debugger            
+alert(response);
+                
+            },
+            error: function (xhr, status, error) {
+                debugger;
+            }
+        });
+})
+</script>

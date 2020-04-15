@@ -1,0 +1,435 @@
+﻿@{
+    ViewBag.Title = "Thermal Plant Summary";
+}
+
+
+
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<h2>Thermal Plant Summary</h2>
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;"><!--<b style="font-size:16px;">Energy</b>--></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; " colspan="2">Parameter</th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;"><label id="unit1_Metername"></label></th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;"><label id="unit2_Metername"></label></th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;"><label id="unit3_Metername"></label></th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">STATION</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Unit status</th>
+                        @*<td style=" color: #00FF00; padding: 0px;"><label id="BOILERAUXUnit1Load"></label></td>*@
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_unitstatus"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_unitstatus"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_unitstatus"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_unitstatus"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Generation(MW)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_generationMW"></label></td>
+                        @*<td style=" color: #00FF00; padding: 0px;"><label id="unit2_generationMW"></label></td>*@
+                        <td style=" color:#00FFF6; padding:0px;" colspan="2"><label id="unit3_generationMW"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_generationMW"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">DC(MW)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_DCMW"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;" colspan="2"><label id="unit2_DCMW"></label></td>
+                        @*<td style=" color:#00FFF6; padding:0px;"><label id="unit3_DCMW"></label></td>*@
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_DCMW"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">SG(MW)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_SGMW"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;" colspan="2"><label id="unit2_SGMW"></label></td>
+                        @*<td style=" color:#00FFF6; padding:0px;"><label id="unit3_SGMW"></label></td>*@
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_SGMW"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px; vertical-align:middle" scope="row" rowspan="2">Suggested loading by MOD</th>
+                        <td style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Economic Dispatch</td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_suggestedLoadED"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_suggestedLoadED"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_suggestedLoadED"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_suggestedLoadED"></label></td>
+                    </tr>
+                    <tr>
+                        <td style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Unit Commitment</td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_suggestedLoadUC"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_suggestedLoadUC"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_suggestedLoadUC"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_suggestedLoadUC"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Avg Frequency (Hz)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_AvgFrequency"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_AvgFrequency"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_AvgFrequency"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_AvgFrequency"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Net export(MWh)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_Netexport"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_Netexport"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_Netexport"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_Netexport"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">UI(deviation from schedule)MW</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_UIdeviation"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;" colspan="2"><label id="unit2_UIdeviation"></label></td>
+                        @*<td style=" color:#00FFF6; padding:0px;"><label id="unit3_UIdeviation"></label></td>*@
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_UIdeviation"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">UI charge Rs</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_UIcharge"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_UIcharge"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_UIcharge"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_UIcharge"></label></td>
+                    </tr>
+
+                    <tr style="display:none">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Fuel cost(Rs/kcal)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_Fuelcost"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_Fuelcost"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_Fuelcost"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_Fuelcost"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">PLF for the Day</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_PLF"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_PLF"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_PLF"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_PLF"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">APC (MW)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_APC"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_APC"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_APC"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_APC"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Unit heat rate(indirect method)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_heatindirect"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_heatindirect"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_heatindirect"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_heatindirect"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Unit heat rate(direct method)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_heatdirect"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_heatdirect"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_heatdirect"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_heatdirect"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Unit heat rate</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_heatrate"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_heatrate"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_heatrate"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_heatrate"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Coal Consumption(ton/hr)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_CoalConsumption"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_CoalConsumption"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_CoalConsumption"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_CoalConsumption"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Unit efficiency %</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_Unitefficiency"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_Unitefficiency"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_Unitefficiency"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_Unitefficiency"></label></td>
+                    </tr>
+                    <tr style="visibility:hidden">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row" colspan="2">Cost of generation Rs/(MW*hr)</th>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit1_generationCost"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="unit2_generationCost"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="unit3_generationCost"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="station_generationCost"></label></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+</div>
+<script>
+    function FillInstancedata() {
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "ThermalSummaryAPI/GetThermalSummaryData",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                var response = meters.Data.result;
+                var i = 0;
+                var stationUnitStatus = "Not Generating";
+                var stationGenMw = 0;
+                var stationDCMW = 0;
+                var stationSGMW = 0;
+                var stationSuggestedLoadED = 0;
+                var stationSuggestedLoadUC = 0;
+                var stationAvgFreq = 0;
+
+                var stationNetExport = 0;
+                var stationDeviation = 0;
+                var stationCharge = 0;
+                var stationfeulcost = 0;
+
+                var stationPLF = 0;
+                var stationAPC = 0;
+                response.forEach(function (response) {
+
+                    var lblname = GetUnitConfiguration(response.meterid);
+                    var MeterName = response.meteridName;
+                    $("#" + lblname + "_unitstatus").html(response.unitstatus);
+                    $("#" + lblname + "_Metername").html(MeterName);
+                    if (response.unitstatus == "Running")
+                        stationUnitStatus = "Generating";
+                    if (response.genmw == null)
+                        response.genmw = 0;
+                    $("#" + lblname + "_generationMW").html(response.genmw.toFixed(2));
+                    //stationGenMw = stationGenMw + parseFloat(response.genmw);
+
+                    if (response.dcmw == null)
+                        response.dcmw = 0;
+                    $("#" + lblname + "_DCMW").html(response.dcmw.toFixed(2));
+                    //stationDCMW = stationDCMW + parseFloat(response.dcmw);
+                    stationDCMW = parseFloat(response.dcmw);
+                    if (response.sgmw == null)
+                        response.sgmw = 0;
+                    $("#" + lblname + "_SGMW").html(response.sgmw.toFixed(2));
+                    //stationSGMW = stationSGMW + parseFloat(response.sgmw);
+                    stationSGMW = parseFloat(response.sgmw);
+
+                    if (response.loadingscheduleED == null)
+                        response.loadingscheduleED = 0;
+                    $("#" + lblname + "_suggestedLoadED").html(response.loadingscheduleED.toFixed(2));
+                    stationSuggestedLoadED = stationSuggestedLoadED + parseFloat(response.loadingscheduleED);
+
+                    if (response.loadingscheduleUC == null)
+                        response.loadingscheduleUC = 0;
+                    $("#" + lblname + "_suggestedLoadUC").html(response.loadingscheduleUC.toFixed(2));
+                    stationSuggestedLoadUC = stationSuggestedLoadUC + parseFloat(response.loadingscheduleUC);
+
+                    if (response.avgfrequency == null)
+                        response.avgfrequency = 0;
+                    $("#" + lblname + "_AvgFrequency").html(response.avgfrequency.toFixed(2));
+                    //if (stationAvgFreq < parseFloat(response.avgfrequency))
+                    //    stationAvgFreq = parseFloat(response.avgfrequency);
+
+                    if (response.netexport == null)
+                        response.netexport = 0;
+                    $("#" + lblname + "_Netexport").html(response.netexport.toFixed(2));
+                    stationNetExport = stationNetExport + parseFloat(response.netexport);
+
+                    if (response.uideviation == null)
+                        response.uideviation = 0;
+                    //$("#" + lblname + "_UIdeviation").html(response.uideviation.toFixed(2));
+                    //stationDeviation = stationDeviation + parseFloat(response.uideviation);
+
+                    if (response.uicharge == null)
+                        response.uicharge = 0;
+                    $("#" + lblname + "_UIcharge").html(response.uicharge.toFixed(2));
+                    stationCharge = stationCharge + parseFloat(response.uicharge);
+
+                    if (response.feulcost == null)
+                        response.feulcost = 0;
+                    $("#" + lblname + "_Fuelcost").html(response.feulcost.toFixed(2));
+                    stationfeulcost = response.feulcost;
+
+                    var plf = 0;
+                    var uc = 250;
+                    if (lblname == "unit1")
+                        uc = 210;
+                    if (parseFloat(response.netexport) > 0 && parseFloat(uc) > 0)
+                        plf = parseFloat(response.netexport) / (parseFloat(uc) * 24);
+                    $("#" + lblname + "_PLF").html(plf.toFixed(2));
+
+                    $("#" + lblname + "_APC").html(response.apc);
+                    stationAPC = stationAPC + parseFloat(response.apc.toFixed(2));
+                });
+                stationGenMw = parseFloat($("#unit1_generationMW").text()) + parseFloat($("#unit3_generationMW").text());
+                stationDCMW = parseFloat($("#unit1_DCMW").text()) + parseFloat($("#unit2_DCMW").text());
+                stationSGMW = parseFloat($("#unit1_SGMW").text()) + parseFloat($("#unit2_SGMW").text());
+                stationAvgFreq = parseFloat($("#unit2_AvgFrequency").text());
+                stationAvgFreq = stationAvgFreq < 47 || stationAvgFreq > 51 ? parseFloat($("#unit3_AvgFrequency").text()) : stationAvgFreq;
+                stationDeviation = parseFloat($("#unit1_UIdeviation").text()) + parseFloat($("#unit2_UIdeviation").text());
+                $("#station_unitstatus").html(stationUnitStatus);
+                $("#station_generationMW").html(stationGenMw.toFixed(2));
+                $("#station_DCMW").html(stationDCMW);
+                $("#station_SGMW").html(stationSGMW);
+                $("#station_suggestedLoadED").html(stationSuggestedLoadED.toFixed(2));
+                $("#station_suggestedLoadUC").html(stationSuggestedLoadUC.toFixed(2));
+                $("#station_AvgFrequency").html(stationAvgFreq.toFixed(2));
+                $("#station_Netexport").html(stationNetExport.toFixed(2));
+                $("#station_UIdeviation").html(stationDeviation.toFixed(2));
+                $("#station_UIcharge").html(stationCharge.toFixed(2));
+                $("#station_Fuelcost").html(stationfeulcost.toFixed(2));
+                $("#unit1_UIdeviation").html((parseFloat($("#unit1_generationMW").text()) - parseFloat($("#unit1_SGMW").text())).toFixed(2));
+                $("#unit2_UIdeviation").html((parseFloat($("#unit3_generationMW").text()) - parseFloat($("#unit2_SGMW").text())).toFixed(2));
+                if (parseFloat(stationSGMW) != 0 && parseFloat(stationDCMW) != 0)
+                    stationPLF = parseFloat(stationSGMW) / parseFloat(stationDCMW);
+                $("#station_PLF").html(stationPLF.toFixed(2));
+                $("#station_APC").html(stationAPC.toFixed(2));
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+
+    function FillBlockdata() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "ThermalSummaryAPI/GetThermalUnitRateDataOPM",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                var response = meters.Data.result;
+                var i = 0;
+                var eff = 0;
+                var gencost = 0;
+                var StationHeatrateindirect = 0;
+                var StationHeatratedirect = 0;
+                var stationcoalconsumption = 0;
+                var stationUnitEfficiency = 0;
+                var stationgencost = 0;
+                var heatrate = 0.0;
+                var stationheatrate = 0.0;
+                response.forEach(function (response) {
+                    var lblname = GetUnitConfiguration(response.meterid);
+                    var unitheatindirect = parseFloat(response.unitheatindirect);
+
+                    heatrate = response.unitheatdirect;
+                    if (heatrate > 0)
+                        eff = 860 / heatrate;
+                    $("#" + lblname + "_heatrate").html(heatrate);
+                    stationheatrate = stationheatrate + heatrate;
+                    if (parseFloat(response.coalconsumption) > 0 && parseFloat($("#" + lblname + "_Fuelcost").val()) > 0 && parseFloat($("#" + lblname + "_generationMW").val()) > 0)
+                        gencost = (parseFloat(response.coalconsumption) * parseFloat($("#" + lblname + "_Fuelcost").val())) / parseFloat($("#" + lblname + "_generationMW").val());
+                    $("#" + lblname + "_heatindirect").html(response.unitheatindirect.toFixed(2));
+                    StationHeatrateindirect = StationHeatrateindirect + parseFloat(response.unitheatindirect);
+                    $("#" + lblname + "_heatdirect").html(response.unitheatdirect.toFixed(2));
+
+                    StationHeatratedirect = StationHeatratedirect + parseFloat(response.unitheatdirect);
+                    $("#" + lblname + "_CoalConsumption").html(response.coalconsumption.toFixed(2));
+                    stationcoalconsumption = stationcoalconsumption + parseFloat(response.coalconsumption);
+
+                    $("#" + lblname + "_Unitefficiency").html(eff.toFixed(2));
+                    stationUnitEfficiency = stationUnitEfficiency + parseFloat(eff);
+                    $("#" + lblname + "_generationCost").html(gencost.toFixed(2));
+                    stationgencost = stationgencost + gencost;
+                });
+                $("#station_heatindirect").html((StationHeatrateindirect / 3).toFixed(2));
+                $("#station_heatdirect").html((StationHeatratedirect / 3).toFixed(2));
+                $("#station_heatrate").html(stationheatrate.toFixed(2));
+                $("#station_CoalConsumption").html((stationcoalconsumption).toFixed(2));
+                $("#station_Unitefficiency").html((stationUnitEfficiency / 3).toFixed(2));
+                $("#station_generationCost").html((stationgencost).toFixed(2));
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+
+
+    $(document).ready(function () {
+        FillInstancedata();
+        FillBlockdata();
+    });
+    function GetUnitConfiguration(meterid) {
+        var label = "";
+
+        if (meterid == 163) {
+            label = "unit1";
+        } else if (meterid == 164) {
+            label = "unit2";
+        } else if (meterid == 165) {
+            label = "unit3";
+        }
+        else if (meterid == 20) {
+            label = "unit2";
+        }
+        return label;
+    }
+
+    setInterval(function () { FillInstancedata(); }, 5000);
+    setInterval(function () { FillBlockdata(); }, 300000);
+</script>

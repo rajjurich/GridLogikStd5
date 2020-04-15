@@ -1,0 +1,211 @@
+﻿@model GridLogikViewer.APIModels.MemoryMap_Addressdetails
+
+
+@{
+    ViewBag.Title = "";
+}
+<h2>Add Driver Details</h2>
+
+@using (Html.BeginForm("Save", "DriverConfiguration", FormMethod.Post, new { id = "formDriverConfig" }))
+            {
+    @Html.AntiForgeryToken()
+@*<div class="container">*@
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box">AddDriverDetails</div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols"> <a href="charts-flot.html#" class="btn-setting" data-toggle="modal" data-target="#ModalTable01"><i class="fa fa-eye"></i></a> <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a> <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a> </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12 col-sm-11 main ">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group col-sm-2" style=" border:0px solid #F00;">
+                                <label for="Day">Day</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Day", string.Empty, new { @onblur = " return GenerateSequence();" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="Month">Month</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Month", string.Empty, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="Year">Year</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Year", string.Empty, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="Hr">Hr</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Hr", string.Empty, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="Min">Min</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Min", string.Empty, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-sm-2">
+                                <label for="Sec">Sec</label>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                @Html.TextBox("Sec", string.Empty, new { @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <!--/row-->
+
+
+                    </div>
+
+                    <!--/.row-->
+                    <!--/.row-->
+
+                </div>
+            </div>
+            <!--/row-->
+
+        </div>
+        </div>
+
+    @*</div>*@
+
+
+        <!-- Example function -->
+        @*<h2>Add Driver Details</h2>
+
+            @using (Html.BeginForm("Save", "DriverConfiguration", FormMethod.Post, new { id = "formDriverConfig" }))
+            {
+                @Html.AntiForgeryToken()
+            <p>
+                <label for="Day">Day</label>
+                @Html.TextBox("Day", string.Empty, new { @onblur = " return GenerateSequence();" })
+
+            </p>
+            <p>
+                <label for="Month">Month</label>
+                @Html.TextBox("Month",string.Empty, new { @readonly = "readonly" })
+
+            </p>
+
+            <p>
+                <label for="Year">Year</label>
+
+                @Html.TextBox("Year",string.Empty,new { @readonly = "readonly" })
+
+            </p>
+            <p>
+                <label for="Hr">Hr</label>
+                @Html.TextBox("Hr",string.Empty, new { @readonly = "readonly" })
+
+            </p>
+            <p>
+                <label for="Min">Min</label>
+                @Html.TextBox("Min" ,string.Empty,new { @readonly = "readonly" })
+
+            </p>
+            <p>
+                <label for="Sec">Sec</label>
+                @Html.TextBox("Sec",string.Empty, new { @readonly = "readonly" })
+
+            </p>*@
+
+
+
+
+        <div class="panel panel-default">
+            @Html.DropDownListFor(model => model.MeterModel.ModelName, new SelectList(Model.ListMeterModel, "ID", "ModelName"), "select meter", new { @class = "form-control" })
+            <label id="modelError" hidden="hidden"><font color="red">Please select value</font></label>
+
+            <div class="col-md-12 table-responsive dashboard-selectoption-panel-body">
+                <table class="table table-bordered table-hover table-sortable" id="tab_logic">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                @Html.LabelFor(model => model.Address)
+                            </th>
+                            <th class="text-center">
+                                @Html.LabelFor(model => model.ParameterName)
+                            </th>
+                            <th class="text-center">
+                                @Html.LabelFor(model => model.DataType)
+                            </th>
+                            <th class="text-center">
+                                @Html.LabelFor(model => model.InstanceDataMapping)
+                            </th>
+                            <th class="text-center">
+                                @Html.LabelFor(model => model.MultiplicationFactor)
+                            </th>
+                            <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id='addr0' data-id="0" class="hidden">
+                            <td data-name="name">
+                                @Html.TextBoxFor(model => model.Address, new { @id = "address0", @name = "name0", @class = "form-control addressRange" })
+                            </td>
+                            <td data-name="parameter">
+                                @Html.TextBoxFor(model => model.ParameterName, new { @id = "parameter0", @name = "parameter0", @class = "form-control" })
+                            </td>
+                            <td data-name="dataType">
+                                @Html.DropDownListFor(model => Model.DataType, new SelectList(ViewBag.DataTypelist, "Value", "Text", Model.DataType), "select", new { @id = "dataType", @name = "sel0", @class = "form-control" })
+                            </td>
+                            <td data-name="instanceData">
+                                @Html.DropDownListFor(model => Model.InstanceData.Meter_Name, new SelectList(ViewBag.InstanceParameterID, "Text", "Value"), "select", new { @class = "form-control" })
+                            </td>
+                            <td data-name="multification">
+                                @Html.TextBoxFor(model => model.MultiplicationFactor, new { @id = "MultiplicationFactor0", @name = "MultiplicationFactor0", @class = "form-control" })
+                            </td>
+                            <td data-name="del">
+                                <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <input type="button" value="Save" id="saveDetail" class="btn btn-default" />
+        <input type="button" value="Add Row" id="add_row" class="btn btn-default pull-right" />
+        }
+    @*</div>*@
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script src="~/Content/js/jquery-1.10.1.min.js"></script>
+<script src="@Url.Content("~/Scripts/DriverConfiguration/AddDriverDetails.js")" type="text/javascript"></script>
+<script type='text/javascript'>
+    function GenerateSequence() {
+        //Your logic here
+     
+        var day = document.getElementById('@Html.Id("Day")').value;
+       @*// var month = document.getElementById('@Html.Id("Month")');*@
+
+        document.getElementById('@Html.Id("Month")').value = parseInt(document.getElementById('@Html.Id("Day")').value)+1;
+        document.getElementById('@Html.Id("Year")').value = parseInt(document.getElementById('@Html.Id("Month")').value) + 1;
+        document.getElementById('@Html.Id("Hr")').value =parseInt(document.getElementById('@Html.Id("Year")').value) + 1;
+        document.getElementById('@Html.Id("Min")').value =parseInt(document.getElementById('@Html.Id("Hr")').value) + 1;
+        document.getElementById('@Html.Id("Sec")').value =parseInt(document.getElementById('@Html.Id("Min")').value) + 1;
+      
+
+    }
+</script>
+

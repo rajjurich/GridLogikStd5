@@ -1,0 +1,73 @@
+prmrecid       3
+prmmodule      Global
+prmunit        cclassconsumergroup
+prmidentifier  cclassconsumergroup
+prmvalue       High
+rfu1
+rfu2
+
+prmrecid       4
+prmmodule      Global
+prmunit        cclassconsumergroup
+prmidentifier  cclassconsumergroup
+prmvalue       Low
+rfu1
+rfu2
+ 
+ 
+
+prmrecid       10
+prmmodule      Global
+prmunit        TextFields
+prmidentifier  MaxLength
+prmvalue       40
+rfu1           Max Length is 40
+rfu2
+
+prmrecid       11
+prmmodule      Global
+prmunit        DateField
+prmidentifier  Format
+prmvalue       dd/mm/yy
+rfu1           Date format is dd/mm/yyyy
+rfu2
+
+prmrecid       12
+prmmodule      Global
+prmunit        TextFields
+prmidentifier  Case
+prmvalue       U
+rfu1
+rfu2
+
+prmrecid       26
+prmmodule      Global
+prmunit        TextFields
+prmidentifier  MinLength
+prmvalue       2
+rfu1           Min Length is 2
+rfu2
+
+prmrecid       165
+prmmodule      Global
+prmunit        MaritalStatus
+prmidentifier  MaritalStatus
+prmvalue       Single
+rfu1
+rfu2
+
+
+
+prmrecid       274
+prmmodule      Global
+prmunit        DateTimeField
+prmidentifier  Format
+prmvalue       DD/MM/YY HH:mm
+rfu1
+rfu2 
+
+prmmodule  Block Energy Scale1 
+prmmodule  Block KwD Scale
+prmmodule  Block Power Scale1
+prmmodule  Current ScaleRPH
+prmmodule  MDAS

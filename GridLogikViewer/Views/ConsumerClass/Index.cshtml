@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Consumer Class List";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "consumerclass",
+                dataType: "json",//type of data to be received
+                success: function (cclass, status, jqXHR) {
+                    
+                    var str = "";
+
+                    if (cclass.Data.result != undefined) {
+                        cclass.Data.result.forEach(function (result) {
+
+                            str += "<tr>" +
+                                "<td>" + result.cclassid + "</td>" +
+                                "<td>" + result.cclassdescription + "</td>" +
+                                "<td>" + result.cclassconsumergroup + "</td>" +
+                                "<td style='text-align:center'><a href='/consumerclass/Edit/" + result.cclassrecid + "' class='editor_edit'>Edit</a> / <a href='/consumerclass/Delete/" + result.cclassrecid + "' class='editor_remove'>Delete</a></td>" +
+                                "</tr>";
+                        });
+                    }
+                    if (cclass.Data.e == "E") {
+                        if (cclass.Data.d.length > 0)
+                            alert(cclass.Data.d);
+
+                    }
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false }
+                            ]
+                        });
+
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    //  alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+
+    </script>
+}
+
+
+<h2>Consumer Class List</h2>
+
+
+<p style="text-align:right;">
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="lsttable" class="table table-bordered table-striped">
+
+    <thead>
+        <tr>
+            <th width="18%" style="text-align:center">Consumer Class Code</th>
+            <th width="14%" style="text-align:center">Consumer Class Description</th>
+            <th width="10%" style="text-align:center">Consumer Class Group</th>
+            <th width="10%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+
+</table>
+

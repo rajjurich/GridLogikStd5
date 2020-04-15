@@ -1,0 +1,67 @@
+﻿@model IEnumerable<GridLogikViewer.Areas.ABTScreen.Models.FuelRate>
+
+@{
+    ViewBag.Title = "";
+}
+<h2>Fuel Rate</h2>
+
+<p style="text-align:right;">
+    <div style="text-align:right">
+        @Html.ActionLink("Create New", "create", "FuelRate", null, new { @id = "btnCreate", @class = "btn btn-success" })
+    </div>
+</p>
+<table id="tblFuelRate">
+    <thead>
+        <tr>
+            <th width="15%" style="text-align:center">Date</th>
+            <th width="5%" style="text-align:center">Rate</th>
+            <th width="5%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.app_from)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rate)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "label label-info btnEdit" }) &nbsp;
+
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { @class = "label label-danger btnDelete" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<style>
+    tr td {
+        padding: 0px;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#tblFuelRate").dataTable(
+                         {
+                             pageLength: 10,
+                             "aoColumns": [
+                                         null,
+                                         null,
+                                         { "bSortable": false }
+                             ]
+                         });
+
+    })
+</script>

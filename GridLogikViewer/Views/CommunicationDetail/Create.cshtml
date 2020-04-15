@@ -1,0 +1,239 @@
+@model GridLogik.ViewModels.CommunicationDetail
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "";
+}
+
+
+
+@section scripts
+{
+    @*<script type="text/javascript" src="http://jquery-joshbush.googlecode.com/files/jquery.maskedinput-1.2.1.pack.js"></script>*@
+
+
+    @*<script src="~/Scripts/jquery-confirm.js"></script>
+        <script src="~/Scripts/ConfirmExit.js"></script>*@
+    <script>
+        @*$(document).ready(function () {
+            $("#btnReset").on("click", function () {
+                window.location.reload(true);
+            });
+
+            $("#btnCreate").click(function (e) {
+
+
+                if ($('form').valid()) {
+
+                    var mstData = {
+                        "convertordesc": $("#convertordesc").val(),
+                        "CommunicationTypeID": $("#CommunicationTypeID").val(),
+                        "IpAddress": $("#IpAddress").val(),
+                        "Port": $("#Port").val(),
+                        "comport": $("#comport").val(),
+                        "BaudRate": $("#BaudRate").val(),
+                        "Databits": $("#Databits").val(),
+                        "Parity": $("#Parity").val(),
+                        "StopBits": $("#StopBits").val(),
+                        "isactive": $("#ActiveChecked").is(":checked"),
+                        "isdeleted": 0,
+
+                        "isemailalarm": $("#emailalarmChecked").is(":checked"),
+                        "ispopupalarm": $("#popupalarmChecked").is(":checked"),
+                        "issmsalarm": $("#smsalarmChecked").is(":checked")
+                    };
+                    var id =@this.ViewContext.RouteData.Values["id"]
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: '@Url.Action("Create", "CommunicationDetail")',
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstData),//data to be send
+                        success: function (response) {
+                            if (response.e == "S") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '', true, 'S');
+                            }
+                            else if (response.e == "M") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '', false, 'M')
+                            }
+                            else if (response.e == "E") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '', false, 'E')
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText, '', false, 'E')
+                        }
+                    });
+
+                }
+                e.preventDefault();
+
+
+            });
+        });*@
+
+
+
+        $().ready(function () {
+            $("#typeSerial").hide();
+            $("#typeTCP").hide();
+            
+            $('#CommunicationTypeID').change(function () {
+                if ($('#CommunicationTypeID option:selected').text() == 'TCP') {
+                    $('#BaudRate,#Databits,#Parity,#StopBits,#comport').val("");
+                    $("#typeSerial").hide();
+                    $("#typeTCP").show();
+                  
+                }
+                else if ($('#CommunicationTypeID option:selected').text() == 'Serial') {
+                    $('#IpAddress,#Port').val("");
+                    $("#typeTCP").hide();
+                    $("#typeSerial").show();
+                   
+                }
+                else {
+                    $('#BaudRate,#Databits,#Parity,#StopBits,#IpAddress,#Comport,#Port').val("");
+                    $("#typeTCP").show();
+                    $("#typeSerial").hide();
+                  
+                }
+            });
+        });
+
+
+
+    
+    </script>
+
+}
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Convertor</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row mb55">
+                        <div class="col-md-12">
+
+                            <a href='@Url.Action("Index")' class="btn btn-warning pull-right btn-sm"><i class="fa fa-arrow-left"></i> Back to List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+
+                            @using (Html.BeginForm())
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary(true)
+                                <div class="panel panel-light-blue">
+                                    <div class="panel-heading">
+                                        <i class="fa fa-plus-circle"></i> <strong>ADD</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="ls_form">
+                                            <div class="row">
+                                                <div class="form-group col-md-4 mb5">
+                                                    <label>Convertor Id<span class="validation-redcolor">*</span></label>
+                                                    @Html.TextBoxFor(model => model.convertordesc, new { @class = "form-control", @maxlength = "30" })
+                                                    @Html.ValidationMessageFor(model => model.convertordesc)
+                                                </div>
+
+                                                <div class="form-group col-md-4 mb5">
+                                                    <label>CommunicationType<span class="validation-redcolor">*</span></label>
+                                                    @Html.DropDownListFor(model => model.CommunicationTypeID, (IEnumerable<SelectListItem>)ViewBag.CommunicationTypes, "Select Communication Type", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.CommunicationTypeID)
+                                                </div>
+                                            </div>
+
+                                            <div id="typeTCP" class="row">
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.IpAddress, null, "")
+                                                    @Html.TextBoxFor(model => model.IpAddress, new { @class = "form-control", @placeholder = "____.____.____.____" })
+                                                    @Html.ValidationMessageFor(model => model.IpAddress)
+                                                </div>
+
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.Port, null, "")
+                                                    @Html.TextBoxFor(model => model.Port, new { @class = "form-control number" })
+                                                    @Html.ValidationMessageFor(model => model.Port)
+                                                </div>
+                                            </div>
+
+
+                                            <div id="typeSerial" class="row">
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.comport, null, "")
+                                                    @Html.TextBoxFor(model => model.comport, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.comport)
+                                                </div>
+                                                
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.BaudRate, null, "")
+                                                    @Html.TextBoxFor(model => model.BaudRate, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.BaudRate)
+                                                </div>
+
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.Databits, null, "")
+                                                    @Html.TextBoxFor(model => model.Databits, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Databits)
+                                                </div>
+
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.Parity, null, "")
+                                                    @Html.TextBoxFor(model => model.Parity, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Parity)
+                                                </div>
+
+                                                <div class="form-group col-md-4 mb5">
+                                                    @Html.LabelFor(model => model.StopBits, null, "")
+                                                    @Html.TextBoxFor(model => model.StopBits, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.StopBits)
+                                                </div>
+                                            </div>
+                                            <div class="checkbox-inline col-md-6 row" style="padding-top:10px;">
+
+                                                <div class="col-md-3">
+                                                    @Html.CheckBoxFor(model => model.ActiveChecked, new { @class = "chkbox", @style = "margin-top:3px;" })
+                                                    @Html.LabelFor(model => model.ActiveChecked, null, "")
+                                                    @Html.ValidationMessageFor(model => model.isactive, null, new { @class = "validation-redcolor" })
+                                                </div><div class="col-md-3">
+                                                    @Html.CheckBoxFor(model => model.emailalarmChecked, new { @class = "chkbox", @style = "margin-top:3px;" })
+                                                    @Html.LabelFor(model => model.emailalarmChecked, null, "")
+                                                    @Html.ValidationMessageFor(model => model.isemailalarm, null, new { @class = "validation-redcolor" })
+                                                </div><div class="col-md-3">
+                                                    @Html.CheckBoxFor(model => model.popupalarmChecked, new { @class = "chkbox", @style = "margin-top:3px;" })
+                                                    @Html.LabelFor(model => model.popupalarmChecked, null, "")
+                                                    @Html.ValidationMessageFor(model => model.ispopupalarm, null, new { @class = "validation-redcolor" })
+                                                </div><div class="col-md-3">
+                                                    @Html.CheckBoxFor(model => model.smsalarmChecked, new { @class = "chkbox", @style = "margin-top:3px;" })
+                                                    @Html.LabelFor(model => model.smsalarmChecked, null, "")
+                                                    @Html.ValidationMessageFor(model => model.issmsalarm, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-success" id="btnCreate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                                <button type="reset" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "Tariff List";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<script src="~/Scripts/jquery.jmHighlight.js"></script>
+
+@section scripts
+{
+    <script>
+        var box;
+
+        $(document).ready(function () {
+            // box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tariff",
+                dataType: "json",//type of data to be received
+                success: function (tariff, status, jqXHR) {
+                    var str = "";
+
+                    if (tariff.Data.result != undefined) {
+                        tariff.Data.result.forEach(function (result) {
+
+                            str += "<tr>" +
+                                "<td class='text-center'>" + result.trfid + "</td>" +
+                                "<td class='text-center'>" + (result.trftouid == null ? "" : result.trftouid) + "</td>" +
+                                //"<td>" + (result.trftouslotid == null ? "" : result.trftouslotid) + "</td>" +
+                                "<td class='text-center'>" + (result.trfschemename == null ? "" : result.trfschemename) + "</td>" +
+                                //"<td style='text-align:center'><a href='/tariff/Edit/" + result.trfrecid + "' class='editor_edit' style='color:blue'>Edit</a> / <a href='/tariff/Delete/" + result.trfrecid + "' class='editor_remove' style='color:blue'>Delete</a></td>" +
+                                "<td style='text-align:center'><a href='" + envisageURL + "/tariff/Edit/" + result.trfrecid + "' class='btn btn-xs btn-warning fa fa-pencil-square-o'> Edit</a> &nbsp; <a href='" + envisageURL + "/tariff/Delete/" + result.trfrecid + "' class='btn btn-xs btn-danger fa fa-trash-o' > Delete</a></td>" +
+                                "</tr>";
+                        });
+                    }
+                    if (tariff.Data.e == "E") {
+                        if (tariff.Data.d.length > 0)
+                            alert(tariff.Data.d);
+
+                    }
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false, "searchable": false, "width": "144px" }
+                            ]
+                        });
+                    Highlight();
+                    if (box) {
+                        if ('@ViewBag.CreateAccess' == "False") {
+                            //$("#btnCreate").hide();
+                        }
+                        if ('@ViewBag.EditAccess' == "False") {
+                            $(".btnEdit").hide();
+                        }
+                        if ('@ViewBag.DeleteAccess' == "False") {
+                            $(".btnDelete").hide();
+                        }
+                        box.remove();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //  alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+
+
+        function Delete(id) {
+            //alert(id);
+            var msg = confirm('Are you sure you want to delete this record ?');
+            if (msg == false) {
+                return false;
+            }
+            else {
+
+                $.ajax({
+
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",
+
+                    url: "/Tariff/Delete/" + id,
+                    //data: "{ID : "+id+"}",
+                    dataType: "json",
+                    success: function (menus, status, jqXHR) {
+
+                        alert(menus.Message);
+                        window.location.href = '@Url.Action("Index")';
+                    },
+                    error: function (xhr, status, error) {
+                        //alert(error);
+
+                    }
+                });
+            }
+        }
+
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Tariff</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+
+                                        @*<div class="clearfix"></div>
+                                            <hr />
+                                            <br />*@
+                                        @Html.ActionLink(" Create New", "create", "Tariff", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Tariff Code</th>
+                                                    <th class="text-center">TOD Code</th>
+                                                    @* <th style="text-align:center">TOD Slot</th>*@
+                                                    <th class="text-center">Tariff Scheme</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

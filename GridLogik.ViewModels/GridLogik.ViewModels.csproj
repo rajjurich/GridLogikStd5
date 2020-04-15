@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0D150EB6-04C4-4A77-8146-17E1BE3AB212}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GridLogik.ViewModels</RootNamespace>
+    <AssemblyName>GridLogik.ViewModels</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ActionType.cs" />
+    <Compile Include="ActionTypeModel.cs" />
+    <Compile Include="Alarm.cs" />
+    <Compile Include="AlarmCondition.cs" />
+    <Compile Include="AlarmHistory.cs" />
+    <Compile Include="CentralHzUI.cs" />
+    <Compile Include="ClientFolderMap.cs" />
+    <Compile Include="clsDailyReport.cs" />
+    <Compile Include="clsHistoryDataExportAPI.cs" />
+    <Compile Include="clsMeterviewModel.cs" />
+    <Compile Include="clsOpcname.cs" />
+    <Compile Include="CommonView.cs" />
+    <Compile Include="CommunicationDetail.cs" />
+    <Compile Include="CommunicationDetailLink.cs" />
+    <Compile Include="CommunicationDetailLinkCreateModel.cs" />
+    <Compile Include="CommunicationDetailLinkListModel.cs" />
+    <Compile Include="CommunicationType.cs" />
+    <Compile Include="Consumer.cs" />
+    <Compile Include="ConsumerCategory.cs" />
+    <Compile Include="ConsumptionDayHourWise.cs" />
+    <Compile Include="ConsumptionHourWise.cs" />
+    <Compile Include="ConsumptionMonthWise.cs" />
+    <Compile Include="DailyEnergyConsumptionAPI.cs" />
+    <Compile Include="DCSGFuelModel.cs" />
+    <Compile Include="DeAllocateMeter.cs" />
+    <Compile Include="DemandForecasting.cs" />
+    <Compile Include="DriversViewModel.cs" />
+    <Compile Include="EMSInstanceData.cs" />
+    <Compile Include="EnergyLogViewModel.cs" />
+    <Compile Include="FileInformation.cs" />
+    <Compile Include="FileInfoUser.cs" />
+    <Compile Include="GetInstanceData.cs" />
+    <Compile Include="GridLogikCalculation.cs" />
+    <Compile Include="GroupCallViewModel.cs" />
+    <Compile Include="GroupConfiguration.cs" />
+    <Compile Include="GroupDisplayMeterDataViewModel.cs" />
+    <Compile Include="GroupDisplayViewModel.cs" />
+    <Compile Include="GroupTemplateQuery.cs" />
+    <Compile Include="GroupViewInstance.cs" />
+    <Compile Include="HeatRate.cs" />
+    <Compile Include="HistoryModel.cs" />
+    <Compile Include="HistoryViewModel.cs" />
+    <Compile Include="HormonicDayThd.cs" />
+    <Compile Include="HTAlarm.cs" />
+    <Compile Include="InputData.cs" />
+    <Compile Include="InstanceData.cs" />
+    <Compile Include="InstanceDataAverageLog.cs" />
+    <Compile Include="InstanceDataLog.cs" />
+    <Compile Include="InstanceDataLogSeconds.cs" />
+    <Compile Include="ListtoDataTableConverter.cs" />
+    <Compile Include="LoadProfile.cs" />
+    <Compile Include="LoadService.cs" />
+    <Compile Include="Login.cs" />
+    <Compile Include="MemoryMap_Addressdetails.cs" />
+    <Compile Include="MemoryMap_Range.cs" />
+    <Compile Include="Meter.cs" />
+    <Compile Include="MeterDetails.cs" />
+    <Compile Include="MeterDropdown.cs" />
+    <Compile Include="MeterGroup.cs" />
+    <Compile Include="MeterGroupDetail.cs" />
+    <Compile Include="MeterGroupViewmodel.cs" />
+    <Compile Include="MeterHistoryModel.cs" />
+    <Compile Include="MeterLog.cs" />
+    <Compile Include="MeterModel.cs" />
+    <Compile Include="MeterStatus.cs" />
+    <Compile Include="MeterTariff.cs" />
+    <Compile Include="MeterType.cs" />
+    <Compile Include="ModuleModel.cs" />
+    <Compile Include="ConsumerCategoryTariff.cs" />
+    <Compile Include="MstDivisionModel.cs" />
+    <Compile Include="MstEmployee.cs" />
+    <Compile Include="MstErrorLog.cs" />
+    <Compile Include="MstMenuModels.cs" />
+    <Compile Include="MstRegionModel.cs" />
+    <Compile Include="MstRole.cs" />
+    <Compile Include="MstRoleMenuAccess.cs" />
+    <Compile Include="MstSubstationModel.cs" />
+    <Compile Include="MstTariff.cs" />
+    <Compile Include="MstUser.cs" />
+    <Compile Include="MstUtility.cs" />
+    <Compile Include="MstZoneModel.cs" />
+    <Compile Include="OPCServerTag.cs" />
+    <Compile Include="OPM.cs" />
+    <Compile Include="ParameterMF.cs" />
+    <Compile Include="PlantSummaryCharts.cs" />
+    <Compile Include="prmglobal.cs" />
+    <Compile Include="ProfileLogViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryDetail.cs" />
+    <Compile Include="QueryViewModel.cs" />
+    <Compile Include="RABTMeter.cs" />
+    <Compile Include="RealTimeAlarmModel.cs" />
+    <Compile Include="RealTimeTrend.cs" />
+    <Compile Include="Role.cs" />
+    <Compile Include="RTAlarm.cs" />
+    <Compile Include="SerialCommunicationDetailLink.cs" />
+    <Compile Include="StandardAlarm.cs" />
+    <Compile Include="StandardAlarmModel.cs" />
+    <Compile Include="SummaryCentral.cs" />
+    <Compile Include="ThermalSummary.cs" />
+    <Compile Include="TotalConsumption.cs" />
+    <Compile Include="TrendsDataViewModel.cs" />
+    <Compile Include="txnserviceintimation.cs" />
+    <Compile Include="UiRateDatewise.cs" />
+    <Compile Include="UserLogin.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

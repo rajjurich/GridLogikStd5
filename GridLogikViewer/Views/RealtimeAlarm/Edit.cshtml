@@ -1,0 +1,529 @@
+﻿@model GridLogik.ViewModels.RealTimeAlarmModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<style>
+    textarea {
+        resize: none;
+    }
+</style>
+@*<script src="~/Scripts/jquery-1.10.2.js"></script>*@
+<script>
+
+    $(function () {
+        $("#btnFile").on("change", function () {
+
+            var fileUpload = document.getElementById("btnFile");
+            var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.txt)$/;
+            if (regex.test(fileUpload.value.toLowerCase())) {
+                if (typeof (FileReader) != "undefined") {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+
+                        $("#alarmcommand").val(this.result);
+                    }
+                    reader.readAsText(fileUpload.files[0]);
+                } else {
+                    alert("This browser does not support HTML5.");
+                }
+            } else {
+                alert("Please upload a valid Text file.");
+            }
+        })
+    });
+
+    $(document).ready(function () {
+        //debugger;
+        GetMeterJoinConditions();
+        $("#condition").attr('readonly', 'readonly');
+
+        var QueryString = "";
+        var QueryjoinString = "";
+        var FinalQuery = "";
+
+        $("#shiftright_meter").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleft_meter").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+        })
+
+        $("#shiftrightall_meter").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftall_meter").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+
+
+        $("#shiftright_para").click(function () {
+            $('#ddlparameter option:selected').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleft_para").click(function () {
+            $('#ddlparameterselect option:selected').appendTo("#ddlparameter")
+        })
+
+        $("#shiftrightall_para").click(function () {
+            $('#ddlparameter option').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftall_para").click(function () {
+            $('#ddlparameterselect option').appendTo("#ddlparameter")
+        })
+
+        $("#btnRefresh").click(function () {
+            GetMeterJoinConditions();
+        })
+
+        $("#btnJoinCondition").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#ddlJoinmeter option:selected").text();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+        $("#btnConditionalOperator").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#ddlConditionalOperator option:selected").val();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+        $("#btnOperator").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#ddlOperator option:selected").val();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+        $("#btnInput").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#txtInput").val();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+
+        $("#btnJoinPara1").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#btnJoinPara1").val();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+        $("#btnJoinPara2").click(function () {
+            var condition = $("#condition").val();
+            var ddlcondition = $("#btnJoinPara2").val();
+            $("#condition").val(condition + " " + ddlcondition);
+        })
+
+        $("#btnClear").click(function () {
+            $("#condition").val('');
+        })
+
+        $("#btnBackSpace").click(function () {
+            $("#condition").val($("#condition").val().substring(0, $("#condition").val().lastIndexOf(' ')));
+
+            $("#condition").removeClass('input-validation-error')
+        })
+
+        $("#btnSave").click(function () {
+            $("#ddlmeterselect option").prop("selected", true);
+            $("#ddlparameterselect option").prop("selected", true);
+            if ($('form').valid()) {
+                GetAllForQuery();
+                GenerateFinalQuery();
+
+
+            }
+        })
+
+
+
+        function GetMeterJoinConditions() {
+            if ($("#ddlmeterselect option").length > 0 && $("#ddlparameterselect option").length > 0) {
+                var items = [];
+
+                for (var i = 0; i < $("#ddlmeterselect option").length; i++) {
+                    var metername = $("#ddlmeterselect option").eq(i).text();
+                    var displaytext = metername;
+                    for (var j = 0; j < $("#ddlparameterselect option").length ; j++) {
+                        var parname = $("#ddlparameterselect option").eq(j).text();
+                        var displaytextforPara = parname;
+                        items.push("<option value=" + displaytext + "." + displaytextforPara + ">" + displaytext + "." + displaytextforPara + "</option>");
+                    }
+                }
+
+                $("#ddlJoinmeter").html(items.join(' '));
+            }
+        }
+
+        function GetAllForQuery() {
+
+            for (var i = 0; i < $("#ddlmeterselect option").length; i++) {
+                if (QueryString == "") {
+                    QueryString = "(select * from InstanceData where meterid=" + $("#ddlmeterselect option").eq(i).val() + ")" + $("#ddlmeterselect option").eq(i).text() + "";
+                }
+                else {
+                    QueryString = QueryString + "," + "(select * from Instancedata where meterid=" + $("#ddlmeterselect option").eq(i).val() + ")" + $("#ddlmeterselect option").eq(i).text() + "";
+                }
+            }
+        }
+
+        function GenerateFinalQuery() {
+
+            for (var i = 0; i < $("#ddlJoinmeter option").length ; i++) {
+                if (QueryjoinString == "")
+                    QueryjoinString = $("#ddlJoinmeter option").eq(i).text();
+                else
+                    QueryjoinString = QueryjoinString + "," + $("#ddlJoinmeter option").eq(i).text();
+            }
+            if ($("#condition").val() == "") {
+                FinalQuery = "select " + QueryjoinString + " from " + QueryString + "";
+            }
+            else {
+                FinalQuery = "select " + QueryjoinString + " from " + QueryString + " where " + $("#condition").val() + "";
+            }
+
+            $("#alarmquery").val(FinalQuery);
+        }
+
+
+        $(".btn-default").click(function () { $("#ddlmeterselect option").prop("selected", true); })
+
+    })
+
+
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Standard Alarm </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Realtime Alarm</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group">
+                                                <label class="control-label col-md-2">Enter Alarm Name <span class="text-danger">*</span></label>
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.alarmname, new { @class = "form-control alphaspace", @onblur = "AlarmNameExist()" })
+                                                </div>
+                                                <div class="col-md-3">
+                                                    @Html.ValidationMessageFor(model => model.alarmname, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div class=" dashboard-panel-body-box">Select Meters</div>
+                                                            <div class="panel-actions  dashboard-panel-body-boxcontrols">
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="col-lg-5">
+                                                                <div class="panel-body">
+                                                                    <div class="form-group">
+                                                                        <label class="control-label" for="multiple-select">Meters <span class="validation-redcolor">*</span></label>
+                                                                        <div class="">
+                                                                            @Html.DropDownListFor(model => model.meterid, (IEnumerable<SelectListItem>)ViewBag.MeterSelectionList, new { @id = "ddlmeter", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                                                            @Html.ValidationMessageFor(model => model.meterid, null, new { @class = "validation-redcolor" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 ">
+                                                                <div class="panel-body" style="margin:15px 5px; padding:0px;">
+                                                                    <button type="button" class="btn  btn-danger style-btns singlearrowbutton_style" id="shiftright_meter" style="margin-bottom:5px;"> <span class="fa fa-angle-right"></span></button>
+                                                                    <button type="button" class="btn btn-danger style-btns  doubleearrowbutton_style" id="shiftrightall_meter" style="margin-bottom:5px;"> <span class="fa fa-angle-double-right"></span> </button>
+                                                                    <button type="button" class="btn btn-danger style-btns n singlearrowbutton_style" id="shiftleft_meter" style="margin-bottom:5px;"> <span class="fa fa-angle-left"></span></button>
+                                                                    <button type="button" class="btn btn-danger style-btns  doubleearrowbutton_style" id="shiftleftall_meter"> <span class="fa fa-angle-double-left"></span> </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-5 ">
+                                                                <div class="panel-body">
+                                                                    <div class="form-group">
+                                                                        <label class=" control-label" for="multiple-select">Selected Meters </label>
+                                                                        <div class="">
+                                                                           @Html.DropDownListFor(model => model.multiplemeterID, (IEnumerable<SelectListItem>)ViewBag.SelectedMeters, new { @id = "ddlmeterselect", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                                                            @Html.ValidationMessageFor(model => model.multiplemeterID, null, new { @class = "validation-redcolor" })
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Select Parameters</strong></div>
+                                                        </div>
+                                                        <div class="panel-body ">
+                                                            <div class="col-md-5 col-sm-5">
+                                                                <strong>
+                                                                    Parameters <span class="validation-redcolor">*</span>
+                                                                </strong>
+                                                                <div class="bg-white">
+                                                                    @Html.DropDownList("Parameter", (IEnumerable<SelectListItem>)ViewBag.InstanceParameterID, new { @id = "ddlparameter", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                                                    @Html.ValidationMessageFor(model => model.meterid)
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-2 col-sm-2 col-sm-2 col-xs-12">
+                                                                <div class="text-center mt20">
+                                                                    <div class="row multi-btn">
+                                                                        <div class="col-lg-12  mb5">
+                                                                            <button type="button" class="btn btn-danger" id="shiftright_para"> <span class="fa fa-angle-right"></span></button>
+                                                                        </div>
+                                                                        <div class="col-lg-12  mb5">
+                                                                            <button type="button" class="btn btn-danger" id="shiftrightall_para"> <span class="fa fa-angle-double-right"></span> </button>
+                                                                        </div>
+                                                                        <div class="col-lg-12  mb5">
+                                                                            <button type="button" class="btn btn-danger" id="shiftleft_para"> <span class="fa fa-angle-left"></span></button>
+                                                                        </div>
+                                                                        <div class="col-lg-12  mb5">
+                                                                            <button type="button" class="btn btn-danger" id="shiftleftall_para"> <span class="fa fa-angle-double-left"></span> </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5 col-sm-5">
+                                                                <strong>Selected Parameters </strong>
+                                                                <div class="">
+                                                                   @Html.DropDownListFor(model => model.multipleparameters, (IEnumerable<SelectListItem>)ViewBag.SelectedParameters, new { @id = "ddlparameterselect", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                                                    @Html.ValidationMessageFor(model => model.multipleparameters, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="row">
+                                                <div class="col-md-2 col-centered text-center">
+                                                    <button type="button" class="btn btn-sm btn-info" id="btnRefresh"><i class="fa fa-refresh"></i> Update</button>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <div class="row mt20">
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Join Meter Data By</strong></div>
+                                                        </div>
+                                                        <div class="panel-body pl30">
+                                                            <div class="row mb5">
+                                                                <div class="col-md-7">
+
+                                                                    @Html.DropDownList("Joincondition", Enumerable.Empty<SelectListItem>(), new { @id = "ddlJoinmeter", @class = "form-control" })
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" id="btnJoinCondition" value="Insert" class="btn btn-sm btn-warning btn-block" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" id="btnJoinPara1" class="btn btn-sm btn-info btn-block" value="(" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb5">
+                                                                <div class="col-md-7">
+
+                                                                    @Html.DropDownList("ConditionalOperator", new List<SelectListItem>
+                                                                     {
+                                                                        new SelectListItem{ Text=">", Value = ">" },
+                                                                        new SelectListItem{ Text="<", Value = "<" },
+                                                                        new SelectListItem{ Text="=", Value = "=" },
+                                                                        new SelectListItem{ Text=">=", Value = ">=" },
+                                                                        new SelectListItem{ Text="<=", Value = "<=" },
+                                                                        new SelectListItem{ Text="+", Value = "+" },
+                                                                        new SelectListItem{ Text="-", Value = "-" },
+                                                                        new SelectListItem{ Text="/", Value = "/" },
+                                                                        new SelectListItem{ Text="*", Value = "*" }
+                                                                     }, new { @id = "ddlConditionalOperator", @class = "form-control" })
+                                                                </div>
+                                                                <div class="col-md-2">
+
+                                                                    <input type="button" class="btn btn-sm btn-warning btn-block" id="btnConditionalOperator" value="Insert" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" class="btn btn-sm btn-info btn-block" id="btnJoinPara2" value=")" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb5">
+                                                                <div class="col-md-7">
+
+                                                                    @Html.DropDownList("Operator", new List<SelectListItem>
+                                                                     {
+                                                                        new SelectListItem{ Text="AND", Value = "AND" },
+                                                                        new SelectListItem{ Text="OR", Value = "OR" }
+                                                                     }, new { @id = "ddlOperator", @class = "form-control" })
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" class="btn btn-sm btn-warning btn-block" id="btnOperator" value="Insert" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" class="btn btn-sm btn-info btn-block" id="btnClear" value="Clear" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb5">
+                                                                <div class="col-md-7">
+                                                                    @Html.TextBox("txtInput", null, new { @class = "form-control decimal", @maxlength = "12" })
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" class="btn btn-sm btn-warning btn-block" id="btnInput" value="Insert" />
+                                                                </div>
+                                                                <div class="col-md-2">
+                                                                    <input type="button" class="btn btn-sm btn-info btn-block" id="btnBackSpace" value="BckSp" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Condition</strong></div>
+                                                        </div>
+
+                                                        <div class="panel-body">
+
+                                                            <div class="row ">
+                                                                <div class="form-group">
+                                                                        <label class="col-md-2 control-label" for="textarea-input">Alarm Condition</label>
+                                                                    <div class="col-md-9">
+                                                                        @Html.TextAreaFor(model => model.condition, new { @width = "100%", @rows = "4", @class = "form-control" })
+                                                                        @Html.ValidationMessageFor(model => model.condition, null, new { @class = "validation-redcolor" })
+
+                                                                        @Html.HiddenFor(model => model.alarmquery)
+                                                                    </div>
+                                                                    </div>
+                                                                </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Notification</strong></div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="row mt20">
+                                                                <div class="col-md-3 text-right">
+                                                                    <label><strong>Alarm <br /> Message <span class="text-danger">*</span></strong></label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    @Html.TextAreaFor(model => model.alarmmessage, new { @rows = "4", @name = "textarea-input", @width = "40%", @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.alarmmessage, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt5"></div>
+                                                            <div class="row mt20">
+                                                                <div class="col-md-3 text-right">
+                                                                    <label><strong>Command</strong></label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="row">
+                                                                        <div class="col-md-9">
+                                                                            @Html.TextBoxFor(model => model.alarmcommand, new { @class = "form-control" })
+                                                                            @Html.ValidationMessageFor(model => model.alarmcommand, null, new { @class = "validation-redcolor" })
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                            <label class="btn btn-primary btn-block" for="btnFile"> Browse </label>
+                                                                            <input type="file" id="btnFile" autocomplete="off">
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt5"></div>
+                                                            <div class="row mt20">
+                                                                <div class="col-md-3 text-right">
+                                                                    <label class="mt5"><strong>Alert </strong></label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="checkbox i-checks pt0">
+                                                                        <label class="mb5">
+                                                                            @Html.CheckBoxFor(model => model.SendSMSChecked)
+                                                                            <i></i>@Html.Label("Send SMS")
+                                                                        </label>
+                                                                        <div class="clearfix"></div>
+                                                                        <label class="mb5">
+                                                                            @Html.CheckBoxFor(model => model.SendEmailChecked)
+                                                                            <i></i>@Html.Label("Send Email")
+                                                                        </label>
+                                                                        <div class="clearfix"></div>
+                                                                        <label class="mb5">
+                                                                            @Html.CheckBoxFor(model => model.GivePopupChecked)
+                                                                            @Html.Label("Give Popup")
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row mt20">
+                                                                <div class="col-md-3 text-right">
+                                                                    <label><strong>Status</strong></label>
+                                                                </div>
+                                                                <div class="col-md-9">
+                                                                    <div class="checkbox i-checks pt0">
+                                                                        <label class="mb5">
+                                                                            @Html.CheckBoxFor(model => model.StatusChecked)
+                                                                            <i></i> @Html.Label("Active")
+                                                                        </label>
+                                                                        <div class="clearfix"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--/col-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnSave"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-sm btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,373 @@
+﻿@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal/GetGlobalParamValue",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                str += "<option value='" + data[i].prmrecid + "'>" + data[i].prmvalue + "</option>";
+                            }
+                        }
+                        $("#ddlRpt").html(str);
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        $("#ddlRpt").html(str);
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            DateTimeStr();
+        });
+        function DateTimeStr() {
+            $("#ddlSchedularSTime").empty();
+            $("#ddlSchedularSTime").empty();
+            var str = "";
+            str = "<option>select</option><option>00:00</option><option>00:15</option><option>00:30</option><option>00:45</option><option>01:00</option><option>01:15</option><option>01:30</option>";
+            str += "<option>01:45</option><option>02:00 </option><option>02:15</option><option>02:30</option><option>02:45</option><option>03:00</option><option>03:15</option><option>03:30</option>";
+            str += "<option>03:45</option><option>04:00 </option><option>04:15</option><option>04:30</option><option>04:45 </option><option>05:00</option><option>05:15 </option><option>05:30</option>";
+            str += "<option>05:45</option><option>06:00 </option><option>06:15</option><option>06:30</option><option>06:45</option><option>07:00</option><option>07:15</option><option>07:30</option>";
+            str += "<option>07:45</option><option>08:00</option><option>08:15</option><option>08:30</option><option>08:45</option><option>09:00</option><option>09:15</option><option>09:30</option><option>09:45</option>";
+            str += "<option>10:00</option><option>10:15</option><option>10:30</option><option>10:45</option><option>11:00</option><option>11:15</option><option>11:30</option><option>11:45</option><option>12:00</option>";
+            str += "<option>12:15</option><option>12:30</option><option>12:45</option><option>13:00</option><option>13:15</option><option>13:30</option><option>13:45</option><option>14:00</option><option>14:15</option>";
+            str += "<option>14:30</option><option>14:45</option><option>15:00 </option><option>15:15 </option><option>15:30 </option><option>15:45</option><option>16:00</option><option>16:15</option><option>16:30</option>";
+            str += "<option>16:45</option><option>17:00</option><option>17:15</option><option>17:30</option><option>17:45</option><option>18:00</option><option>18:15</option><option>18:30</option><option>18:45</option>";
+            str += "<option>19:00</option><option>19:15</option><option>19:30</option><option>19:45</option><option>20:00</option><option>20:15</option><option>20:30</option><option>20:45 </option><option>21:00 </option>";
+            str += "<option>21:15</option><option>21:30 </option><option>21:45</option><option>22:00 </option><option>22:15 </option><option>22:30 </option><option>22:45</option><option>23:00</option><option>23:15</option><option>23:30</option><option>23:45</option>";
+            $("#ddlSchedularSTime").html(str);
+            $("#ddlSchedularETime").html(str);
+        }
+        function OnChangeType() {
+            var TypeText = $("#ddlType option:selected").text();
+            $("#divSchedular").hide();
+            $("#divMonthly").hide();
+            $("#ddlTMTime").val("Select");
+            DateTimeStr();
+            if (TypeText.toUpperCase() == "SELECT TYPE") {
+
+            } else if (TypeText.toUpperCase() == "HOURLY") {
+
+            } else if (TypeText.toUpperCase() == "DAILY") {
+
+            } else if (TypeText.toUpperCase() == "MONTHLY") {
+                $("#divMonthly").show();
+            } if (TypeText.toUpperCase() == "SCHEDULAR") {
+                $("#divSchedular").show();
+            }
+        }
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            new confirmexitmsg('form');
+
+            $("#btnCreate").click(function (e) {
+                var RTypeText = $("#ddlRpt option:selected").text();
+                var TypeText = $("#ddlType option:selected").text();
+
+                if (RTypeText.toUpperCase() == "SELECT REPORT TYPE") {
+                    alert('Please Select Report Type', '', false, "M");
+                    return false;
+                }
+                if (TypeText.toUpperCase() == "SELECT TYPE") {
+                    alert('Please Select Type', '', false, "M");
+                    return false;
+                } else {
+
+                    if (TypeText.toUpperCase() == "HOURLY") {
+
+                    } else if (TypeText.toUpperCase() == "DAILY") {
+
+                    } else if (TypeText.toUpperCase() == "MONTHLY") {
+                        var ddlTMTimeText = $("#ddlTMTime option:selected").text();
+                        if (ddlTMTimeText.toUpperCase() == "SELECT") {
+                            alert('Please Select Month Type', '', false, "M");
+                            return false;
+                        }
+                    } if (TypeText.toUpperCase() == "SCHEDULAR") {
+                        var text1 = $("#ddlSchedularSTime option:selected").text();
+                        var text2 = $("#ddlSchedularETime option:selected").text();
+                        if (text1.toUpperCase() == "SELECT") {
+                            alert('Please Select From Time', '', false, "M");
+                            return false;
+                        }
+                        if (text2.toUpperCase() == "SELECT") {
+                            alert('Please Select To Time', '', false, "M");
+                            return false;
+                        }
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth() + 1; //January is 0!
+                        var yyyy = today.getFullYear();
+
+                        var T1 = text1.split(':');
+                        var T2 = text2.split(':');
+                        var FromDay = new Date(yyyy, mm, dd, parseInt(T1[0]), parseInt(T1[1])); // 1 Jan 2011, 02:03:04.567 in local timezone
+                        var ToDay = new Date(yyyy, mm, dd, parseInt(T2[0]), parseInt(T2[1]));
+                        if (FromDay > ToDay) {
+                            alert('From Time not greater than To Time', '', false, "M");
+                            return false;
+                        }
+                    }
+                }
+                var EmailLIStCount = $('#lstEmailAddress > option').length;
+                if (EmailLIStCount == 0) {
+                    alert('Please Enter Email ID', '', false, "M");
+                    return false;
+                }
+                var EmailStr = "";
+                $("#lstEmailAddress option").each(function () {
+                    if (EmailStr == "") {
+                        EmailStr = $(this).text() + ",";
+                    } else {
+                        EmailStr += $(this).text() + ",";
+                    }
+
+                });
+                if (EmailStr.length > 0)
+                    EmailStr = EmailStr.substring(0, EmailStr.length - 1);
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                var mstData = {
+                    "txnrstype": $("#ddlRpt").val(),
+                    "txnrtype": $("#ddlType option:selected").text(),
+                    "txnrsfrom": $("#ddlSchedularSTime option:selected").text() == "select" ? "" : $("#ddlSchedularSTime option:selected").text(),
+                    "txnrsto": $("#ddlSchedularETime option:selected").text() == "select" ? "" : $("#ddlSchedularETime option:selected").text(),
+                    "txnremtype": $("#ddlTMTime option:selected").text() == "Select" ? "" : $("#ddlTMTime option:selected").text(),
+                    "txnrsemail": EmailStr,
+                    "txnrspassword": $("#txtExcelPassword").val(),
+                    "txnrspflag": 0,
+                };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",   //type of data to be send
+                    url: BaseAddress + "ReportShedularAPI",
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(mstData),//data to be send
+                    success: function (response) {
+                        if (response.Data.e == "S") {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '@Url.Action("create", "ReportShedular")', true, response.Data.e);
+                        }
+                        else if (response.Data.e == "M") {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        else if (response.Data.e == "E") {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+
+                    }
+                });
+
+            });
+        });
+        function AddEmail() {
+            var svc = $("#txtEmailId").val();  //Its Let you know the textbox's value
+
+            if (svc == "") {
+                alert('Please enter Email ID', '', false, "M");
+                return false;
+            }
+            if (!validateEmail(svc)) {
+                alert('Please enter Valid Email ID', '', false, "M");
+                return false;
+            }
+            if ($('input[name=txtEmailId]').valid()) {
+                $("#lstEmailAddress").append('<option value="' + svc + '">' + svc + '</option>');
+                $("#txtEmailId").val('').focus();
+                $("#lstEmailAddress option").prop("selected", true);
+                return true;
+            }
+            else {
+                return false;
+
+            }
+        }
+
+        //$("#txtEmailId").blur(function () {
+        //    var svc = $("#txtEmailId").val();
+        //    if (!validateEmail(svc)) {
+        //        alert('Please enter Valid Email ID', '', false, "M");
+        //        return false;
+        //    }
+        //});
+        $(function () {
+            $("[id*=btnDeleteEmail]").bind("click", function () {
+                $("[id*=lstEmailAddress] option:selected").remove();
+                $("#lstEmailAddress option").prop("selected", true);
+                return false;
+            });
+        });
+        function validateEmail(email) {
+            var re = /^[a-zA-Z0-9_.+-]+@@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            return re.test(email);
+            //return true;
+        }
+    </script>
+
+}
+
+<style>
+    .chkbox {
+        margin-top: 20px;
+        position: relative;
+        border: 1px solid #f00;
+    }
+</style>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <h3 class="ls-top-header">Report Shedular</h3>
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li class="active">Report Shedular</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-square"></i> <strong>Add</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        
+                                                <div class="form-horizontal">
+
+
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" for="MeterName" style="white-space:nowrap;">Report Type<span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="ddlRpt">
+                                                                    <option>Select Report Type</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <label class="control-label col-md-2" for="MeterNo" style="white-space:nowrap;">Schedule Type<span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="ddlType" onchange='OnChangeType()'>
+                                                                    <option value="">Select Type</option>
+                                                                    <option value="282">Hourly</option>
+                                                                    <option value="305">Daily</option>
+                                                                    <option value="305">Monthly</option>
+                                                                    <option value="305">Schedular</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal" id="divMonthly" style="display:none">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" style="white-space:nowrap;">Month Type <span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="ddlTMTime">
+                                                                    <option value="Select">Select</option>
+                                                                    <option value="Daily">Daily</option>
+                                                                    <option value="Monthly">Monthly</option>
+
+                                                                </select>
+                                                            </div>
+                                                            <label class="control-label col-md-2" style="white-space:nowrap;"></label>
+                                                            <div class="col-md-3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal" id="divSchedular" style="display:none">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" style="white-space:nowrap;">From Time <span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="ddlSchedularSTime"></select>
+                                                            </div>
+                                                            <label class="control-label col-md-2" for="Phase" style="white-space:nowrap;">To Time <span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="ddlSchedularETime"></select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" for="MeterName" style="white-space:nowrap;">Email List<span class='validation-redcolor'>*</span></label>
+                                                            <div class="col-md-3">
+                                                                <select class="form-control" id="lstEmailAddress" multiple="multiple" name="emailaddresses" size="5"></select>
+                                                            </div>
+                                                            <label class="control-label col-md-2" for="MeterName" style="white-space:nowrap;">Report Password</label>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control alpha" id="txtExcelPassword" maxlength="15" type="text">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" for="MeterName" style="white-space:nowrap;"></label>
+                                                            <div class="col-md-3">
+                                                                <input class="control-label col-md-12" id="txtEmailId" maxlength="50" name="txtEmailId" type="text" value="">
+                                                                <br />&nbsp;&nbsp;
+                                                            </div>
+                                                            <div class="col-md-3">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-horizontal">
+                                                        <div class="form-group">
+                                                            <div class="col-md-2"></div>
+                                                            <div class=" col-md-3 text-center">
+                                                                <button type="button" class="btn btn-success" id="btnAddEmail" onclick="return AddEmail();" style="align-content:center"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+                                                                <button type="button" class="btn btn-danger" id="btnDeleteEmail" style="align-content:center"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="panel-footer col-md-12 text-center">
+
+                                                        <button type="button" class="btn btn-sm btn-success" id="btnCreate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                                        <button type="reset" class="btn btn-sm btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+
+                                                    </div>
+
+                                                </div>
+                                    }
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

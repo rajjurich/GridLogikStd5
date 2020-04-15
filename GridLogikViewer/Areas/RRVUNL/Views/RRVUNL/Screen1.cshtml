@@ -1,0 +1,833 @@
+﻿@model List<GridLogikViewer.APIModels.GetInstanceData>
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Common Meter</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+
+        <div class="col-md-12">
+
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <select id="DataParameter" name="DataParameter" size="1" style=" font-size: 16px; color: maroon;">
+                    <option>UNIT 1</option>
+                    <option>UNIT 2</option>
+                   
+                </select>
+            </div>
+         
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <select id="DataParameter1" name="DataParameter1" size="1" style=" font-size: 16px; color: maroon;">
+                    <option value="1">I/C -1 of SWGR CHP STG-1 OSA</option>
+                    <option value="2">I/C -2 of SWGR CHP STG-1 OSB </option>
+                    <option value="3">1600 KVA Raw Water T/f-I Inc. 1st of raw water SWGR</option>
+                    <option value="4">1600 KVA Raw Water T/f-I Inc. 1st of L.T SWGR of W.S</option>
+                    <option value="5">To First Inc. of water Intake Point SWGR # MSA</option>
+                    <option value="6">O/G To water Intake SWGR-MSA (Inc. II of LT SWGR) </option>
+                    <option value="7">2000KVA water system T/f.-2 Inc. II of L.T SWGR</option>
+                    <option value="8">1600KVA Raw water T/f-2 Inc. II of L.T SWGR </option>
+                    <option value="9">CW Pump # 3</option>
+                    <option value="10">ACW Pump # 1</option>
+                    <option value="11">ACW Pump # 2</option>
+                    <option value="12">ACW Pump # 3</option>
+                    <option value="13">H.P Pump # 1 </option>
+                    <option value="14">H.P Pump # 2</option>
+                    <option value="15">H.P Pump # 3</option>
+                    <option value="16">H.P. Pump # 6</option>
+                    <option value="17">ASP # 1 of U#1</option>
+                    <option value="18">ASP # 3 of U#1</option>
+                    <option value="19">ASP # 2 of U#1</option>
+                    <option value="20">ASP # 4 of U#1</option>
+                    <option value="21"> ASP # 7</option>
+                    <option value="22"> ASP # 5 </option>
+                    <option value="23"> ASP # 8</option>
+                    <option value="24"> ASP # 6</option>
+                    <option value="25"> H.P Pump # 7 </option>
+                    <option value="26"> H.P Pump # 5</option>
+                    <option value="27"> H.P Pump # 4</option>
+                    <option value="28">630KVA Fuel Oil T/f-I</option>
+                    <option value="29">2000 KVA C.T-I</option>
+                    <option value="30">2000KVA C.T T/f-II</option>
+                    <option value="31">630 KVA Fuel Oil T/f-II</option>
+                    
+                </select>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnSet1">Set</button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <table class="table table-bordered results">
+                <thead>
+
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+			
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">Meter</th>
+			<th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">INCOMING SUPPLY FROM</th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">Assign Unit</th>
+                        <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">KW</th>
+
+                    </tr>
+
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">I/C -1 of SWGR CHP STG-1 OSA</th>
+			<td style=" color: #00FF00; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #FF0404; padding: 0px;"><label id="m1"></label></td>
+                        <td style=" color: #FF0404; padding: 0px;"><label id="n1"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">I/C -2 of SWGR CHP STG-1 OSB</th>
+			<td style=" color: #00FF00; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m2"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n2"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">1600 KVA Raw Water T/f-I Inc. 1st of raw water SWGR</th>
+			<td style=" color: #00FF00; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m3"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n3"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">1600 KVA Raw Water T/f-I Inc. 1st of L.T SWGR of W.S</th>
+			<td style=" color: #00FF00; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m4"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n4"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">To First Inc. of water Intake Point SWGR # MSA</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m5"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n5"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">O/G To water Intake SWGR-MSA (Inc. II of LT SWGR)</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m6"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n6"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">2000KVA water system T/f.-2 Inc. II of L.T SWGR</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m7"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n7"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">1600KVA Raw water T/f-2 Inc. II of L.T SWGR</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m8"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n8"></label></td>
+                    </tr>
+
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CW Pump # 3    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m9"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n9"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ACW Pump # 1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m10"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n10"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ACW Pump # 2    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m11"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n11"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ACW Pump # 3    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m12"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n12"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m13"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n13"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 2    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m14"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n14"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 3    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m15"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n15"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P. Pump # 6    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m16"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n16"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 1 of U#1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m17"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n17"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 3 of U#1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m18"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n18"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 2 of U#1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m19"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n19"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 4 of U#1    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m20"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n20"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 7</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m21"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n21"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 5</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m22"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n22"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 8</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m23"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n23"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASP # 6 </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m24"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n24"></label></td>
+                    </tr>
+
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 7    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m25"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n25"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 5    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m26"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n26"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">H.P Pump # 4    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m27"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n27"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">630KVA Fuel Oil T/f-I</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m28"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n28"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">2000 KVA C.T-I    </th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 1</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m29"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n29"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">2000KVA C.T T/f-II</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m30"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n30"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">630 KVA Fuel Oil T/f-II</th>
+<td style=" color: #00FF00;; padding: 0px;">UNIT 2</td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="m31"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="n31"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "None";
+    var data2 = "None";
+    var data3 = "None";
+    var MF1 = 1, MF2 = 1, MF3 = 1, MF4 = 1, MF5 = 1, MF6 = 1, MF7 = 1, MF8 = 1;
+    var PlatMID = "1";
+    var PlatMID2 = "3";
+    var PlatMID3 = "5";
+
+    var MeterString = "1,2,3,4,5,6,7,8,9";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ttype = '@HttpContext.Current.Session["userid"]';
+    //debugger
+    if (ttype == "admin") {
+        $('#DataParameter').show();
+        $('#btnSet').show();
+    }
+    else {
+        //$("DataParameter").hide();
+        //$("btnSet").hide();
+        $('#DataParameter').hide();
+        $('#btnSet').hide();
+    }
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+        $("#btnBoiler").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("BOILERAUXILIARIES", "RRVUNL")';
+        });
+        $("#btnTurbine").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("TURBINEAUX", "RRVUNL")';
+        });
+        $("#btnOther").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("OTHERAUX", "RRVUNL")';
+        });
+        $("#btnFeeders").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("FEEDERSArea", "RRVUNL")';
+        });
+        $("#btnCHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("CHPArea", "RRVUNL")';
+        });
+        $("#DataParameter").change(function () {
+            //data =
+            //   {
+            //       Parameter: $('#DataParameter option:selected').text()
+            //   };
+
+            data = $('#DataParameter option:selected').text()
+
+
+        });
+        $("#DataParameter1").change(function () {
+            //data =
+            //   {
+            //       Parameter: $('#DataParameter option:selected').text()
+            //   };
+            debugger
+            PlatMID = $('#DataParameter1 option:selected').val()
+
+
+        });
+       
+        $("#btnSet1").click(function () {
+
+            var path = "C:\\inetpub\\wwwroot\\EtoolsAPI\\setting.txt";
+            debugger
+            @*var ttype = '@HttpContext.Current.Session["userid"]';*@
+            if (PlatMID == "1") {
+
+                PlatMID = "1";
+            }
+            var flag = 0;
+            if (data == "None") {
+                flag = 1;
+            }
+            else if (data == "UNIT 1") {
+                flag = 1;
+            }
+            else if (data == "UNIT 2") {
+                flag = 2;
+            }
+            else if (data == "UNIT 3") {
+                flag = 3;
+            }
+            else if (data == "UNIT 4") {
+                flag = 4;
+            }
+            else if (data == "UNIT 5") {
+                flag = 5;
+            }
+            else if (data == "UNIT 6") {
+                flag = 6;
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/write/" + PlatMID.toString() + "/Flag/" + flag,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                       
+                        var jsonObj = response;
+
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+
+            window.location.reload(true);
+
+         
+        });
+        ABTMeterDetails();
+        parameter();
+       
+    });
+
+   
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "RRVUNL")';
+    });*@
+    function parameter() {
+
+        for (i = 1; i < 32; i++) {
+            (function (i) {
+                try {
+                    $.ajax({
+                        type: "GET",
+
+                        //meterid,Month,Year
+                        url: BaseAddress + "GetAllInstanceData/Read/" + i.toString() + "/Flag/",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+
+                            var jsonObj = response;
+                            MF1 = jsonObj;
+                            debugger
+                            if (MF1 != "") {
+                                $("#m" + i.toString()).html("Unit " + MF1);
+                            }
+
+
+                        },
+                        error: function (xhr, status, error) {
+                            if (box) box.remove();
+                        }
+                    });
+
+                }
+                catch (err) {
+                }
+            }
+
+            )(i);
+
+        }
+    }
+    setInterval(ABTMeterDetails, 1000);
+    function ABTMeterDetails() {
+        var Genunit1 = 0;
+        var Genunit2 = 0;
+        var APCMWunit1 = 0;
+        var APCMWunit2 = 0;
+        var APCPerunit1 = 0;
+        var APCPerunit2 = 0;
+        var TotalGen = 0;
+        var TotalAPC = 0;
+        var Hz1 = 0;
+        var Hz2 = 0;
+        var Hz3 = 0;
+        var Hz4 = 0;
+        var Hz5 = 0;
+        var Hz6 = 0;
+        var Hz7 = 0;
+        var BoilerAuxUnit1 = 0;
+        var BoilerAuxUnit2 = 0;
+        var BoilerAuxStation = 0;
+        var TAUnit1 = 0;
+        var TAUnit2 = 0;
+        var TAStation = 0;
+        var CHPUnit1 = 0;
+        var CHPUnit2 = 0;
+        var CHPStation = 0;
+        var AHPUnit1 = 0;
+        var AHPUnit2 = 0;
+        var AHPStation = 0;
+        var BOPUnit1 = 0;
+        var BOPUnit2 = 0;
+        var BOPStation = 0;
+        var COMPRESSORSUnit1 = 0;
+        var COMPRESSORSUnit2 = 0;
+        var COMPRESSORSStation = 0;
+        var SAFUnit1 = 0;
+        var ColonyUnit2 = 0;
+        var ColonyStation = 0;
+        var AdminUnit1 = 0;
+        var AdminUnit2 = 0;
+        var AdminStation = 0;
+        var ESPUnit1 = 0;
+        var ESPUnit2 = 0;
+        var ESPStation = 0;
+        var STNPMCCUnit1 = 0;
+        var STNPMCCUnit2 = 0;
+        var STNPMCCStation = 0;
+        var UNITPMCCUnit1 = 0;
+        var UNITPMCCUnit2 = 0;
+        var UNITPMCCStation = 0;
+        var SWYDUnit1 = 0;
+        var SWYDUnit2 = 0;
+        var SWYDStation = 0;
+        var RAWWATERUnit1 = 0;
+        var RAWWATERUnit2 = 0;
+        var RAWWATERStation = 0;
+
+        $.ajax({
+            //type: "GET",
+            //contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+            //dataType: "json",//type of data to be received
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var TotalUnit1kw = 0;
+                var TotalUnit2kw = 0;
+                var TotalStationkw = 0;
+                var TotalUnit1apc = 0;
+                var TotalUnit2apc = 0;
+                var TotalStationapc = 0;
+
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+
+                    jsonObj.forEach(function (responseobj) {
+                        var kwValue = 0;
+                        if (responseobj.kw < 0) {
+                            kwValue = responseobj.kw * -1;
+                        }
+                        else {
+                            kwValue = responseobj.kw;
+                        }
+                        if (responseobj.meterid == 39) {
+
+                            if (!isNaN(kwValue)) {
+
+                                // $('#GENERATIONUnit1").html(kwValue.toString());
+                                Genunit1 = kwValue.toFixed(2);
+                                //document.getElementById(id1).value = kwValue;
+                            } else {
+                                // $('#GENERATIONUnit1").html("0");// document.getElementById(id1).value = 0;
+                                Genunit1 = 0;
+                            }
+                        }
+
+
+                        if (responseobj.meterid == 2 || responseobj.meterid == 26 || responseobj.meterid == 27) {
+
+                            if (!isNaN(kwValue)) {
+
+                                APCMWunit1 = APCMWunit1 + kwValue;
+                            }
+                        }
+
+
+                        if (responseobj.meterid == 16 || responseobj.meterid == 28 || responseobj.meterid == 29 || responseobj.meterid == 18 || responseobj.meterid == 31 || responseobj.meterid == 32 || responseobj.meterid == 17 || responseobj.meterid == 30 || responseobj.meterid == 19 || responseobj.meterid == 33 || responseobj.meterid == 20 || responseobj.meterid == 47 || responseobj.meterid == 48 || responseobj.meterid == 49 || responseobj.meterid == 50 || responseobj.meterid == 51 || responseobj.meterid == 52) {
+
+                            if (!isNaN(kwValue)) {
+
+                                BoilerAuxUnit1 = BoilerAuxUnit1 + kwValue;
+                            }
+                        }
+
+                        if (responseobj.meterid == 22 || responseobj.meterid == 36 || responseobj.meterid == 4 || responseobj.meterid == 21 || responseobj.meterid == 34 || responseobj.meterid == 35) {
+
+                            if (!isNaN(kwValue)) {
+
+                                TAUnit1 = TAUnit1 + kwValue;
+                            }
+                        }
+
+                        if (responseobj.meterid == 42 || responseobj.meterid == 43 || responseobj.meterid == 44 || responseobj.meterid == 45 || responseobj.meterid == 46 || responseobj.meterid == 24 || responseobj.meterid == 38 || responseobj.meterid == 40 || responseobj.meterid == 41) {
+                            COMPRESSORSUnit1 = COMPRESSORSUnit1 + kwValue;
+                        }
+                        if (responseobj.meterid == 9) {
+
+                            if (!isNaN(kwValue)) {
+
+                                AHPUnit1 = AHPUnit1 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 8) {
+
+                            if (!isNaN(kwValue)) {
+
+                                CHPUnit1 = CHPUnit1 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 10) {
+
+                            if (!isNaN(kwValue)) {
+
+                                BOPUnit1 = BOPUnit1 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 11) {
+
+                            if (!isNaN(kwValue)) {
+
+                                BOPUnit2 = BOPUnit2 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 13) {
+
+                            if (!isNaN(kwValue)) {
+
+                                AHPUnit2 = AHPUnit2 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 14) {
+
+                            if (!isNaN(kwValue)) {
+
+                                CHPUnit2 = CHPUnit2 + kwValue;
+                            }
+                        }
+                        if (responseobj.meterid == 14) {
+
+                            if (!isNaN(kwValue)) {
+
+                                TAUnit2 = TAUnit2 + kwValue;
+                            }
+                        }
+                    });
+
+
+                    APCPerunit1 = ((APCMWunit1 / Genunit1) * 100);
+                    TotalGen = (Genunit1 / 1);
+                    TotalAPC = (APCMWunit1 / 1000);
+                    TotalUnit1kw = (BoilerAuxUnit1 + TAUnit1 + COMPRESSORSUnit1 + AHPUnit1 + CHPUnit1 + BOPUnit1 + BOPUnit2 + AHPUnit2 + CHPUnit2 + TAUnit2) / 1000;
+
+
+                    var d = new Date();
+                    var month = d.getMonth() + 1;
+                    var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+                    $("#datetidvalue").text(date.toString());
+
+
+
+                    // document.getElementById(id3).value = Number(document.getElementById(id1).value) + Number(document.getElementById(id2).value);
+                    // $('#' + id3).html(Number($('#' + id1).html()) + Number($('#' + id2).html()));
+
+
+                    $("#GENERATIONUnit1").html((Genunit1 / 1).toFixed(2).toString());
+                    $("#TOTALGEN").html((TotalGen).toFixed(2).toString());
+                    $("#TOTALAPC").html((TotalAPC).toFixed(2).toString());
+                    $("#UNITAPC1").html((APCMWunit1 / 1000).toFixed(2).toString());
+                    $("#BOILERAUXUnit1Load").html((BoilerAuxUnit1 / 1000).toFixed(4).toString());
+                    $("#TURBINEAUXUnit1Load").html((TAUnit1 / 1000).toFixed(4).toString());
+                    $("#CHPUnit1Load").html((CHPUnit1 / 1000).toFixed(4).toString());
+                    $("#AHPUnit1Load").html((AHPUnit1 / 1000).toFixed(4).toString());
+                    $("#COMPRESSORSUnit1Load").html((COMPRESSORSUnit1 / 1000).toFixed(4).toString());
+                    $("#SAFUnit1Load").html((SAFUnit1 / 1000).toFixed(4).toString());
+                    $("#BOPUnit1Load").html((BOPUnit1 / 1000).toFixed(4).toString());
+                    $("#BOPUnit2Load").html((BOPUnit2 / 1000).toFixed(4).toString());
+                    $("#AHPUnit2Load").html((AHPUnit2 / 1000).toFixed(4).toString());
+                    $("#CHPUnit2Load").html((CHPUnit2 / 1000).toFixed(4).toString());
+                    $("#TAUnit2Load").html((TAUnit2 / 1000).toFixed(4).toString());
+
+
+                    @* unit 1 is tripped/Shutdown*@
+
+                    if (Genunit1 == 0) {
+                        $("#UNITAPCPer1").html("NaN");
+                        $("#BOILERAUXUnit1Apc").html("NaN");
+                        $("#TURBINEAUXUnit1Apc").html("NaN");
+                        $("#COMPRESSORSUnit1Apc").html("NaN");
+                        $("#SAFUnit1Apc").html("NaN");
+                        $("#CHPUnit1Apc").html("NaN");
+                        $("#AHPUnit1Apc").html("NaN");
+                        $("#BOPUnit1Apc").html("NaN");
+                        $("#BOPUnit2Apc").html("NaN");
+                        $("#AHPUnit2Apc").html("NaN");
+                        $("#CHPUnit2Apc").html("NaN");
+                        $("#TAUnit2Apc").html("NaN");
+                        $("#UNITPMCCUnit1Apc").html("NaN");
+                        $("#SWYDUnit1Apc").html("NaN");
+                        $("#RAWWATERUnit1Apc").html("NaN");
+                        TotalUnit1apc = 0;
+                    }
+
+                    @* unit 1 is RUNNING*@
+
+                    if (Genunit1 > 0) {
+                        $("#UNITAPCPer1").html((APCPerunit1 / 1000).toFixed(4).toString());
+                        $("#BOILERAUXUnit1Apc").html(((BoilerAuxUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#TURBINEAUXUnit1Apc").html(((TAUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#COMPRESSORSUnit1Apc").html(((COMPRESSORSUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#SAFUnit1Apc").html(((SAFUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#CHPUnit1Apc").html(((CHPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#AHPUnit1Apc").html(((AHPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#BOPUnit1Apc").html(((BOPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                        $("#BOPUnit2Apc").html(((BOPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                        $("#AHPUnit2Apc").html(((AHPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                        $("#CHPUnit2Apc").html(((CHPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                        $("#TAUnit2Apc").html(((TAUnit2 / Genunit1) / 10).toFixed(4).toString());
+                        TotalUnit1apc = ((TotalUnit1kw / Genunit1) * 100);
+
+                    }
+
+
+
+
+                    @* IF BOTH UNITS ARE TRIPPED/SHUTDOWN *@
+
+                    if (TotalGen == 0) {
+                        $("#APCPercent").html("Nan");
+                        $("#BOILERAUXUnitStationApc").html("Nan");
+                        $("#TURBINEAUXStationApc").html("Nan");
+                        $("#CHPStationApc").html("Nan");
+                        $("#AHPStationApc").html("Nan");
+                        $("#BOPStationApc").html("Nan");
+                        $("#COMPRESSORSStationApc").html("Nan");
+                        $("#COLONYStationApc").html("Nan");
+                        $("#ADMINStationApc").html("Nan");
+                        $("#ESPStationApc").html("Nan");
+                        $("#STNPMCCStationApc").html("Nan");
+                        $("#UNITPMCCStationApc").html("Nan");
+                        $("#SWYDStationApc").html("Nan");
+                        $("#RAWWATERStationApc").html("Nan");
+                        TotalStationapc = 0;
+                    }
+
+                    @* IF BOTH UNITS ARE running *@
+
+                    if (TotalGen > 0) {
+                        $("#APCPercent").html(((TotalAPC / TotalGen) * 100).toFixed(4).toString());
+                        $("#BOILERAUXUnitStationApc").html(((BoilerAuxStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#TURBINEAUXStationApc").html(((TAStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#CHPStationApc").html((((CHPStation) * 100) / TotalGen).toFixed(2).toString());
+                        $("#AHPStationApc").html(((AHPStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#BOPStationApc").html(((BOPStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#COMPRESSORSStationApc").html(((COMPRESSORSStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#COLONYStationApc").html(((ColonyStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#ADMINStationApc").html(((AdminStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#ESPStationApc").html(((ESPStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#STNPMCCStationApc").html(((STNPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#UNITPMCCStationApc").html(((UNITPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#SWYDStationApc").html(((SWYDStation * 100) / TotalGen).toFixed(2).toString());
+                        $("#RAWWATERStationApc").html(((RAWWATERStation * 100) / TotalGen).toFixed(2).toString());
+                        TotalStationapc = ((TotalStationkw * 1000) / TotalGen);
+                    }
+
+
+
+
+
+                    $("#TOTALUnit1Load").html(TotalUnit1kw.toFixed(2).toString());
+                    $("#TOTALUnit1Apc").html(TotalUnit1apc.toFixed(2).toString());
+                    $("#TOTALStationLoad").html(TotalStationkw.toFixed(2).toString());
+                    $("#TOTALStationApc").html(TotalStationapc.toFixed(2).toString());
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

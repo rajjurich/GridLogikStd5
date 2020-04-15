@@ -1,0 +1,282 @@
+@model IEnumerable<GridLogik.ViewModels.StandardAlarmModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+<script src="~/Scripts/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#btnupdate").click(function (e) {
+
+
+            var TableData = new Array();
+
+            var myTr = [];
+            $('#table1 tr').each(function () {
+                $(this).find('td').each(function () {
+                    myTr.push($(this).text());
+                });
+
+            });
+
+
+            var TableData = new Array();
+
+            //$('#table1 tr').not(':first').each(function (row, tr) {
+                $('#table1 tbody tr').each(function (row, tr) {
+                TableData[row] = {
+
+                    "id": $(tr).find('td:eq(0)').text()
+            , "status": $(tr).find('td:eq(16) input:first').is(':checked')
+            , "sendsms": $(tr).find('td:eq(17) input:first').is(':checked')
+            , "sendemail": $(tr).find('td:eq(18) input:first').is(':checked')
+            , "givepopup": $(tr).find('td:eq(19) input:first').is(':checked')
+
+                }
+            });
+            console.log(TableData);
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "StandardAlaram/UpdateData",
+                //crossDomain: true,
+                data: JSON.stringify(TableData),
+                dataType: "json",//type of data to be received
+                success: function (response) {
+
+                    $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                    $("#btn-success-trigger").trigger('click');
+                    $("#modal_message h3").text("Success");
+
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    if (box) box.remove();
+                    alert(xhr.responseText);
+                }
+            });
+            if (box) box.remove();
+
+        })
+
+        $("#table1").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false, "searchable": false }
+                            ],
+                            "scrollX": true
+                            //, "initComplete": function (settings, json) {
+                            //    $('.dataTables_scrollBody thead tr').css({ display: 'none' })
+                            //}
+                        });
+        
+    });
+    
+</script>
+<style>
+    .dataTables_scrollHead {
+        overflow: visible!important;
+        width:1351px!important;
+    }
+    .dataTables_scrollBody {
+        width: 1351px !important;
+    }
+    .dataTables_scroll {
+       
+        overflow-y: scroll !important;
+        margin-bottom:15px;
+    }
+    .dataTables_info {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    </style>
+
+<div id="trgPopup">
+
+</div>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Standard Alarm</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Standard Alarm</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @Html.ActionLink(" Create New", "create", "StandardAlarm", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm  mr15 btnCreateClass" })
+                                        <button id="btnupdate" type="button" class="btn btn-info  btn-sm pull-right btnCreateClass mb5"><i class="fa fa-save"></i>&nbsp;&nbsp;Update</button>
+                                         
+                                        @*<div class="clearfix"></div>
+                                        <hr />*@
+                                        <table id="table1" class="table table-bordered table-striped" style="width:100%!important;">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th rowspan="2" class="sorting" tabindex="0" aria-controls="table1"  >ID</th>
+                                                    <th rowspan="2" class="sorting_asc" tabindex="0" aria-controls="table1"><div align="center">Meter<br />ID</div></th>
+                                                    <th rowspan="2" class="sorting" tabindex="0" aria-controls="table1" ><div align="center">Alarm<br />Name</div></th>
+                                                    <th colspan="2" ><div align="center">Vll</div></th>
+                                                    <th colspan="2" ><div align="center">AMP</div></th>
+                                                    <th colspan="2" ><div align="center">KW</div></th>
+                                                    <th colspan="2" ><div align="center">KVA</div></th>
+                                                    <th colspan="2" ><div align="center">HZ</div></th>
+                                                    <th colspan="2" ><div align="center">PF</div></th>
+                                                    <th rowspan="2" class="sorting" tabindex="0" aria-controls="table1"><div align="center">connect<br />Load</div></th>
+                                                    <th rowspan="2"  aria-label="Status"><div align="center">Status</div></th>
+                                                    <th rowspan="2"  aria-label="SendSMS"><div align="center">Send<br />SMS</div></th>
+                                                    <th rowspan="2"  aria-label="SendEmail"><div align="center">Send<br />Email</div></th>
+                                                    <th rowspan="2"  aria-label="GivePopup"><div align="center">Give<br />Popup</div></th>
+                                                    <th rowspan="2"  aria-label="Actions"><div align="center">Actions</div></th>
+                                                </tr>
+                                                <tr role="row">
+                                               
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    <th><div align="center">Min</div></th>
+                                                    <th><div align="center">Max</div></th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr class="colortr">
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.meterid, new { @Value = ViewBag.meterids })
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.alarmname)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minvll)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.maxvll)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minamp)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.maxamp)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minkw)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.maxkw)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minkva)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.maxkva)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minhz)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.maxhz)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.minpf)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.maxpf)
+                                                        </td>
+
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.connectload)
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(modelItem => item.StatusChecked, new { @id = "checking" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.SendSMSChecked, new { @id = "SendSMS" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.SendEmailChecked, new { @id = "SendEmail" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.GivePopupChecked, new { @id = "GivePopup" })
+                                                        </td>
+
+                                                        <td style="white-space: nowrap;text-align:center">
+                                                             @Html.ActionLink(" Edit", "Edit", new { id = item.id }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                             @Html.ActionLink(" Delete", "Delete", new { id = item.id, }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

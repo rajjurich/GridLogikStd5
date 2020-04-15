@@ -1,0 +1,110 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL', 'dbharmonicib', '1024M', '4K');
+
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbharmonicib', '30', '10');
+
+DROP TABLE IF EXISTS etools_dev.Harmonicib;
+create table etools_dev.Harmonicib
+(
+id SERIAL8 NOT NULL,
+METERID int8 NOT NULL,
+Meter_Name varchar(45),
+tstamp DATETIME YEAR TO FRACTION(5),
+ibh1 float,
+ibh2 float,
+ibh3 float,
+ibh4 float,
+ibh5 float,
+ibh6 float,
+ibh7 float,
+ibh8 float,
+ibh9 float,
+ibh10 float,
+ibh11 float,
+ibh12 float,
+ibh13 float,
+ibh14 float,
+ibh15 float,
+ibh16 float,
+ibh17 float,
+ibh18 float,
+ibh19 float,
+ibh20 float,
+ibh21 float,
+ibh22 float,
+ibh23 float,
+ibh24 float,
+ibh25 float,
+ibh26 float,
+ibh27 float,
+ibh28 float,
+ibh29 float,
+ibh30 float,
+ibh31 float,
+ibh32 float,
+PRIMARY KEY (id)) IN dbharmonicib;
+
+
+DROP ROW TYPE if exists rtHarmonicib RESTRICT;
+create row type rtHarmonicib
+(
+tstamp datetime year to fraction(5),
+Meter_Name varchar(45),
+BlockNo varchar(100),
+ibh1 float,
+ibh2 float,
+ibh3 float,
+ibh4 float,
+ibh5 float,
+ibh6 float,
+ibh7 float,
+ibh8 float,
+ibh9 float,
+ibh10 float,
+ibh11 float,
+ibh12 float,
+ibh13 float,
+ibh14 float,
+ibh15 float,
+ibh16 float,
+ibh17 float,
+ibh18 float,
+ibh19 float,
+ibh20 float,
+ibh21 float,
+ibh22 float,
+ibh23 float,
+ibh24 float,
+ibh25 float,
+ibh26 float,
+ibh27 float,
+ibh28 float,
+ibh29 float,
+ibh30 float,
+ibh31 float,
+ibh32 float
+);
+
+drop table if exists tsHarmonicibLogs;
+create table tsHarmonicibLogs
+(METERID int8 NOT NULL,
+series timeseries(rtHarmonicib),
+primary key(METERID)) in dbharmonicib;
+
+execute procedure tscontainercreate('tsconHarmonicibLogs','dbharmonicib','rtHarmonicib',1024,1024);
+
+
+drop table if exists etools_dev.HarmonicibLogs;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.HarmonicibLogs',
+'etools_dev.tsHarmonicibLogs',
+'calendar(cal_1sec),
+container(tsconHarmonicibLogs),irregular');
+
+
+drop table if exists etools_dev.Harmonicibblocks;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.Harmonicibblocks',
+'tsHarmonicibLogs','calendar(cal_15min),
+container(tsconHarmonicibLogs),irregular');

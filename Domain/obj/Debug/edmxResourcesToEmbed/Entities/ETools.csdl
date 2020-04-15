@@ -1,0 +1,2464 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="etools_devModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="actiontype">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="alarmid" Type="Int64" Nullable="false" />
+    <Property Name="alarmtype" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="mobileno" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="message" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="emailaddress" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="alarmcondition">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="parameter" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="operator" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="value" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="alarmid" Type="Int64" />
+    <Property Name="conditions" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="alarm" Relationship="Self.r165_237" FromRole="alarmcondition" ToRole="alarms" />
+  </EntityType>
+  <EntityType Name="alarmhistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="alarmid" Type="Int64" Nullable="false" />
+    <Property Name="starttime" Type="DateTime" Precision="58" />
+    <Property Name="endtime" Type="DateTime" Precision="58" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="alarm" Relationship="Self.r166_238" FromRole="alarmhistory" ToRole="alarms" />
+  </EntityType>
+  <EntityType Name="alarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="alarmname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="message" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="status" Type="Int32" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="alarmconditions" Relationship="Self.r165_237" FromRole="alarms" ToRole="alarmcondition" />
+    <NavigationProperty Name="alarmhistories" Relationship="Self.r166_238" FromRole="alarms" ToRole="alarmhistory" />
+    <NavigationProperty Name="meter" Relationship="Self.r167_239" FromRole="alarms" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="backupscheduledetail">
+    <Key>
+      <PropertyRef Name="srid" />
+    </Key>
+    <Property Name="srid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="level" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="frqtype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="58" />
+    <Property Name="triggertime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="weekdayname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="monthname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="dayofmonth" Type="Int64" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="rptflag" Type="Int16" />
+  </EntityType>
+  <EntityType Name="blockaddressdetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelid" Type="Int64" Nullable="false" />
+    <Property Name="blockrangeid" Type="Int64" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="parametername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="datatype" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="loadservicemapping" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="Double" />
+    <Property Name="tablename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="grouptype" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="metermodel" Relationship="Self.r130_84" FromRole="blockaddressdetails" ToRole="metermodel" />
+    <NavigationProperty Name="blockranx" Relationship="Self.r130_85" FromRole="blockaddressdetails" ToRole="blockranges" />
+  </EntityType>
+  <EntityType Name="blockranx">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelid" Type="Int64" Nullable="false" />
+    <Property Name="blocktype" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="currentblockaddress" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="previousblockaddress" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="isincremental" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="noofregisters" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="blockaddressdetails" Relationship="Self.r130_85" FromRole="blockranges" ToRole="blockaddressdetails" />
+    <NavigationProperty Name="metermodel" Relationship="Self.r129_79" FromRole="blockranges" ToRole="metermodel" />
+  </EntityType>
+  <EntityType Name="clientfoldermap">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="roleid" Type="Int32" />
+    <Property Name="username" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="folderpath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="communicationdetaillink">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="converterid" Type="Int64" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="modbusid" Type="Int64" />
+    <Property Name="active" Type="Int16" />
+    <NavigationProperty Name="communicationdetail" Relationship="Self.r134_100" FromRole="communicationdetaillink" ToRole="communicationdetails" />
+    <NavigationProperty Name="meter" Relationship="Self.r134_101" FromRole="communicationdetaillink" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="communicationdetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="communicationtypeid" Type="Int64" Nullable="false" />
+    <Property Name="ipaddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="port" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="baudrate" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="databits" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="parity" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="stopbits" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="convertordesc" Type="String" MaxLength="299" FixedLength="false" Unicode="false" />
+    <Property Name="comport" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="isemailalarm" Type="Int16" />
+    <Property Name="ispopupalarm" Type="Int16" />
+    <Property Name="isalarmraised" Type="Int16" />
+    <Property Name="issmsalarm" Type="Int16" />
+    <NavigationProperty Name="communicationdetaillinks" Relationship="Self.r134_100" FromRole="communicationdetails" ToRole="communicationdetaillink" />
+  </EntityType>
+  <EntityType Name="consumer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="masterid" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="firstname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="middlename" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="billingunitid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="classid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="categoryid" Type="Int64" Nullable="false" />
+    <Property Name="userid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="maritalstatus" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="dob" Type="DateTime" Precision="58" />
+    <Property Name="address1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="address2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="city" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="state" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="country" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="pincode" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="landline" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="mobile" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="emailid" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="education" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="incomerange" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="occupation" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="companyname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="contactperson" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="incorporationdate" Type="DateTime" Precision="58" />
+    <Property Name="incorporationtype" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="type" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="consumercategory" Relationship="Self.r180_267" FromRole="consumer" ToRole="consumercategory" />
+  </EntityType>
+  <EntityType Name="consumercategory">
+    <Key>
+      <PropertyRef Name="categoryrecid" />
+    </Key>
+    <Property Name="categoryrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="categorydescription" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="categorytariffid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="categoryisdeleted" Type="Int16" />
+    <Property Name="categoryfixedstatus" Type="Int32" />
+    <NavigationProperty Name="consumers" Relationship="Self.r180_267" FromRole="consumercategory" ToRole="consumer" />
+  </EntityType>
+  <EntityType Name="contactdetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emailaddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="phonenumber" Type="Int64" />
+    <Property Name="isdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="databaseversion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Double" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+  </EntityType>
+  <EntityType Name="dcsg">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="blockno" Type="Int64" />
+    <Property Name="dcvalue" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="sgvalue" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="revision" Type="Int32" />
+    <Property Name="timestampid" Type="Int64" />
+    <Property Name="fuelcost" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="stageid" Type="Int64" />
+    <Property Name="upload_date" Type="DateTime" Precision="58" Nullable="false" />
+    <Property Name="sgppa" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="sced" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="rras" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="agc" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="iex" Type="Decimal" Precision="18" Scale="8" Nullable="false" />
+    <Property Name="urs" Type="Decimal" Precision="18" Scale="8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="emailconfigdetail">
+    <Key>
+      <PropertyRef Name="row_id" />
+    </Key>
+    <Property Name="row_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="emprecid" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="maildetails" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+    <Property Name="sendflag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="emaildetail">
+    <Key>
+      <PropertyRef Name="recid" />
+    </Key>
+    <Property Name="recid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="maillist" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="filepath" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="subject" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="mailbody" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sendflag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="groupconfiguration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="groupid" Type="Int64" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="parameter" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="metergroup" Relationship="Self.r163_200" FromRole="groupconfiguration" ToRole="metergroups" />
+    <NavigationProperty Name="meter" Relationship="Self.r163_201" FromRole="groupconfiguration" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="grouptemplatequery">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="queryname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="queryscript" Type="String" MaxLength="10000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="htalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="timestampid" Type="Int64" />
+    <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="hostip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="alarmname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="alarmmessage" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="starttime" Type="DateTime" Precision="58" />
+    <Property Name="endtime" Type="DateTime" Precision="58" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="sms" Type="Int16" />
+    <Property Name="email" Type="Int16" />
+    <Property Name="popup" Type="Int16" />
+    <Property Name="alarmid" Type="Int64" />
+    <Property Name="ismanualack" Type="Int16" />
+  </EntityType>
+  <EntityType Name="instancedata">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="meter_name" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="vrn" Type="Double" />
+    <Property Name="vbn" Type="Double" />
+    <Property Name="vyn" Type="Double" />
+    <Property Name="vln" Type="Double" />
+    <Property Name="vry" Type="Double" />
+    <Property Name="vyb" Type="Double" />
+    <Property Name="vbr" Type="Double" />
+    <Property Name="vll" Type="Double" />
+    <Property Name="ir" Type="Double" />
+    <Property Name="iy" Type="Double" />
+    <Property Name="ib" Type="Double" />
+    <Property Name="i" Type="Double" />
+    <Property Name="pf" Type="Double" />
+    <Property Name="kw" Type="Double" />
+    <Property Name="kvar" Type="Double" />
+    <Property Name="kva" Type="Double" />
+    <Property Name="hz" Type="Double" />
+    <Property Name="pfr" Type="Double" />
+    <Property Name="pfy" Type="Double" />
+    <Property Name="pfb" Type="Double" />
+    <Property Name="kwr" Type="Double" />
+    <Property Name="kwy" Type="Double" />
+    <Property Name="kwb" Type="Double" />
+    <Property Name="kvarr" Type="Double" />
+    <Property Name="kvary" Type="Double" />
+    <Property Name="kvarb" Type="Double" />
+    <Property Name="kva_r" Type="Double" />
+    <Property Name="kvay" Type="Double" />
+    <Property Name="kvab" Type="Double" />
+    <Property Name="kw_demand" Type="Double" />
+    <Property Name="kvar_demand" Type="Double" />
+    <Property Name="kva_demand" Type="Double" />
+    <Property Name="kw_max_demand" Type="Double" />
+    <Property Name="kvar_max_demand" Type="Double" />
+    <Property Name="kva_max_demand" Type="Double" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_exp_103" Type="Double" />
+    <Property Name="kvarh_exp_97" Type="Double" />
+    <Property Name="kvarh_imp_103" Type="Double" />
+    <Property Name="kvarh_imp_97" Type="Double" />
+    <Property Name="day_kwh_exp" Type="Double" />
+    <Property Name="day_kwh_imp" Type="Double" />
+    <Property Name="cblk_kwh_exp" Type="Double" />
+    <Property Name="cblk_kwh_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lag_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lead_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lag_exp" Type="Double" />
+    <Property Name="cblk_kvarh_lead_exp" Type="Double" />
+    <Property Name="cblk_avg_mw" Type="Double" />
+    <Property Name="cblk_avg_hz" Type="Double" />
+    <Property Name="lblk_timestampid" Type="Double" />
+    <Property Name="lblk_avg_mw" Type="Double" />
+    <Property Name="lblk_avg_hz" Type="Double" />
+    <Property Name="lblk_kwh_exp" Type="Double" />
+    <Property Name="lblk_kwh_imp" Type="Double" />
+    <Property Name="lblk_kvah_exp" Type="Double" />
+    <Property Name="lblk_kvah_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lag_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lead_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lag_exp" Type="Double" />
+    <Property Name="lblk_kvarh_lead_exp" Type="Double" />
+    <Property Name="lblk_kvarh_exp_103" Type="Double" />
+    <Property Name="lblk_kvarh_exp_97" Type="Double" />
+    <Property Name="lblk_kvarh_imp_103" Type="Double" />
+    <Property Name="lblk_kvarh_imp_97" Type="Double" />
+    <Property Name="potime" Type="Double" />
+    <Property Name="lotime" Type="Double" />
+    <Property Name="kwh_net" Type="Double" />
+    <Property Name="temp" Type="Int32" />
+    <Property Name="runhrimp" Type="Double" />
+    <Property Name="runhrexp" Type="Double" />
+    <Property Name="meter_tstamp" Type="DateTime" Precision="58" />
+  </EntityType>
+  <EntityType Name="ipwiselogger">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="ipaddress" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="comport" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="portnumber" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="meter" Relationship="Self.r132_94" FromRole="ipwiselogger" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="manualreport">
+    <Key>
+      <PropertyRef Name="reptmid" />
+    </Key>
+    <Property Name="reptmid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rlistid" Type="Int64" Nullable="false" />
+    <Property Name="requestdate" Type="DateTime" Precision="58" Nullable="false" />
+    <Property Name="frmdate" Type="DateTime" Precision="58" Nullable="false" />
+    <Property Name="frmtime" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="todate" Type="DateTime" Precision="58" />
+    <Property Name="totime" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="filepath" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="isdownload" Type="Int32" />
+    <NavigationProperty Name="manualrptlist" Relationship="Self.r157_180" FromRole="manualreports" ToRole="manualrptlist" />
+  </EntityType>
+  <EntityType Name="manualrptlist">
+    <Key>
+      <PropertyRef Name="rlistid" />
+    </Key>
+    <Property Name="rlistid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reptname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="manualreports" Relationship="Self.r157_180" FromRole="manualrptlist" ToRole="manualreports" />
+  </EntityType>
+  <EntityType Name="memorymap_addressdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelid" Type="Int64" Nullable="false" />
+    <Property Name="rangeid" Type="Int64" Nullable="false" />
+    <Property Name="address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="parametername" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="datatype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="instancedatamapping" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="Double" />
+    <Property Name="bytecount" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="flag" Type="Int16" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="columntype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="formula" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="tablename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="grouptype" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="types" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="metermodel" Relationship="Self.r128_74" FromRole="memorymap_addressdetails" ToRole="metermodel" />
+    <NavigationProperty Name="memorymap_range" Relationship="Self.r128_75" FromRole="memorymap_addressdetails" ToRole="memorymap_range" />
+  </EntityType>
+  <EntityType Name="memorymap_range">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelid" Type="Int64" Nullable="false" />
+    <Property Name="startaddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="endaddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="countaddress" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="rangetype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="types" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="memorymap_addressdetails" Relationship="Self.r128_75" FromRole="memorymap_range" ToRole="memorymap_addressdetails" />
+    <NavigationProperty Name="metermodel" Relationship="Self.r127_69" FromRole="memorymap_range" ToRole="metermodel" />
+  </EntityType>
+  <EntityType Name="metergroup">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="groupname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="groupconfigurations" Relationship="Self.r163_200" FromRole="metergroups" ToRole="groupconfiguration" />
+    <NavigationProperty Name="mstmetergroupdetails" Relationship="Self.r162_196" FromRole="metergroups" ToRole="mstmetergroupdetail" />
+  </EntityType>
+  <EntityType Name="metermodel">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modelname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="rolloverlimit" Type="Int64" />
+    <Property Name="connecttime" Type="Int16" />
+    <Property Name="senddonewait" Type="Int16" />
+    <Property Name="waitconsecutive" Type="Int16" />
+    <Property Name="onresponceerror" Type="Int16" />
+    <NavigationProperty Name="blockaddressdetails" Relationship="Self.r130_84" FromRole="metermodel" ToRole="blockaddressdetails" />
+    <NavigationProperty Name="blockranges" Relationship="Self.r129_79" FromRole="metermodel" ToRole="blockranges" />
+    <NavigationProperty Name="memorymap_addressdetails" Relationship="Self.r128_74" FromRole="metermodel" ToRole="memorymap_addressdetails" />
+    <NavigationProperty Name="memorymap_range" Relationship="Self.r127_69" FromRole="metermodel" ToRole="memorymap_range" />
+    <NavigationProperty Name="meters" Relationship="Self.r131_90" FromRole="metermodel" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="meter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="metername" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="metertypeid" Type="Int64" Nullable="false" />
+    <Property Name="modelid" Type="Int64" Nullable="false" />
+    <Property Name="ag" Type="Int32" />
+    <Property Name="frequency" Type="Int32" />
+    <Property Name="phase" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="serialno" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="meterno" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="ctprimary" Type="Int64" />
+    <Property Name="ctsecondary" Type="Int64" />
+    <Property Name="blockwisedata" Type="Int16" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="replacementremark" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="replacedby" Type="Int64" />
+    <Property Name="replacementdate" Type="DateTime" Precision="58" />
+    <Property Name="rolloverlimit" Type="Int64" />
+    <Property Name="misemail" Type="Int16" />
+    <Property Name="mispopup" Type="Int16" />
+    <Property Name="missms" Type="Int16" />
+    <Property Name="parameter" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="caltype" Type="Int32" />
+    <NavigationProperty Name="alarms" Relationship="Self.r167_239" FromRole="meters" ToRole="alarms" />
+    <NavigationProperty Name="communicationdetaillinks" Relationship="Self.r134_101" FromRole="meters" ToRole="communicationdetaillink" />
+    <NavigationProperty Name="groupconfigurations" Relationship="Self.r163_201" FromRole="meters" ToRole="groupconfiguration" />
+    <NavigationProperty Name="ipwiseloggers" Relationship="Self.r132_94" FromRole="meters" ToRole="ipwiselogger" />
+    <NavigationProperty Name="metermodel" Relationship="Self.r131_90" FromRole="meters" ToRole="metermodel" />
+    <NavigationProperty Name="metertype" Relationship="Self.r131_91" FromRole="meters" ToRole="metertypes" />
+    <NavigationProperty Name="parametermfs" Relationship="Self.r135_104" FromRole="meters" ToRole="parametermf" />
+    <NavigationProperty Name="txnloadblocks" Relationship="Self.r140_122" FromRole="meters" ToRole="txnloadblocks" />
+    <NavigationProperty Name="standardalarms" Relationship="Self.r148_271" FromRole="meters" ToRole="standardalarm" />
+    <NavigationProperty Name="mstmetergroupdetails" Relationship="Self.r162_197" FromRole="meters" ToRole="mstmetergroupdetail" />
+  </EntityType>
+  <EntityType Name="metertype">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="metertypename" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="meterdescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="meters" Relationship="Self.r131_91" FromRole="metertypes" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="mstdivision">
+    <Key>
+      <PropertyRef Name="divrecid" />
+    </Key>
+    <Property Name="divrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="divid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="divname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="divdescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="divrgnid" Type="Int64" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstregion" Relationship="Self.r172_231" FromRole="mstdivision" ToRole="mstregion" />
+    <NavigationProperty Name="mstsubstations" Relationship="Self.r173_236" FromRole="mstdivision" ToRole="mstsubstation" />
+  </EntityType>
+  <EntityType Name="mstemployee">
+    <Key>
+      <PropertyRef Name="emprecid" />
+    </Key>
+    <Property Name="emprecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="empid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="empfirstname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="empmiddlename" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="emplastname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="empzoneid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="emprgnid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="empdivid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="empsubstnid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="empisactive" Type="Int16" />
+    <Property Name="empemailid" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="empphoneno1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="empphoneno2" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="empisdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="msterrorlog">
+    <Key>
+      <PropertyRef Name="errorid" />
+    </Key>
+    <Property Name="errorid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="errordescription" Type="String" MaxLength="7000" FixedLength="false" Unicode="false" />
+    <Property Name="errortrace" Type="String" MaxLength="7000" FixedLength="false" Unicode="false" />
+    <Property Name="errormodule" Type="String" MaxLength="7000" FixedLength="false" Unicode="false" />
+    <Property Name="errordate" Type="DateTime" Precision="58" />
+  </EntityType>
+  <EntityType Name="mstfeeder">
+    <Key>
+      <PropertyRef Name="fdrrecid" />
+    </Key>
+    <Property Name="fdrrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="fdrid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fdrname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="fdrdescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="fdrserialno" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="fdrratedvoltage" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="fdrratedpower" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="fdrconnectedload" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="fdrphase" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="fdrmanufacturerid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="fdrsubstnid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="fdrinstallarea" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="fdrisdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="mstholiday">
+    <Key>
+      <PropertyRef Name="holrecid" />
+    </Key>
+    <Property Name="holrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="holid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="holdescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="holdate" Type="DateTime" Precision="58" />
+    <Property Name="hollegaldate" Type="DateTime" Precision="58" />
+    <Property Name="holisdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="mstmenu">
+    <Key>
+      <PropertyRef Name="mnurecid" />
+    </Key>
+    <Property Name="mnurecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="mnuitemname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="mnuitemposition" Type="Double" Nullable="false" />
+    <Property Name="link" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="mnuisdeleted" Type="Int16" />
+    <Property Name="mnutype" Type="Int64" />
+    <Property Name="mnumodulid" Type="Int64" />
+    <NavigationProperty Name="mstmodule" Relationship="Self.r137_113" FromRole="mstmenu" ToRole="mstmodule" />
+    <NavigationProperty Name="mstrolemenuaccesses" Relationship="Self.r237_334" FromRole="mstmenu" ToRole="mstrolemenuaccess" />
+  </EntityType>
+  <EntityType Name="mstmetergroupdetail">
+    <Key>
+      <PropertyRef Name="mid" />
+    </Key>
+    <Property Name="mid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="grpid" Type="Int64" />
+    <NavigationProperty Name="metergroup" Relationship="Self.r162_196" FromRole="mstmetergroupdetail" ToRole="metergroups" />
+    <NavigationProperty Name="meter" Relationship="Self.r162_197" FromRole="mstmetergroupdetail" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="mstmodule">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="modulename" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="moduleposition" Type="Int64" Nullable="false" />
+    <Property Name="link" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstmenus" Relationship="Self.r137_113" FromRole="mstmodule" ToRole="mstmenu" />
+  </EntityType>
+  <EntityType Name="mstregion">
+    <Key>
+      <PropertyRef Name="rgnrecid" />
+    </Key>
+    <Property Name="rgnrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rgnid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="rgnname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="rgndescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="rgnznid" Type="Int64" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstdivisions" Relationship="Self.r172_231" FromRole="mstregion" ToRole="mstdivision" />
+    <NavigationProperty Name="mstzone" Relationship="Self.r171_226" FromRole="mstregion" ToRole="mstzone" />
+  </EntityType>
+  <EntityType Name="mstrole">
+    <Key>
+      <PropertyRef Name="rolrecid" />
+    </Key>
+    <Property Name="rolrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rolname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="roldescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="rolisdeleted" Type="Int16" />
+    <NavigationProperty Name="mstusers" Relationship="Self.r142_128" FromRole="mstrole" ToRole="mstuser" />
+    <NavigationProperty Name="mstrolemenuaccesses" Relationship="Self.r237_333" FromRole="mstrole" ToRole="mstrolemenuaccess" />
+  </EntityType>
+  <EntityType Name="mstrolemenuaccess">
+    <Key>
+      <PropertyRef Name="rmarecid" />
+    </Key>
+    <Property Name="rmarecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="rmaroleid" Type="Int64" />
+    <Property Name="rmamnuid" Type="Int64" />
+    <Property Name="rmacreateaccess" Type="Int16" />
+    <Property Name="rmareadaccess" Type="Int16" />
+    <Property Name="rmaupdateaccess" Type="Int16" />
+    <Property Name="rmadeleteaccess" Type="Int16" />
+    <Property Name="rmaisdeleted" Type="Int16" />
+    <NavigationProperty Name="mstmenu" Relationship="Self.r237_334" FromRole="mstrolemenuaccess" ToRole="mstmenu" />
+    <NavigationProperty Name="mstrole" Relationship="Self.r237_333" FromRole="mstrolemenuaccess" ToRole="mstrole" />
+  </EntityType>
+  <EntityType Name="mstsubstation">
+    <Key>
+      <PropertyRef Name="ssrecid" />
+    </Key>
+    <Property Name="ssrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ssid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ssname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ssdescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="ssdivid" Type="Int64" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstdivision" Relationship="Self.r173_236" FromRole="mstsubstation" ToRole="mstdivision" />
+  </EntityType>
+  <EntityType Name="mstuser">
+    <Key>
+      <PropertyRef Name="usrrecid" />
+    </Key>
+    <Property Name="usrrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="usrid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="usrpassword" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usrroleid" Type="Int64" />
+    <Property Name="usremployeeid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="usrisactive" Type="Int16" />
+    <Property Name="usrcreationdate" Type="DateTime" Precision="58" />
+    <Property Name="usrcreatedbyuserid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="usrfirstname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usrmiddlename" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usrlastname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usremailid" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="usrphoneno1" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="usrphoneno2" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="usrisdeleted" Type="Int16" />
+    <Property Name="usrtype" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="mstrole" Relationship="Self.r142_128" FromRole="mstuser" ToRole="mstrole" />
+  </EntityType>
+  <EntityType Name="mstutility">
+    <Key>
+      <PropertyRef Name="utilrecid" />
+    </Key>
+    <Property Name="utilrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="utilid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="utilname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="utiladdress1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="utiladdress2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="utiladdress3" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="utilpin" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstzones" Relationship="Self.r170_221" FromRole="mstutility" ToRole="mstzone" />
+  </EntityType>
+  <EntityType Name="mstzone">
+    <Key>
+      <PropertyRef Name="znrecid" />
+    </Key>
+    <Property Name="znrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="znid" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="znname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="zndescription" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="znutilityid" Type="Int64" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="mstregions" Relationship="Self.r171_226" FromRole="mstzone" ToRole="mstregion" />
+    <NavigationProperty Name="mstutility" Relationship="Self.r170_221" FromRole="mstzone" ToRole="mstutility" />
+  </EntityType>
+  <EntityType Name="opc_clienttag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tag_id" Type="Int32" />
+    <Property Name="tag_name" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="caltype" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="opc_metername">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="opc_shortname" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="opc_server_tag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="tagname" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="datatype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="parameter" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="tablename" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="query" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="value" Type="Double" />
+    <Property Name="istag" Type="Int64" />
+    <Property Name="priority" Type="Int64" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+  </EntityType>
+  <EntityType Name="parametermf">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" />
+    <Property Name="grouptype" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="Double" />
+    <NavigationProperty Name="meter" Relationship="Self.r135_104" FromRole="parametermf" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="prmglobal">
+    <Key>
+      <PropertyRef Name="prmrecid" />
+    </Key>
+    <Property Name="prmrecid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="prmmodule" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="prmunit" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="prmidentifier" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="prmvalue" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+    <Property Name="rfu1" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="rfu2" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="querydetail">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="queryname" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="property" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="setvalue" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+    <Property Name="script" Type="String" MaxLength="3000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="reportscheduledetail">
+    <Key>
+      <PropertyRef Name="srid" />
+    </Key>
+    <Property Name="srid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="reportname" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="frqtype" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="startdate" Type="DateTime" Precision="58" />
+    <Property Name="triggertime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="weekdayname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="monthname" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
+    <Property Name="dayofmonth" Type="Int64" />
+    <Property Name="isactive" Type="Int16" />
+    <Property Name="rptflag" Type="Int16" />
+  </EntityType>
+  <EntityType Name="rtalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="alarmname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="alarmmessage" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="fromtime" Type="DateTime" Precision="58" />
+    <Property Name="totime" Type="DateTime" Precision="58" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="status" Type="Int16" />
+    <Property Name="resetstatus" Type="Int16" />
+    <Property Name="alarmquery" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="condition" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="alarmcommand" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="meterid" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="sendsms" Type="Int16" />
+    <Property Name="sendemail" Type="Int16" />
+    <Property Name="givepopup" Type="Int16" />
+    <Property Name="parameter" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="smsdetail">
+    <Key>
+      <PropertyRef Name="recid" />
+    </Key>
+    <Property Name="recid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="phnno" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="msgbody" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="sendflag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="stageconfiguration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="stagename" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="stagenmfrmupload" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="generator" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="linemeter" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="standardalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="maxvll" Type="Double" />
+    <Property Name="minvll" Type="Double" />
+    <Property Name="maxamp" Type="Double" />
+    <Property Name="minamp" Type="Double" />
+    <Property Name="maxkw" Type="Double" />
+    <Property Name="minkw" Type="Double" />
+    <Property Name="maxkva" Type="Double" />
+    <Property Name="minkva" Type="Double" />
+    <Property Name="maxhz" Type="Double" />
+    <Property Name="minhz" Type="Double" />
+    <Property Name="maxpf" Type="Double" />
+    <Property Name="minpf" Type="Double" />
+    <Property Name="connectload" Type="Double" />
+    <Property Name="alarmmessages" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+    <Property Name="starttime" Type="DateTime" Precision="58" />
+    <Property Name="endtime" Type="DateTime" Precision="58" />
+    <Property Name="status" Type="Int16" />
+    <Property Name="resetstatus" Type="Int32" />
+    <Property Name="duration" Type="Int32" />
+    <Property Name="alarmcommand" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="sendsms" Type="Int16" />
+    <Property Name="sendemail" Type="Int16" />
+    <Property Name="givepopup" Type="Int16" />
+    <Property Name="alarmname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+    <NavigationProperty Name="meter" Relationship="Self.r148_271" FromRole="standardalarm" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="tablewiseparameter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="parametername" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
+    <Property Name="tablename" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="isdeleted" Type="Int16" />
+  </EntityType>
+  <EntityType Name="tsinstancedatalog">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tsloadsurveyexport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tsloadsurveyimport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tsloadsurveylog">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tspreviousblkmiss">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+  </EntityType>
+  <EntityType Name="txnloadblock">
+    <Key>
+      <PropertyRef Name="txnbid" />
+    </Key>
+    <Property Name="txnbid" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="txnbparam" Type="Int64" />
+    <Property Name="txnip" Type="String" MaxLength="60" FixedLength="false" Unicode="false" />
+    <Property Name="txnblockdate" Type="DateTime" Precision="58" />
+    <NavigationProperty Name="meter" Relationship="Self.r140_122" FromRole="txnloadblocks" ToRole="meters" />
+  </EntityType>
+  <EntityType Name="uirate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="frequency" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="positive" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="negative" Type="Decimal" Precision="18" Scale="8" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" Nullable="false" />
+    <Property Name="revision" Type="Int32" />
+    <Property Name="stageid" Type="Int32" />
+    <Property Name="isdeleted" Type="Int16" />
+    <Property Name="upload_date" Type="DateTime" Precision="58" Nullable="false" />
+  </EntityType>
+  <EntityType Name="consumptionexpdaywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="consumptionexphourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="consumptionexpmonthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="consumptionimpdaywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="consumptionimphourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="consumptionimpmonthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kwh_import_current" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp_current" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+    <Property Name="kwh_export_current" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_30secdatalogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="t_vrn" Type="Double" />
+    <Property Name="t_vbn" Type="Double" />
+    <Property Name="t_vyn" Type="Double" />
+    <Property Name="t_vln" Type="Double" />
+    <Property Name="t_vry" Type="Double" />
+    <Property Name="t_vyb" Type="Double" />
+    <Property Name="t_vbr" Type="Double" />
+    <Property Name="t_vll" Type="Double" />
+    <Property Name="t_ir" Type="Double" />
+    <Property Name="t_iy" Type="Double" />
+    <Property Name="t_ib" Type="Double" />
+    <Property Name="t_i" Type="Double" />
+    <Property Name="t_pf" Type="Double" />
+    <Property Name="t_kw" Type="Double" />
+    <Property Name="t_kvar" Type="Double" />
+    <Property Name="t_kva" Type="Double" />
+    <Property Name="t_hz" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_absloadsurvey">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="a_pf" Type="Double" />
+    <Property Name="a_pfy" Type="Double" />
+    <Property Name="a_pfr" Type="Double" />
+    <Property Name="a_pfb" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_consumption">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_import" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_consumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_loadsurvey">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="vll" Type="Double" />
+    <Property Name="i" Type="Double" />
+    <Property Name="kw" Type="Double" />
+    <Property Name="kvar" Type="Double" />
+    <Property Name="kva" Type="Double" />
+    <Property Name="hz" Type="Double" />
+    <Property Name="vry" Type="Double" />
+    <Property Name="vyb" Type="Double" />
+    <Property Name="vbr" Type="Double" />
+    <Property Name="vrn" Type="Double" />
+    <Property Name="vbn" Type="Double" />
+    <Property Name="vyn" Type="Double" />
+    <Property Name="vln" Type="Double" />
+    <Property Name="ir" Type="Double" />
+    <Property Name="iy" Type="Double" />
+    <Property Name="ib" Type="Double" />
+    <Property Name="kwr" Type="Double" />
+    <Property Name="kwy" Type="Double" />
+    <Property Name="kwb" Type="Double" />
+    <Property Name="kva_r" Type="Double" />
+    <Property Name="kvay" Type="Double" />
+    <Property Name="kvab" Type="Double" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_exp_103" Type="Double" />
+    <Property Name="kvarh_exp_97" Type="Double" />
+    <Property Name="kvarh_imp_103" Type="Double" />
+    <Property Name="kvarh_imp_97" Type="Double" />
+    <Property Name="day_kwh_exp" Type="Double" />
+    <Property Name="day_kwh_imp" Type="Double" />
+    <Property Name="cblk_kwh_exp" Type="Double" />
+    <Property Name="cblk_kwh_imp" Type="Double" />
+    <Property Name="kw_demand" Type="Double" />
+    <Property Name="kva_demand" Type="Double" />
+    <Property Name="kw_max_demand" Type="Double" />
+    <Property Name="kva_max_demand" Type="Double" />
+    <Property Name="cblk_avg_mw" Type="Double" />
+    <Property Name="cblk_avg_hz" Type="Double" />
+    <Property Name="potime" Type="Double" />
+    <Property Name="lotime" Type="Double" />
+    <Property Name="runhrimp" Type="Double" />
+    <Property Name="runhrexp" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_loadsurvey_modify">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="vll" Type="Double" />
+    <Property Name="i" Type="Double" />
+    <Property Name="kw" Type="Double" />
+    <Property Name="kvar" Type="Double" />
+    <Property Name="kva" Type="Double" />
+    <Property Name="hz" Type="Double" />
+    <Property Name="vry" Type="Double" />
+    <Property Name="vyb" Type="Double" />
+    <Property Name="vbr" Type="Double" />
+    <Property Name="vrn" Type="Double" />
+    <Property Name="vbn" Type="Double" />
+    <Property Name="vyn" Type="Double" />
+    <Property Name="vln" Type="Double" />
+    <Property Name="ir" Type="Double" />
+    <Property Name="iy" Type="Double" />
+    <Property Name="ib" Type="Double" />
+    <Property Name="kwr" Type="Double" />
+    <Property Name="kwy" Type="Double" />
+    <Property Name="kwb" Type="Double" />
+    <Property Name="kva_r" Type="Double" />
+    <Property Name="kvay" Type="Double" />
+    <Property Name="kvab" Type="Double" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_exp_103" Type="Double" />
+    <Property Name="kvarh_exp_97" Type="Double" />
+    <Property Name="kvarh_imp_103" Type="Double" />
+    <Property Name="kvarh_imp_97" Type="Double" />
+    <Property Name="day_kwh_exp" Type="Double" />
+    <Property Name="day_kwh_imp" Type="Double" />
+    <Property Name="cblk_kwh_exp" Type="Double" />
+    <Property Name="cblk_kwh_imp" Type="Double" />
+    <Property Name="kw_demand" Type="Double" />
+    <Property Name="kva_demand" Type="Double" />
+    <Property Name="kw_max_demand" Type="Double" />
+    <Property Name="kva_max_demand" Type="Double" />
+    <Property Name="cblk_avg_mw" Type="Double" />
+    <Property Name="cblk_avg_hz" Type="Double" />
+    <Property Name="potime" Type="Double" />
+    <Property Name="lotime" Type="Double" />
+    <Property Name="runhrimp" Type="Double" />
+    <Property Name="runhrexp" Type="Double" />
+  </EntityType>
+  <EntityType Name="expconsumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kwh_import_current" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp_current" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+    <Property Name="kwh_export_current" Type="Double" />
+  </EntityType>
+  <EntityType Name="hourwisecurrent">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_i" Type="Double" />
+  </EntityType>
+  <EntityType Name="hourwisevoltage">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_vry" Type="Double" />
+    <Property Name="avg_vyb" Type="Double" />
+    <Property Name="avg_vbr" Type="Double" />
+    <Property Name="avg_vln" Type="Double" />
+  </EntityType>
+  <EntityType Name="impconsumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="instancedatalog">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="meter_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="vrn" Type="Double" />
+    <Property Name="vbn" Type="Double" />
+    <Property Name="vyn" Type="Double" />
+    <Property Name="vln" Type="Double" />
+    <Property Name="vry" Type="Double" />
+    <Property Name="vyb" Type="Double" />
+    <Property Name="vbr" Type="Double" />
+    <Property Name="vll" Type="Double" />
+    <Property Name="ir" Type="Double" />
+    <Property Name="iy" Type="Double" />
+    <Property Name="ib" Type="Double" />
+    <Property Name="i" Type="Double" />
+    <Property Name="pf" Type="Double" />
+    <Property Name="kw" Type="Double" />
+    <Property Name="kvar" Type="Double" />
+    <Property Name="kva" Type="Double" />
+    <Property Name="hz" Type="Double" />
+    <Property Name="pfr" Type="Double" />
+    <Property Name="pfy" Type="Double" />
+    <Property Name="pfb" Type="Double" />
+    <Property Name="kwr" Type="Double" />
+    <Property Name="kwy" Type="Double" />
+    <Property Name="kwb" Type="Double" />
+    <Property Name="kvarr" Type="Double" />
+    <Property Name="kvary" Type="Double" />
+    <Property Name="kvarb" Type="Double" />
+    <Property Name="kva_r" Type="Double" />
+    <Property Name="kvay" Type="Double" />
+    <Property Name="kvab" Type="Double" />
+    <Property Name="kw_demand" Type="Double" />
+    <Property Name="kvar_demand" Type="Double" />
+    <Property Name="kva_demand" Type="Double" />
+    <Property Name="kw_max_demand" Type="Double" />
+    <Property Name="kvar_max_demand" Type="Double" />
+    <Property Name="kva_max_demand" Type="Double" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_exp_103" Type="Double" />
+    <Property Name="kvarh_exp_97" Type="Double" />
+    <Property Name="kvarh_imp_103" Type="Double" />
+    <Property Name="kvarh_imp_97" Type="Double" />
+    <Property Name="day_kwh_exp" Type="Double" />
+    <Property Name="day_kwh_imp" Type="Double" />
+    <Property Name="cblk_kwh_exp" Type="Double" />
+    <Property Name="cblk_kwh_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lag_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lead_imp" Type="Double" />
+    <Property Name="cblk_kvarh_lag_exp" Type="Double" />
+    <Property Name="cblk_kvarh_lead_exp" Type="Double" />
+    <Property Name="cblk_avg_mw" Type="Double" />
+    <Property Name="cblk_avg_hz" Type="Double" />
+    <Property Name="lblk_timestampid" Type="Double" />
+    <Property Name="lblk_avg_mw" Type="Double" />
+    <Property Name="lblk_avg_hz" Type="Double" />
+    <Property Name="lblk_kwh_exp" Type="Double" />
+    <Property Name="lblk_kwh_imp" Type="Double" />
+    <Property Name="lblk_kvah_exp" Type="Double" />
+    <Property Name="lblk_kvah_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lag_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lead_imp" Type="Double" />
+    <Property Name="lblk_kvarh_lag_exp" Type="Double" />
+    <Property Name="lblk_kvarh_lead_exp" Type="Double" />
+    <Property Name="lblk_kvarh_exp_103" Type="Double" />
+    <Property Name="lblk_kvarh_exp_97" Type="Double" />
+    <Property Name="lblk_kvarh_imp_103" Type="Double" />
+    <Property Name="lblk_kvarh_imp_97" Type="Double" />
+    <Property Name="potime" Type="Double" />
+    <Property Name="lotime" Type="Double" />
+    <Property Name="kwh_net" Type="Double" />
+    <Property Name="temp" Type="Int32" />
+    <Property Name="runhrimp" Type="Double" />
+    <Property Name="runhrexp" Type="Double" />
+  </EntityType>
+  <EntityType Name="kwh_exp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="param" Type="Double" />
+  </EntityType>
+  <EntityType Name="kwh_exp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="param" Type="Double" />
+  </EntityType>
+  <EntityType Name="kwh_imp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="param" Type="Double" />
+  </EntityType>
+  <EntityType Name="kwh_imp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="param" Type="Double" />
+  </EntityType>
+  <EntityType Name="loadprofile">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kwh_import_current" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp_current" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+    <Property Name="kwh_export_current" Type="Double" />
+  </EntityType>
+  <EntityType Name="loadsurveyexport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="blockno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+    <Property Name="rollover_kwh" Type="Double" />
+    <Property Name="rollover_kvah" Type="Double" />
+    <Property Name="rollover_kvarh_lag" Type="Double" />
+    <Property Name="rollover_kvarh_lead" Type="Double" />
+    <Property Name="missflag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="loadsurveyimport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="blockno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+    <Property Name="rollover_kwh" Type="Double" />
+    <Property Name="rollover_kvah" Type="Double" />
+    <Property Name="rollover_kvarh_lag" Type="Double" />
+    <Property Name="rollover_kvarh_lead" Type="Double" />
+    <Property Name="missflag" Type="Int32" />
+  </EntityType>
+  <EntityType Name="loadsurveylog">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="timestampid" Type="Int32" />
+    <Property Name="blockno" Type="Int32" />
+    <Property Name="vll" Type="Double" />
+    <Property Name="i" Type="Double" />
+    <Property Name="pf" Type="Double" />
+    <Property Name="pfy" Type="Double" />
+    <Property Name="pfr" Type="Double" />
+    <Property Name="pfb" Type="Double" />
+    <Property Name="kw" Type="Double" />
+    <Property Name="kvar" Type="Double" />
+    <Property Name="kva" Type="Double" />
+    <Property Name="hz" Type="Double" />
+    <Property Name="vry" Type="Double" />
+    <Property Name="vyb" Type="Double" />
+    <Property Name="vbr" Type="Double" />
+    <Property Name="vrn" Type="Double" />
+    <Property Name="vbn" Type="Double" />
+    <Property Name="vyn" Type="Double" />
+    <Property Name="vln" Type="Double" />
+    <Property Name="ir" Type="Double" />
+    <Property Name="iy" Type="Double" />
+    <Property Name="ib" Type="Double" />
+    <Property Name="kwr" Type="Double" />
+    <Property Name="kwy" Type="Double" />
+    <Property Name="kwb" Type="Double" />
+    <Property Name="kva_r" Type="Double" />
+    <Property Name="kvay" Type="Double" />
+    <Property Name="kvab" Type="Double" />
+    <Property Name="kw_demand" Type="Double" />
+    <Property Name="kva_demand" Type="Double" />
+    <Property Name="kw_max_demand" Type="Double" />
+    <Property Name="kva_max_demand" Type="Double" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_exp_103" Type="Double" />
+    <Property Name="kvarh_exp_97" Type="Double" />
+    <Property Name="kvarh_imp_103" Type="Double" />
+    <Property Name="kvarh_imp_97" Type="Double" />
+    <Property Name="day_kwh_exp" Type="Double" />
+    <Property Name="day_kwh_imp" Type="Double" />
+    <Property Name="cblk_kwh_exp" Type="Double" />
+    <Property Name="cblk_kwh_imp" Type="Double" />
+    <Property Name="avg_hz" Type="Double" />
+    <Property Name="avg_mw" Type="Double" />
+    <Property Name="pot" Type="Double" />
+    <Property Name="runhr" Type="Double" />
+    <Property Name="runhrimp" Type="Double" />
+    <Property Name="runhrexp" Type="Double" />
+  </EntityType>
+  <EntityType Name="monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kwh_import_current" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp_current" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+    <Property Name="kwh_export_current" Type="Double" />
+  </EntityType>
+  <EntityType Name="mquery_consumption">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+  </EntityType>
+  <EntityType Name="previousblkmiss">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="timestampid" Type="Int32" />
+    <Property Name="blockno" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ispending" Type="Int32" />
+    <Property Name="issend" Type="Int32" />
+  </EntityType>
+  <EntityType Name="evt_conexp_blockwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conexp_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conexp_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conexp_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conimp_blockwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conimp_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conimp_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_conimp_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+    <Property Name="cum_kwh" Type="Double" />
+    <Property Name="cum_kvah" Type="Double" />
+    <Property Name="cum_kvarh_lag" Type="Double" />
+    <Property Name="cum_kvarh_lead" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_hourwisecurrent">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_i" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_hourwisevoltage">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_vry" Type="Double" />
+    <Property Name="avg_vyb" Type="Double" />
+    <Property Name="avg_vbr" Type="Double" />
+    <Property Name="avg_vln" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_kwh_exp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_kwh_exp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_kwh_imp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_kwh_imp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_imp" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="ts" Type="DateTime" Precision="58" />
+    <Property Name="avg_vrn" Type="Double" />
+    <Property Name="avg_vbn" Type="Double" />
+    <Property Name="avg_vyn" Type="Double" />
+    <Property Name="avg_ir" Type="Double" />
+    <Property Name="avg_iy" Type="Double" />
+    <Property Name="avg_ib" Type="Double" />
+    <Property Name="avg_kw" Type="Double" />
+    <Property Name="avg_kvar" Type="Double" />
+    <Property Name="avg_kva" Type="Double" />
+    <Property Name="avg_pf" Type="Double" />
+    <Property Name="kwh_import" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kwh_export" Type="Double" />
+  </EntityType>
+  <EntityType Name="evt_mquery_consumption_b">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="Int64" Nullable="false" />
+    <Property Name="tstamp" Type="DateTime" Precision="58" />
+    <Property Name="kwh_exp" Type="Double" />
+    <Property Name="kwh_imp" Type="Double" />
+    <Property Name="kvah_exp" Type="Double" />
+    <Property Name="kvah_imp" Type="Double" />
+    <Property Name="kvarh_lag_exp" Type="Double" />
+    <Property Name="kvarh_lag_imp" Type="Double" />
+    <Property Name="kvarh_lead_exp" Type="Double" />
+    <Property Name="kvarh_lead_imp" Type="Double" />
+  </EntityType>
+  <Association Name="r165_237">
+    <End Role="alarms" Type="Self.alarm" Multiplicity="0..1" />
+    <End Role="alarmcondition" Type="Self.alarmcondition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="alarms">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarmcondition">
+        <PropertyRef Name="alarmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r166_238">
+    <End Role="alarms" Type="Self.alarm" Multiplicity="1" />
+    <End Role="alarmhistory" Type="Self.alarmhistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="alarms">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarmhistory">
+        <PropertyRef Name="alarmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r167_239">
+    <End Role="meters" Type="Self.meter" Multiplicity="1" />
+    <End Role="alarms" Type="Self.alarm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarms">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r130_84">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="blockaddressdetails" Type="Self.blockaddressdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockaddressdetails">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r130_85">
+    <End Role="blockranges" Type="Self.blockranx" Multiplicity="1" />
+    <End Role="blockaddressdetails" Type="Self.blockaddressdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="blockranges">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockaddressdetails">
+        <PropertyRef Name="blockrangeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r129_79">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="blockranges" Type="Self.blockranx" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockranges">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r134_100">
+    <End Role="communicationdetails" Type="Self.communicationdetail" Multiplicity="0..1" />
+    <End Role="communicationdetaillink" Type="Self.communicationdetaillink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="communicationdetails">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="communicationdetaillink">
+        <PropertyRef Name="converterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r134_101">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="communicationdetaillink" Type="Self.communicationdetaillink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="communicationdetaillink">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r180_267">
+    <End Role="consumercategory" Type="Self.consumercategory" Multiplicity="1" />
+    <End Role="consumer" Type="Self.consumer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="consumercategory">
+        <PropertyRef Name="categoryrecid" />
+      </Principal>
+      <Dependent Role="consumer">
+        <PropertyRef Name="categoryid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r163_200">
+    <End Role="metergroups" Type="Self.metergroup" Multiplicity="0..1" />
+    <End Role="groupconfiguration" Type="Self.groupconfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metergroups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="groupconfiguration">
+        <PropertyRef Name="groupid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r163_201">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="groupconfiguration" Type="Self.groupconfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="groupconfiguration">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r132_94">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="ipwiselogger" Type="Self.ipwiselogger" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ipwiselogger">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r157_180">
+    <End Role="manualrptlist" Type="Self.manualrptlist" Multiplicity="1" />
+    <End Role="manualreports" Type="Self.manualreport" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manualrptlist">
+        <PropertyRef Name="rlistid" />
+      </Principal>
+      <Dependent Role="manualreports">
+        <PropertyRef Name="rlistid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r128_74">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="memorymap_addressdetails" Type="Self.memorymap_addressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_addressdetails">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r128_75">
+    <End Role="memorymap_range" Type="Self.memorymap_range" Multiplicity="1" />
+    <End Role="memorymap_addressdetails" Type="Self.memorymap_addressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="memorymap_range">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_addressdetails">
+        <PropertyRef Name="rangeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r127_69">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="memorymap_range" Type="Self.memorymap_range" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_range">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r162_196">
+    <End Role="metergroups" Type="Self.metergroup" Multiplicity="0..1" />
+    <End Role="mstmetergroupdetail" Type="Self.mstmetergroupdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metergroups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmetergroupdetail">
+        <PropertyRef Name="grpid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r131_90">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="meters" Type="Self.meter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="meters">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r131_91">
+    <End Role="metertypes" Type="Self.metertype" Multiplicity="1" />
+    <End Role="meters" Type="Self.meter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metertypes">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="meters">
+        <PropertyRef Name="metertypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r135_104">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="parametermf" Type="Self.parametermf" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="parametermf">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r140_122">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="txnloadblocks" Type="Self.txnloadblock" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="txnloadblocks">
+        <PropertyRef Name="txnbparam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r148_271">
+    <End Role="meters" Type="Self.meter" Multiplicity="1" />
+    <End Role="standardalarm" Type="Self.standardalarm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="standardalarm">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r162_197">
+    <End Role="meters" Type="Self.meter" Multiplicity="0..1" />
+    <End Role="mstmetergroupdetail" Type="Self.mstmetergroupdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmetergroupdetail">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r172_231">
+    <End Role="mstregion" Type="Self.mstregion" Multiplicity="0..1" />
+    <End Role="mstdivision" Type="Self.mstdivision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstregion">
+        <PropertyRef Name="rgnrecid" />
+      </Principal>
+      <Dependent Role="mstdivision">
+        <PropertyRef Name="divrgnid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r173_236">
+    <End Role="mstdivision" Type="Self.mstdivision" Multiplicity="0..1" />
+    <End Role="mstsubstation" Type="Self.mstsubstation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstdivision">
+        <PropertyRef Name="divrecid" />
+      </Principal>
+      <Dependent Role="mstsubstation">
+        <PropertyRef Name="ssdivid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r137_113">
+    <End Role="mstmodule" Type="Self.mstmodule" Multiplicity="0..1" />
+    <End Role="mstmenu" Type="Self.mstmenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstmodule">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmenu">
+        <PropertyRef Name="mnumodulid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r237_334">
+    <End Role="mstmenu" Type="Self.mstmenu" Multiplicity="0..1" />
+    <End Role="mstrolemenuaccess" Type="Self.mstrolemenuaccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstmenu">
+        <PropertyRef Name="mnurecid" />
+      </Principal>
+      <Dependent Role="mstrolemenuaccess">
+        <PropertyRef Name="rmamnuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r171_226">
+    <End Role="mstzone" Type="Self.mstzone" Multiplicity="0..1" />
+    <End Role="mstregion" Type="Self.mstregion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstzone">
+        <PropertyRef Name="znrecid" />
+      </Principal>
+      <Dependent Role="mstregion">
+        <PropertyRef Name="rgnznid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r142_128">
+    <End Role="mstrole" Type="Self.mstrole" Multiplicity="0..1" />
+    <End Role="mstuser" Type="Self.mstuser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstrole">
+        <PropertyRef Name="rolrecid" />
+      </Principal>
+      <Dependent Role="mstuser">
+        <PropertyRef Name="usrroleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r237_333">
+    <End Role="mstrole" Type="Self.mstrole" Multiplicity="0..1" />
+    <End Role="mstrolemenuaccess" Type="Self.mstrolemenuaccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstrole">
+        <PropertyRef Name="rolrecid" />
+      </Principal>
+      <Dependent Role="mstrolemenuaccess">
+        <PropertyRef Name="rmaroleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r170_221">
+    <End Role="mstutility" Type="Self.mstutility" Multiplicity="0..1" />
+    <End Role="mstzone" Type="Self.mstzone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstutility">
+        <PropertyRef Name="utilrecid" />
+      </Principal>
+      <Dependent Role="mstzone">
+        <PropertyRef Name="znutilityid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="etools_devEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="actiontypes" EntityType="Self.actiontype" />
+    <EntitySet Name="alarmconditions" EntityType="Self.alarmcondition" />
+    <EntitySet Name="alarmhistories" EntityType="Self.alarmhistory" />
+    <EntitySet Name="alarms" EntityType="Self.alarm" />
+    <EntitySet Name="backupscheduledetails" EntityType="Self.backupscheduledetail" />
+    <EntitySet Name="blockaddressdetails" EntityType="Self.blockaddressdetail" />
+    <EntitySet Name="blockranges" EntityType="Self.blockranx" />
+    <EntitySet Name="clientfoldermaps" EntityType="Self.clientfoldermap" />
+    <EntitySet Name="communicationdetaillinks" EntityType="Self.communicationdetaillink" />
+    <EntitySet Name="communicationdetails" EntityType="Self.communicationdetail" />
+    <EntitySet Name="consumers" EntityType="Self.consumer" />
+    <EntitySet Name="consumercategories" EntityType="Self.consumercategory" />
+    <EntitySet Name="contactdetails" EntityType="Self.contactdetail" />
+    <EntitySet Name="databaseversions" EntityType="Self.databaseversion" />
+    <EntitySet Name="dcsgs" EntityType="Self.dcsg" />
+    <EntitySet Name="emailconfigdetails" EntityType="Self.emailconfigdetail" />
+    <EntitySet Name="emaildetails" EntityType="Self.emaildetail" />
+    <EntitySet Name="groupconfigurations" EntityType="Self.groupconfiguration" />
+    <EntitySet Name="grouptemplatequeries" EntityType="Self.grouptemplatequery" />
+    <EntitySet Name="htalarms" EntityType="Self.htalarm" />
+    <EntitySet Name="instancedatas" EntityType="Self.instancedata" />
+    <EntitySet Name="ipwiseloggers" EntityType="Self.ipwiselogger" />
+    <EntitySet Name="manualreports" EntityType="Self.manualreport" />
+    <EntitySet Name="manualrptlists" EntityType="Self.manualrptlist" />
+    <EntitySet Name="memorymap_addressdetails" EntityType="Self.memorymap_addressdetails" />
+    <EntitySet Name="memorymap_range" EntityType="Self.memorymap_range" />
+    <EntitySet Name="metergroups" EntityType="Self.metergroup" />
+    <EntitySet Name="metermodels" EntityType="Self.metermodel" />
+    <EntitySet Name="meters" EntityType="Self.meter" />
+    <EntitySet Name="metertypes" EntityType="Self.metertype" />
+    <EntitySet Name="mstdivisions" EntityType="Self.mstdivision" />
+    <EntitySet Name="mstemployees" EntityType="Self.mstemployee" />
+    <EntitySet Name="msterrorlogs" EntityType="Self.msterrorlog" />
+    <EntitySet Name="mstfeeders" EntityType="Self.mstfeeder" />
+    <EntitySet Name="mstholidays" EntityType="Self.mstholiday" />
+    <EntitySet Name="mstmenus" EntityType="Self.mstmenu" />
+    <EntitySet Name="mstmetergroupdetails" EntityType="Self.mstmetergroupdetail" />
+    <EntitySet Name="mstmodules" EntityType="Self.mstmodule" />
+    <EntitySet Name="mstregions" EntityType="Self.mstregion" />
+    <EntitySet Name="mstroles" EntityType="Self.mstrole" />
+    <EntitySet Name="mstrolemenuaccesses" EntityType="Self.mstrolemenuaccess" />
+    <EntitySet Name="mstsubstations" EntityType="Self.mstsubstation" />
+    <EntitySet Name="mstusers" EntityType="Self.mstuser" />
+    <EntitySet Name="mstutilities" EntityType="Self.mstutility" />
+    <EntitySet Name="mstzones" EntityType="Self.mstzone" />
+    <EntitySet Name="opc_clienttag" EntityType="Self.opc_clienttag" />
+    <EntitySet Name="opc_metername" EntityType="Self.opc_metername" />
+    <EntitySet Name="opc_server_tag" EntityType="Self.opc_server_tag" />
+    <EntitySet Name="parametermfs" EntityType="Self.parametermf" />
+    <EntitySet Name="prmglobals" EntityType="Self.prmglobal" />
+    <EntitySet Name="querydetails" EntityType="Self.querydetail" />
+    <EntitySet Name="reportscheduledetails" EntityType="Self.reportscheduledetail" />
+    <EntitySet Name="rtalarms" EntityType="Self.rtalarm" />
+    <EntitySet Name="smsdetails" EntityType="Self.smsdetail" />
+    <EntitySet Name="stageconfigurations" EntityType="Self.stageconfiguration" />
+    <EntitySet Name="standardalarms" EntityType="Self.standardalarm" />
+    <EntitySet Name="tablewiseparameters" EntityType="Self.tablewiseparameter" />
+    <EntitySet Name="tsinstancedatalogs" EntityType="Self.tsinstancedatalog" />
+    <EntitySet Name="tsloadsurveyexports" EntityType="Self.tsloadsurveyexport" />
+    <EntitySet Name="tsloadsurveyimports" EntityType="Self.tsloadsurveyimport" />
+    <EntitySet Name="tsloadsurveylogs" EntityType="Self.tsloadsurveylog" />
+    <EntitySet Name="tspreviousblkmisses" EntityType="Self.tspreviousblkmiss" />
+    <EntitySet Name="txnloadblocks" EntityType="Self.txnloadblock" />
+    <EntitySet Name="uirates" EntityType="Self.uirate" />
+    <EntitySet Name="consumptionexpdaywises" EntityType="Self.consumptionexpdaywise" />
+    <EntitySet Name="consumptionexphourwises" EntityType="Self.consumptionexphourwise" />
+    <EntitySet Name="consumptionexpmonthwises" EntityType="Self.consumptionexpmonthwise" />
+    <EntitySet Name="consumptionimpdaywises" EntityType="Self.consumptionimpdaywise" />
+    <EntitySet Name="consumptionimphourwises" EntityType="Self.consumptionimphourwise" />
+    <EntitySet Name="consumptionimpmonthwises" EntityType="Self.consumptionimpmonthwise" />
+    <EntitySet Name="daywises" EntityType="Self.daywise" />
+    <EntitySet Name="evt_30secdatalogs" EntityType="Self.evt_30secdatalogs" />
+    <EntitySet Name="evt_absloadsurvey" EntityType="Self.evt_absloadsurvey" />
+    <EntitySet Name="evt_consumption" EntityType="Self.evt_consumption" />
+    <EntitySet Name="evt_consumption_blocks" EntityType="Self.evt_consumption_blocks" />
+    <EntitySet Name="evt_loadsurvey" EntityType="Self.evt_loadsurvey" />
+    <EntitySet Name="evt_loadsurvey_modify" EntityType="Self.evt_loadsurvey_modify" />
+    <EntitySet Name="expconsumption_blocks" EntityType="Self.expconsumption_blocks" />
+    <EntitySet Name="hourwises" EntityType="Self.hourwise" />
+    <EntitySet Name="hourwisecurrents" EntityType="Self.hourwisecurrent" />
+    <EntitySet Name="hourwisevoltages" EntityType="Self.hourwisevoltage" />
+    <EntitySet Name="impconsumption_blocks" EntityType="Self.impconsumption_blocks" />
+    <EntitySet Name="instancedatalogs" EntityType="Self.instancedatalog" />
+    <EntitySet Name="kwh_exp_con_1" EntityType="Self.kwh_exp_con_1" />
+    <EntitySet Name="kwh_exp_read_1" EntityType="Self.kwh_exp_read_1" />
+    <EntitySet Name="kwh_imp_con_1" EntityType="Self.kwh_imp_con_1" />
+    <EntitySet Name="kwh_imp_read_1" EntityType="Self.kwh_imp_read_1" />
+    <EntitySet Name="loadprofiles" EntityType="Self.loadprofile" />
+    <EntitySet Name="loadsurveyexports" EntityType="Self.loadsurveyexport" />
+    <EntitySet Name="loadsurveyimports" EntityType="Self.loadsurveyimport" />
+    <EntitySet Name="loadsurveylogs" EntityType="Self.loadsurveylog" />
+    <EntitySet Name="monthwises" EntityType="Self.monthwise" />
+    <EntitySet Name="mquery_consumption" EntityType="Self.mquery_consumption" />
+    <EntitySet Name="previousblkmisses" EntityType="Self.previousblkmiss" />
+    <EntitySet Name="evt_conexp_blockwise" EntityType="Self.evt_conexp_blockwise" />
+    <EntitySet Name="evt_conexp_daywise" EntityType="Self.evt_conexp_daywise" />
+    <EntitySet Name="evt_conexp_hourwise" EntityType="Self.evt_conexp_hourwise" />
+    <EntitySet Name="evt_conexp_monthwise" EntityType="Self.evt_conexp_monthwise" />
+    <EntitySet Name="evt_conimp_blockwise" EntityType="Self.evt_conimp_blockwise" />
+    <EntitySet Name="evt_conimp_daywise" EntityType="Self.evt_conimp_daywise" />
+    <EntitySet Name="evt_conimp_hourwise" EntityType="Self.evt_conimp_hourwise" />
+    <EntitySet Name="evt_conimp_monthwise" EntityType="Self.evt_conimp_monthwise" />
+    <EntitySet Name="evt_daywise" EntityType="Self.evt_daywise" />
+    <EntitySet Name="evt_hourwise" EntityType="Self.evt_hourwise" />
+    <EntitySet Name="evt_hourwisecurrent" EntityType="Self.evt_hourwisecurrent" />
+    <EntitySet Name="evt_hourwisevoltage" EntityType="Self.evt_hourwisevoltage" />
+    <EntitySet Name="evt_kwh_exp_con_1" EntityType="Self.evt_kwh_exp_con_1" />
+    <EntitySet Name="evt_kwh_exp_read_1" EntityType="Self.evt_kwh_exp_read_1" />
+    <EntitySet Name="evt_kwh_imp_con_1" EntityType="Self.evt_kwh_imp_con_1" />
+    <EntitySet Name="evt_kwh_imp_read_1" EntityType="Self.evt_kwh_imp_read_1" />
+    <EntitySet Name="evt_monthwise" EntityType="Self.evt_monthwise" />
+    <EntitySet Name="evt_mquery_consumption_b" EntityType="Self.evt_mquery_consumption_b" />
+    <AssociationSet Name="r165_237" Association="Self.r165_237">
+      <End Role="alarms" EntitySet="alarms" />
+      <End Role="alarmcondition" EntitySet="alarmconditions" />
+    </AssociationSet>
+    <AssociationSet Name="r166_238" Association="Self.r166_238">
+      <End Role="alarms" EntitySet="alarms" />
+      <End Role="alarmhistory" EntitySet="alarmhistories" />
+    </AssociationSet>
+    <AssociationSet Name="r167_239" Association="Self.r167_239">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="alarms" EntitySet="alarms" />
+    </AssociationSet>
+    <AssociationSet Name="r130_84" Association="Self.r130_84">
+      <End Role="metermodel" EntitySet="metermodels" />
+      <End Role="blockaddressdetails" EntitySet="blockaddressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r130_85" Association="Self.r130_85">
+      <End Role="blockranges" EntitySet="blockranges" />
+      <End Role="blockaddressdetails" EntitySet="blockaddressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r129_79" Association="Self.r129_79">
+      <End Role="metermodel" EntitySet="metermodels" />
+      <End Role="blockranges" EntitySet="blockranges" />
+    </AssociationSet>
+    <AssociationSet Name="r134_100" Association="Self.r134_100">
+      <End Role="communicationdetails" EntitySet="communicationdetails" />
+      <End Role="communicationdetaillink" EntitySet="communicationdetaillinks" />
+    </AssociationSet>
+    <AssociationSet Name="r134_101" Association="Self.r134_101">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="communicationdetaillink" EntitySet="communicationdetaillinks" />
+    </AssociationSet>
+    <AssociationSet Name="r180_267" Association="Self.r180_267">
+      <End Role="consumercategory" EntitySet="consumercategories" />
+      <End Role="consumer" EntitySet="consumers" />
+    </AssociationSet>
+    <AssociationSet Name="r163_200" Association="Self.r163_200">
+      <End Role="metergroups" EntitySet="metergroups" />
+      <End Role="groupconfiguration" EntitySet="groupconfigurations" />
+    </AssociationSet>
+    <AssociationSet Name="r163_201" Association="Self.r163_201">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="groupconfiguration" EntitySet="groupconfigurations" />
+    </AssociationSet>
+    <AssociationSet Name="r132_94" Association="Self.r132_94">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="ipwiselogger" EntitySet="ipwiseloggers" />
+    </AssociationSet>
+    <AssociationSet Name="r157_180" Association="Self.r157_180">
+      <End Role="manualrptlist" EntitySet="manualrptlists" />
+      <End Role="manualreports" EntitySet="manualreports" />
+    </AssociationSet>
+    <AssociationSet Name="r128_74" Association="Self.r128_74">
+      <End Role="metermodel" EntitySet="metermodels" />
+      <End Role="memorymap_addressdetails" EntitySet="memorymap_addressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r128_75" Association="Self.r128_75">
+      <End Role="memorymap_range" EntitySet="memorymap_range" />
+      <End Role="memorymap_addressdetails" EntitySet="memorymap_addressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r127_69" Association="Self.r127_69">
+      <End Role="metermodel" EntitySet="metermodels" />
+      <End Role="memorymap_range" EntitySet="memorymap_range" />
+    </AssociationSet>
+    <AssociationSet Name="r162_196" Association="Self.r162_196">
+      <End Role="metergroups" EntitySet="metergroups" />
+      <End Role="mstmetergroupdetail" EntitySet="mstmetergroupdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r131_90" Association="Self.r131_90">
+      <End Role="metermodel" EntitySet="metermodels" />
+      <End Role="meters" EntitySet="meters" />
+    </AssociationSet>
+    <AssociationSet Name="r131_91" Association="Self.r131_91">
+      <End Role="metertypes" EntitySet="metertypes" />
+      <End Role="meters" EntitySet="meters" />
+    </AssociationSet>
+    <AssociationSet Name="r135_104" Association="Self.r135_104">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="parametermf" EntitySet="parametermfs" />
+    </AssociationSet>
+    <AssociationSet Name="r140_122" Association="Self.r140_122">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="txnloadblocks" EntitySet="txnloadblocks" />
+    </AssociationSet>
+    <AssociationSet Name="r148_271" Association="Self.r148_271">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="standardalarm" EntitySet="standardalarms" />
+    </AssociationSet>
+    <AssociationSet Name="r162_197" Association="Self.r162_197">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="mstmetergroupdetail" EntitySet="mstmetergroupdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r172_231" Association="Self.r172_231">
+      <End Role="mstregion" EntitySet="mstregions" />
+      <End Role="mstdivision" EntitySet="mstdivisions" />
+    </AssociationSet>
+    <AssociationSet Name="r173_236" Association="Self.r173_236">
+      <End Role="mstdivision" EntitySet="mstdivisions" />
+      <End Role="mstsubstation" EntitySet="mstsubstations" />
+    </AssociationSet>
+    <AssociationSet Name="r137_113" Association="Self.r137_113">
+      <End Role="mstmodule" EntitySet="mstmodules" />
+      <End Role="mstmenu" EntitySet="mstmenus" />
+    </AssociationSet>
+    <AssociationSet Name="r237_334" Association="Self.r237_334">
+      <End Role="mstmenu" EntitySet="mstmenus" />
+      <End Role="mstrolemenuaccess" EntitySet="mstrolemenuaccesses" />
+    </AssociationSet>
+    <AssociationSet Name="r171_226" Association="Self.r171_226">
+      <End Role="mstzone" EntitySet="mstzones" />
+      <End Role="mstregion" EntitySet="mstregions" />
+    </AssociationSet>
+    <AssociationSet Name="r142_128" Association="Self.r142_128">
+      <End Role="mstrole" EntitySet="mstroles" />
+      <End Role="mstuser" EntitySet="mstusers" />
+    </AssociationSet>
+    <AssociationSet Name="r237_333" Association="Self.r237_333">
+      <End Role="mstrole" EntitySet="mstroles" />
+      <End Role="mstrolemenuaccess" EntitySet="mstrolemenuaccesses" />
+    </AssociationSet>
+    <AssociationSet Name="r170_221" Association="Self.r170_221">
+      <End Role="mstutility" EntitySet="mstutilities" />
+      <End Role="mstzone" EntitySet="mstzones" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

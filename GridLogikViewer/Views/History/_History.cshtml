@@ -1,0 +1,104 @@
+﻿@model GridLogik.ViewModels.HistoryModel
+
+<div class="col-md-12 table-responsive dashboard-selectoption-panel-body" id="dvData">
+    <table class="table table-bordered table-hover table-sortable" id="tablehistorydata">
+        <thead>
+            <tr>
+
+                @foreach (var column in ViewBag.HistoryData)
+                {
+                    foreach (var item in column.Table.Columns)
+                    {
+                        <th>
+                            @item.Caption.ToString()
+                        </th>
+                    }
+                    break;
+
+                }
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var column in ViewBag.HistoryData)
+            {
+                <tr>
+                    @foreach (var item in column.ItemArray)
+                    {
+                        <td>
+                            @item.ToString()
+                        </td>
+                    }
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+    @Html.Label("Sum :")
+    @Html.Label("Sum", new { id = "Sum" })
+    @Html.Label("Avg :")
+    @Html.Label("Avg", new { id = "average" })
+    @Html.Label("Min :")
+    @Html.Label("Min", new { id = "Minimum" })
+    @Html.Label("Max :")
+    @Html.Label("Max", new { id = "Maximum" })
+</div>
+<div id="chart_dialog">
+    <div id="chart_container"></div>
+</div>
+@using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export1" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <button type="submit">Export to Excel</button>
+    <button type="button" id="graph">Graph</button>
+}
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+</style>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $("#btnExport").click(function (e) {
+            window.open('data:application/vnd.ms-excel,' + $('#dvData').html());
+            e.preventDefault();
+        });
+
+        $('#export').click(function () {
+            $('#Csv').val($('#tablehistorydata').table2CSV({ delivery: 'value' }));
+            var form = $("#export").serialize();
+            var actionUrl = '@Url.Action("Export", "History")';
+            window.open("actionUrl?model=" + form);
+            //$('#Csv').val($('#tableTrendData').table2CSV({ delivery: 'value' }));
+        });
+    });
+</script>
+
+<script>
+
+    $("#tablehistorydata").dataTable(
+                       {
+                           bSort: false,
+                           aoColumns: [{ sWidth: "45%" }, { sWidth: "45%" }, { sWidth: "10%", bSearchable: false, bSortable: false }],
+                           "scrollY":        "200px",
+                           "scrollCollapse": true,
+                           "info":           true,
+                           "paging":         true,
+                           pageLength: 10
+
+                       });
+</script>
+

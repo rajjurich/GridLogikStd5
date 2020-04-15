@@ -1,0 +1,375 @@
+﻿@model List<EToolsViewer.APIModels.GetInstanceData>
+@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<div class="col-lg-6" style="border:0px solid #f00;">
+    <label id="MName" for="ccyear" style="border:0px solid #f00; margin:5px 0px;"></label>
+
+</div>
+<div class="row" id="rwData">
+
+    <div class="col-lg-12" style="border:0px solid  #000; padding:0px; ">
+        <div class="col-lg-4" style="border:0px solid  #000; ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Energy<!--<b style="font-size:16px;">Energy</b>--></div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+                </div>
+                <table class="table table-bordered results">
+                    <thead>
+                        <tr style="background:#0f0f0f !important; color:#FFF;">
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Data</th>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Export</th>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Import</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_01">
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">MWH</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="mwhEnergyExport"></label></td>
+                            <td style=" color:#FF00FF; padding:0px;"><label id="MWhEnergyImport"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">MVARH Lag </th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="MVARhLagEnergyExport"></label></td>
+                            <td style=" color:#FF00FF; padding:0px;"><label id="MVARhLagEnergyImport"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">MVARH Lead</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="MVARhLeadEnergyExport"></label></td>
+                            <td style=" color:#FF00FF;padding:0px;"><label id="MVARhLeadEnergyImport"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">MVAH</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="MVAhEnergyExport"></label></td>
+                            <td style=" color:#FF00FF;padding:0px;"><label id="MVAhEnergyImport"></label></td>
+                    </tbody>
+                </table>
+
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+       
+
+    @*</div>
+    <div class="col-lg-12" style="border:0px solid  #000;">*@
+        <div class="col-lg-2" style="border:0px solid  #000; padding:0px; ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold; text-align:center;">Power</div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+                </div>
+                <table class="table table-bordered results">
+                    <thead>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="30%">Data</th>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="42%">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_03 ">
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">MW</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="MWPower"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">MVAR</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="MVARPower"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">MVA</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="MVAPower"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">PF</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="PFPower"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">HZ</th>
+                            <td style=" color:#00FF00;padding:0px;"><label id="HZPower"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+        <div class="col-lg-2" style="border:0px solid  #000; ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold; text-align:center;">Line Volt(KV)</div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+                </div>
+                <table class="table table-bordered results">
+                    <thead>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="30%">Data</th>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="42%" class="col-md-4 col-xs-4">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_03 ">
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; padding: 0px;" scope="row">RY</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="RYLineVoltage"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; padding: 0px;" scope="row">YB</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="YBLineVoltage"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; padding: 0px;" scope="row">BR</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="BRLineVoltage"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+        <div class="col-lg-2" style="border:0px solid  #000; padding:0px;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold; text-align:center;">Ph. Voltage (KV)</div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+                </div>
+                <table class="table table-bordered results">
+                    <thead>
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #fff; font-size: 16px; font-weight: bold; text-align: center;" width="30%">Data</th>
+                            <th style=" background: #0f0f0f !important; color: #fff; font-size: 16px; font-weight: bold; text-align: center;" width="42%" class="col-md-4 col-xs-4">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_04 ">
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; padding: 0px;" scope="row">R</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="RPhVoltage"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Y</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="YPhVoltage"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">B</th>
+                            <td style=" color:#00FF00; padding:0px;"><label id="BPhVoltage"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+        <div class="col-lg-2" style="border:0px solid  #000; ">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold; text-align:center;">Current (A)</div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+                </div>
+                <table class="table table-bordered results">
+                    <thead>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="30%">Data</th>
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center;" width="42%" class="col-md-4 col-xs-4">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_05 ">
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">R</th>
+                            <td style="color:#00FF00; padding:0px;"><label id="RCurrent"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Y</th>
+                            <td style="color:#00FF00; padding:0px;"><label id="YCurrent"></label></td>
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">B</th>
+                            <td style="color:#00FF00;padding:0px;"><label id="BCurrent"></label></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+     
+    </div>
+    <div class="col-lg-6" style="border:0px solid  #000; padding:0px;">
+        <div class="col-lg-3" style="border:0px solid  #000; padding:0px;"> </div>
+    </div>
+</div>
+<div>   
+    <a href="/ILFS/ILFS/SLD" id="btnBack" style="color:blue">Back to SLD</a>
+</div>
+
+    <script type="text/javascript">
+        var ws, w1, w2;
+        var meterId = "";
+        var box;
+        var MeterString = "2";
+        var MeterIdList = {
+            "MeterString": MeterString
+
+        };
+        var ConfingArr = new Array();
+        $(document).ready(function () {
+          
+            ABTMeterDetails();
+        });
+
+
+
+
+        @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "EMSMeter")';
+    });*@
+        setInterval(ABTMeterDetails, 1000);
+        function ABTMeterDetails() {
+
+            $.ajax({
+
+                type: "POST",
+                url: BaseAddress + "GetAllInstanceData/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(MeterIdList),
+                dataType: "json",
+
+                success: function (response, status, jqXHR) {
+
+                    var jsonObj = response.Data.result;
+                    debugger
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+                        debugger
+
+                        jsonObj.forEach(function (responseobj) {
+                            if (responseobj.meterid == 2) {
+
+                                
+                                $("#MName").removeData().text(responseobj.meter_name == null ? "-" : "Meter Name : "+ responseobj.meter_name);
+                                $("#mwhEnergyExport").removeData().text(responseobj.kwh_exp == null ? "-" : responseobj.kwh_exp);
+                                $("#MWhEnergyImport").removeData().text(responseobj.kwh_imp == null ? "-" : responseobj.kwh_imp);
+
+                                $("#MVARhLagEnergyExport").removeData().text(responseobj.kvarh_lag_exp == null ? "-" : responseobj.kvarh_lag_exp);
+                                $("#MVARhLagEnergyImport").text(responseobj.kvarh_lag_imp == null ? "-" : responseobj.kvarh_lag_imp);
+
+                                $("#MVARhLeadEnergyExport").removeData().text(responseobj.kvarh_lead_exp == null ? "-" : responseobj.kvarh_lead_exp);
+                                $("#MVARhLeadEnergyImport").removeData().text(responseobj.kvarh_lead_imp == null ? "-" : responseobj.kvarh_lead_imp);
+
+
+                                $("#MVAhEnergyExport").text(responseobj.kvah_exp == null ? "-" : responseobj.kvah_exp);
+                                $("#MVAhEnergyImport").text(responseobj.kvah_imp == null ? "-" : responseobj.kvah_imp);
+
+                                $("#MWPower").text(responseobj.kw == null ? "-" : responseobj.kw);
+                                $("#MVARPower").text(responseobj.kvar == null ? "-" : responseobj.kvar);
+                                $("#MVAPower").text(responseobj.kva == null ? "-" : responseobj.kva);
+
+                                $("#PFPower").text(responseobj.pf == null ? "-" : (responseobj.pf).toFixed(3));
+                                $("#HZPower").text(responseobj.hz == null ? "-" : responseobj.hz);
+
+                                $("#RYLineVoltage").text(( responseobj.vrn*1.732).toFixed(3));
+                                $("#YBLineVoltage").text( (responseobj.vyn * 1.732).toFixed(3));
+                                $("#BRLineVoltage").text( (responseobj.vbn * 1.732).toFixed(3));
+
+                                $("#RPhVoltage").text(responseobj.vrn == null ? "-" : responseobj.vrn);
+                                $("#YPhVoltage").text(responseobj.vyn == null ? "-" : responseobj.vyn);
+                                $("#BPhVoltage").text(responseobj.vbn == null ? "-" : responseobj.vbn);
+
+                                $("#RCurrent").text(responseobj.ir == null ? "-" : responseobj.ir);
+                                $("#YCurrent").text(responseobj.iy == null ? "-" : responseobj.iy);
+                                $("#BCurrent").text(responseobj.ib == null ? "-" : responseobj.ib);
+
+                                $("#DayMWHExport").text(responseobj.day_kwh_exp == null ? "-" : responseobj.day_kwh_exp);
+                                $("#DayMWHImport").text(responseobj.day_kwh_imp == null ? "-" : responseobj.day_kwh_imp);
+
+                                $("#CurrentBlockExport").text(responseobj.cblk_kwh_exp == null ? "-" : responseobj.cblk_kwh_exp);
+                                $("#CurrentBlockImport").text(responseobj.cblk_kwh_imp == null ? "-" : responseobj.cblk_kwh_imp);
+
+                                $("#LastBlockAvgExport").text(responseobj.lblk_avg_mw == null ? "-" : responseobj.lblk_avg_mw);
+                                $("#LastBlockAvgImport").text(responseobj.lblk_avg_hz == null ? "-" : responseobj.lblk_avg_hz);
+
+                                $("#CurrentBlockAvgExport").text(responseobj.cblk_avg_mw == null ? "-" : responseobj.cblk_avg_mw);
+                                $("#CurrentBlockAvgImport").text(responseobj.cblk_avg_hz == null ? "-" : responseobj.cblk_avg_hz);
+
+                                $("#VPowerExport").text(responseobj.kvarh_exp_97 == null ? "-" : responseobj.kvarh_exp_97);
+                                $("#VPowerImport").text(responseobj.kvarh_imp_103 == null ? "-" : responseobj.kvarh_imp_103);
+
+                                $("#103PowerExport").text(responseobj.kvarh_exp_103 == null ? "-" : responseobj.kvarh_exp_103);
+                                $("#103PowerImport").text(responseobj.kvarh_imp_103 == null ? "-" : responseobj.kvarh_imp_103);
+
+                                $("#97PowerExport").text(responseobj.kvarh_exp_97 == null ? "-" : responseobj.kvarh_exp_97);
+                                $("#97PowerImport").text(responseobj.kvarh_imp_97 == null ? "-" : responseobj.kvarh_imp_97);
+                            }
+                           
+
+                        });
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+
+        }
+
+    </script>

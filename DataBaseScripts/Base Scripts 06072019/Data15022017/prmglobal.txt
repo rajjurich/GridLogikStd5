@@ -1,0 +1,344 @@
+1|Global|Gender|Gender|Male|\ |\ |
+2|Global|Gender|Gender|Female|\ |\ |
+3|Global|cclassconsumergroup|cclassconsumergroup|High|\ |\ |
+4|Global|cclassconsumergroup|cclassconsumergroup|Low|\ |\ |
+5|Global|MaritalStatus|MaritalStatus|Single|\ |\ |
+6|Global|MaritalStatus|MaritalStatus|Married|\ |\ |
+7|Global|MaritalStatus|MaritalStatus|Divorced|\ |\ |
+8|Global|MaritalStatus|MaritalStatus|Widowed|\ |\ |
+9|Global|MaritalStatus|MaritalStatus|Separated|\ |\ |
+10|Global|TextFields|MaxLength|40|Max Length is 40|\ |
+11|Global|DateField|Format|dd/mm/yy|Date format is dd/mm/yyyy|\ |
+12|Global|TextFields|Case|U|\ |\ |
+13|MDAS|MstUtility.UtilID|MinLength|4|Min Length is 4|\ |
+14|MDAS|MstUtility.UtilID|MaxLength|10|Max Length is 10|\ |
+15|MDAS|MstUtility.UtilID|DataType|^[0-9]+$|Invalid code|Number|
+16|MDAS|MstUtility.UtilID|Required|Y|Please enter code|\ |
+17|MDAS|MstUtility.UtilID|Padded|Y|\ |\ |
+18|MDAS|MstUtility.UtilName|MaxLength|10|Max length is 10|\ |
+19|MDAS|MstUtility.UtilName|MinLength|5|Min length is 5|\ |
+20|MDAS|MstUtility.UtilName|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid name|Name|
+21|MDAS|MstUtility.UtilName|Required|Y|Please enter name|\ |
+22|MDAS|MstUtility.UtilAddress1|MinLength|5|Min length is 5|\ |
+23|MDAS|MstUtility.UtilAddress1|MaxLength|10|Max length is 10|\ |
+24|MDAS|MstUtility.UtilAddress1|DataType||\ |\ |
+25|MDAS|MstUtility.UtilAddress1|Required|Y|Please enter address 1|\ |
+26|Global|TextFields|MinLength|2|Min Length is 2|\ |
+27|MDAS|MstUser.usrid|MinLength|4|Min Length is 4|\ |
+28|MDAS|MstUser.usrid|MaxLength|10|Max Length is 10|\ |
+29|MDAS|MstUser.usrid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+30|MDAS|MstUser.usrid|Required|Y|Please enter code|\ |
+31|MDAS|MstUser.usrid|Padded|Y|\ |\ |
+32|MDAS|MstUser.usrpassword|MaxLength|10|Max length is 10|\ |
+33|MDAS|MstUser.usrpassword|MinLength|5|Min length is 5|\ |
+34|MDAS|MstUser.usrpassword|DataType||Invalid Password|Password|
+35|MDAS|MstUser.usrpassword|Required|Y|Please enter name|\ |
+36|MDAS|MstUser.usrroleid|Required|Y|Please select role|\ |
+37|MDAS|MstUser.usremployeeid|Required|Y|Please select employee|\ |
+38|MDAS|MstUser.usrfirstname|MaxLength|10|Max length is 10|\ |
+39|MDAS|MstUser.usrfirstname|MinLength|5|Min length is 5|\ |
+40|MDAS|MstUser.usrfirstname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid first name|Name|
+41|MDAS|MstUser.usrfirstname|Required|Y|Please enter first name|\ |
+42|MDAS|MstUser.usrlastname|MaxLength|10|Max length is 10|\ |
+43|MDAS|MstUser.usrlastname|MinLength|5|Min length is 5|\ |
+44|MDAS|MstUser.usrlastname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid last name|Name|
+45|MDAS|MstUser.usrlastname|Required|Y|Please enter last name|\ |
+54|MDAS|MstEmployee.empid|MinLength|6|Min length is 6||
+47|MDAS|MstUser.usremailid|MinLength|5|Min length is 5|\ |
+48|MDAS|MstUser.usremailid|DataType|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$|Invalid email id|Email|
+49|MDAS|MstUser.usremailid|Required|Y|Please enter email id|\ |
+50|MDAS|MstUser.usrphoneno1|MaxLength|25|Max length is 25|\ |
+51|MDAS|MstUser.usrphoneno1|MinLength|10|Min length is 10|\ |
+52|MDAS|MstUser.usrphoneno1|DataType|^\\+?\\d{1,3}-\\d{1,8}-\\d{10}|Invalid phone 1|Phone|
+53|MDAS|MstUser.usrphoneno1|Required|Y|Please enter phone 1|\ |
+55|MDAS|MstEmployee.empid|MaxLength|10|Max length is 10||
+56|MDAS|MstEmployee.empid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+57|MDAS|MstEmployee.empid|Required|Y|Please enter employee ID||
+58|MDAS|MstEmployee.empid|Padded|Y|||
+59|MDAS|MstEmployee.empfirstname|MaxLength|15|Max length is 15||
+60|MDAS|MstEmployee.empfirstname|MinLength|5|Min length is 5||
+61|MDAS|MstEmployee.empfirstname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid first name|Name|
+62|MDAS|MstEmployee.empfirstname|Required|Y|Please enter first name||
+63|MDAS|MstEmployee.empmiddlename|Required|Y|Please enter middle name||
+64|MDAS|MstEmployee.empmiddlename|MinLength|5|Min length is 5||
+65|MDAS|MstEmployee.empmiddlename|MaxLength|15|Max length is 15||
+66|MDAS|MstEmployee.empmiddlename|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid middle name|Name|
+67|MDAS|MstEmployee.emplastname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid last name|Name|
+68|MDAS|MstEmployee.emplastname|Required|Y|Please enter last name||
+69|MDAS|MstEmployee.emplastname|MinLength|5|Min length is 5||
+70|MDAS|MstEmployee.emplastname|MaxLength|15|Max length is 15||
+71|MDAS|MstEmployee.empzoneid|Required|Y|Please select zone||
+72|MDAS|MstEmployee.emprgnid|Required|Y|Please select region||
+73|MDAS|MstEmployee.empdivid|Required|Y|Please select division||
+74|MDAS|MstEmployee.empsubstnid|Required|Y|Please select substation||
+75|MDAS|MstZone.znid|MinLength|5|Min length is 5||
+76|MDAS|MstZone.znid|MaxLength|10|Max length is 10||
+77|MDAS|MstZone.znid|DataType|^[A-z0-9]+$|Invalid zone id|Alphanumeric|
+78|MDAS|MstZone.znid|Required|Y|Please enter zone id||
+79|MDAS|MstZone.znid|Padded|Y|||
+80|MDAS|MstZone.znname|MaxLength|15|Max length is 15||
+81|MDAS|MstZone.znname|MinLength|5|Min length is 5||
+82|MDAS|MstZone.znname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid zone name|Name|
+165|Global|MaritalStatus|MaritalStatus|Single|\ |\ |
+83|MDAS|MstZone.znname|Required|Y|Please enter zone name||
+84|MDAS|MstZone.znutilityid|Required|Y|Please select utility||
+85|MDAS|MstSubstation.ssid|Required|Y|Please enter code||
+86|MDAS|MstSubstation.ssid|MinLength|5|Min length is 5||
+87|MDAS|MstSubstation.ssid|MaxLength|15|Max length is 15||
+88|MDAS|MstSubstation.ssid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+89|MDAS|MstSubstation.ssname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid substation name|Name|
+90|MDAS|MstSubstation.ssname|MaxLength|15|Max length is 15||
+91|MDAS|MstSubstation.ssname|MinLength|5|Min length is 5||
+92|MDAS|MstSubstation.ssname|Required|Y|Please enter name||
+93|MDAS|MstDivision.divid|MinLength|5|Min length is 5||
+94|MDAS|MstDivision.divid|MaxLength|15|Max length is 15||
+95|MDAS|MstDivision.divid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+96|MDAS|MstDivision.divid|Required|Y|Please enter code||
+97|MDAS|MstDivision.divid|Padded|Y|||
+98|MDAS|MstDivision.divname|MinLength|5|Min length  is 5||
+99|MDAS|MstDivision.divname|MaxLength|15|Max length  is 15||
+100|MDAS|MstDivision.divname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid name|Name|
+101|MDAS|MstDivision.divname|Required|Y|Please enter name||
+102|MDAS|MstDivision.divrgnid|Required|Y|Please select region||
+103|MDAS|MstRegion.RgnID|Required|Y|Please enter code||
+104|MDAS|MstRegion.RgnID|MinLength|5|Min length is 5||
+105|MDAS|MstRegion.RgnID|MaxLength|10|Max length is 10||
+106|MDAS|MstRegion.RgnID|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+107|MDAS|MstRegion.RgnID|Padded|Y|||
+108|MDAS|MstRegion.RgnName|MaxLength|15|Max length is 15||
+109|MDAS|MstRegion.RgnName|MinLength|5|Min length is 5||
+110|MDAS|MstRegion.RgnName|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid name|Name|
+111|MDAS|MstRegion.RgnName|Required|Y|Please enter name||
+112|MDAS|MstRegion.RgnZnID|Required|Y|Please select zone||
+113|MDAS|MstTariff.trfid|Required|Y|Please enter code||
+114|MDAS|MstTariff.trfid|MinLength|4|Min length is 4||
+115|MDAS|MstTariff.trfid|MaxLength|10|Max length is 10||
+116|MDAS|MstTariff.trfid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+117|MDAS|MstTariff.trfid|Padded|Y|||
+118|MDAS|MstTariff.trftouid|Required|Y|Please select TOU code||
+119|MDAS|MstTariff.trftouslotid|Required|Y|Please select TOU slot||
+120|MDAS|MstTOU.touconsumercatid|Required|Y|Please select consumer category||
+121|MDAS|MstTOU.touid|Required|Y|Please enter code||
+122|MDAS|MstTOU.touid|MinLength|3|Min length is 3||
+123|MDAS|MstTOU.touid|MaxLength|10|Max length is 10||
+124|MDAS|MstTOU.touid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+125|MDAS|MstTOU.touid|Padded|Y|||
+126|MDAS|MstTOU.toumaxslots|Required|Y|Please enter max slots||
+127|MDAS|MstTOU.toumaxslots|MinLength|1|Min length is 1||
+128|MDAS|MstTOU.toumaxslots|MaxLength|1|Max length is 1||
+129|MDAS|MstTOU.toumaxslots|DataType|^[1-8]{1}$|Invalid slot|Slot|
+130|MDAS|MstConsumerClass.cclassid|MinLength|5|Min length is 5||
+131|MDAS|MstConsumerClass.cclassid|MaxLength|10|Max length is 10||
+132|MDAS|MstConsumerClass.cclassid|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+133|MDAS|MstConsumerClass.cclassid|Required|Y|Please enter code||
+134|MDAS|MstConsumerClass.cclassid|Padded|Y|||
+135|MDAS|MstConsumerClass.cclassconsumergroup|Required|Y|Please select consumer group||
+136|MDAS|MstConsumerClass.cclassconsumergroup|MinLength|0|||
+137|MDAS|MstConsumerClass.cclassconsumergroup|MaxLength|300|||
+138|MDAS|MstTOU.touconsumercatid|MaxLength|300|||
+139|MDAS|MstTOU.touconsumercatid|MinLength|0|||
+140|MDAS|MstTariff.trftouid|MinLength|0|||
+141|MDAS|MstTariff.trftouid|MaxLength|300|||
+142|MDAS|MstTariff.trftouslotid|MaxLength|300|||
+143|MDAS|MstTariff.trftouslotid|MinLength|0|||
+144|MDAS|MstDivision.divrgnid|MinLength|0|||
+145|MDAS|MstDivision.divrgnid|MaxLength|300|||
+146|MDAS|MstRegion.RgnZnID|MaxLength|300|||
+147|MDAS|MstRegion.RgnZnID|MinLength|0|||
+148|MDAS|MstZone.znutilityid|MinLength|0|||
+149|MDAS|MstZone.znutilityid|MaxLength|300|||
+150|MDAS|MstSubstation.ssdivid|MaxLength|300|||
+151|MDAS|MstSubstation.ssdivid|MinLength|0|||
+152|MDAS|MstSubstation.ssdivid|Required|Y|Please select division||
+153|MDAS|MstUser.usremployeeid|MinLength|0|||
+154|MDAS|MstUser.usremployeeid|MaxLength|300|||
+155|MDAS|MstUser.usrroleid|MaxLength|300|||
+156|MDAS|MstUser.usrroleid|MinLength|0|||
+157|MDAS|MstEmployee.empzoneid|MinLength|0|||
+158|MDAS|MstEmployee.empzoneid|MaxLength|300|||
+159|MDAS|MstEmployee.emprgnid|MaxLength|300|||
+160|MDAS|MstEmployee.emprgnid|MinLength|0|||
+161|MDAS|MstEmployee.empdivid|MinLength|0|||
+162|MDAS|MstEmployee.empdivid|MaxLength|300|||
+163|MDAS|MstEmployee.empsubstnid|MaxLength|300|||
+164|MDAS|MstEmployee.empsubstnid|MinLength|0|||
+272|MDAS|MstSubstation.ssid|Padded|Y|||
+273|Global|DatabaseDate|Format|YYYY-MM-DDTHH:mm:ss|\ |\ |
+274|Global|DateTimeField|Format|DD/MM/YY HH:mm|\ ||
+170|MDAS|MstDtr.dtrid|Required|Y|Please enter Id|\ |
+171|MDAS|MstDtr.dtrname|Required|Y|Please enter name|\ |
+172|MDAS|MstDtr.dtrfeederid|Required|Y|Please Select feeder|\ |
+173|MDAS|MstDtr.dtrfeederid|MaxLength|300|\ |\ |
+174|MDAS|MstDtr.dtrfeederid|MinLength|0|\ |\ |
+175|MDAS|mstdtr.dtrid|DataType|^[A-z0-9]+$|Please enter valid id|Alphanumeric|
+176|MDAS|mstdtr.dtrname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Please enter valid name|Name|
+177|MDAS|mstdtr.dtrphase|DataType|^[0-9]+$|Please enter valid number|Number|
+178|MDAS|MstConsumer.csmrmasterid|Required|Y|Please enter Id|\ |
+179|MDAS|MstConsumer.csmrfirstname|Required|Y|Please first name|\ |
+180|MDAS|MstConsumer.csmrbillingunitid|Required|Y|Please select billing unit|\ |
+181|MDAS|MstConsumer.csmrbillingunitid|MaxLength|300|\ |\ |
+182|MDAS|MstConsumer.csmrbillingunitid|MinLength|0|\ |\ |
+183|MDAS|MstConsumer.csmrclassid|Required|Y|Please select class|\ |
+184|MDAS|MstConsumer.csmrclassid|MaxLength|300|\ |\ |
+185|MDAS|MstConsumer.csmrclassid|MinLength|0|\ |\ |
+186|MDAS|MstConsumer.csmrcategoryid|Required|Y|Please select category|\ |
+187|MDAS|MstConsumer.csmrcategoryid|MaxLength|300|\ |\ |
+188|MDAS|MstConsumer.csmrcategoryid|MinLength|0|\ |\ |
+189|MDAS|MstConsumer.csmruserid|Required|Y|Please enter user|\ |
+190|MDAS|MstConsumer.csmruserid|MaxLength|300|\ |\ |
+191|MDAS|MstConsumer.csmruserid|MinLength|0|\ |\ |
+192|MDAS|MstConsumer.csmrmasterid|DataType|^[A-z0-9]+$|Please enter valid id|Alphanumeric|
+193|MDAS|MstConsumer.csmrfirstname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Please enter valid name|Name|
+194|MDAS|MstConsumer.csmrmiddlename|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Please enter valid name|Name|
+195|MDAS|MstConsumer.csmrlastname|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Please enter valid name|Name|
+196|MDAS|MstConsumer.csmrlandline|DataType|^\\+?\\d{1,3}-\\d{1,8}-\\d{10}|Please enter valid phone no|Phone|
+197|MDAS|MstConsumer.csmremailid|DataType|^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$|Please enter valid email id|Email|
+198|MDAS|mstdcu.dcuid|Required|Y|Please enter id|\ |
+199|MDAS|mstfeeder.fdrid|Required|Y|Please enter id|\ |
+200|MDAS|mstfeeder.fdrsubstnid|Required|Y|Please select substation|\ |
+201|MDAS|mstfeeder.fdrid|DataType|^[A-z0-9]+$|Please enter valid id|Alphanumeric|
+202|MDAS|mstmeter.mtrno|Required|Y|Please enter meter no|\ |
+203|MDAS|mstmeter.mtrdtrid|Required|Y|Please select dtr|\ |
+204|MDAS|mstmeter.mtrdtrid|MaxLength|300|\ |\ |
+205|MDAS|mstmeter.mtrdtrid|MinLength|0|\ |\ |
+206|MDAS|mstmeter.mtrdcuid|Required|Y|Please select dcu|\ |
+207|MDAS|mstmeter.mtrdcuid|MaxLength|300|\ |\ |
+208|MDAS|mstmeter.mtrdcuid|MinLength|0|\ |\ |
+209|MDAS|mstmeter.mtrtypeid|Required|Y|Please select meter type|\ |
+210|MDAS|mstmeter.mtrtypeid|MaxLength|300|\ |\ |
+211|MDAS|mstmeter.mtrtypeid|MinLength|0|\ |\ |
+212|MDAS|mstmeter.mtrno|DataType|^[A-z0-9]+$|Please enter valid meter no|Alphanumeric|
+213|MDAS|mstmetertype.mtypid|DataType|^[A-z0-9]+$|Please enter valid id|Alphanumeric|
+214|MDAS|MstRole.RolID|MinLength|4|Min Length is 4||
+215|MDAS|MstRole.RolID|MaxLength|10|Max Length is 10||
+216|MDAS|MstRole.RolID|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+217|MDAS|MstRole.RolID|Required|Y|Please enter code||
+218|MDAS|MstRole.RolID|Padded|Y|\ ||
+219|MDAS|MstRole.RolName|MaxLength|10|Max length is 10||
+220|MDAS|MstRole.RolName|MinLength|5|Min length is 5||
+221|MDAS|MstRole.RolName|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid name|Name|
+222|MDAS|MstRole.RolName|Required|Y|Please enter name||
+223|MDAS|MstRole.RolDescription|MinLength|1|Min length is 1||
+224|MDAS|MstRole.RolDescription|MaxLength|25|Max length is 25||
+225|MDAS|MstRole.RolDescription|DataType|\ |\ ||
+226|MDAS|MstRole.RolDescription|Required|Y|Please enter description||
+227|MDAS|MstMenu.MnuID|MinLength|4|Min Length is 4||
+228|MDAS|MstMenu.MnuID|MaxLength|10|Max Length is 10||
+229|MDAS|MstMenu.MnuID|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+230|MDAS|MstMenu.MnuID|Required|Y|Please enter code||
+231|MDAS|MstMenu.MnuID|Padded|Y|\ ||
+232|MDAS|MstMenu.MNUITEMNAME|MaxLength|10|Max length is 10||
+233|MDAS|MstMenu.MNUITEMNAME|MinLength|5|Min length is 5||
+234|MDAS|MstMenu.MNUITEMNAME|DataType|^[A-z]+[0-9,',\\-,\\\\,.]*$|Invalid name|Name|
+235|MDAS|MstMenu.MNUITEMNAME|Required|Y|Please enter name||
+236|MDAS|MstMenu.MnuItemPosition|MinLength|1|Min length is 5||
+237|MDAS|MstMenu.MnuItemPosition|MaxLength|10|Max length is 10||
+238|MDAS|MstMenu.MnuItemPosition|DataType|\ |\ ||
+239|MDAS|MstMenu.MnuItemPosition|Required|Y|Please enter Position||
+240|MDAS|MstConsumerCategory.CcatID|MinLength|4|Min Length is 4||
+241|MDAS|MstConsumerCategory.CcatID|MaxLength|10|Max Length is 10||
+242|MDAS|MstConsumerCategory.CcatID|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+243|MDAS|MstConsumerCategory.CcatID|Required|Y|Please enter code||
+244|MDAS|MstConsumerCategory.CcatID|Padded|Y|\ ||
+245|MDAS|MstConsumerCategory.CcatDescription|MaxLength|10|Max length is 10||
+246|MDAS|MstConsumerCategory.CcatDescription|MinLength|5|Min length is 5||
+247|MDAS|MstConsumerCategory.CcatDescription|DataType||Invalid desc||
+248|MDAS|MstConsumerCategory.CcatDescription|Required|Y|Please enter description||
+249|MDAS|MstConsumerCategory.CcTariffID|Required|Y|Please select Tariff code||
+250|MDAS|MstConsumerCategory.CcTariffID|MaxLength|400|Max length is 400||
+251|MDAS|MstConsumerCategory.CcTariffID|MinLength|0|Min length is 0||
+252|MDAS|MstConsumerMeterRelation.CMRConsumerID|MinLength|4|Min Length is 4||
+253|MDAS|MstConsumerMeterRelation.CMRConsumerID|MaxLength|10|Max Length is 10||
+254|MDAS|MstConsumerMeterRelation.CMRConsumerID|DataType|^[A-z0-9]+$|Invalid code|Alphanumeric|
+255|MDAS|MstConsumerMeterRelation.CMRConsumerID|Required|Y|Please enter code||
+256|MDAS|MstConsumerMeterRelation.CMRConsumerID|Padded|Y|\ ||
+257|MDAS|MstConsumerMeterRelation.CMRConsumerMasterID|Required|Y|Please select Consumer Code||
+258|MDAS|MstConsumerMeterRelation.CMRConsumerMasterID|MaxLength|400|Max length is 400||
+259|MDAS|MstConsumerMeterRelation.CMRConsumerMasterID|MinLength|0|Min length is 0||
+260|MDAS|MstConsumerMeterRelation.CMRMETERID|Required|Y|Please select Meter Code||
+261|MDAS|MstConsumerMeterRelation.CMRMETERID|MaxLength|400|Max length is 400||
+262|MDAS|MstConsumerMeterRelation.CMRMETERID|MinLength|0|Min length is 0||
+263|MDAS|MstConsumerMeterRelation.CMRRELATIONSHIPSTARTDATE|Required|Y|Please select start date||
+264|MDAS|MstConsumerMeterRelation.CMRRELATIONSHIPENDDATE|Required|Y|Please select end date||
+265|MDAS|MstConsumerMeterRelation.CMRSERVICESTARTDATE|Required|Y|Please select start date||
+266|MDAS|MstConsumerMeterRelation.CMRSERVICEENDDATE|Required|Y|Please select end date||
+267|MDAS|MstTouCalendar.TCTouID|Required|Y|Please select code||
+268|MDAS|MstTouCalendar.TCTouID|MaxLength|400|Max length is 400||
+269|MDAS|MstTouCalendar.TCTouID|MinLength|0|Min length is 0||
+270|Global|ServerDate|Format|mm/dd/yy|Date format is dd/mm/yyyy|\ |
+280|MDAS|MstConsumerMeterRelation.cmrrelationshipenddate|MESSAGE||End date should  be greater than start date||
+281|MDAS|MstConsumerMeterRelation.cmrserviceenddate|MESSAGE||End date should  be greater than start date||
+282|Global|Phase|Phase|Single|\ |\ |
+283|Company|1|CMS DEV|myHtml.txt^InvoiceTableStyle.txt^InvoiceTableGuide.txt|Verdana|~/Content/images/northwindlogo.gif|
+284|CommunicationType|CommunicationType|1|TCP|\ |\ |
+285|CommunicationType|CommunicationType|2|Serial|\ |\ |
+286|Global|CurrentDateTimeField|Format|Do MMM YYYY \| h:mm:ss A zz|||
+287|GroupDisplay|Parameter|VRN|vrn-loadsurveylogs|||
+288|GroupDisplay|Parameter|PF|pf-loadsurveylogs|||
+289|HistoryData|Parameter|Kwh Exp|Kwh_exp|||
+290|HistoryData|Parameter|kwh imp|kwh_imp|||
+291|HistoryData|Parameter|kvarh lag imp|kvarh_lag_imp|||
+292|HistoryData|Parameter|kvarh lead exp|kvarh_lead_exp|||
+293|HistoryData|Parameter|kvarh lead imp|kvarh_lead_imp|||
+294|HistoryData|Parameter|kvah imp|kvah_imp|||
+295|HistoryData|Parameter|kvah exp|kvah_exp|||
+296|HistoryData|Parameter|avg hz|avg_hz|||
+297|HistoryData|Parameter|avg mw|avg_mw|||
+298|HistoryData|Parameter|i r|ir|||
+299|HistoryData|Parameter|i y|iy|||
+300|HistoryData|Parameter|i b|ib|||
+301|Global|Single|Single|Three|||
+302|HistoryData|Parameter|v rn|vrn|||
+303|HistoryData|Parameter|v ry|vry|||
+304|HistoryData|Parameter|v yb|vyb|||
+305|Global|Phase|Phase|Three|\ |\ |
+306|MDAS|MstTariff.trfschemename|Required|Y|Please Enter Tariff Scheme Name||
+307|RepoterQueryList|Parameter|kwh_imp_read|kwh_imp-evt_kwh_imp_read|\ |\ |
+308|RepoterQueryList|Parameter|kwh_imp_con|kwh_imp-evt_kwh_imp_con|\ |\ |
+309|RepoterQueryList|Parameter|kwh_exp_read|kwh_exp-evt_kwh_exp_read|\ |\ |
+310|RepoterQueryList|Parameter|kwh_exp_con|kwh_exp-evt_kwh_exp_con|\ |\ |
+311|ConsumptionType|ConsumptionType|Kwh_Imp|Kwh_Imp|\ |\ |
+312|ConsumptionType|ConsumptionType|Kwh_Exp|Kwh_Exp|\ |\ |
+313|GroupDisplay|Parameter|I|i-loadsurveylogs|\ |\ |
+314|GroupDisplay|Parameter|IR|ir-loadsurveylogs|\ |\ |
+315|GroupDisplay|Parameter|IB|ib-loadsurveylogs|\ |\ |
+316|GroupDisplay|Parameter|IY|iy-loadsurveylogs|\ |\ |
+317|GroupDisplay|Parameter|KW|kw-loadsurveylogs|\ |\ |
+318|GroupDisplay|Parameter|KVA|kva-loadsurveylogs|\ |\ |
+319|GroupDisplay|Parameter|HZ|hz-loadsurveylogs|\ |\ |
+320|GroupDisplay|Parameter|VBN|vbn-loadsurveylogs|\ |\ |
+321|GroupDisplay|Parameter|VLN|vln-loadsurveylogs|\ |\ |
+322|GroupDisplay|Parameter|VLL|vll-loadsurveylogs|\ |\ |
+323|GroupDisplay|Parameter|VYN|vyn-loadsurveylogs|\ |\ |
+324|RepoterQueryList|Parameter|VRN|vrn-evt_vrn_read|\ |\ |
+325|Energy Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+326|Volt Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+327|Block Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+328|Power Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+329|Pf Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+330|Frequency Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+331|Time Scale|Scaling|Time Scale|Time Scale|\ |\ |
+332|Current Scale|Scaling|Energy Scale|Energy Scale|\ |\ |
+333|RepoterQueryList|Parameter|VYN|vyn-evt_vyn_read|\ |\ |
+334|RepoterQueryList|Parameter|VBN|vbn-evt_vbn_read|\ |\ |
+335|RepoterQueryList|Parameter|kVA_Max_Demand|kVA_Max_Demand-evt_kVA_Max_Demand_read|\ |\ |
+336|RepoterQueryList|Parameter|I|i-evt_i_read|\ |\ |
+337|RepoterQueryList|Parameter|VLN|vln-evt_vln_read|\ |\ |
+338|RepoterQueryList|Parameter|kw|kw-evt_kw_read|\ |\ |
+339|RepoterQueryList|Parameter|PF|pf-evt_pf_read|\ |\ |
+340|Block Energy Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+341|Block Volt Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+342|Block Block Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+343|Block Power Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+344|Block Pf Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+345|Block Frequency Scale|Scaling|Block Energy Scale|Block Energy Scale|\ |\ |
+346|Block Time Scale|Scaling|Block Time Scale|Block Time Scale|\ |\ |
+347|RepoterQueryList|Parameter|kVAh_exp_read|kVAh_exp-evt_kVAh_exp_read|\ |\ |
+348|RepoterQueryList|Parameter|kVAh_exp_con|kVAh_exp-evt_kVAh_exp_con|\ |\ |
+349|Current ScaleRPH|Scaling|Current ScaleRPH|Current ScaleRPH|\ |\ |
+350|Global|REPORT_DISPLAY|Format|dd/MM/yyyy HH:mm:ss|\ |\ |
+351|dcsgStage|Parameter|Stage 2|1|\ |\ |
+352|dcsgStage|Parameter|Stage 2|2|\ |\ |
+353|dcsgStage|Parameter|Stage 2|3|\ |\ |
+356|GroupDisplay|Parameter|l_kwh_exp|kwh_exp-LoadsurveyExport|||
+357|GroupDisplay|Parameter|Cum_kwh_exp|cum_kwh-LoadsurveyExport|||

@@ -1,0 +1,303 @@
+﻿@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var MeterList = "";
+            var resp;
+            var str = "";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: "@Url.Action("GetGlobalValuesLocation", "summary")",
+                dataType: "json",
+                async: false,
+                success: function (result, status, jqXHR) {
+                    //debugger;
+                    resp = result;
+                    if (result != null) {
+                        var Arr = new Array();
+                        for (var i in result) {
+                            Arr[i] = result[i].prmvalue;
+                        }
+                        MeterList = Arr.toString();
+                        for (var i in resp) {
+                            if (i % 2 == 0) {
+                                str += "<div class='row' style='background-color:black;'>";
+                                str += "<div class='col-md-6 pull-left'>";
+                            }
+                            else if (i % 2 == 1) {
+                                str += "  <div class='col-md-6 pull-right'>";
+                            }
+                            if (parseInt(resp[i].prmvalue) == 1) {
+                                locationName = "GEPL";
+                            }
+                            else {
+                                locationName = "MBPL";
+                            }
+                            str += "<table id='tblDesign' class='column-options'>";
+                            str += "<tr>";
+                            str += "<th colspan='2'><h2 class='text-center'>" + locationName + "</h2></th>";
+                            str += "</tr>";
+                            str += "<tr>";
+                            str += "<td style=' font-size: 20px;font-weight: bold;'>Block No</td>";
+                            str += "<td><input type='text' id='" + locationName + "blockno' value='0'style='width:90px; margin:0 auto;font-size: 20px;font-weight: bold;text-align: center !important;' class='form-control'></td>";
+                            str += "</tr>";
+                            str += "<tr>";
+                            str += "<td style=' font-size: 20px;font-weight: bold;'>SCH Drawl (MW)</td>";
+                            str += "<td><input type='text' id='" + locationName + "schDrawl' value='0'style='width:90px; margin:0 auto;color:blue;font-size: 20px;font-weight: bold;text-align: center !important;' class='form-control'></td>";
+                            str += "</tr>";
+                            str += "<tr class='odd'>";
+                            str += "<td style=' font-size: 20px;font-weight: bold;'>Actual Drawl (MW)</td>";
+                            str += "<td><input type='text' id='" + locationName + "actualDrawl' value='0'style='width:90px; margin:0 auto;color:green;font-size: 20px;font-weight: bold;text-align: center !important;' class='form-control'></td>";
+                            str += "</tr>";
+                            str += "<tr>";
+                            str += "<td style=' font-size: 20px;font-weight: bold;'>Deviation (MW)</td>";
+                            str += "<td><input type='text' id='" + locationName + "deviation' value='0'style='width:90px; margin:0 auto;color:maroon;font-size: 20px;font-weight: bold;text-align: center !important;' class='form-control'></td>";
+                            str += "</tr>";
+                           // str += "<tr class='odd'>";
+                            //str += "<td>Deviation (MWH)</td>";
+                            //str += "<td><input type='text' id='" + locationName + "deviationMWH' value='0'style='width:80px; margin:0 auto;' class='form-control'></td>";
+                           // str += "</tr>";
+                            str += "</table></div>";
+                            if (i % 2 == 1) {
+                                str += " </div>";
+                            }
+                        }
+                        $("#AppendTable").html(str);
+                    }
+                }
+            });
+            LoadDashboardData(MeterList, resp);
+            setInterval(function () { LoadDashboardData(MeterList, resp); }, 10000);
+
+
+        });
+
+        function LoadDashboardData(MeterList, resp) {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "LocationWiseDashboard/Get/" + MeterList,
+                dataType: "json",
+                success: function (data, status, jqXHR) {
+                    //debugger;
+                    var str = "";
+                    var locationName = "";
+                    if (data != null) {
+                        for (var i in resp) {
+                            if (i < data.length) {
+                                var CurrentDateNow = new Date();
+                                //var y = CurrentDateNow.getFullYear();
+                                //var m = CurrentDateNow.getMonth();
+                                //var dater = CurrentDateNow.getDate();
+                                //var stringData = data[i].tstamp.split(" ");
+                                //var s = stringData[1].split(":");
+                                //var h = s[0];
+                                //var min = s[1];
+                                var prevTime = new Date(data[i].tstamp);
+                                //var diff = prevTime - CurrentDateNow;
+                                var nextTime = new Date(prevTime - (15 * 60000));
+                                //nextTime = nextTime.setMinutes(nextTime.getMinutes + 15);
+                                //var s1 = stringData[0].split(":");
+                                //var h1 = s1[0];
+                                //var min1 = s1[1];
+                                //var prevTime1 = new Date(y, m, dater, h1, min1, 0, 0);
+                                var prevTime1 = nextTime;
+                                var diff1 = CurrentDateNow - prevTime1;
+                                console.log(CurrentDateNow);
+                                console.log(prevTime1);
+                                console.log(diff1);
+                                //var secondx = parseInt((diff / 1000) % 60);
+                                //var minutes = parseInt((diff / (1000 * 60)) % 60);
+                                //var secondx1 = parseInt((diff1 / 1000) % 60);
+                                //var minutes1 = parseInt((diff1 / (1000 * 60)) % 60);
+                                if (i % 2 == 0) {
+                                    str += "<div class='row'>";
+                                    str += "<div class='col-md-5 pull-left'>";
+                                }
+                                else if (i % 2 == 1) {
+                                    str += "  <div class='col-md-5 pull-right'>";
+                                }
+                                if (parseInt(resp[i].prmvalue) == 1) {
+                                    locationName = "GEPL";
+                                }
+                                else {
+                                    locationName = "MBPL";
+                                }
+                                if (data[i].stage_id == "2") {
+                                    locationName = "GEPL";
+                                }
+                                if (data[i].stage_id == "1") {
+                                    locationName = "MBPL";
+                                }
+                                var blockno = (parseFloat(data[i].blockno)).toFixed(0);
+                                var schDrawl = (parseFloat(data[i].sgvalue)).toFixed(2);
+                                var actualDrawl = (parseFloat(data[i].avg_mw)).toFixed(3);
+                                var deviation = (parseFloat(data[i].avg_mw) - parseFloat(data[i].sgvalue)).toFixed(3);
+                                var deviationMWH = ((parseFloat(data[i].avg_mw) - parseFloat(data[i].sgvalue)) * ((diff1 / 1000) / 3600)).toFixed(2);
+                                $("#" + locationName + "blockno").val(blockno);
+                                $("#" + locationName + "schDrawl").val(schDrawl);
+                                $("#" + locationName + "actualDrawl").val(actualDrawl);
+                                $("#" + locationName + "deviation").val(deviation);
+                                //$("#" + locationName + "deviationMWH").val(deviationMWH);
+                                //str += "<table id='tblDesign' class='column-options'>";
+                                //str += "<tr>";
+                                //str += "<th colspan='2'><h3 class='text-center'>" + locationName + "</h3></th>";
+                                //str += "</tr>";
+                                //str += "<tr>";
+                                //str += "<td>Block No</td>";
+                                //str += "<td><input type='text' value='" + (parseFloat(data[i].blockno)).toFixed(0) + "'style='width:80px; margin:0 auto;font-size: 20px;font-weight: bold;' class='form-control'></td>";
+                                //str += "</tr>";
+                                //str += "<tr>";
+                                //str += "<td>SCH Drawl (MW)</td>";
+                                //str += "<td><input type='text' value='" + (parseFloat(data[i].sgvalue)).toFixed(2) + "'style='width:80px; margin:0 auto;font-size: 20px;font-weight: bold;color:blue;' class='form-control'></td>";
+                                //str += "</tr>";
+                                //str += "<tr class='odd'>";
+                                //str += "<td>Actual Drawl (MW)</td>";
+                                //str += "<td><input type='text' value='" + (parseFloat(data[i].avg_mw)).toFixed(2) + "'style='width:80px; margin:0 auto;font-size: 20px;font-weight: bold;color:green;' class='form-control'></td>";
+                                //str += "</tr>";
+                                //str += "<tr>";
+                                //str += "<td>Deviation (MW)</td>";
+                                //str += "<td><input type='text' value='" + (parseFloat(data[i].avg_mw) - parseFloat(data[i].sgvalue)).toFixed(2) + "'style='width:80px; margin:0 auto;font-size: 20px;font-weight: bold;color:maroon;' class='form-control'></td>";
+                                //str += "</tr>";
+                                //str += "<tr class='odd'>";
+                                //str += "<td>Deviation (MWH)</td>";
+                                //str += "<td><input type='text' value='" + ((parseFloat(data[i].avg_mw) - parseFloat(data[i].sgvalue))*((diff1/1000)/3600)).toFixed(2) + "'style='width:80px; margin:0 auto;' class='form-control'></td>";
+                                //str += "</tr>";
+                                //str += "</table></div>";
+                                //if (i % 2 == 1) {
+                                //    str += " </div>";
+                                //}
+                            }
+                            //$("#AppendTable").html(str);
+                        }
+                    }
+                    else {
+                        //alert('No Record Found', '', false, 'E');
+                    }
+                },
+                error: function (err) {
+                    console.log(err.message);
+                }
+            });
+        }
+
+    </script>
+    <style type="text/css">
+        #tblDesign {
+        }
+
+        .table-bordered {
+            border: 2px solid #808080;
+        }
+        /* column options example */
+
+        .column-options {
+            border-collapse: collapse;
+            border-bottom: 1px solid #d6d6d6;
+        }
+
+            .column-options th, .column-options td {
+                font-family: Helvetica, Arial, sans-serif;
+                font-weight: normal;
+                color: #434343;
+                background-color: #f7f7f7;
+                border-left: 1px solid #ffffff;
+                border-right: 1px solid #dcdcdc;
+            }
+
+            .column-options th {
+                font-weight: normal;
+                letter-spacing: 0.12em;
+                color: #fff;
+                background: #0cb08b !important;
+                padding: 6px 0px 4px 0px;
+                border-bottom: 1px solid #d6d6d6;
+            }
+
+                .column-options th h3 {
+                    margin-top: 0;
+                    margin-bottom: 2px;
+                    font-size: 20px;
+                }
+
+
+            .column-options td {
+                text-shadow: 1px 1px 0 #fff;
+                padding: 6px 10px;
+            }
+
+            .column-options .odd td {
+                background-color: #ededed;
+            }
+
+
+            .column-options th:first-child {
+                border-top-left-radius: 7px;
+                -moz-border-radius-topleft: 7px;
+            }
+
+            .column-options th:last-child {
+                border-top-right-radius: 7px;
+                -moz-border-radius-topright: 7px;
+            }
+
+            .column-options th:last-child, .column-options td:last-child {
+                border-right: 0px;
+            }
+
+            .column-options a.button {
+                font-size: 70%;
+                text-shadow: none;
+                text-decoration: none;
+                text-align: center;
+                text-shadow: -1px -1px 1px #72aebd;
+                text-transform: uppercase;
+                letter-spacing: 0.10em;
+                color: #fff;
+                padding: 7px 10px 4px 10px;
+                border-radius: 5px;
+                background-color: #00CC99;
+                border-top: 1px solid #90f2da;
+                border-right: 1px solid #00a97f;
+                border-bottom: 1px solid #008765;
+                border-left: 1px solid #7dd2bd;
+                box-shadow: 2px 1px 2px #ccc;
+                margin: 10px 5px 10px 5px;
+                display: block;
+            }
+
+                .column-options a.button:hover {
+                    position: relative;
+                    top: 1px;
+                    left: 1px;
+                    background-color: #00CCFF;
+                    border-top: 1px solid #9aebff;
+                    border-right: 1px solid #08acd5;
+                    border-bottom: 1px solid #07a1c8;
+                    border-left: 1px solid #92def1;
+                    box-shadow: -1px -1px 2px #ccc;
+                }
+    </style>
+</head>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box"><h3>Dashboard</h3></div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols">
+            </div>
+        </div>
+        <div class="panel-body" id="AppendTable">
+
+        </div>
+    </div>
+</body>
+</html>

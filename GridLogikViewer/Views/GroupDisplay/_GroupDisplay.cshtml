@@ -1,0 +1,541 @@
+﻿@model GridLogik.ViewModels.GroupDisplayViewModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(model => model.Groupid)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-light-blue">
+                <div class="panel-heading p5">
+                    <div class=" dashboard-panel-body-box">Group Data</div>
+                </div>
+                @*<label id="lblgroupname" style="display:none;">@Model.GroupName</label>
+            <label id="lblfromdate" style="display: none;">@Model.FromDate</label>*@
+                @*<label id="lblTodate" style="display: none;">@Model.ToDate</label>*@
+
+                <div class="panel-body" id="exportData">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="tableProfileLog">
+                            <thead>
+                                <tr>
+                                    <th class="tableth">
+                                        @Html.Label("Meter Name")
+                                    </th>
+                                    <th class="tableth">
+                                        @Html.Label("Date Time")
+                                    </th>
+                                    @foreach (var column in ViewBag.MeterParameters)
+                                    {
+                                        <th class="tableth">
+                                            @column.ToUpper()
+                                        </th>
+                                    }
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var column in ViewBag.groupdisplay)
+                                {
+                                    <tr>
+                                        @foreach (var item in column.ItemArray)
+                                        {
+                                            <td>
+                                                @item.ToString()
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+
+
+                        <div class="colorstrip">
+                            @Html.Label("Sum :")
+                            @Html.Label("Sum", new { id = "Sum" })
+                            @Html.Label("Avg :")
+                            @Html.Label("Avg", new { id = "average" })
+                            @Html.Label("Min :")
+                            @Html.Label("Min", new { id = "Minimum" })
+                            @Html.Label("Max :")
+                            @Html.Label("Max", new { id = "Maximum" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}
+
+
+<div id="chart_dialog">
+    <div id="chart_container" style="width:100%; clear:both; max-width:1247px;"></div>
+</div>
+@using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export1" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <button class="btn btn-success btn-sm" id="btnExport" type="button"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+    <button class="btn btn-info btn-sm" type="button" id="graph" style="display:none"><i class="fa fa-bar-chart-o"></i> Graph</button>
+}
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+    table.dataTable tbody th, table.dataTable tbody td {
+        white-space: nowrap;
+    }
+    div.DTFC_LeftBodyLiner {
+        overflow-y: hidden;
+    }
+</style>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+ 
+<script src="~/Scripts/dataTables.fixedColumns.min.js"></script>
+
+<script type="text/javascript">
+    var datatext = "";
+    var exportContent = $('div[id$=exportData]').html();
+    $(document).ready(function () {
+        $("#btnExport").on("click", function () {
+            var currentdate = new Date()
+            var month = currentdate.getMonth() + 1
+            //var d = currentdate.getDate() + "-" + month + "-" + currentdate.getFullYear();
+            var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+            $(datatext).table2excel({
+                exclude: ".noExl",
+                name: "Group Display Data",
+                filename: "Group_Display_" + localdate,
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
+
+
+
+        datatext = $("#exportData").html();
+        var timeslot_distribution_report_table=  $("#tableProfileLog").dataTable(
+                           {
+                               pageLength: 10,
+                               scrollX: true,
+                               scrollY: true,
+                                 "drawCallback": function( settings ) {
+                                     
+                                     if ($('.DTFC_LeftBodyLiner').length > 0) {
+                                         $('.DTFC_LeftBodyLiner').scrollTop(500);
+                                         $('.DTFC_LeftBodyLiner').css('margin-top', "-7px")
+                                     }
+                                     
+        }
+                           });
+
+
+       
+
+        new $.fn.dataTable.FixedColumns(timeslot_distribution_report_table, {
+            leftColumns: 2,
+            rightColumns: 0
+        } );     
+
+
+
+
+        $('.DTFC_LeftBodyLiner').scrollTop($('.DTFC_LeftBodyLiner')[0].scrollHeight);
+        var lastScrollLeft = 0;
+        $('.dataTables_scrollBody').scroll(function () {
+            $('.DTFC_LeftBodyLiner').scrollTop($('.DTFC_LeftBodyLiner')[0].scrollHeight);
+        });
+
+        $('.DTFC_LeftBodyLiner').css({           
+            overflowY: 'hidden'
+        });
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 650,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+
+            },
+        });
+        //new code multiple graph
+        var valueArr = [];
+        var dateArr = [];
+        var columnHeader = [];
+        var index = [];
+        var sortedData = [];
+        $(document).mousedown(function () {
+            $("#tableProfileLog td").removeClass("highlighted");
+            $("#average").text('Avg');
+            $('#Maximum').text('Max');
+            $('#Minimum').text('Min');
+            $("#Sum").text('Sum');
+            seriesArr = [];
+            valueArr = [];
+            dateArr = [];
+            columnHeader = [];
+            index = [];
+        });
+        var isMouseDown = false, isHighlighted;
+        var a = 0;
+        var current = 0;
+        var previous = 0;
+        var counter = 1;
+        $(document).on('mousedown', '#tableProfileLog td', function () {
+            $("#tableProfileLog td").removeClass("highlighted");
+            isMouseDown = true;
+            if (currentIndex != 0)
+                $(this).addClass("highlighted");
+            if (currentIndex != 0) {
+                if (!isNaN(Number($(this).text()))) {
+                    index.push($(this).index());
+                    //var data = { name: $(this).index(), data: valueArr }
+                    sortedData[$(this).index()] = valueArr;
+                    a = Number(a) + Number($(this).text());
+                    $('#Minimum,#Maximum,#Sum,#average').text(a);
+                    var $th = $(this).closest('table').find('th').eq($(this).index());
+                    columnHeader.push($th[0].textContent.trim());
+                    valueArr.push($th[0].textContent.trim() + '_' + Number($(this).text()));
+                    var date = $(this).closest("tr").find("td:nth-child(1)").text()
+                    dateArr.push(date);
+                }
+            }
+            isHighlighted = $(this).hasClass("highlighted");
+            return false; // prevent text selection
+        }).on('mouseover', '#tableProfileLog td', function () {
+            currentIndex = $(this).index();
+            if (isMouseDown) {
+                if (!$(this).hasClass("highlighted") && currentIndex != 0) {
+
+                    if (!isNaN(Number($(this).text()))) {
+                        if ($.inArray($(this).index(), index) != 0) {
+                            index.push($(this).index());
+                        }
+                        var date1 = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArr.push(date1);
+
+                        sortedData[$(this).index()] = valueArr;
+                        a = Number(a) + Number($(this).text());
+                        var $th = $(this).closest('table').find('th').eq($(this).index());
+                        columnHeader.push($th[0].textContent.trim());
+                        valueArr.push($th[0].textContent.trim() + '_' + Number($(this).text()));
+                        if (Number($('#Minimum').text()) < Number($(this).text())) {
+                            if (Number($('#Maximum').text()) < Number($(this).text())) {
+                                $('#Maximum').text(Number($(this).text()));
+                            }
+                        }
+                        else {
+                            $('#Minimum').text(Number($(this).text()));
+                        }
+                    }
+                    else {
+                        valueArr.push(Number(0));
+                        var date1 = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArr.push(date1);
+                    }
+                    counter = counter + 1;
+                    //alert(counter);
+                    $("#Sum").text(Number(a).toFixed(2));
+                    $("#average").text((a / counter).toFixed(2));
+                }
+                if (currentIndex != 0)
+                    $(this).toggleClass("highlighted", isHighlighted);
+            }
+        });
+
+        $(document)
+          .mouseup(function () {
+              isMouseDown = false;
+              a = 0;
+              counter = 1;
+              index = [];
+          });
+        //end new code
+
+        $('#tableProfileLog thead th').each(function (index) {
+            $(this).click(function () {
+                SelectColumn(index, 'tableProfileLog');
+            });
+        });
+        //new code grp click
+        var seriesArr = [];
+        var addedHeaders = [];
+        $("#graph").mousedown(function () {
+            var valuesArrs = [];
+            var SelcolDates = [];
+            var columnList = [];
+            var SelcolumnList = [];
+            var tblname = "#tableProfileLog";
+            var TableRow = $('table' + tblname).find('tbody').find('tr');
+            $(tblname + ' thead th').each(function (index) {
+                columnList.push($(this).text().trim());
+            });
+            for (var i = 0; i < TableRow.length; i++) {
+                var Tdcount = 0;
+                for (var j = 0; j < TableRow[i].cells.length; j++) {
+                    var subtd = TableRow[i].cells[j].className;
+                    if (subtd.includes("highlighted")) {
+                        var colName = columnList[j];
+                        SelcolumnList.push(colName);
+                        var Vl = TableRow[i].cells[j].innerText;
+                        valuesArrs.push(colName + "$" + Vl);
+                        if (Tdcount == 0) {
+                            var dat = TableRow[i].cells[1].innerText;
+                            SelcolDates.push(dat);
+                        }
+                        Tdcount++;
+                    }
+                }
+            }
+            var values = [];
+            $.each(valuesArrs, function (key, value) {
+                if (value != 0) {
+                    var dataArray = value.split("$");
+                    var seriesOptions2 = [];
+                    seriesOptions2.push(dataArray[dataArray.length - 1]);
+                    if (values.length > 0) {
+                        $.each(values, function (key1, value1) {
+                            if ((values[key1].name != dataArray[0]) && ($.inArray(dataArray[0], addedHeaders) == -1)) {
+                                var series = { name: dataArray[0], data: seriesOptions2 }
+                                values.push(series);
+                                addedHeaders.push(dataArray[0]);
+                            }
+                            else if (values[key1].name == dataArray[0]) {
+                                values[key1].data.push(dataArray[dataArray.length - 1]);
+                            }
+                        });
+                    }
+                    else {
+                        var series = { name: dataArray[0], data: seriesOptions2 }
+                        values.push(series);
+                    }
+                }
+            });
+
+            addedHeaders = [];
+            var uniquecolumnHeader = SelcolumnList.filter(function (itm, i, SelcolumnList) {
+                return i == SelcolumnList.indexOf(itm);
+            });
+            if (uniquecolumnHeader.length > 0) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                for (var ser = 0; ser < uniquecolumnHeader.length; ser++) {
+                    var seriesOptions2 = values[ser].data.map(Number);    ////convert String Array into Number Array
+                    var dataArr = [];
+                    for (var hdr = 0; hdr < seriesOptions2.length; hdr++) {
+                        var dts = ConvertYYYYMMDDHHmmss(SelcolDates[hdr]);
+                        var data = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), seriesOptions2[hdr]];
+                        dataArr.push(data);
+                    }
+                    var series = { name: uniquecolumnHeader[ser], data: dataArr }; //Create Series Array with name and data property
+                    seriesArr.push(series);
+                }
+                //var GroupName = $('#lblgroupname').text();
+                //var FromDate = $('#lblfromdate').text();
+                //var ToDate = $('#lblTodate').text();
+                lineChart(SelcolDates, seriesArr);
+                seriesArr = [];
+                valueArr = [];
+                index = [];
+                valuesArrs = [];
+                SelcolDates = [];
+                columnList = [];
+                SelcolumnList = [];
+                $("#chart_dialog").dialog('open');
+                if (box) box.remove();
+            }
+            else {
+                alert("Please select atleast one value", '', false, 'E')
+            }
+        });
+        //$("#graph").mousedown(function () {
+        //    var values = [];
+        //    $.each(valueArr, function (key, value) {
+        //        if (value != 0) {
+        //            var dataArray = value.split("_");
+        //            var indexCurrent = columnHeader.indexOf(dataArray[0]);
+        //            var seriesOptions2 = [];
+        //            seriesOptions2.push(dataArray[dataArray.length - 1]);
+        //            if (values.length > 0) {
+        //                $.each(values, function (key1, value1) {
+        //                    if ((values[key1].name != dataArray[0]) && ($.inArray(dataArray[0], addedHeaders) == -1)) {
+        //                        var series = { name: dataArray[0], data: seriesOptions2 }
+        //                        values.push(series);
+        //                        addedHeaders.push(dataArray[0]);
+        //                    }
+        //                    else if (values[key1].name == dataArray[0]) {
+        //                        values[key1].data.push(dataArray[dataArray.length - 1]);
+        //                    }
+        //                });
+        //            }
+        //            else {
+        //                var series = { name: dataArray[0], data: seriesOptions2 }
+        //                values.push(series);
+        //            }
+        //        }
+        //    });
+        //    addedHeaders = [];
+        //    var uniquecolumnHeader = columnHeader.filter(function (itm, i, columnHeader) {
+        //        return i == columnHeader.indexOf(itm);
+        //    });
+        //    if (uniquecolumnHeader.length > 0) {
+        //        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //        for (var ser = 0; ser < uniquecolumnHeader.length; ser++) {
+        //            var seriesOptions2 = values[ser].data.map(Number);    ////convert String Array into Number Array
+
+        //            var series = { name: uniquecolumnHeader[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+        //            seriesArr.push(series);
+        //        }
+        //        lineChart(dateArr, seriesArr);
+        //        seriesArr = [];
+        //        valueArr = [];
+        //        dateArr = [];
+        //        columnHeader = [];
+        //        index = [];
+        //        $("#chart_dialog").dialog('open');
+        //        if (box) box.remove();
+        //    }
+        //    else {
+        //        alert("Please select atleast one value", '', false, 'E')
+        //    }
+        //});
+        //end new code
+    });
+
+    function SelectColumn(index, tableId) {
+
+        var columnText = 'You selected:\n\n';
+        var columnSelector = '#' + tableId + ' tbody > tr > td:nth-child(' + (index + 1) + ')';
+        var cells = $(columnSelector);
+
+        // clear existing selections
+        if (window.getSelection) { // all browsers, except IE before version 9
+            window.getSelection().removeAllRanges();
+        }
+
+
+        if (document.createRange) {
+            cells.each(function (i, cell) {
+                var rangeObj = document.createRange();
+                rangeObj.selectNodeContents(cell);
+                window.getSelection().addRange(rangeObj);
+                columnText = columnText + '\n' + rangeObj.toString();
+            });
+
+
+        }
+        else { // Internet Explorer before version 9
+            cells.each(function (i, cell) {
+                var rangeObj = document.body.createTextRange();
+                rangeObj.moveToElementText(cell);
+                rangeObj.select();
+                columnText = columnText + '\n' + rangeObj.toString();
+            });
+        }
+
+        alert(columnText, '', false, 'S')
+    }
+
+    function lineChart(dateArr, seriesArr) {
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_container',
+                spacingLeft: 0,
+                marginRight: 190,
+                height: 550,
+                spacingBottom: 3,
+                events: {
+                    load: function () {
+                        $(window).resize();
+                    }
+                }
+            },
+            title: {
+                text: '.',
+                style: {
+            color: '#FFFFFF'
+        },
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'value'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: seriesArr
+        }, function (chart) { // on complete
+
+            chart.renderer.text('<b>Group Name</b>', 100, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(GroupName, 200, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>From Date</b>', 450, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(FromDate, 540, 20)
+       .css({})
+     .add();
+            chart.renderer.text('<b>To Date</b>', 650, 20)
+          .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+        .add();
+            chart.renderer.text(ToDate, 740, 20)
+       .css({})
+     .add();
+             
+        });
+
+        }
+</script>

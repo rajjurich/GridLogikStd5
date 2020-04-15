@@ -1,0 +1,286 @@
+﻿@model GridLogikViewer.ViewModel.ProfileLogViewModel
+@{
+    ViewBag.Title = "Profile Log Details";
+}
+<div id="divParent">
+    @*<div class="form-group col-md-9" style="border:0px solid #000; padding:0px; margin:0px 0px;  ">
+        <h2>Profile Log</h2>
+    </div>*@
+    <div class="col-md-3" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+        @*@Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-danger" })*@
+        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+    </div> 
+</div>
+<div class="col-lg-12" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group</label>&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.Group_Name)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.Meter_Name)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">From date</label>&nbsp;&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.fltrFromDate)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">To date</label>&nbsp;&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.fltrToDate)
+    </div>
+</div>
+<div id="dvData">
+    <table id="tableProfileLog">
+        <thead>
+            <tr>
+                <th class="tableth">
+                    @Html.Label("Date-Time")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VLL")
+                </th>
+                <th class="tableth">
+                    @Html.Label("I")
+                </th>
+                <th class="tableth">
+                    @Html.Label("PF")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KW")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAR")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVA")
+                </th>
+                <th class="tableth">
+                    @Html.Label("HZ")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VRY")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VYB")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VBR")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VRN")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VBN")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VYN")
+                </th>
+                <th class="tableth">
+                    @Html.Label("VLN")
+                </th>
+                <th class="tableth">
+                    @Html.Label("IR")
+                </th>
+                <th class="tableth">
+                    @Html.Label("IY")
+                </th>
+                <th class="tableth">
+                    @Html.Label("IB")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KWR")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KWY")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KWB")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAR")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAY")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAB")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KW-DEMAND")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVA-DEMAND")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoadServiceList)
+            {
+            <tr>
+                <td>
+                    <b>@item.Date.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vll.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.i.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.pf.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kw.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kvar.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kva.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.hz.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vry.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vyb.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vbr.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vrn.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vbn.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vyn.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.vln.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.ir.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.iy.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.ib.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kwr.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kwy.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kwb.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kva_r.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kvay.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kvab.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kw_demand.ToString()</b>
+                </td>
+                <td>
+                    <b>@item.kva_demand.ToString()</b>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="colorstrip">
+        @Html.Label("Sum :")
+        @Html.Label("Sum", new { id = "Sum" })
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        @Html.Label("Avg :")
+        @Html.Label("Avg", new { id = "average" })
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        @Html.Label("Min :")
+        @Html.Label("Min", new { id = "Minimum" })
+        <span>&nbsp;&nbsp;&nbsp;</span>
+        @Html.Label("Max :")
+        @Html.Label("Max", new { id = "Maximum" })
+    </div>
+</div>
+<div id="chart_dialog">
+    <a href="javascript:printDiv('chart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+    <div id="chart_container" style="max-width:908px; width:100%; clear:both;"></div>
+</div>
+@Html.HiddenFor(x => x.Csv)
+<button type="button" class="btn btn-success" id="export">Export to Excel</button>
+<button type="button" class="btn btn-twitter" id="graph">Graph</button>
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ('@ViewBag.RecordCount' == "false")
+            $("#export, #graph").hide();
+        $("#btnBack").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Index", "ProfileLog")';
+        });
+
+        $("#tableProfileLog").dataTable(
+                       {
+                           pageLength: 10,
+                           scrollX: true
+                       });
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: '70%',
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $('#export').mousedown(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var actionUrl = '@Url.Action("Export", "ProfileLog")';
+            window.open("Export");
+            if (box) box.remove();
+        });
+    });
+</script>

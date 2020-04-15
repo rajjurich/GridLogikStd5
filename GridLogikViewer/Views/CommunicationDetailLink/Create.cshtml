@@ -1,0 +1,176 @@
+﻿@model GridLogik.ViewModels.CommunicationDetailLinkCreateModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="~/Scripts/multi.min.js"></script>
+<link href="~/Content/css/multi.min.css" rel="stylesheet" />
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">
+                            Meter Groups
+                        </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Meter Groups</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i> <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+                                            <br />
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    @Html.LabelFor(model => model.converterid, null, "control-label col-md-2")
+                                                </div>
+                                                <div class="col-md-10">
+                                                    @Html.DropDownListFor(model => model.converterid, (IEnumerable<SelectListItem>)ViewBag.CommunicationDetails, "Select Communication Type", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.converterid)
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group row">
+                                                        <label class="col-md-2 form-control-label"> Meters<span style="color:red">&nbsp;*</span>  </label>
+                                                        <div class="col-md-10">
+                                                            @Html.DropDownList("ddlMeters", (IEnumerable<SelectListItem>)ViewBag.Meters, new { @class = "form-control", multiple = "multiple", required = true, title = "Please Provide Meters" })
+                                                            @Html.ValidationMessage("ddlMeters", "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <br />
+                                            <table id="tableOne" class="table table-bordered table-striped collapse">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="col-sm-6">
+                                                            Meter Name
+                                                        </th>
+                                                        <th class="col-sm-6">
+                                                            Modbus Id
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+
+
+
+                                            <div>
+                                                <p id="msg" style="color:red">
+                                                </p>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="reset" class="btn btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    var select = document.getElementById('ddlMeters');
+    multi(select, {
+        non_selected_header: 'Available Meters',
+        selected_header: 'Selected',
+
+    });
+
+    $('#btnCreate').click(function () {
+        return $("#ddlMeters").valid();
+    });
+
+    $('#ddlMeters').change(function () {
+        $("#tableOne").removeClass("collapse");
+        $("#ddlMeters").valid();
+        //console.log($("#acsReaderInfos option:selected").length);
+        if ($("#ddlMeters option:selected").length > 0) {
+            debugger;
+            $("#tableOne tbody").empty();
+            var x = $("#ddlMeters option:selected").val();
+            var items = $("#ddlMeters option:selected");
+            var i = 0;
+            @{
+                var i = -1;
+            }
+            var row = ''
+            $.each(items, function (key, value) {
+                console.log(key);
+                console.log(value.value);
+                row += '<tr>';
+                row += '<td class="col-sm-6"><center>' + value.text + '</center>';
+                var meterId = '@Html.TextBoxFor(model => Model.meters[i].meterId, new { @class = "form-control collapse", Value = "" + i + "", @readonly = true })';
+                var meterIdval = '@Html.ValidationMessageFor(model => Model.meters[i].meterId, "", new { @class = "text-danger" })'
+                meterId = meterId.replace("[-1]", "[" + i + "]");
+                meterId = meterId.replace("-1", value.value);
+                meterId = meterId.replace("-1", i);
+                meterIdval = meterIdval.replace("[-1]", "[" + i + "]");
+                meterIdval = meterIdval.replace("-1", i);
+                row += meterId + meterIdval;
+                row += '</td>';
+                row += '<td class="col-sm-6"><center>';
+
+                var modbusid = '@Html.TextBoxFor(model => Model.meters[i].modbusid, new { @class = "form-control col-sm-6"})';
+                var modbusidval = '@Html.ValidationMessageFor(model => Model.meters[i].modbusid, "", new { @class = "text-danger" })'
+                modbusid = modbusid.replace("[-1]", "[" + i + "]");                
+                modbusidval = modbusidval.replace("[-1]", "[" + i + "]");
+                row += modbusid + modbusidval;
+
+                row += '</center></td>';
+
+                row += '</tr>';
+
+                i++;
+            });
+            $("#tableOne tbody").append(row);
+            var form = $("form");
+            form.data('validator', null);
+            $.validator.unobtrusive.parse(form);
+        }
+        else {
+            $("#tableOne tbody").empty();
+        }
+    });
+
+</script>
+
+

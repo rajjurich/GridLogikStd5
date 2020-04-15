@@ -1,0 +1,112 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL', 'dbharmonicvrn', '500M', '4K');
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbharmonicvrn', '30', '10');
+
+DROP TABLE IF EXISTS etools_dev.Harmonicvrn;
+create table etools_dev.Harmonicvrn
+(
+id SERIAL8 NOT NULL,
+METERID int8 NOT NULL,
+Meter_Name varchar(45),
+tstamp DATETIME YEAR TO FRACTION(5),
+vrnh1 float,
+vrnh2 float,
+vrnh3 float,
+vrnh4 float,
+vrnh5 float,
+vrnh6 float,
+vrnh7 float,
+vrnh8 float,
+vrnh9 float,
+vrnh10 float,
+vrnh11 float,
+vrnh12 float,
+vrnh13 float,
+vrnh14 float,
+vrnh15 float,
+vrnh16 float,
+vrnh17 float,
+vrnh18 float,
+vrnh19 float,
+vrnh20 float,
+vrnh21 float,
+vrnh22 float,
+vrnh23 float,
+vrnh24 float,
+vrnh25 float,
+vrnh26 float,
+vrnh27 float,
+vrnh28 float,
+vrnh29 float,
+vrnh30 float,
+vrnh31 float,
+vrnh32 float,
+PRIMARY KEY (id)) IN dbharmonicvrn;
+
+
+
+
+DROP ROW TYPE if exists rtHarmonicvrn RESTRICT;
+create row type rtHarmonicvrn
+(
+tstamp datetime year to fraction(5),
+Meter_Name varchar(45),
+BlockNo varchar(100),
+vrnh1 float,
+vrnh2 float,
+vrnh3 float,
+vrnh4 float,
+vrnh5 float,
+vrnh6 float,
+vrnh7 float,
+vrnh8 float,
+vrnh9 float,
+vrnh10 float,
+vrnh11 float,
+vrnh12 float,
+vrnh13 float,
+vrnh14 float,
+vrnh15 float,
+vrnh16 float,
+vrnh17 float,
+vrnh18 float,
+vrnh19 float,
+vrnh20 float,
+vrnh21 float,
+vrnh22 float,
+vrnh23 float,
+vrnh24 float,
+vrnh25 float,
+vrnh26 float,
+vrnh27 float,
+vrnh28 float,
+vrnh29 float,
+vrnh30 float,
+vrnh31 float,
+vrnh32 float
+);
+
+drop table if exists tsHarmonicvrnLogs;
+create table tsHarmonicvrnLogs
+(METERID int8 NOT NULL,
+series timeseries(rtHarmonicvrn),
+primary key(METERID)) in dbharmonicvrn;
+
+execute procedure tscontainercreate('tsconHarmonicvrnLogs','dbharmonicvrn','rtHarmonicvrn',1024,1024);
+
+drop table if exists etools_dev.HarmonicvrnLogs;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.HarmonicvrnLogs',
+'etools_dev.tsHarmonicvrnLogs',
+'calendar(cal_1sec),
+container(tsconHarmonicvrnLogs),irregular');
+
+
+
+
+drop table if exists etools_dev.Harmonicvrnblocks;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.Harmonicvrnblocks',
+'tsHarmonicvrnLogs','calendar(cal_15min),
+container(tsconHarmonicvrnLogs),irregular');

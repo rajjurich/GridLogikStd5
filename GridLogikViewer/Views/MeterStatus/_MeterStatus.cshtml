@@ -1,0 +1,182 @@
+﻿@model IEnumerable<GridLogikViewer.APIModels.MeterStatus>
+
+<table id="lsttable">
+    <thead>
+        <tr>
+            <th width="8%">
+                @Html.DisplayNameFor(model => model.METERID)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Meter_Name)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.SerialNo)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            @* <th width="8%">
+                @Html.DisplayNameFor(model => model.Date_Time)
+            </th>*@
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.IpAddress)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.ModBusID)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.MeterType1)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.ModelName)
+            </th>
+             <th width="8%">
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+        </tr>
+    </thead>
+
+    <tbody id="tblInstancData1">
+        @foreach (var item in Model)
+        {
+            <tr>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.METERID)
+                </td>
+              <td>
+                    @Html.DisplayFor(modelItem => item.Meter_Name)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.SerialNo)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Date_Time)
+                </td>*@
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.GroupName)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.IpAddress)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.ModBusID)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.MeterType1)
+                </td>
+              <td width="8%">
+                    @Html.DisplayFor(modelItem => item.ModelName)
+                </td>
+                @if (Convert.ToString(item.Status) == "Yes")
+                {
+                    <td style='text-align:center'>
+                        <a href='#' class='editor_edit label btn-success'>
+                            &nbsp;&nbsp;Active&nbsp;&nbsp;
+                        </a>
+                    </td>
+                }
+                else
+                {
+                    <td style='text-align:center'>
+                        <a href='#' class='editor_remove label label-danger'>
+                            Inactive
+                        </a>
+                    </td>
+                }
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>*@
+            </tr>
+        }
+    </tbody>
+</table>
+
+@*<table id="lsttable">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.METERID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Meter_Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SerialNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Location)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date_Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GroupName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IpAddress)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModBusID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MeterType1)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModelName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+
+            </tr>
+        </thead>
+
+        <tbody id="tblInstancData1">
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>
+                        @Html.DisplayFor(modelItem => item.METERID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Meter_Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SerialNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Location)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Date_Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IpAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ModBusID)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.MeterType1)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.ModelName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@

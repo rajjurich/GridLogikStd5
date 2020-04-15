@@ -1,0 +1,15 @@
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.csprojResolveAssemblyReference.cache
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.dll
+D:\sachin data\GridLogik_Std5\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.dll
+D:\sachin data\GridLogik_Std5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.ViewModels\bin\Debug\GridLogik.ViewModels.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.csprojResolveAssemblyReference.cache
+E:\RajneeshData\GridLogikStd5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.ViewModels\obj\Debug\GridLogik.ViewModels.pdb

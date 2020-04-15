@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MessageList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <Message Message_Id="10001" Message_Text="An Internal error occured. Please contact the System pooja_yadav" Message_Type="E"/>
+  <Message Message_Id="10002" Message_Text="Communication failure with remote server" Message_Type="E"/>
+
+  <!--Success Message with attribute-->
+  <Message Message_Id="12001" Message_Text='%1 Added Successfully.' Message_Type="S"/>
+  <Message Message_Id="12002" Message_Text='%1 Updated Successfully.' Message_Type="S"/>
+  <Message Message_Id="12003" Message_Text='%1 Deleted Successfully.' Message_Type="S"/>
+
+  <!--Validation Message-->
+  <Message Message_Id="13001" Message_Text='No change in Data.' Message_Type="M"/>
+  <Message Message_Id="13002" Message_Text="Field(s) can not be left blank" Message_Type="M" />
+  <Message Message_Id="13003" Message_Text="No matching records found." Message_Type="M"/>
+  <Message Message_Id="13004" Message_Text="You have no rights to access the site." Message_Type="M"/>
+  <Message Message_Id="13005" Message_Text='%1 is Mandatory' Message_Type="M"/>
+  <Message Message_Id="13006" Message_Text="Unable to update the record" Message_Type="M"/>
+  <Message Message_Id="13007" Message_Text="Unable to save the record" Message_Type="M"/>
+  <Message Message_Id="13008" Message_Text="Code already exists" Message_Type="M"/>
+  <Message Message_Id="13009" Message_Text='Please Select %.' Message_Type="M"/>
+  <Message Message_Id="13010" Message_Text="Unable to delete the record" Message_Type="M"/>
+  <Message Message_Id="13011" Message_Text="%1 information not exists" Message_Type="M"/>
+
+  <!--Success Message-->
+  <Message Message_Id="14001" Message_Text="Record updated successfully" Message_Type="S"/>
+  <Message Message_Id="14002" Message_Text="Record saved successfully" Message_Type="S"/>
+  <Message Message_Id="14003" Message_Text="Record deleted successfully" Message_Type="S"/>
+
+<!--Error Messages-->
+  <Message Message_Id="15001" Message_Text="Record not found" Message_Type="E"/>
+  <Message Message_Id="15002" Message_Text=' Unable to delete the record,Already in use.' Message_Type="E"/>
+  <Message Message_Id="15003" Message_Text=' Unable to edit the record,Already in use.' Message_Type="E"/>
+
+
+
+
+
+
+</MessageList>

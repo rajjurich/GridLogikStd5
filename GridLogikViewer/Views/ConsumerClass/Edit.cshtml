@@ -1,0 +1,209 @@
+﻿@model GridLogikViewer.Models.MstConsumerClass
+
+@{
+    ViewBag.Title = "Edit Consumer Class";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",//type of data to be send
+            //    url: BaseAddress + "consumercategory",
+            //    dataType: "json",//type of data to be received
+            //    success: function (data) {
+            //        
+            //        var items = [];
+            //        //items.push("<option>Select</option>");
+
+            //        if (data.Data.result != undefined) {
+            //            data.Data.result.forEach(function (result) {
+            //                items.push("<option value=" + result.ccatid + ">" + result.ccatdescription + "</option>");
+            //            });
+            //        }
+
+            //        $("#touconsumercatid").html(items.join(' '));
+            //        $(".consumercatclass").selectpicker();
+
+            //    },
+            //    error: function (xhr, status, error) {
+            //        alert(error);
+            //    }
+            //});
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "prmglobal/GetGlobalParamValue/Global/cclassconsumergroup/cclassconsumergroup",
+                dataType: "json",//type of data to be received
+                success: function (data) {
+                    var items = [];
+                    //items.push("<option>Select</option>");
+
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.prmvalue + ">" + result.prmvalue + "</option>");
+                        });
+                    }
+
+                    $("#cclassconsumergroup").html(items.join(' '));
+                    $(".consumergrpclass").selectpicker();
+
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    if (box) box.remove();
+                }
+            });
+
+
+            //var items = [];
+            //items.push("<option value=High>High Consumption</option>");
+            //items.push("<option value=Low>Low Consumption</option>");
+
+            //$("#cclassconsumergroup").html(items.join(' '));
+            //$(".consumergrpclass").selectpicker();
+
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "consumerclass/" + id,
+                dataType: "json",//type of data to be received
+                success: function (conscls) {
+                    if (conscls.Data.result.cclassrecid == null) {
+                        if (conscls.Data.d.length > 0)
+                            alert(conscls.Data.d);
+                    }
+                    else {
+                        $("#cclassrecid").val(conscls.Data.result.cclassrecid);
+                        $("#cclassid").val(conscls.Data.result.cclassid);
+                        $("#cclassdescription").val(conscls.Data.result.cclassdescription);
+                        $("#cclassconsumergroup").val(conscls.Data.result.cclassconsumergroup);
+                        $(".consumergrpclass").selectpicker('val', conscls.Data.result.cclassconsumergroup);
+                    }
+                    if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+
+
+        $(document).ready(function () {
+            $("#btnUpdate").click(function (e) {
+                if ($('form').valid()) {
+                    formmodified = 0;
+                    
+                    var mstconcls = {
+                        "cclassid": $("#cclassid").val(),
+                        "cclassdescription": $("#cclassdescription").val(),
+                        "cclassconsumergroup": $("#cclassconsumergroup").val(),
+                        "cclassisdeleted": 0
+                    };
+
+                    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                    var RecordID = $("#cclassrecid").val();
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "consumerclass/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstconcls),//data to be send
+                        success: function (response) {
+                            
+                            //alert(response);
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                window.location.href = '@Url.Action("Index", "consumerclass")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                            }
+                            if (box) box.remove();
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                            if (box) box.remove();
+                        }
+                    });
+                }
+
+                e.preventDefault();
+
+            });
+        });
+
+    </script>
+}
+
+<h2>Edit Consumer Class</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.HiddenFor(model => model.cclassrecid)
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="cclassconsumergroup">Consumer Group</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.cclassconsumergroup, Enumerable.Empty<SelectListItem>(), new { @class = "consumergrpclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Consumer Group" })
+                @Html.ValidationMessageFor(model => model.cclassconsumergroup)
+            </div>
+        </div>       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cclassid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.cclassid, new { disabled = "disabled" })
+                @Html.ValidationMessageFor(model => model.cclassid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.cclassdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.cclassdescription)
+                @Html.ValidationMessageFor(model => model.cclassdescription)
+            </div>
+        </div>        
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" id="btnUpdate" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

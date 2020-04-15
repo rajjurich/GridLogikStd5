@@ -1,0 +1,313 @@
+﻿@model GridLogik.ViewModels.ActionTypeModel
+@{
+    ViewBag.Title = "Create";
+}
+<script>
+    $(document).ready(function () {
+        $("#ddlalarms").prop("disabled", true);
+        $("#ddlalarmtype").change(function () {
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var id = $("#ddlalarmtype").val();
+            $.ajax({
+                cache: false,
+                type: "GET",
+                url: '@Url.Action("GetAlarmByAlarmType", "ActionType")',
+                data: { "AlarmType": id },
+                success: function (json, textStatus) {
+                    $("#ddlalarms").empty();
+                    json = json || {};
+                    debugger;
+                    
+                    for (var i = 0; i < json.length; i++) {
+                        if (json[i].Text != null) {
+                            if (id == "M") {
+                                $("#ddlalarms").append('<option value="' + json[i].Value + '">' + json[i].Text + '</option>');
+                            }
+                            else if (id == "T") {
+                                $("#ddlalarms").append('<option value="' + json[i].Value + '">' + json[i].Text + '</option>');
+                            }
+                            else {
+                                if (json[i].alarmname != null) {
+                                    $("#ddlalarms").append('<option value="' + json[i].Value + '">' + json[i].Text + '</option>');
+                                }
+                                else {
+                                    $("#ddlalarms").append('<option value="' + json[i].Value + '">' + json[i].Text + '</option>');
+                                }
+                            }
+                        }
+
+                    }
+                    $("#ddlalarms").prop("disabled", false);
+
+                    if (box) box.remove();
+                },
+                error: function () {
+                    alert("Data Not Found", '', false, 'E');
+
+                    if (box) box.remove();
+                }
+            });
+        });
+    });
+
+    var i = 0;
+    function AddMobile() {
+        var svc = $("#mobileno1").val();  //Its Let you know the textbox's value
+
+        if (svc == "") {
+            $("#lblMobErr").html('Please enter Mobile No');
+            return
+        }
+        else
+        {
+            $("#lblMobErr").html('');
+        }
+
+        if ($("#mobileno1").valid()) {
+            $("#lstMobileNo").append('<option value="' + svc + '">' + svc + '</option>');
+            $("#txtMobile").val('').focus();
+            $("#lstMobileNo option").prop("selected", true);
+            $("#lblMobErr").html('');
+            return true;
+        }
+    }
+
+
+
+    $(function () {
+        $("[id*=btnDeleteMobile]").bind("click", function () {
+            $("[id*=lstMobileNo] option:selected").remove();
+            $("#lstMobileNo option").prop("selected", true);
+            return false;
+        });
+    });
+
+    //Email
+    function AddEmail() {
+        var svc = $("#txtEmailId").val();  //Its Let you know the textbox's value
+
+        if (svc == "") {
+            $("#lblEmailErr").html('Please enter Email ID');
+            return
+        }
+        else {
+            $("#lblEmailErr").html('');
+        }
+        //;
+        if ($('input[name=txtEmailId]').valid()) {
+            $("#lstEmailAddress").append('<option value="' + svc + '">' + svc + '</option>');
+            $("#txtEmailId").val('').focus();
+            $("#lstEmailAddress option").prop("selected", true);
+            return true;
+        }
+        else {
+            return false;
+
+        }
+
+
+        //if(validateEmail(svc))
+        //{
+        //    $("#lstEmailAddress").append('<option value="' + svc + '">' + svc + '</option>');
+        //    $("#txtEmailId").val('').focus();
+        //    $("#lstEmailAddress option").prop("selected", true);
+        //    return true;
+        //}
+        //else
+        //{
+        //    alert('Invalid Email Address');
+
+        //    return false;
+        //}
+
+    }
+
+
+
+    $(function () {
+        $("[id*=btnDeleteEmail]").bind("click", function () {
+            $("[id*=lstEmailAddress] option:selected").remove();
+            $("#lstEmailAddress option").prop("selected", true);
+            return false;
+        });
+    });
+
+    @*function validateEmail(sEmail) {
+        var regex = new RegExp("/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/");
+    }*@
+
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+        $('#txtMobile').keydown(function (e) {
+            if (e.shiftKey || e.ctrlKey || e.altKey) {
+                e.preventDefault();
+            } else {
+                var key = e.keyCode;
+                if (!((key == 8) || (key == 46) || (key >= 35 && key <= 40) || (key >= 48 && key <= 57) || (key >= 96 && key <= 105))) {
+                    e.preventDefault();
+                }
+            }
+        });
+    });
+
+    //$("input[id^='tsslotend']").each(function () {
+
+
+
+
+</script>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Alarm Recipient Info</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-square"></i> <strong>ADD</strong>
+                                </div>
+
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-6" style="border:0px solid #F00;">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="select" style="white-space:nowrap">Alarm Type <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-9">
+
+
+                                                        @Html.DropDownListFor(model => model.alarmtype, new List<SelectListItem>
+           {
+               new SelectListItem{Text="Select Alarm Type",Value="N"},
+           new SelectListItem{Text="RealTime",Value="R"},
+           new SelectListItem{Text="Standard",Value="S"},
+           new SelectListItem{Text="NIU Status",Value="M"},
+           new SelectListItem{Text="Meter",Value="T"}
+           }, new { @id = "ddlalarmtype", @class = "form-control", @size = "1" })
+
+                                                        @Html.ValidationMessageFor(model => model.alarmtype)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6" style="border:0px solid #F00;">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="select" style="white-space:nowrap">Alarm Name <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-9">
+
+                                                        @Html.DropDownListFor(model => model.alarmid, Enumerable.Empty<SelectListItem>(), new { @id = "ddlalarms", @class = "form-control", @size = "1" })
+                                                        @Html.ValidationMessageFor(model => model.alarmid, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br>
+
+                                        <div class="row">
+                                            <div class="col-lg-6" style="border:0px solid #F00;">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="select">Mobile No. <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-9">
+
+                                                        @Html.DropDownListFor(model => model.mobilenos, Enumerable.Empty<SelectListItem>(), new { @id = "lstMobileNo", @class = "form-control", @multiple = "multiple", @size = "5" })
+                                                        @Html.ValidationMessageFor(model => model.mobilenos, null, new { @class = "validation-redcolor" })
+
+
+                                                        <br>
+
+
+                                                        <div class="col-md-12" style="padding:0px;">
+
+                                                            <div class="col-md-5">
+                                                                @Html.TextBoxFor(model => model.mobileno1, new { @class = "form-control", @maxlength = "40" })
+                                                                @Html.ValidationMessageFor(model => model.mobileno1, null, new { @class = "validation-redcolor" })
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="button" class="btn btn-success" id="btnAddMobile" onclick="return AddMobile();"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+                                                                @*<input type="button" name="btnAddMobile" value="Add" id="btnAddMobile" onclick="return AddMobile();" class="btn btn-success" />*@
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="button" class="btn btn-danger" id="btnDeleteMobile"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+
+                                                                @*<input type="button" name="btnDeleteMobile" value="Delete" id="btnDeleteMobile" class="btn btn-danger" />*@
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6" style="border:0px solid #F00;">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="select">Email ID <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-9">
+
+                                                        @Html.DropDownListFor(model => model.emailaddresses, Enumerable.Empty<SelectListItem>(), new { @id = "lstEmailAddress", @class = "form-control", @multiple = "multiple", @size = "5" })
+                                                        @Html.ValidationMessageFor(model => model.emailaddresses, null, new { @class = "validation-redcolor" })
+
+                                                        <br>
+
+
+                                                        <div class="col-md-12" style="padding:0px;">
+
+                                                            <div class="col-md-5">
+
+                                                                @Html.TextBoxFor(model => model.txtEmailId, new { @class = "form-control", @maxlength = "40" })
+                                                                @Html.ValidationMessageFor(model => model.txtEmailId, null, new { @class = "validation-redcolor" })
+                                                                <label id="lblEmailErr" style="font-weight: normal; color: red; white-space: nowrap; "></label>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="button" class="btn btn-success" id="btnAddEmail" onclick="return AddEmail();"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+                                                                @*<input type="button" name="btnAddEmail" value="Add" id="btnAddEmail" class="btn btn-success" onclick="return AddEmail();" />*@
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button type="button" class="btn btn-danger" id="btnDeleteEmail"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+
+                                                                @*<input type="button" name="btnDeleteEmail" value="Delete" class="btn btn-danger" id="btnDeleteEmail" />*@
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="reset" class="btn btn-sm btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,612 @@
+D:\sachin data\std 3 DB\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\sachin data\std 3 DB\GridLogikViewer\bin\GridLogikViewer.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\CMSDateTime.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EntityFramework.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EPPlus.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\itextsharp.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Owin.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Http.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Razor.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\WebGrease.dll
+D:\sachin data\std 3 DB\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EPPlus.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Newtonsoft.Json.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Http.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.Razor.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EntityFramework.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\sachin data\std 3 DB\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\sachin data\std 3 DB\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\sachin data\std 3 DB\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\sachin data\std 3 DB\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMSDateTime.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EPPlus.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\itextsharp.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Owin.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Razor.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\WebGrease.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EPPlus.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Newtonsoft.Json.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Razor.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\sachin data\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.dll.config
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\GridLogikViewer.pdb
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Antlr3.Runtime.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMS.Framework.Common.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMSDateTime.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\DotNet.Highcharts.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EPPlus.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\itextsharp.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Newtonsoft.Json.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Owin.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Helpers.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Mvc.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Optimization.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Razor.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\WebGrease.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\CMS.Framework.Common.pdb
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EPPlus.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Newtonsoft.Json.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Helpers.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Mvc.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Optimization.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.Razor.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Antlr3.Runtime.pdb
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+E:\RajneeshData\GridLogik_Std3_design_MultiLocation\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\GridLogikViewer.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EntityFramework.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EPPlus.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\GridLogik.ViewModels.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\itextsharp.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Owin.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Http.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Razor.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\WebGrease.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EPPlus.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Http.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.Razor.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EntityFramework.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\Devang Project\Grid_Logic_STD5\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\GridLogikViewer.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EntityFramework.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EPPlus.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\GridLogik.ViewModels.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\itextsharp.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Owin.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Http.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Razor.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\WebGrease.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EPPlus.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Http.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.Razor.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EntityFramework.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\Devang Project\GridLogic_std5_working\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\GridLogikViewer.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EntityFramework.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EPPlus.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\GridLogik.ViewModels.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\itextsharp.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Owin.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Http.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Razor.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\WebGrease.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EPPlus.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Http.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.Razor.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EntityFramework.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\Devang Project\Grid_Logik_Std_5\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\GridLogikViewer.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EntityFramework.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EPPlus.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\GridLogik.ViewModels.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\itextsharp.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Owin.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Http.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Razor.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\WebGrease.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EPPlus.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Http.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.Razor.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EntityFramework.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\GridLogikViewer.dll.config
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\GridLogikViewer.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\GridLogikViewer.pdb
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Antlr3.Runtime.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\DotNet.Highcharts.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EntityFramework.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EPPlus.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\GridLogik.ViewModels.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\itextsharp.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Newtonsoft.Json.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Owin.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Helpers.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Http.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Mvc.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Optimization.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Razor.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\WebGrease.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EPPlus.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Http.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Helpers.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Mvc.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Optimization.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.Razor.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Antlr3.Runtime.pdb
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EntityFramework.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+D:\sachin data\GridLogik_Std5\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std5\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+D:\sachin data\GridLogik_Std5\GridLogikViewer\obj\Debug\GridLogikViewer.pdb
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\GridLogikViewer.dll.config
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\GridLogikViewer.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\GridLogikViewer.pdb
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Antlr3.Runtime.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\CMS.Framework.Common.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\DotNet.Highcharts.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EntityFramework.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EntityFramework.SqlServer.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EPPlus.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\GridLogik.ViewModels.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\itextsharp.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Web.Infrastructure.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Newtonsoft.Json.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Owin.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Net.Http.Formatting.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Helpers.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Http.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Http.WebHost.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Mvc.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Optimization.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Razor.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.Deployment.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.Razor.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\WebGrease.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\CMS.Framework.Common.pdb
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\GridLogik.ViewModels.pdb
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EPPlus.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Net.Http.Formatting.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Http.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Http.WebHost.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Helpers.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Mvc.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Optimization.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.Razor.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.Deployment.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\System.Web.WebPages.Razor.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Antlr3.Runtime.pdb
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EntityFramework.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\EntityFramework.SqlServer.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Core.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.Owin.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Host.SystemWeb.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Facebook.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Cookies.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.OAuth.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Google.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.Twitter.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\obj\Debug\GridLogikViewer.csprojResolveAssemblyReference.cache
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\obj\Debug\GridLogikViewer.dll
+E:\RajneeshData\GridLogikStd5\GridLogikViewer\obj\Debug\GridLogikViewer.pdb

@@ -1,0 +1,290 @@
+﻿@model GridLogik.ViewModels.Meter
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+
+            IsDeleteMeterType();
+            $("#Phase").attr("disabled", true);
+            $("#MeterTypeID").attr("disabled", true);
+            $("#ModelID").attr("disabled", true);
+            $("#CommunicationTypeId").attr("disabled", true);
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm(DeleteMessage);
+            });
+        });
+
+        function IsDeleteMeterType() {
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+
+                url: BaseAddress + "meterapi/IsUsed/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                success: function (response) {
+
+                    if (response.Data.e != null) {
+                        if (response.Data.e == "M") {
+                            $("#btnDelete").attr("disabled", true);
+                            alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        else {
+                            $("#btnDelete").attr("disabled", false);
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+        }
+        function deleterecord() {
+
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            //  if ($('form').valid()) {
+            var txtrolloverlimit = 1;
+            if ($("#rolloverlimit").val() != "" || $("#rolloverlimit").val() != null) {
+                txtrolloverlimit = $("#rolloverlimit").val();
+            }
+
+            var locationbyid = "";
+
+            debugger;
+            if ($("#Location").val() == "" || $("#Location").val() == null) {
+                locationbyid = $("#LocationDp").val();
+            }
+            else {
+                locationbyid = $("#Location").val();
+            }
+
+            var mstData = {
+                "MeterName": $("#MeterName").val(),
+                "MeterTypeID": $("#MeterTypeID").val(),
+                "ModelID": $("#ModelID").val(),
+                "parameter": $("#parameter").val(),
+                "Location": locationbyid,
+                "caltype": $("#caltype").val(),
+                //"CommunicationTypeId": $("#CommunicationTypeId").val(),
+                "SerialNo": $("#SerialNo").val(),
+                "MeterNo": $("#MeterNo").val(),
+                "Phase": $("#Phase").val(),
+                //"modbusid": $("#modbusid").val(),
+                "ctprimary": $("#ctprimary").val(),
+                "ctsecondary": $("#ctsecondary").val(),
+                "misemail": $("#EmailChecked").is(":checked"),
+                "mispopup": $("#PopChecked").is(":checked"),
+                "missms": $("#SmsChecked").is(":checked"),
+                "rolloverlimit": txtrolloverlimit,
+                "ag": 0,
+                "frequency": 0,
+                "isdeleted": 1
+            };
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: '@Url.Action("Delete", "Meter")', //"/Meter/Delete/" + id,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(mstData),//data to be send
+                success: function (response) {
+
+                    if (response.e == "S") {
+                        if (response.d.length > 0)
+                            alert(response.d, '@Url.Action("Index", "Meter")', true, response.e);
+                        @*window.location.href = '@Url.Action("Index", "Meter")';*@
+                    }
+                    else if (response.e == "M") {
+                        if (response.d.length > 0)
+                            alert(response.d, '', false, response.e);
+                    }
+                    else if (response.e == "E") {
+                        if (response.d.length > 0)
+                            alert(response.d, '', false, response.e);
+                    }
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                    // alert(xhr.responseText);
+                }
+            });
+
+            //}
+            //else {
+
+            //}
+            e.preventDefault();
+        }
+
+
+    </script>
+
+}
+
+<style>
+    .chkbox {
+        margin-top: 20px;
+        position: relative;
+        border: 1px solid #f00;
+    }
+</style>
+
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Meter</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.ID)
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterName, null, "")
+                                            @Html.TextBoxFor(model => model.MeterName, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.MeterName, null, new { @class = "validation-redcolor" })
+                                        </div><div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterNo, null, "")
+                                            @Html.TextBoxFor(model => model.MeterNo, new { @class = "form-control alpha", @maxlength = "15", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.MeterNo, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.SerialNo, null, "")
+                                            @Html.TextBoxFor(model => model.SerialNo, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.SerialNo, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.Phase, null, "")
+                                            @Html.DropDownListFor(model => model.Phase, (IEnumerable<SelectListItem>)ViewBag.Phases, "Select Phase", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Phase, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterTypeID, null, "")
+                                            @Html.DropDownListFor(model => model.MeterTypeID, (IEnumerable<SelectListItem>)ViewBag.FillMeterTypes, "Select Meter Type", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MeterTypeID, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.ModelID, null, "")
+                                            @Html.DropDownListFor(model => model.ModelID, (IEnumerable<SelectListItem>)ViewBag.FillMeterModels, "Select model", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ModelID, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                                @Html.LabelFor(model => model.ModelID, "CT Ratio", "")
+                                            <div class="row">
+                                                <div class="col-md-5 pr0">
+                                                    @Html.TextBoxFor(model => model.ctprimary, new { @maxlength = "5", @class = "form-control", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.ctprimary, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                <div class="col-md-2 text-center lh33">
+                                                    :
+                                                </div>
+                                                <div class="col-md-5 pl0">
+                                                    @Html.TextBoxFor(model => model.ctsecondary, new { @maxlength = "5", @class = "form-control", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.ctsecondary, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                                </div>
+                                            </div>
+                                         <div class="form-group col-md-3">
+                                        @Html.LabelFor(model => model.Location, null, "")
+                                                    @if (ViewBag.LocFill == null)
+                                                    {
+                                                        @Html.TextBoxFor(model => model.Location, new { @class = "form-control alpha", @maxlength = "15", @readonly=true })
+                                                    }
+                                                    else
+                                                    {
+                                                        @Html.DropDownListFor(m => m.Location, (IEnumerable<SelectListItem>)ViewBag.LocFill, "--Select--", new { @class = "form-control", @readonly = true })
+                                                    }
+                                                </div>
+
+                                            <div class="form-group col-md-3">
+                                                @Html.LabelFor(model => model.parameter, new { @class = "" })
+                                                    @Html.DropDownListFor(model => model.parameter, (IEnumerable<SelectListItem>)ViewBag.ConsumptionTypes, "Select parameter", new { @class = "form-control", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.parameter)
+                                            </div>
+
+                                            <div class="form-group col-md-3">
+                                                    @Html.LabelFor(model => model.caltype, new { @class = "" })
+                                                        @Html.DropDownListFor(model => model.caltype, (IEnumerable<SelectListItem>)ViewBag.ServiceCalculationFlag, "Select Flag", new { @class = "form-control", @readonly = true })
+                                                        @Html.ValidationMessageFor(model => model.caltype)
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="row">
+                                            <label class="">Blockwise Data Available</label>
+                                                    @Html.CheckBoxFor(model => model.StatusChecked, new { @class = "", @disabled = "disabled" })
+                                                    @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                    @Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                    @Html.LabelFor(model => model.isactive, null, "")
+                                                  
+                                                  @Html.CheckBoxFor(model => model.ActiveChecked, new { @class = "", @disabled = "disabled" })
+                                                    @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                    @Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                        
+                                                <label class="">Email Alarm</label>
+                                                    @Html.CheckBoxFor(model => model.EmailChecked, new { @class = "", @disabled = "disabled" })&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                    @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                    @*@Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })*@
+
+                                                <label class="">SMS Alarm</label>
+                                                    @Html.CheckBoxFor(model => model.SmsChecked, new { @class = "", @disabled = "disabled" })&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                    @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                    @*@Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })*@
+
+                                                <label class="">Popup Alarm</label>
+                                                    @Html.CheckBoxFor(model => model.PopChecked, new { @class = "", @disabled = "disabled" }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                    @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                    @*@Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })*@
+                                                    </div>
+                                                </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

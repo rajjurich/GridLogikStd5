@@ -1,0 +1,245 @@
+﻿@model GridLogikViewer.ViewModel.EnergyLogViewModel
+@{
+    ViewBag.Title = "Energy Log Details";
+}
+<div id="divParent">
+    @*<div class="form-group col-md-9" style="border:0px solid #000; padding:0px; margin:0px 0px;  ">
+        <h2>Energy Log</h2>
+    </div>*@
+    <div class="col-md-3" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+        @*@Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-danger" })*@
+        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+    </div>
+</div>
+<div class="col-lg-12" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group</label>&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.Group_Name)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.Meter_Name)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">From date</label>&nbsp;&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.fltrFromDate)
+    </div>
+    <div class="form-group col-md-3" style="border:0px solid #f00;">
+        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">To date</label>&nbsp;&nbsp;&nbsp;
+        @Html.DisplayFor(model => model.fltrToDate)
+    </div>
+</div>
+<div id="dvData">
+    <table id="tableEnergyLog">
+        <thead>
+            <tr>
+                <th class="tableth">
+                    @Html.Label("Date-Time")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KWH-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KWH-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAH-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVAH-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-LAG-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-LEAD-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-LAG-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-LEAD-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-EXP-103")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-EXP-97")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-IMP-103")
+                </th>
+                <th class="tableth">
+                    @Html.Label("KVARH-IMP-97")
+                </th>
+                <th class="tableth">
+                    @Html.Label("DAY-KWH-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("DAY-KWH-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("CLBK-KWH-EXP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("CLBK-KWH-IMP")
+                </th>
+                <th class="tableth">
+                    @Html.Label("AVG-HZ")
+                </th>
+                <th class="tableth">
+                    @Html.Label("AVG-HZ")
+                </th>
+                <th class="tableth">
+                    @Html.Label("AVG-MW")
+                </th>
+                <th class="tableth">
+                    @Html.Label("AVG-MW")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoadServiceList)
+            {
+                <tr>
+                    <td>
+                        <b>@item.Date.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kWh_Exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kWh_Imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kVAh_Exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kVAh_Imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kVARh_Lag_Imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kVARh_Lead_Imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kVARh_Lag_Exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.KVARh_Lead_exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kvarh_exp_103.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kvarh_exp_97.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kvarh_imp_103.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.kvarh_imp_97.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.day_kwh_exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.day_kwh_imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.cblk_kwh_exp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.cblk_kwh_imp.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.avg_hz.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.avg_hz.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.avg_mw.ToString()</b>
+                    </td>
+                    <td>
+                        <b>@item.avg_mw.ToString()</b>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="colorstrip">
+        @Html.Label("Sum :")
+        @Html.Label("Sum", new { id = "Sum" })
+        @Html.Label("Avg :")
+        @Html.Label("Avg", new { id = "average" })
+        @Html.Label("Min :")
+        @Html.Label("Min", new { id = "Minimum" })
+        @Html.Label("Max :")
+        @Html.Label("Max", new { id = "Maximum" })
+    </div>
+</div>
+<div id="chart_dialog">
+    <div id="chart_container"></div>
+</div>
+@Html.HiddenFor(x => x.Csv)
+<button type="button" class="btn btn-success" id="export">Export to Excel</button>
+<button type="button" class="btn btn-twitter" id="graph">Graph</button>
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+</style>
+<script type="text/javascript">
+    var box;
+    $(document).ready(function () {
+        if ('@ViewBag.RecordCount' == 'false')
+            $("#export, #graph").hide();
+        $("#btnBack").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Index", "EnergyLog")';
+        });
+        $("#tableEnergyLog").dataTable(
+                       {
+                           pageLength: 10,
+                           scrollX: true
+                       });
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $('#export').click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var actionUrl = '@Url.Action("Export", "EnergyLog")';
+            window.open("Export");
+            if (box) box.remove();
+        });
+    });
+</script>
+@Scripts.Render("~/bundles/jqueryval")

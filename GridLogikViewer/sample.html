@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title></title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-1.8.0.js"></script>
+</head>
+<body>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+
+        //public List<string> meters { get; set; }
+        //public List<long?> stages { get; set; }
+        //public int numberOfBlocks { get; set; }
+        //public int numberOfDays { get; set; }
+        var MeterString = "104";
+
+        var NextBlock = {
+            "meters": [104,127],
+            "stages": [1],
+            "numberOfBlocks": 4,
+            "numberOfDays": 5
+        };
+
+
+        var OpenQuery = {
+            query: "select first 1 * from loadsurveylogs;"
+        };
+
+        var MeterIdList = {
+            "MeterString": MeterString,
+            "FromSelectionFilter": "2/2/2020",
+            "ToSelectionFilter": "2/3/2020",
+            "FromTime": "00:00",
+            "ToTime": "21:00",
+            "CountParameter": "",
+            "AvgParameter": "",
+            "MinParameter": "",
+            "MaxParameter": "",
+            "SumParameter": "",
+            "GroupParameter": "",
+            "ColumnParameter": "sum(kwh_imp) as power, tstamp::date as tstamps ",
+            "GroupByColumnParameter": " tstamps ",
+            "OrderByColumnParameter": " tstamps "
+        };
+
+        var url = "http://localhost/gridlogik.api/api/abtdcsg/getnextblocks/";
+
+        url = "http://localhost/gridlogik.api/api/datadynamic/openquery/";
+
+        url = "http://localhost/gridlogik.api/api/datadynamic/loadsurveylogs/meterid";
+
+        var obj = NextBlock;
+        obj = OpenQuery;
+        obj = MeterIdList;
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: JSON.stringify(obj),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                alert(response);
+            },
+            error: function (jqXHR) {
+                alert(jqXHR);
+            }
+
+        });
+
+
+        //var MeterString = "22,23";
+        //var MeterList = {
+        //    "MeterString": MeterString
+
+        //};
+        //$.ajax({
+
+        //    type: "POST",
+        //    url: "http://localhost/gridlogik.api/api/instancedata/instancedatabymeterids",
+        //    contentType: "application/json; charset=utf-8",
+        //    data: JSON.stringify(MeterList),
+        //    dataType: "json",
+
+        //    success: function (response, status, jqXHR) {
+        //        debugger
+        //        alert(response);
+
+        //    },
+        //    error: function (xhr, status, error) {
+        //        debugger;
+        //    }
+        //});
+    })
+</script>

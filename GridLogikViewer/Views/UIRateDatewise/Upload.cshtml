@@ -1,0 +1,372 @@
+﻿@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+
+
+            var viebagdata = '@ViewBag.result';
+            console.log('viewbag');
+            if (viebagdata.length > 0) {
+                $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                $("#btn-success-trigger").trigger('click');
+                $("#modal_message h3").text(viebagdata);
+                viebagdata = "";
+            }
+            else {
+                $("#trgPopup").html("<button id='btn-danger-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                $("#btn-success-trigger").trigger('click');
+                $("#modal_message h3").text("Invalid File");
+                viebagdata = "";
+            }
+
+            //$("#lsttable").removeClass("intro");
+            //$.ajax({
+            //    type: "GET",
+            //    async: false,
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "prmglobal/GetIdentifiersOnModule/dcsgStage",
+            //    dataType: "json",
+            //    success: function (gender, status, jqXHR) {
+            //        var str = "<option value=''>Select</option>";
+            //        if (gender.Data.result != undefined) {
+            //            var data = gender.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].prmvalue + ">" + data[i].prmidentifier + "</option>";
+            //            }
+            //        }
+
+            //        $("#drpstageid").append(str);
+
+            //    }
+
+            //});
+            //$.ajax({
+            //    type: "GET",
+            //    async: false,
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "prmglobal/GetIdentifiersOnModule/dcsgStage",
+            //    dataType: "json",
+            //    success: function (gender, status, jqXHR) {
+            //        var str = "<option value=''>Select</option>";
+            //        if (gender.Data.result != undefined) {
+            //            var data = gender.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].prmvalue + ">" + data[i].prmidentifier + "</option>";
+            //            }
+            //        }
+
+            //        $("#drpstageid").append(str);
+
+            //    }
+
+            //});
+            $('input[name^="Uploadfile"]').each(function () {
+                $(this).rules('add', {
+                    required: true
+                })
+            })
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "prmglobal",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (dateformat, status, jqXHR) {
+            //        console.log("prmglobal");
+            //        console.log(dateformat);
+            //        var str = "";
+            //        if (dateformat != undefined) {
+            //            var data = dateformat;
+            //            for (var i in data) {
+            //                if (data[i].prmunit == "DateField") {
+            //                    $("#Dateformat").val(data[i].prmvalue);
+            //                }
+            //                else if (data[i].prmunit == "ServerDate") {
+            //                    $("#ServerDateformat").val(data[i].prmvalue);
+            //                }
+            //            }
+
+            //        }
+            //        else if (dateformat.Data.e == "E") {
+            //            if (dateformat.Data.d.length > 0)
+            //                alert(dateformat.Data.d, '', false, 'E');
+            //        }
+            //    }
+            //});
+
+            var DateFormat = $("#DateField").val();
+            $("#txtFrmDate").datepicker({
+                dateFormat: $("#DateField").val(),
+                // maxDate: "-0D",
+                changeMonth: true,
+                changeYear: true
+
+            }).datepicker("setDate", new Date());
+            //$('#btnSubmit').on('click', function (event) {
+
+            //    if ($('#drpstageid :selected').text() == 'Select') {
+
+            //        alert('Stage is mandatory.', '', false, "M");
+            //        event.preventDefault();
+
+            //        return;
+
+            //    }
+            //});
+
+            //$('#drpstageid').on('change', function (event) {
+
+            //    if ($('#drpstageid :selected').text() == 'Select') {
+            //        if ($.fn.dataTable.isDataTable('#lsttable')) {
+            //            table = $('#lsttable').DataTable();
+            //            table.destroy();
+            //            $("#data").html("");
+            //        }
+            //    }
+            //    else
+            //        loadUIRate();
+            //});
+            loadUIRate();
+
+            if ('@TempData["Msg"]' != '' && '@TempData["MsgType"]' != '') {
+                alert('@TempData["Msg"]', '', false, '@TempData["MsgType"]')
+            }
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            return false;
+
+
+        });
+        $('#txtFrmDate').on("propertychange change keyup paste input", function () {
+            if ($('#txtFrmDate').val() == "") {
+                return;
+            }
+            loadUIRate();
+        });
+        function loadUIRate() {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "UIRate/GetData/" + $('#txtFrmDate').val().replace('/', '-').replace('/', '-')+"/1/1",
+                dataType: "json",//type of data to be received
+                success: function (rates, status, jqXHR) {
+                    var str = "";
+                    ExcelHidefn(2);
+
+                    if (rates.length > 0) {
+                        ExcelHidefn(2);
+                    }
+                    else {
+                        ExcelHidefn(1);
+                    }
+                    if (rates != undefined) {
+                        rates.forEach(function (response) {
+
+                            str += "<tr>" +
+                                "<td>" + response.frequency + "</td>" +
+                                "<td>" + response.positive + "</td>" +
+                                "<td>" + ((response.negative == null) ? " " : response.negative) + "</td>" +
+                                "</tr>";
+
+
+                        });
+                    }
+                    if (rates == "E") {
+                        if (rates.Data.d.length > 0)
+                            alert(rates.Data.d);
+
+                    }
+                    if ($("#lsttable").hasClass("dataTable")) {
+                        var table = $('#lsttable').dataTable();
+
+                        table.fnClearTable();
+                        table.fnDestroy();
+                        $("#data").html(str);
+
+                        $("#lsttable").dataTable(
+                            {
+                                pageLength: 10,
+                                "aoColumns": [
+                                            null,
+                                            null,
+                                            null//,
+                                           // null
+                                ]
+                            });
+
+
+                    }
+                    else {
+                        var s = "";
+                        $("#data").html(str);
+
+                        $("#lsttable").dataTable(
+                           {
+                               pageLength: 10,
+                               "aoColumns": [
+                                           null,
+                                           null,
+                                           null//,
+                                          // null
+                               ]
+                           });
+
+
+                    }
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    // alert(error);
+                    ExcelHidefn(1);
+                    if (box) box.remove();
+                }
+            });
+        }
+        $('#btnSubmit').on('click', function (event) {
+            if ($('#txtFrmDate').val() == '') {
+                event.preventDefault();
+                alert('Date is mandatory.', '', false, "M");
+
+            }
+            //if ($('#drpstageid :selected').text() == 'Select') {
+
+            //    alert('Stage is mandatory.', '', false, "M");
+            //    event.preventDefault();
+
+            //    return;
+
+            //}
+        });
+
+        function ExcelHidefn(flag) {
+            if (flag == 1) {
+                $('#divExcel').hide();
+            } if (flag == 2) {
+                $('#divExcel').show();
+            }
+        }
+        ExcelHidefn(1);
+
+        function Export() {
+            if ($('#drpstageid :selected').val() == "0" || $('#drpstageid :selected').val() == "") {
+                alert('Please Select Stage', '', false, "M");
+                return false;
+            }
+            if ($('#txtFrmDate').val() == "" || $('#txtFrmDate').val() == "") {
+                alert('Please Select Date', '', false, "M");
+                return false;
+            }
+
+            var stageid = 1;
+            var selectedtext = 1;
+            var ddlRevision = 1;
+            var ddlRevisionText = "Revision";
+            var dates = $('#txtFrmDate').val().replace('/', '-').replace('/', '-');
+            var LabelValue = dates + "~" + stageid + "~" + ddlRevision;
+            var SelectValue = $('#txtFrmDate').val() + "~" + selectedtext + "~" + ddlRevisionText;
+            document.getElementById('InputString').value = SelectValue;
+            document.getElementById('InputStr').value = LabelValue;
+        }
+
+
+        
+
+    </script>
+
+}
+
+
+<div id="trgPopup">
+
+</div>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">UI Rate List</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="table-responsive ls-table">
+                                        @using (Html.BeginForm("Upload", "UIRateDatewise", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            @*<input id="Dateformat" name="Dateformat" type="hidden" />
+                                            <input id="ServerDateformat" name="ServerDateformat" type="hidden" />*@
+                                            <div class="row" style=" margin:0 0 10px 0;">
+											<div class="col-md-12" style="background-color: #d4d4d4; padding:0;">
+											<div class="row">
+                                                <div class="col-md-3">
+                                                    @*<input type="file" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />*@
+                                                    <input type="file" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="btn btn-info pull-left btn-sm" style="display:block!important" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3" style="font-weight:600; padding-top:8px;">Applicable Date </div>
+                                                    
+                                                        <div id="dtFrmDate" class="col-md-4">
+                                                            <input id="txtFrmDate" name="txtFrmDate" class="form-control" type="text" readonly />
+                                                        </div>
+                                                    @*<div class="col-md-2">Stage ID</div>
+                                                    <div class="col-md-4">
+                                                        <select id="drpstageid" name="drpstageid" class="form-control"></select>
+                                                    </div>*@
+                                                    </div>
+                                                    @*<td>Stage ID</td>
+                                                        <td>
+                                                            <select id="drpstageid" name="drpstageid" class="form-control"></select>
+                                                        </td>*@
+                                                    <div class="col-md-3 text-right">
+                                                        <input type="submit" name="Upload" value="Upload" id="btnSubmit" class="btn btn-success btn-sm" />
+                                                        @Html.ActionLink("Download Template", "download", "UIRateDatewise", null, new { @id = "btnDownload", @class = "btn btn-warning btn-sm" })
+                                                    </div>
+                                                </div></div></div>
+                                        }
+										
+                                        <div class="clearfix"></div>
+										
+                                        
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th width="5%" style="text-align:center">Frequency</th>
+                                                    <th width="14%" style="text-align:center">UI Rate Positive</th>
+                                                    <th width="14%" style="text-align:center">UI Rate Negative</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+                                        </table>
+                                        <div id="divExcel">
+                                            <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:left;">
+                                                <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                                @using (Html.BeginForm("Export", "UIRateDatewise", FormMethod.Get, new { id = "ExcelForm" }))
+                                                {
+                                                    @Html.Hidden("InputString")
+                                                    @Html.Hidden("InputStr")
+                                                    @*<button class="btn btn-success"  id="btnExport" type="button">Export to Excel</button>*@
+                                                    <button type="submit" class="btn btn-success" onclick="return Export()" id="btnExport" style="font-weight:400;  margin:10px 0px;">Export To excel</button>
+                                                }
+                                            </div>
+                                        </div>
+                                           
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

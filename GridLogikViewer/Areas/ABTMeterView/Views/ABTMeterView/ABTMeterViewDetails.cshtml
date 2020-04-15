@@ -1,0 +1,1003 @@
+﻿
+@model GridLogikViewer.APIModels.InstanceData
+@*@model IEnumerable<GridLogikViewer.APIModels.InstanceData>*@
+@{
+    ViewBag.Title = "Meter View Details";
+}
+
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2>Meter View</h2>
+        @Html.HiddenFor(m => m.METERID)
+
+    </div>
+    <div class="form-group col-md-4" style="border:0px solid #f00;">
+        <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group</label>
+        <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 5px 0px;">
+            @Html.DisplayFor(model => model.Group_Name)
+        </div>
+    </div>
+    <div class="form-group col-md-4" style="border:0px solid #f00;">
+        <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>
+        <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 5px 0px;">
+            @Html.DisplayFor(model => model.Meter_Name)
+        </div>
+    </div>
+
+    @*<div class="row">
+        <div class="col-md-12">
+            <div id="divParent">
+                <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:right;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBack">Back</button>
+                </div>
+                </div>
+            </div>
+        </div>*@
+    <div class="form-group col-md-4" style="border:0px solid #f00;">
+        <div class="col-md-12" style="border:0px solid #f00; ">
+            <button type="button" class="btn btn-flatpurple col-md-12" id="CurrentDate" style="font-weight:bold; margin:0px 5px;">@Model.CurrentDate</button>
+        </div>
+    </div>
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <div class="col-md-12" style="border:0px solid #f00; ">
+            <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+
+            <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 8px;" id="btnPlotChart">Chart</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+
+
+    <div class="col-lg-7">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Phase Voltage (V)</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="40%">R-N</th>
+
+                                    <td><label id="PVRN"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>Y-N</th>
+                                    <td><label id="PVYN"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>B-N</th>
+                                    <td><label id="PVBN"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>L-N</td>
+                                    <td><label id="PVLN"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Line Voltage (V)</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="40%">RY</th>
+                                    <td><label id="LVRY"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>YB</th>
+                                    <td><label id="LVYB"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>BR</th>
+                                    <td><label id="LVBR"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>LL</th>
+                                    <td><label id="LVLL"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Current (A)</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="40%">R</th>
+                                    <td><label id="IR"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>Y</th>
+                                    <td><label id="IY"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>B</th>
+                                    <td><label id="IB"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>I</th>
+                                    <td><label id="II"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="panel panel-default">
+
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed" style="margin:6px 0;">
+                            <thead>
+                                <tr>
+                                    <th>Power</th>
+                                    <th>KW</th>
+                                    <th>KVAR</th>
+                                    <th>KVA</th>
+                                    <th>PF</th>
+                                    <th>Hz</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th><strong>R</strong></th>
+                                    <td><label id="KWR"></label></td>
+                                    <td><label id="KVARR"></label></td>
+                                    <td><label id="KVAR"></label></td>
+                                    <td><label id="PFR"></label></td>
+                                    <td><label id="HZR"></label></td>
+                                </tr>
+                                <tr>
+                                    <th><strong>Y</strong></th>
+                                    <td><label id="KWY"></label></td>
+                                    <td><label id="KVARY"></label></td>
+                                    <td><label id="KVAY"></label></td>
+                                    <td><label id="PFY"></label></td>
+                                    <td><label id="HZY"></label></td>
+                                </tr>
+                                <tr>
+                                    <th><strong>B</strong></th>
+                                    <td><label id="KWB"></label></td>
+                                    <td><label id="KVARB"></label></td>
+                                    <td><label id="KVAB"></label></td>
+                                    <td><label id="PFB"></label></td>
+                                    <td><label id="HZB"></label></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total</strong></td>
+                                    <td><label id="KWT"></label></td>
+                                    <td><label id="KVART"></label></td>
+                                    <td><label id="KVAT"></label></td>
+                                    <td><label id="PFT"></label></td>
+                                    <td><label id="HZT"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Hz</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <td><label id="HZ"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-7">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Energy Export</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="60%">
+                                        KWh
+
+                                    </th>
+                                    <td><label id="EEKWH"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        KVARh Lag
+                                    </th>
+                                    <td><label id="EEKVARHG"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        KVARh Lead
+                                    </th>
+                                    <td><label id="EEKVARHD"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVAh</th>
+                                    <td><label id="EEKVAH"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Energy Import</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="60%">KWh </th>
+                                    <td><label id="EIKWH"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lag </th>
+                                    <td><label id="EIKVARHG"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lead </th>
+                                    <td><label id="EIKVARHL"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>KVAh</td>
+                                    <td><label id="EIKVAH"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Current Block Net</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="60%">KWh </th>
+                                    <td><label id="CBNKWH"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lag </th>
+                                    <td><label id="CBNKVARHG"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lead </th>
+                                    <td><label id="CBNKVARHL"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVAh</th>
+                                    <td><label id="CBNKVAH"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+    <div class="col-lg-5">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">Last Block Net</div>
+                    <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                        <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>-->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-condensed">
+
+                        <tbody>
+                            <tr>
+                                <th width="60%">KWh </th>
+                                <td><label id="LBNKWH"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lag </th>
+                                <td><label id="LBNKVARHG"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lead </th>
+                                <td><label id="LBNKVARHL"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVAh</th>
+                                <td><label id="LBNKVARH"></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">Day Net</div>
+                    <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                        <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>-->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-condensed">
+
+                        <tbody>
+                            <tr>
+                                <th width="60%">KWh </th>
+                                <td><label id="DNKWH"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lag </th>
+                                <td><label id="DNKVARHG"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lead </th>
+                                <td><label id="DNKVARHL"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVAh</th>
+                                <td><label id="DNKVAH"></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="row">
+    <div class="col-lg-7">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Last Block Avg</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="40%">KW</th>
+                                    <td><label id="LBAKW"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>Hz</th>
+                                    <td><label id="LBAHZ"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVA</th>
+                                    <td><label id="LBAKVA"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Line Voltage (V)</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="40%">KW</th>
+                                    <td><label id="LVKW"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>Hz</th>
+                                    <td><label id="LVHZ"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVA</th>
+                                    <td><label id="LVKVA"></label></td>
+                                </tr>
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">KVARh  V > 103 % Vn</div>
+                        <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                            <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                            <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                        </div>-->
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped table-bordered table-condensed">
+
+                            <tbody>
+                                <tr>
+                                    <th width="60%">KVARh Lag Export</th>
+                                    <td><label id="KVARHE103"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lag Import</th>
+                                    <td><label id="KVARHI103"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lead Export</th>
+                                    <td><label id="KVARHLE103"></label></td>
+                                </tr>
+                                <tr>
+                                    <th>KVARh Lead Import</th>
+                                    <td><label id="KVARHLI103"></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-lg-5">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">KVARh  V < 97 % Vn</div>
+                    <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                        <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>-->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-condensed">
+
+                        <tbody>
+                            <tr>
+                                <th width="60%">KVARh Lag Export</th>
+                                <td><label id="KVARHE97"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lag Import</th>
+                                <td><label id="KVARHI97"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lead Export</th>
+                                <td><label id="KVARHLE97"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lead Import</th>
+                                <td><label id="KVARHLI97"></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">Current (A)</div>
+                    <!--<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                        <a href="charts-flot.html#" class="btn-minimize"><i class="fa fa-chevron-up"></i></a>
+                        <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>-->
+                </div>
+                <div class="panel-body">
+                    <table class="table table-striped table-bordered table-condensed">
+
+                        <tbody>
+                            <tr>
+                                <th width="60%">KWh </th>
+                                <td><label id="KWHA"></label></td>
+                            </tr>
+                            <tr>
+                                <th>KVARh Lag </th>
+                                <td><label id="KVARHA"></label></td>
+                            </tr>
+                            <tr>
+                                <td>KVARh Lead </td>
+                                <td><label id="KVARHLA"></label></td>
+                            </tr>
+                            <tr>
+                                <td>KVAh</td>
+                                <td><label id="KVAHA"></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div class="row">
+
+
+    <div class="col-sm-3">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="dashboard-panel-body-box"> Voltage Graph Vrn,Vyn,Vbn,Vll </div>
+
+            </div>
+
+            <div class="panel-body">
+                <!-- <div id="VoltLine-StackChart" style="height:200px;"></div>-->
+                <div id="chart_container" class="chart-holder" style="height:200px;">
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="dashboard-panel-body-box"> Instantaneous data apending table </div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols">
+                        <!--<a href="charts-flot.html#" class="btn-setting"  data-toggle="modal" data-target="#ModalTable09"><i class="fa fa-eye"></i></a>-->
+                        <a href="charts-flot.html#" class="btn-minimize" id="btnPlotChart" onclick="PerformanceChartForLoad();"><i class="fa fa-chevron-up"></i></a>
+                        <a href="charts-flot.html#" class="btn-close"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+
+                <div class="panel-body table">
+
+                    <div style="overflow-x:scroll; width:100%;">
+                        <table cellpadding="0" cellspacing="0" border="0" class="table table-bordered table-striped	 display"
+                               width="100%">
+                            <thead>
+                                <tr>
+                                    <th style=" white-space:nowrap;"> Date & Time  </th>
+                                    <th style=" white-space:nowrap;"> Vrn  </th>
+                                    <th> Vyn </th>
+                                    <th> Vbn </th>
+                                    <th> Vln  </th>
+                                    <th> Vry </th>
+                                    <th> Vyb </th>
+                                    <th> Vbr  </th>
+                                    <th> Vll </th>
+                                    <th> Ir </th>
+                                    <th> Iy  </th>
+                                    <th> Ib </th>
+                                    <th> I </th>
+                                    <th> PF </th>
+                                    <th> KW</th>
+                                    <th> KVAR</th>
+                                    <th> KVA </th>
+                                    <th> Hz</th>
+                                </tr>
+
+                            </thead>
+                            <tbody id="data"></tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+
+
+
+        $(document).ready(function () {
+            debugger
+            auto_load();
+        });
+
+        function auto_load() {
+
+            meterId = $("#METERID").val();
+
+            ABTMeterDetails(meterId);
+            InstantaneousData(meterId);
+            return false;
+        }
+
+        setInterval(auto_load, 3000);
+
+        function ABTMeterDetails(meterId) {
+            debugger
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "InstanceDataDetailsAPI/GetMeterDetails/" + meterId,
+                dataType: "json",//type of data to be received
+                success: function (response, status, jqXHR) {
+                    debugger
+
+                    //  var obj = JSON.parse(response);
+                    //if (obj != null) {
+                    //    var obj = response;
+                    //}
+                    if (response != undefined && response != null) {
+                        var obj = response;
+                        var fullDate = new Date();
+                        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                        var ampm = fullDate.getHours() < 12 ? " AM" : " PM";
+                        var time = moment(fullDate).format("hh:mm:ss") + ampm;
+
+                        //  var month = moment(fullDate).format("MMM");
+                        var currentDate = fullDate.getDate() + "-" + twoDigitMonth + "-" + fullDate.getFullYear() + " | " + time;
+                        $("#CurrentDate").text(currentDate);
+                        debugger
+                        //phasevoltage
+                        $("#PVRN").text(obj.vrn == null ? "-" : obj.vrn);
+                        $("#PVYN").text(obj.vyn == null ? "-" : obj.vyn);
+                        $("#PVBN").text(obj.vbn == null ? "-" : obj.vbn);
+                        $("#PVLN").text(obj.vln == null ? "-" : obj.vln);
+                        //linevoltage
+                        $("#LVRY").text(obj.vry == null ? "-" : obj.vry);
+                        $("#LVYB").text(obj.vyb == null ? "-" : obj.vyb);
+                        $("#LVBR").text(obj.vbr == null ? "-" : obj.vbr);
+                        $("#LVLL").text(obj.vll == null ? "-" : obj.vll);
+                        //current
+                        $("#IR").text(obj.ir == null ? "-" : obj.ir);
+                        $("#IY").text(obj.iy == null ? "-" : obj.iy);
+                        $("#IB").text(obj.ib == null ? "-" : obj.ib);
+                        $("#II").text(obj.i == null ? "-" : obj.i);
+                        //power
+                        $("#KWR").text(obj.kwr == null ? "-" : obj.kwr);
+                        $("#KVARR").text(obj.kvarr == null ? "-" : obj.kvarr);
+                        $("#KVAR").text(obj.kva_r == null ? "-" : obj.kva_r);
+                        $("#PFR").text(obj.pfr == null ? "-" : obj.pfr);
+                        //  $("#HZR").text(obj.i == null ? "-" : obj.i);
+
+                        $("#KWY").text(obj.kwy == null ? "-" : obj.kwy);
+                        $("#KVARY").text(obj.kvary == null ? "-" : obj.kvary);
+                        $("#KVAY").text(obj.kvay == null ? "-" : obj.kvay);
+                        $("#PFY").text(obj.pfy == null ? "-" : obj.pfy);
+                        //  $("#HZY").text(obj.i == null ? "-" : obj.i);
+
+
+
+                        $("#KWB").text(obj.kwb == null ? "-" : obj.kwb);
+                        $("#KVARB").text(obj.kvarb == null ? "-" : obj.kvarb);
+                        $("#KVAB").text(obj.kvab == null ? "-" : obj.kvab);
+                        $("#PFB").text(obj.pfb == null ? "-" : obj.pfb);
+                        // $("#HZB").text(obj.i == null ? "-" : obj.i);
+
+
+
+                        $("KWT").text($("#KWR").val + $("#KWY").val + $("KWB").val);
+
+                        $("KVART").text($("#KVARR").val + $("#KVARY").val + $("#KVARB").val);
+                        $("KVAT").text($("#KVAR").val + $("#KVAY").val + $("#KVAB").val);
+                        $("PFT").text($("#PFR").val + $("#PFY").val + $("#PFB").val);
+                        // $("HZT").text($("#HZR").val + $("#HZY").val + $("#HZB").val);
+
+
+
+                        //hz
+
+                        $("#HZ").text(obj.hz == null ? "-" : obj.hz);
+
+
+
+                        //eneryexport
+                        $("#EEKWH").text(obj.kwh_exp == null ? "-" : obj.kwh_exp);
+                        $("#EEKVARHG").text(obj.kvarh_lag_exp == null ? "-" : obj.kvarh_lag_exp);
+                        $("#EEKVARHD").text(obj.kvarh_lead_exp == null ? "-" : obj.kvarh_lead_exp);
+                        $("#EEKVAH").text(obj.kvah_exp == null ? "-" : obj.kvah_exp);
+
+
+
+
+
+                        //energyimport
+                        $("#EIKWH").text(obj.kwh_imp == null ? "-" : obj.kwh_imp);
+                        $("#EIKVARHG").text(obj.kvarh_lag_imp == null ? "-" : obj.kvarh_lag_imp);
+                        $("#EIKVARHL").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#EIKVAH").text(obj.kvah_imp == null ? "-" : obj.kvah_imp);
+
+
+
+                        //cbln
+                        $("#CBNKWH").text(obj.kwh_imp == null ? "-" : obj.kwh_imp);
+                        $("#CBNKVARHG").text(obj.kvarh_lag_imp == null ? "-" : obj.kvarh_lag_imp);
+                        $("#CBNKVARHL").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#CBNKVAH").text(obj.kvah_imp == null ? "-" : obj.kvah_imp);
+                        //lbn
+                        $("#LBNKWH").text(obj.kwh_imp == null ? "-" : obj.kwh_imp);
+                        $("#LBNKVARHG").text(obj.kvarh_lag_imp == null ? "-" : obj.kvarh_lag_imp);
+                        $("#LBNKVARHL").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#LBNKVARH").text(obj.kvah_imp == null ? "-" : obj.kvah_imp);
+
+
+                        //Daynet
+                        $("#DNKWH").text(obj.kwh_imp == null ? "-" : obj.kwh_imp);
+                        $("#DNKVARHG").text(obj.kvarh_lag_imp == null ? "-" : obj.kvarh_lag_imp);
+                        $("#DNKVARHL").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#DNKVAH").text(obj.kvah_imp == null ? "-" : obj.kvah_imp);
+
+
+
+                        //  Last Block Avg
+                        $("#LBAKW").text(obj.kwh_imp == null ? "-" : obj.kwh_imp);
+                        $("#LBAHZ").text(obj.lblk_avg_hz == null ? "-" : obj.lblk_avg_hz);
+                        $("#LBAKVA").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        //Line Voltage
+                        $("#LVKW").text(obj.kw == null ? "-" : obj.kw);
+                        $("#LVHZ").text(obj.hz == null ? "-" : obj.hz);
+                        $("#LVKVA").text(obj.kva == null ? "-" : obj.kva);
+                        //KVARh  V > 103 % Vn
+                        $("#KVARHE103").text(obj.kvarh_exp_103 == null ? "-" : obj.kvarh_exp_103);
+                        $("#KVARHI103").text(obj.kvarh_imp_103 == null ? "-" : obj.kvarh_imp_103);
+                        $("#KVARHLE103").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#KVARHLI103").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+
+                        //KVARh  V < 97 % Vn
+                        $("#KVARHE97").text(obj.kvarh_exp_103 == null ? "-" : obj.kvarh_exp_103);
+                        $("#KVARHI97").text(obj.kvarh_imp_103 == null ? "-" : obj.kvarh_imp_103);
+                        $("#KVARHLE97").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#KVARHLI97").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+
+
+                        //Current(A)
+
+                        $("#KWHA").text(obj.kvarh_exp_103 == null ? "-" : obj.kvarh_exp_103);
+                        $("#KVARHA").text(obj.kvarh_imp_103 == null ? "-" : obj.kvarh_imp_103);
+                        $("#KVARHLA").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+                        $("#KVAHA").text(obj.kvarh_lead_imp == null ? "-" : obj.kvarh_lead_imp);
+
+                    }
+
+
+
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+
+            });
+        }
+
+
+
+
+
+        function InstantaneousData(meterId) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "InstanceDataDetailsAPI/GetTableData/" + meterId,
+                dataType: "json",//type of data to be received
+                success: function (response, status, jqXHR) {
+                    var str = "";
+                    if (response != undefined && response != null) {
+                        debugger
+                        var obj = response;
+
+                        var fullDate = new Date();
+                        var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                        var ampm = fullDate.getHours() < 12 ? " AM" : " PM";
+                        var time = moment(fullDate).format("hh:mm:ss") + ampm;
+
+                        //  var month = moment(fullDate).format("MMM");
+                        var currentDate = fullDate.getDate() + "-" + twoDigitMonth + "-" + fullDate.getFullYear() + " | " + time;
+                        $("#CurrentDate").text(currentDate);
+                        obj.forEach(function (response) {
+
+                            debugger
+                            str += "<tr>" +
+                              "<td>" + response.tstamp + "</td>" +
+                             "<td>" + ((response.vrn == null) ? " " : response.vrn) + "</td>" +
+                              "<td>" + ((response.vyn == null) ? " " : response.vyn) + "</td>" +
+                              "<td>" + ((response.vbn == null) ? " " : response.vbn) + "</td>" +
+                             "<td>" + ((response.vln == null) ? " " : response.vln) + "</td>" +
+                              "<td>" + ((response.vry == null) ? " " : response.vry) + "</td>" +
+                               "<td>" + ((response.vyb == null) ? " " : response.vyb) + "</td>" +
+                             "<td>" + ((response.vbr == null) ? " " : response.vbr) + "</td>" +
+                               "<td>" + ((response.vll == null) ? " " : response.vll) + "</td>" +
+                                 "<td>" + ((response.ir == null) ? " " : response.ir) + "</td>" +
+                                   "<td>" + ((response.iy == null) ? " " : response.iy) + "</td>" +
+                                     "<td>" + ((response.ib == null) ? " " : response.ib) + "</td>" +
+                                      "<td>" + ((response.i == null) ? " " : response.i) + "</td>" +
+                                         "<td>" + ((response.pf == null) ? " " : response.pf) + "</td>" +
+                                       "<td>" + ((response.kw == null) ? " " : response.kw) + "</td>" +
+                                        "<td>" + ((response.kvar == null) ? " " : response.kvar) + "</td>" +
+                                         "<td>" + ((response.kva == null) ? " " : response.kva) + "</td>" +
+                                          "<td>" + ((response.hz == null) ? " " : response.hz) + "</td>" +
+
+
+
+
+                                "</tr>";
+
+                        });
+
+                    }
+                    $("#data").html(str);
+                },
+
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+
+        }
+
+    </script>
+

@@ -1,0 +1,756 @@
+﻿@*@model List<GridLogikViewer.APIModels.GetAllinstancedata>*@
+@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+    .bgimg {
+        background-image: url('../Content/images/CHP.png');
+    }
+</style>
+<div class="col-lg-12">
+
+    <div class="form-group col-md-4" style="border:0px solid #f00;">
+        <h2></h2>
+
+    </div>
+
+</div>
+<br />
+@*background-image: url(/Content/images/SLD1.png); background-size: 100px 100px*@
+@*kunal new abt*@
+<div class="row">
+    <div class="col-lg-12" style="border: 0px solid #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @*<div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">SLD One<!--<b style="font-size:16px;">Energy</b>--></div>*@
+
+            </div>
+            <div class="col-lg-12" style="border:0px solid  #000; padding:0px;">
+                <div class="col-lg-12" style="border:0px solid  #000; ">
+                    <div class="panel panel-default">
+
+                        <table class="table table-bordered results">
+
+                            <tbody class="table-style_02 ">
+                                <tr>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Parameter </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">
+                                        <select id="DataParameter" name="DataParameter" size="1">
+                                            <option>KW</option>
+                                            <option>KWH</option>
+
+
+                                        </select>
+                                    </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Date </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row"><input type="text" id="datepicker" /> </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Start Time </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">
+                                        <select id="DataParameter1" name="DataParameter" size="1">
+                                            <option>00:00</option>
+                                            <option>00:15</option>
+                                            <option>00:30</option>
+                                            <option>00:45</option>
+                                            <option>01:00</option>
+                                            <option>01:15</option>
+                                            <option>01:30</option>
+                                            <option>01:45</option>
+                                            <option>02:00</option>
+                                            <option>02:15</option>
+                                            <option>02:30</option>
+                                            <option>02:45</option>
+                                            <option>03:00</option>
+                                            <option>03:15</option>
+                                            <option>03:30</option>
+                                            <option>03:45</option>
+                                            <option>04:00</option>
+                                            <option>04:15</option>
+                                            <option>04:30</option>
+                                            <option>04:45</option>
+                                            <option>05:00</option>
+                                            <option>05:15</option>
+                                            <option>05:30</option>
+                                            <option>05:45</option>
+                                            <option>06:00</option>
+                                            <option>06:15</option>
+                                            <option>06:30</option>
+                                            <option>06:45</option>
+                                            <option>07:00</option>
+                                            <option>07:15</option>
+                                            <option>07:30</option>
+                                            <option>07:45</option>
+                                            <option>08:00</option>
+                                            <option>08:15</option>
+                                            <option>08:30</option>
+                                            <option>08:45</option>
+                                            <option>09:00</option>
+                                            <option>09:15</option>
+                                            <option>09:30</option>
+                                            <option>09:45</option>
+                                            <option>10:00</option>
+                                            <option>10:15</option>
+                                            <option>10:30</option>
+                                            <option>10:45</option>
+                                            <option>11:00</option>
+                                            <option>11:15</option>
+                                            <option>11:30</option>
+                                            <option>11:45</option>
+                                            <option>12:00</option>
+                                            <option>12:15</option>
+                                            <option>12:30</option>
+                                            <option>12:45</option>
+                                            <option>13:00</option>
+                                            <option>13:15</option>
+                                            <option>13:30</option>
+                                            <option>13:45</option>
+                                            <option>14:00</option>
+                                            <option>14:15</option>
+                                            <option>14:30</option>
+                                            <option>14:45</option>
+                                            <option>15:00</option>
+                                            <option>15:15</option>
+                                            <option>15:30</option>
+                                            <option>15:45</option>
+                                            <option>16:00</option>
+                                            <option>16:15</option>
+                                            <option>16:30</option>
+                                            <option>16:45</option>
+                                            <option>17:00</option>
+                                            <option>17:15</option>
+                                            <option>17:30</option>
+                                            <option>17:45</option>
+                                            <option>18:00</option>
+                                            <option>18:15</option>
+                                            <option>18:30</option>
+                                            <option>18:45</option>
+                                            <option>19:00</option>
+                                            <option>19:15</option>
+                                            <option>19:30</option>
+                                            <option>19:45</option>
+                                            <option>20:00</option>
+                                            <option>20:15</option>
+                                            <option>20:30</option>
+                                            <option>20:45</option>
+                                            <option>21:00</option>
+                                            <option>21:15</option>
+                                            <option>21:30</option>
+                                            <option>21:45</option>
+                                            <option>22:00</option>
+                                            <option>22:15</option>
+                                            <option>22:30</option>
+                                            <option>22:45</option>
+                                            <option>23:00</option>
+                                            <option>23:15</option>
+                                            <option>23:30</option>
+                                            <option>23:45</option>
+
+                                        </select>
+                                    </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">End Time </th>
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">
+                                        <select id="DataParameter2" name="DataParameter" size="1">
+                                            <option>00:00</option>
+                                            <option>00:15</option>
+                                            <option>00:30</option>
+                                            <option>00:45</option>
+                                            <option>01:00</option>
+                                            <option>01:15</option>
+                                            <option>01:30</option>
+                                            <option>01:45</option>
+                                            <option>02:00</option>
+                                            <option>02:15</option>
+                                            <option>02:30</option>
+                                            <option>02:45</option>
+                                            <option>03:00</option>
+                                            <option>03:15</option>
+                                            <option>03:30</option>
+                                            <option>03:45</option>
+                                            <option>04:00</option>
+                                            <option>04:15</option>
+                                            <option>04:30</option>
+                                            <option>04:45</option>
+                                            <option>05:00</option>
+                                            <option>05:15</option>
+                                            <option>05:30</option>
+                                            <option>05:45</option>
+                                            <option>06:00</option>
+                                            <option>06:15</option>
+                                            <option>06:30</option>
+                                            <option>06:45</option>
+                                            <option>07:00</option>
+                                            <option>07:15</option>
+                                            <option>07:30</option>
+                                            <option>07:45</option>
+                                            <option>08:00</option>
+                                            <option>08:15</option>
+                                            <option>08:30</option>
+                                            <option>08:45</option>
+                                            <option>09:00</option>
+                                            <option>09:15</option>
+                                            <option>09:30</option>
+                                            <option>09:45</option>
+                                            <option>10:00</option>
+                                            <option>10:15</option>
+                                            <option>10:30</option>
+                                            <option>10:45</option>
+                                            <option>11:00</option>
+                                            <option>11:15</option>
+                                            <option>11:30</option>
+                                            <option>11:45</option>
+                                            <option>12:00</option>
+                                            <option>12:15</option>
+                                            <option>12:30</option>
+                                            <option>12:45</option>
+                                            <option>13:00</option>
+                                            <option>13:15</option>
+                                            <option>13:30</option>
+                                            <option>13:45</option>
+                                            <option>14:00</option>
+                                            <option>14:15</option>
+                                            <option>14:30</option>
+                                            <option>14:45</option>
+                                            <option>15:00</option>
+                                            <option>15:15</option>
+                                            <option>15:30</option>
+                                            <option>15:45</option>
+                                            <option>16:00</option>
+                                            <option>16:15</option>
+                                            <option>16:30</option>
+                                            <option>16:45</option>
+                                            <option>17:00</option>
+                                            <option>17:15</option>
+                                            <option>17:30</option>
+                                            <option>17:45</option>
+                                            <option>18:00</option>
+                                            <option>18:15</option>
+                                            <option>18:30</option>
+                                            <option>18:45</option>
+                                            <option>19:00</option>
+                                            <option>19:15</option>
+                                            <option>19:30</option>
+                                            <option>19:45</option>
+                                            <option>20:00</option>
+                                            <option>20:15</option>
+                                            <option>20:30</option>
+                                            <option>20:45</option>
+                                            <option>21:00</option>
+                                            <option>21:15</option>
+                                            <option>21:30</option>
+                                            <option>21:45</option>
+                                            <option>22:00</option>
+                                            <option>22:15</option>
+                                            <option>22:30</option>
+                                            <option>22:45</option>
+                                            <option>23:00</option>
+                                            <option>23:15</option>
+                                            <option>23:30</option>
+                                            <option>23:45</option>
+
+                                        </select>
+                                    </th>
+
+                                    <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row"><button type="button" id="Submit">Submit</button>  </th>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!-- Modal03 popup -->
+                        <!--/col-->
+
+                    </div>
+                </div>
+            </div>
+            @*<div class="col-lg-3" style="border: 0px solid #000; padding:4px;">
+                    <label id="1" style=" font-size: 20px; color: black">
+                        Parameter:
+                    </label>
+                    <select id="DataParameter" name="DataParameter" size="1" style="position: absolute;  font-size: 20px; color: maroon; width: 20%">
+                        <option>KW</option>
+                        <option>KWH</option>
+
+                    </select>
+
+                </div>
+                <div class="col-lg-4" style="border: 0px solid #000; padding:4px;">
+                    <label id="1" style=" font-size: 20px; color: black">Date:  <input type="text" id="datepicker" /></label>
+                </div>*@
+            <div style=" height:750px;width:1070px;   border: 0px solid #000; background-image: url(/Content/images/CHP.png);">
+
+                <label id="1" style="position: absolute; top:108px; left: 510px; width: 100%; font-size: 20px; color: black">QAIT</label>
+                <label id="m1" style="position: absolute; top:260px; left: 45px; width: 100%; font-size: 15px; color: black"></label>
+                <label id="m2" style="position: absolute; top:140px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m3" style="position: absolute; top:160px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m4" style="position: absolute; top:180px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+
+                <label id="m5" style="position: absolute; top:200px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m6" style="position: absolute; top:220px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m7" style="position: absolute; top:240px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m8" style="position: absolute; top:260px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m9" style="position: absolute; top:280px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="m10" style="position: absolute; top:300px; left: 510px; width: 100%; font-size: 20px; color: black"></label>
+
+
+                <label id="k1" style="position: absolute; top:285px; left: 50px; width: 100%; font-size: 15px; color: black"></label>
+                <label id="k2" style="position: absolute; top:140px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k3" style="position: absolute; top:160px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k4" style="position: absolute; top:180px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+
+                <label id="k5" style="position: absolute; top:200px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k6" style="position: absolute; top:220px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k7" style="position: absolute; top:240px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k8" style="position: absolute; top:260px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k9" style="position: absolute; top:280px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="k10" style="position: absolute; top:300px; left: 440px; width: 100%; font-size: 20px; color: black"></label>
+
+                <label id="k11" style="position: absolute; top:150px; left: 45px; width: 100%; font-size: 15px; color: black"></label>
+
+                <label id="v1" style="position: absolute; top:285px; left: 200px; width: 100%; font-size: 15px; color: black"></label>
+                <label id="v2" style="position: absolute; top:140px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v3" style="position: absolute; top:160px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v4" style="position: absolute; top:180px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+
+                <label id="v5" style="position: absolute; top:200px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v6" style="position: absolute; top:220px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v7" style="position: absolute; top:240px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v8" style="position: absolute; top:260px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v9" style="position: absolute; top:280px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v10" style="position: absolute; top:300px; left: 340px; width: 100%; font-size: 20px; color: black"></label>
+                <label id="v11" style="position: absolute; top:150px; left: 200px; width: 100%; font-size: 15px; color: black"></label>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(function () {
+        $("#datepicker").datepicker({ minDate: -100, maxDate: "+0D" });
+        $("#datepicker").datepicker("setDate", new Date());
+        $("#datepicker").datepicker("option", "dateFormat", "dd/mm/yy");
+    });
+</script>
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "KW";
+    var MeterString = "1,2,3,4,5,6,7,8,9,10";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        debugger
+        $("#DataParameter").change(function () {
+
+            data = $('#DataParameter option:selected').text();
+
+        });
+        $("#Submit").click(function () {
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            // window.location.href = '@Url.Action("One", "ILFS")';
+            LoadData();
+        });
+        ABTMeterDetails();
+    });
+    setInterval(ABTMeterDetails, 1000);
+    function ABTMeterDetails() {
+        $("#k1").html(data);
+        $("#k2").html(data);
+        $("#k3").html(data);
+        $("#k4").html(data);
+        $("#k5").html(data);
+        $("#k6").html(data);
+        $("#k7").html(data);
+        $("#k8").html(data);
+        $("#k9").html(data);
+        $("#k10").html(data);
+        $("#k11").html(data);
+
+        if (data == "KW") {
+
+            $.ajax({
+
+                type: "POST",
+                url: BaseAddress + "GetAllInstanceData/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(MeterIdList),
+                dataType: "json",
+
+                success: function (response, status, jqXHR) {
+                    debugger
+                    var jsonObj = response.Data.result;
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+
+                        var total = 0;
+                        jsonObj.forEach(function (responseobj) {
+                            debugger
+                            //var valueText = responseobj + "." + data;
+                            //if (isNaN(valueText)) {
+
+                            //    valueText = "0";
+
+                            //}
+
+                            if (responseobj.meterid == 1) {
+                                // $("#1").html(valueText.toFixed(2).toString());
+                                $("#m1").html(responseobj.meter_name);
+                                $("#v1").html(responseobj.kw);
+                                total = total + responseobj.kw;
+
+                            }
+                            else if (responseobj.meterid == 2) {
+                                $("#m2").html(responseobj.meter_name);
+                                $("#v2").html(responseobj.kw);
+                            }
+                            else if (responseobj.meterid == 3) {
+                                $("#m3").html(responseobj.meter_name);
+                                $("#v3").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+                            else if (responseobj.meterid == 4) {
+                                $("#m4").html(responseobj.meter_name);
+                                $("#v4").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+                            else if (responseobj.meterid == 5) {
+                                $("#m5").html(responseobj.meter_name);
+                                $("#v5").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+
+                            else if (responseobj.meterid == 6) {
+                                $("#m6").html(responseobj.meter_name);
+                                $("#v6").html(responseobj.kw);
+                            }
+
+                            else if (responseobj.meterid == 7) {
+                                $("#m7").html(responseobj.meter_name);
+                                $("#v7").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+                            else if (responseobj.meterid == 8) {
+                                $("#m8").html(responseobj.meter_name);
+                                $("#v8").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+                            else if (responseobj.meterid == 9) {
+                                $("#m9").html(responseobj.meter_name);
+                                $("#v9").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+
+                            else if (responseobj.meterid == 10) {
+                                $("#m10").html(responseobj.meter_name);
+                                $("#v10").html(responseobj.kw);
+                                total = total + responseobj.kw;
+                            }
+
+
+                        });
+
+
+                        $("#v11").html(total);
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+
+        }
+    }
+    function LoadData() {
+
+
+
+        var date = $("#datepicker").val().toString();
+        var time1 = $("#DataParameter1").val().toString();
+        var time2 = $("#DataParameter2").val().toString();
+
+        var ConfingArrDATE = new Array();
+        var ConfingArrTime1 = new Array();
+        var ConfingArrTime2 = new Array();
+        ConfingArrDATE = date.split('/');
+        ConfingArrTime1 = time1.split(':');
+        ConfingArrTime2 = time2.split(':');
+
+        fromDay = ConfingArrDATE[0];
+        fromMonth = ConfingArrDATE[1];
+        fromyear = ConfingArrDATE[2];
+        fromH1 = ConfingArrTime1[0];
+        fromH2 = ConfingArrTime1[1];
+
+        toDay = ConfingArrDATE[0];
+        toMonth = ConfingArrDATE[1];
+        toyear = ConfingArrDATE[2];
+        toH1 = ConfingArrTime2[0];
+        toH2 = ConfingArrTime2[1];
+
+        var minv1 = 0;
+        var minv2 = 0;
+        var minv3 = 0;
+        var minv4 = 0;
+        var minv5 = 0;
+        var minv6 = 0;
+        var minv7 = 0;
+        var minv8 = 0;
+        var minv9 = 0;
+        var minv10 = 0;
+        var maxv1 = 0;
+        var maxv2 = 0;
+        var maxv3 = 0;
+        var maxv4 = 0;
+        var maxv5 = 0;
+        var maxv6 = 0;
+        var maxv7 = 0;
+        var maxv8 = 0;
+        var maxv9 = 0;
+        var maxv10 = 0;
+        var flagv1 = 0;
+        var flagv2 = 0;
+        var flagv3 = 0;
+        var flagv4 = 0;
+        var flagv5 = 0;
+        var flagv6 = 0;
+        var flagv7 = 0;
+        var flagv8 = 0;
+        var flagv9 = 0;
+        var flagv10 = 0;
+
+        try {
+            $.ajax({
+                type: "GET",
+
+                //meterid,Month,Year
+                url: BaseAddress + "GetAllInstanceData/GetDayWiseData/" + fromDay + "/" + fromMonth + "/" + fromyear + "/" + fromH1 + "/" + fromH2 + "/" + toDay + "/" + toMonth + "/" + toyear + "/" + toH1 + "/" + toH2,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    debugger
+                    var jsonObj = response;
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+
+                        var total = 0;
+                        jsonObj.forEach(function (responseobj) {
+                            debugger
+                            //var valueText = responseobj + "." + data;
+                            //if (isNaN(valueText)) {
+
+                            //    valueText = "0";
+
+                            //}
+
+                            if (responseobj.meterid == 1) {
+                                // $("#1").html(valueText.toFixed(2).toString());
+                                if (flagv1 == 0) {
+                                    minv1 = responseobj.kwh_exp;
+                                    flagv1 = 1;
+                                }
+                                if (maxv1 < responseobj.kwh_exp) {
+                                    maxv1 = responseobj.kwh_exp;
+                                }
+
+                                $("#m1").html(responseobj.meter_name);
+
+
+
+                            }
+                            else if (responseobj.meterid == 2) {
+                                if (flagv2 == 0) {
+                                    minv2 = responseobj.kwh_exp;
+                                    flagv2 = 1;
+                                }
+                                if (maxv2 < responseobj.kwh_exp) {
+                                    maxv2 = responseobj.kwh_exp;
+                                }
+                                $("#m2").html(responseobj.meter_name);
+
+                            }
+                            else if (responseobj.meterid == 3) {
+                                if (flagv3 == 0) {
+                                    minv3 = responseobj.kwh_exp;
+                                    flagv3 = 1;
+                                }
+                                if (maxv3 < responseobj.kwh_exp) {
+                                    maxv3 = responseobj.kwh_exp;
+                                }
+                                $("#m3").html(responseobj.meter_name);
+
+
+                            }
+                            else if (responseobj.meterid == 4) {
+                                if (flagv4 == 0) {
+                                    minv4 = responseobj.kwh_exp;
+                                    flagv4 = 1;
+                                }
+                                if (maxv4 < responseobj.kwh_exp) {
+                                    maxv4 = responseobj.kwh_exp;
+                                }
+                                $("#m4").html(responseobj.meter_name);
+
+
+                            }
+                            else if (responseobj.meterid == 5) {
+                                if (flagv5 == 0) {
+                                    minv5 = responseobj.kwh_exp;
+                                    flagv5 = 1;
+                                }
+                                if (maxv5 < responseobj.kwh_exp) {
+                                    maxv5 = responseobj.kwh_exp;
+                                }
+                                $("#m5").html(responseobj.meter_name);
+
+
+                            }
+
+                            else if (responseobj.meterid == 6) {
+                                if (flagv6 == 0) {
+                                    minv6 = responseobj.kwh_exp;
+                                    flagv6 = 1;
+                                }
+                                if (maxv6 < responseobj.kwh_exp) {
+                                    maxv6 = responseobj.kwh_exp;
+                                }
+                                $("#m6").html(responseobj.meter_name);
+
+                            }
+
+                            else if (responseobj.meterid == 7) {
+                                if (flagv7 == 0) {
+                                    minv7 = responseobj.kwh_exp;
+                                    flagv7 = 1;
+                                }
+                                if (maxv7 < responseobj.kwh_exp) {
+                                    maxv7 = responseobj.kwh_exp;
+                                }
+                                $("#m7").html(responseobj.meter_name);
+
+
+                            }
+                            else if (responseobj.meterid == 8) {
+                                if (flagv8 == 0) {
+                                    minv8 = responseobj.kwh_exp;
+                                    flagv8 = 1;
+                                }
+                                if (maxv8 < responseobj.kwh_exp) {
+                                    maxv8 = responseobj.kwh_exp;
+                                }
+                                $("#m8").html(responseobj.meter_name);
+
+
+                            }
+                            else if (responseobj.meterid == 9) {
+                                if (flagv9 == 0) {
+                                    minv9 = responseobj.kwh_exp;
+                                    flagv9 = 1;
+                                }
+                                if (maxv9 < responseobj.kwh_exp) {
+                                    maxv9 = responseobj.kwh_exp;
+                                }
+                                $("#m9").html(responseobj.meter_name);
+
+
+                            }
+
+                            else if (responseobj.meterid == 10) {
+                                if (flagv10 == 0) {
+                                    minv10 = responseobj.kwh_exp;
+                                    flagv10 = 1;
+                                }
+                                if (maxv10 < responseobj.kwh_exp) {
+                                    maxv10 = responseobj.kwh_exp;
+                                }
+                                $("#m10").html(responseobj.meter_name);
+
+
+                            }
+
+
+                        });
+                        debugger
+                        $("#v1").html(maxv1 - minv1);
+                        $("#v2").html(maxv2 - minv2);
+                        $("#v3").html(maxv3 - minv3);
+                        $("#v4").html(maxv4 - minv4);
+                        $("#v5").html(maxv5 - minv5);
+                        $("#v6").html(maxv6 - minv6);
+                        $("#v7").html(maxv7 - minv7);
+                        $("#v8").html(maxv8 - minv8);
+                        $("#v9").html(maxv9 - minv9);
+                        $("#v10").html(maxv10 - minv10);
+                        total = (maxv1 - minv1) + (maxv2 - minv2) + (maxv3 - minv3) + (maxv4 - minv4) + (maxv5 - minv5) + (maxv6 - minv6) + (maxv7 - minv7) + (maxv8 - minv8) + (maxv9 - minv9) + (maxv10 - minv10);
+                        $("#v11").html(total);
+
+
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+
+        }
+        catch (err) {
+        }
+
+    }
+</script>

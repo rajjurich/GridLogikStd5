@@ -1,0 +1,2153 @@
+﻿@model GridLogik.ViewModels.ProfileLogViewModel
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/js/bootstrap-multiselect.js"></script>
+<style>
+    .input-group .form-control {
+        z-index: 999;
+    }
+</style>
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .form-control {
+        height: 32px !important;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    .panel-default {
+        border-color: #ddd;
+    }
+
+        .panel-default > .panel-heading {
+            color: #fff;
+            background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F));
+            background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%);
+            border-color: #d1d1d1;
+        }
+
+            .panel-default > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #ddd;
+            }
+
+        .panel-default > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #ddd;
+        }
+
+    .black-bg, .black-bg table tr {
+        background: #2f2f2f;
+        color: #f7943c;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .black-bg {
+        padding: 0;
+    }
+
+        .black-bg table th {
+            background: #0f0f0f;
+            text-align: center;
+            color: #1ef200;
+        }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .text-orange {
+        color: #f7943c;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .dashboard-panel-body-box {
+        /*display: block !important;*/
+    }
+
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+
+    .class-tbl-remove tr td {
+        background-color: none !important;
+        color: #000 !important;
+    }
+
+    .data {
+        background: #0f0f0f !important;
+        color: #f7943c;
+        padding: 0px;
+        font-weight: bold;
+    }
+
+    .value {
+        color: #00FF00;
+        padding: 0px;
+        background: #2f2f2f !important;
+    }
+
+    .p0 {
+        padding: 0 !important;
+    }
+
+        .p0 table {
+            margin-bottom: 0 !important;
+        }
+
+    .radio-inline input[type="radio"] {
+        margin-top: 3px !important;
+    }
+</style>
+
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    div.dt-buttons {
+        position: relative;
+        float: left;
+        /*bottom: -823px;
+                        left: 211px;*/
+    }
+
+    .dt-buttons .buttons-pdf {
+        color: #fff;
+        background-color: #d2322d !important;
+        background-image: none !important;
+        border-color: #ac2925;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.35;
+        border-radius: 2px;
+        margin-left: 4px;
+    }
+</style>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script src="~/Scripts/graph_diglog.js"></script>
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.table2excel.js"></script>
+@*<link href="~/Content/css/jqx.base.css" rel="stylesheet" />*@
+@*<script src="~/Scripts/jqxcore.js"></script>
+    <script src="~/Scripts/jqxbuttons.js"></script>
+    <script src="~/Scripts/jqxlistbox.js"></script>
+    <script src="~/Scripts/jqxscrollbar.js"></script>
+    <script src="~/Scripts/jqxdragdrop.js"></script>*@
+@*<script src="~/Scripts/jquery.dataTables.js"></script>*@
+@*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+<script src="~/Scripts/Datatablejs/jquery.dataTables.min.js"></script>
+@*<script src="~/Scripts/dataTables.colReorder.js"></script>*@
+<script src="~/Scripts/dataTables.buttons.js"></script>
+<script src="~/Scripts/pdfmake.js"></script>
+<script src="~/Scripts/vfs_fonts.js"></script>
+<script src="~/Scripts/buttons.html5.js"></script>
+<script type="text/javascript">
+    var box;
+    var pvoltage = []; // create an empty array
+    var lvoltage = []; // create an empty array
+    var pcurrent = []; // create an empty array
+    var kw = []; // create an empty array
+    var kvar = []; // create an empty array
+    var kva = []; // create an empty array
+    var pf = []; // create an empty array
+    var hz = []; // create an empty array
+    var ph = [];
+    var opningtype = "na";
+    var categories_data_OT = new Array();
+    var categories_data_PH = new Array();
+    function BindParameters(interval) {
+        $.ajax({
+            type: 'GET',
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal/GetIdentifiersOnModuleNew/"+interval,
+            dataType: "json",
+            success: function (data) {
+                var markup = "";
+                $("#ddlQuery").empty();
+                //markup = "<option value=''>Select Meters</option>";
+                $.each(data, function (val, text) {
+                    markup += "<option value=" + text.prmvalue + ">" + text.prmidentifier + "</option>";
+                });
+                $("#ddlQuery").html(markup);
+                $("#ddlQuery").multiselect('rebuild');
+                if (box) box.remove();
+            },
+            error: function (jqXHR) {
+                if (box) box.remove();
+            }
+
+        });
+
+    }
+    $(document).ready(function () {
+        $(function () {
+            $('#ddlQuery').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    //$("#ddlTables").valid();
+                    //$("#ddlColumns").valid();
+                    //getColumns();
+                }
+            });
+        });
+
+
+        $("#ddlInterval").change(function () {
+            var interval = $('#ddlInterval option:selected').text();
+            BindParameters(interval);
+        });
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        clearData();
+        HideQueryData();
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0',
+            onSelect: function (selected) {
+                HideQueryData();
+
+                var dt = $("#FromDate").datepicker('getDate');
+                dt.setDate(dt.getDate() + 30);
+                var currentDt = $("#CurrentDate").datepicker('getDate');
+                if (dt > currentDt) {
+                    currentDt.setDate(currentDt.getDate() + 1);
+                    dt = currentDt;
+                }
+
+                $("#ToDate").datepicker("option", "minDate", selected);
+                $("#ToDate").datepicker("option", "maxDate", dt);
+
+                //var Todate = GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val());
+                //var currdate = new Date();
+                //var dt = new Date(Todate);
+                //var dt1 = new Date(Todate);
+                //dt.setDate(dt.getDate());
+                //dt1.setDate(dt1.getDate() + 1);
+                //$("#ToDate").datepicker("setDate", dt);
+                //$("#ToDate").datepicker("option", "minDate", dt);
+                //$("#ToDate").datepicker("option", "maxDate", dt1.getDate() + 1);
+
+            }
+        }).datepicker('setDate', new Date());
+        $("#ToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            //  minDate: '0',
+            //maxDate: '+1D',
+            onSelect: function (selected) {
+                HideQueryData();
+            }
+        }).datepicker('setDate', new Date());
+        $("#groupList").change(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            clearData();
+            HideQueryData();;
+            var grpId = $('#groupList').val();
+            if (grpId != "" && grpId != null) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    url: BaseAddress + "meter/GetMetersByGroupID/" + grpId,
+                    dataType: "json",
+                    success: function (data) {
+                        var markup = "";
+                        $("#meterList").empty();
+                        markup = "<option value=''>Select Meters</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            markup += "<option value=" + data[x].ID + ">" + data[x].MeterName + "</option>";
+                        }
+                        $("#meterList").html(markup);
+                        if (box) box.remove();
+                    },
+                    error: function (reponse) {
+                        if (box) box.remove();
+                    }
+                });
+            } else {
+                $("#meterList").empty();
+                var markup = "";
+                markup = "<option value=''>Select Meters</option>";
+                $("#meterList").html(markup);
+                if (box) box.remove();
+            }
+        });
+        $("#meterList").change(function () {
+            document.getElementById("instanceDataDiv").style.display = "block";
+            document.getElementById("instanceGraphDiv").style.display = "block";
+            document.getElementById("queryDataDiv").style.display = "none";
+            var grpId = $('#groupList').val();
+            if (grpId == null || grpId == "") {
+                alert('Please Select Meter Group', '', false, "M");
+                return false;
+            }
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            if ($("#meterList").val() != null && $("#meterList").val() != "0" && $("#meterList").val() != "") {
+                clearData();
+                HideQueryData();
+                InstanceData($("#meterList").val());
+                $('#instancetable_type').show();
+                opningtype = "instancetable";
+            } else {
+                clearData();
+                HideQueryData();
+            }
+            if (box) box.remove();
+        });
+        $("#ddlQuery").change(function () {
+            HideQueryData();
+        });
+        $("#startTime").change(function () {
+            HideQueryData();
+        });
+        $("#endTime").change(function () {
+            HideQueryData();
+        });
+        $("#ddlInterval").change(function () {
+            HideQueryData();
+        });
+        $("#btnExport").on("click", function () {
+            Export();
+        });
+    });
+
+    function Export() {
+        if (ValidationData()) {
+
+            var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+            var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+
+            var fromTime = $('#startTime option:selected').text() == "select" ? "12:00 AM" : $('#startTime option:selected').text();
+            var ToTime = $('#endTime option:selected').text() == "select" ? "11:45 PM" : $('#endTime option:selected').text();
+            // var InvoiceMeterData = $("#groupList option:selected").text() + "~" + $("#meterList option:selected").text() + "$" + $("#meterList").val() + "~" + fromTime + "~" + ToTime + "~" + frmDate + "~" + Todate + "~" + $("#ddlInterval  option:selected").text() + "$" + $("#ddlInterval").val() + "~" + $('#ddlQuery').val();
+            var LabelValue = $("#groupList option:selected").text() + "~" + $("#meterList option:selected").text() + "~" + $("#ddlInterval  option:selected").text() + "~" + $('#ddlQuery option:selected').text();
+            var SelectValue = $("#meterList").val() + "~" + fromTime + "~" + ToTime + "~" + frmDate + "~" + Todate + "~" + $("#ddlInterval").val() + "~" + $('#ddlQuery').val();
+            document.getElementById('InputString').value = LabelValue;
+            document.getElementById('InputStr').value = SelectValue;
+        }
+    }
+    function ValidationData() {
+        
+        if ($("#groupList").val() == "0" || $("#groupList").val() == "") {
+            alert('Please Select Meter Group', '', false, "M");
+            return false;
+        }
+        if ($("#meterList").val() == "" || $("#meterList").val() == "") {
+            alert('Please Select Meter', '', false, "M");
+            return false;
+        }
+        if ($("#ddlQuery").val() == "0" || $("#ddlQuery").val() == "" || $("#ddlQuery").val() == null) {
+            alert('Please Select Query', '', false, "M");
+            return false;
+        }
+        if ($("#FromDate").val() == "0" || $("#FromDate").val() == "") {
+            alert('Please Select From date', '', false, "M");
+            return false;
+        }
+        if ($("#ToDate").val() == "0" || $("#ToDate").val() == "") {
+            alert('Please Select To date', '', false, "M");
+            return false;
+        }
+        if ($("#ddlInterval").val() == "" || $("#ddlInterval").val() == "") {
+            alert('Please Select Interval', '', false, "M");
+            return false;
+        }
+        if ($("#ddlType").val() == "" || $("#ddlType").val() == "") {
+            alert('Please Select Type', '', false, "M");
+            return false;
+        }
+
+        
+        return true;
+    }
+    function HideQueryData() {
+        $('#divExcel').hide();
+        $("#tblquery_type").empty();
+    }
+    function clearData() {
+        pvoltage = []; // create an empty array
+        lvoltage = []; // create an empty array
+        pcurrent = []; // create an empty array
+        kw = []; // create an empty array
+        kvar = []; // create an empty array
+        kva = []; // create an empty array
+        pf = []; // create an empty array
+        hz = []; // create an empty array
+        ph = [];
+        opningtype = "na";
+        $('#chart_type').hide();
+        $('#instancetable_type').hide();
+        $('#query_type').hide();
+        $('#divExcel').hide();
+    }
+    function upperDipper(type, subtype) {
+        var chart = "chart_type";
+        var itable = "instancetable_type";
+        var query = "query_type";
+        if (type == "chart") {
+            if (subtype == 'o') {
+                $('#' + itable).hide();
+                $('#' + query).hide();
+                $('#' + chart).show();
+                opningtype = "chart";
+            } else {
+                $('#' + chart).hide();
+                opningtype = "na";
+            }
+        } else if (type == "instancetable") {
+            if (subtype == 'o') {
+                $('#' + itable).show();
+                $('#' + chart).hide();
+                $('#' + query).hide();
+                opningtype = "instancetable";
+            } else {
+                $('#' + itable).hide();
+                opningtype = "na";
+            }
+        } else {
+            if (subtype == 'o') {
+                $('#' + query).show();
+                $('#' + itable).hide();
+                $('#' + chart).hide();
+                opningtype = "query";
+            } else {
+                $('#' + query).hide();
+                opningtype = "na";
+            }
+        }
+    }
+    function FillArray(key, value, ArrayBName) {
+        value = value == null ? "0" : value;
+        var foo = [key, value];
+        ArrayBName.push(foo);
+    }
+    function InstanceData(meterId) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "MeterView/GetInstancedata/" + meterId,
+            dataType: "json",//type of data to be received
+            success: function (response, status, jqXHR) {
+                var str = "";
+                var obj = response;
+                if (response != undefined && response != null) {
+                    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                    $("#RYLineVoltage").text(obj.vry == null ? "-" : Number(obj.vry).toFixed(2));
+                    $("#YBLineVoltage").text(obj.vyb == null ? "-" : Number(obj.vyb).toFixed(2));
+                    $("#BRLineVoltage").text(obj.vbr == null ? "-" : Number(obj.vbr).toFixed(2));
+                    $("#LLineVoltage").text(obj.vll == null ? "-" : Number(obj.vll).toFixed(2));
+
+                    lvoltage = [];
+                    FillArray("VRY", Number(obj.vry).toFixed(2), lvoltage);
+                    FillArray("VYB", Number(obj.vyb).toFixed(2), lvoltage);
+                    FillArray("VBR", Number(obj.vbr).toFixed(2), lvoltage);
+                    FillArray("VLL", Number(obj.vll).toFixed(2), lvoltage);
+                    FillChartDetail("LV");
+
+                    $("#RPhVoltage").text(obj.vrn == null ? "-" : Number(obj.vrn).toFixed(2));
+                    $("#YPhVoltage").text(obj.vyn == null ? "-" : Number(obj.vyn).toFixed(2));
+                    $("#BPhVoltage").text(obj.vbn == null ? "-" : Number(obj.vbn).toFixed(2));
+                    $("#LNPhVoltage").text(obj.vln == null ? "-" : Number(obj.vln).toFixed(2));
+
+
+                    pvoltage = [];
+                    FillArray("VRN", Number(obj.vrn).toFixed(2), pvoltage);
+                    FillArray("VYN", Number(obj.vyn).toFixed(2), pvoltage);
+                    FillArray("VBN", Number(obj.vbn).toFixed(2), pvoltage);
+                    FillArray("VLN", Number(obj.vln).toFixed(2), pvoltage);
+                    FillChartDetail("PV");
+
+                    $("#RCurrent").text(obj.ir == null ? "-" : Number(obj.ir).toFixed(2));
+                    $("#YCurrent").text(obj.iy == null ? "-" : Number(obj.iy).toFixed(2));
+                    $("#BCurrent").text(obj.ib == null ? "-" : Number(obj.ib).toFixed(2));
+                    $("#ICurrent").text(obj.i == null ? "-" : Number(obj.i).toFixed(2));
+
+                    pcurrent = [];
+                    FillArray("IR", Number(obj.ir).toFixed(2), pcurrent);
+                    FillArray("IY", Number(obj.iy).toFixed(2), pcurrent);
+                    FillArray("IB", Number(obj.ib).toFixed(2), pcurrent);
+                    FillArray("I", Number(obj.i).toFixed(2), pcurrent);
+                    FillChartDetail("C");
+
+
+                    $("#RKW").text(obj.kwr == null ? "-" : Number(obj.kwr).toFixed(2));
+                    $("#YKW").text(obj.kwy == null ? "-" : Number(obj.kwy).toFixed(2));
+                    $("#BKW").text(obj.kwb == null ? "-" : Number(obj.kwb).toFixed(2));
+                    $("#TKW").text(obj.kw == null ? "-" : Number(obj.kw).toFixed(2));
+
+                    kw = [];
+                    FillArray("RKW", Number(obj.kwr).toFixed(2), kw);
+                    FillArray("YKW", Number(obj.kwy).toFixed(2), kw);
+                    FillArray("BKW", Number(obj.kwb).toFixed(2), kw);
+                    FillArray("kw", Number(obj.kw).toFixed(2), kw);
+
+                    $("#RKVAR").text(obj.kvarr == null ? "-" : Number(obj.kvarr).toFixed(2));
+                    $("#YKVAR").text(obj.kvary == null ? "-" : Number(obj.kvary).toFixed(2));
+                    $("#BKVAR").text(obj.kvarb == null ? "-" : Number(obj.kvarb).toFixed(2));
+                    $("#TKVAR").text(obj.kvar == null ? "-" : Number(obj.kvar).toFixed(2));
+
+                    kvar = [];
+                    FillArray("RKVAR", Number(obj.kvarr).toFixed(2), kvar);
+                    FillArray("YKVAR", Number(obj.kvary).toFixed(2), kvar);
+                    FillArray("BKVAR", Number(obj.kvarb).toFixed(2), kvar);
+                    FillArray("KVAR", Number(obj.kvar).toFixed(2), kvar);
+
+                    $("#RKVA").text(obj.kva_r == null ? "-" : Number(obj.kva_r).toFixed(2));
+                    $("#YKVA").text(obj.kvay == null ? "-" : Number(obj.kvay).toFixed(2));
+                    $("#BKVA").text(obj.kvab == null ? "-" : Number(obj.kvab).toFixed(2));
+                    $("#TKVA").text(obj.kva == null ? "-" : Number(obj.kva).toFixed(2));
+
+                    kva = [];
+                    FillArray("RKVA", Number(obj.kva_r).toFixed(2), kva);
+                    FillArray("YKVA", Number(obj.kvay).toFixed(2), kva);
+                    FillArray("BKVA", Number(obj.kvab).toFixed(2), kva);
+                    FillArray("KVA", Number(obj.kva).toFixed(2), kva);
+                    FillChartDetail("OT");
+
+                    $("#RPF").text(obj.pfr == null ? "-" : Number(obj.pfr).toFixed(2));
+                    $("#YPF").text(obj.pfy == null ? "-" : Number(obj.pfy).toFixed(2));
+                    $("#BPF").text(obj.pfb == null ? "-" : Number(obj.pfb).toFixed(2));
+                    $("#TPF").text(obj.pf == null ? "-" : Number(obj.pf).toFixed(2));
+                    ph = [];
+                    pf = [];
+                    FillArray("PF", Number(obj.pf).toFixed(2), pf);
+                    FillArray("PF", Number(obj.pf).toFixed(2), ph);
+                    $("#HZPower").text(obj.hz == null ? "-" : obj.hz);
+                    hz = [];
+                    FillArray("HZ", Number(obj.hz).toFixed(2), hz);
+                    FillArray("HZ", Number(obj.hz).toFixed(2), ph);
+                    FillChartDetail("PH");
+
+                    $("#mwhEnergyExport").removeData().text(obj.kwh_exp == null ? "-" : Number(obj.kwh_exp).toFixed(2));
+                    $("#MWhEnergyImport").removeData().text(obj.kwh_imp == null ? "-" : Number(obj.kwh_imp).toFixed(2));
+
+                    $("#MVARhLagEnergyExport").removeData().text(obj.kvarh_lag_exp == null ? "-" : Number(obj.kvarh_lag_exp).toFixed(2));
+                    $("#MVARhLagEnergyImport").text(obj.kvarh_lag_imp == null ? "-" : Number(obj.kvarh_lag_imp).toFixed(2));
+
+                    $("#MVARhLeadEnergyExport").removeData().text(obj.kvarh_lead_exp == null ? "-" : Number(obj.kvarh_lead_exp).toFixed(2));
+                    $("#MVARhLeadEnergyImport").removeData().text(obj.kvarh_lead_imp == null ? "-" : Number(obj.kvarh_lead_imp).toFixed(2));
+
+                    $("#MVAhEnergyExport").text(obj.kvah_exp == null ? "-" : Number(obj.kvah_exp).toFixed(2));
+                    $("#MVAhEnergyImport").text(obj.kvah_imp == null ? "-" : Number(obj.kvah_imp).toFixed(2));
+                    if (box) box.remove();
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+    }
+    function FillChartDetail(parameter) {
+        var legendArray = new Array();
+        var categories_data = new Array();
+        var seriesOptions = "";
+        var Cname = parameter + "_CONTAINER";
+        if (parameter == "PV" || parameter == "LV" || parameter == "C") {
+            if (parameter == "PV") {
+                legendArray[legendArray.length] = "Phase Voltage";
+                resonseobject = pvoltage;
+            }
+            if (parameter == "LV") {
+                legendArray[legendArray.length] = "Line Voltage";
+                resonseobject = lvoltage;
+            }
+            if (parameter == "C") {
+                legendArray[legendArray.length] = "Current";
+                resonseobject = pcurrent;
+            }
+            if (resonseobject != null) {
+
+                legendArray[legendArray.length] = parameter;
+
+                $.each(resonseobject, function (key, value) {
+                    var key1 = value[0];
+                    var value1 = value[1];
+                    if (key1 != "$id" && key1.toUpperCase() != "ID" && key1.toUpperCase() != "METERID" && key1.toUpperCase() != "METER_NAME" && key1.toUpperCase() != "TSTAMP" && key1.toLowerCase() != parameter + "h1") {
+                        categories_data[categories_data.length] = key1;
+                        if (seriesOptions != null && seriesOptions != "" && seriesOptions.length > 0) {
+                            seriesOptions += value1 + ",";
+                        } else {
+                            seriesOptions = value1 + ",";
+                        }
+                    }
+                });
+                if (seriesOptions.endsWith(",")) {
+                    seriesOptions = seriesOptions.substring(0, seriesOptions.length - 1);
+                }
+                var FinSeriesOptions = seriesOptions.split('~');
+                var seriesArr = [];
+
+                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                    var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+
+                    var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                    seriesArr.push(series);
+                }
+                BarChart(Cname, categories_data, seriesArr);
+                if (box) box.remove();
+
+            }
+        }
+        else if (parameter == "OT" || parameter == "PH") {
+            var FSeriesOptions = "";
+            var getSeriesStr = "";
+            var legendArray = new Array();
+            if (parameter == "OT") {
+                categories_data_OT.length = 0;
+                if (kw != null) {
+                    legendArray[legendArray.length] = "KW";
+                    getSeriesStr = getSeriesData(kw);
+                    if (FSeriesOptions != null && FSeriesOptions != "" && FSeriesOptions.length > 0) {
+                        FSeriesOptions += getSeriesStr + "~";
+                    } else {
+                        FSeriesOptions = getSeriesStr + "~";
+                    }
+                }
+                if (kvar != null) {
+                    legendArray[legendArray.length] = "KVAR";
+                    getSeriesStr = getSeriesData(kvar);
+                    if (FSeriesOptions != null && FSeriesOptions != "" && FSeriesOptions.length > 0) {
+                        FSeriesOptions += getSeriesStr + "~";
+                    } else {
+                        FSeriesOptions = getSeriesStr + "~";
+                    }
+                }
+                if (kva != null) {
+                    legendArray[legendArray.length] = "KVA";
+                    getSeriesStr = getSeriesData(kva);
+                    if (FSeriesOptions != null && FSeriesOptions != "" && FSeriesOptions.length > 0) {
+                        FSeriesOptions += getSeriesStr + "~";
+                    } else {
+                        FSeriesOptions = getSeriesStr + "~";
+                    }
+                }
+                categories_data_OT[categories_data_OT.length] = "R";
+                categories_data_OT[categories_data_OT.length] = "Y";
+                categories_data_OT[categories_data_OT.length] = "B";
+                categories_data_OT[categories_data_OT.length] = "Param";
+            } else if (parameter == "PH") {
+                categories_data_PH.length = 0;
+                legendArray.length = 0;
+                if (pf != null) {
+                    legendArray[legendArray.length] = "PF";
+                    getSeriesStr = getSeriesData(pf);
+                    if (FSeriesOptions != null && FSeriesOptions != "" && FSeriesOptions.length > 0) {
+                        FSeriesOptions += getSeriesStr + "~";
+                    } else {
+                        FSeriesOptions = getSeriesStr + "~";
+                    }
+                }
+                if (hz != null) {
+                    legendArray[legendArray.length] = "HZ";
+                    getSeriesStr = getSeriesData(hz);
+                    if (FSeriesOptions != null && FSeriesOptions != "" && FSeriesOptions.length > 0) {
+                        FSeriesOptions += getSeriesStr + "~";
+                    } else {
+                        FSeriesOptions = getSeriesStr + "~";
+                    }
+                }
+                categories_data_PH[categories_data_PH.length] = "";
+                // categories_data_PH[categories_data_PH.length] = "HZ";
+            }
+            if (FSeriesOptions.endsWith("~")) {
+                FSeriesOptions = FSeriesOptions.substring(0, FSeriesOptions.length - 1);
+            }
+            var FinSeriesOptions = FSeriesOptions.split('~');
+            var seriesArr = [];
+            for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+
+                var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                seriesArr.push(series);
+            }
+            if (parameter == "OT") {
+                BarChart(Cname, categories_data_OT, seriesArr);
+            } else {
+                BarChart(Cname, categories_data_PH, seriesArr);
+            }
+            if (box) box.remove();
+        }
+    }
+    function getSeriesData(resonseobject) {
+        var seriesOptions = "";
+        $.each(resonseobject, function (key, value) {
+            var key1 = value[0];
+            var value1 = value[1];
+            if (key1 != "$id" && key1.toUpperCase() != "ID" && key1.toUpperCase() != "METERID" && key1.toUpperCase() != "METER_NAME" && key1.toUpperCase() != "TSTAMP") {
+                if (seriesOptions != null && seriesOptions != "" && seriesOptions.length > 0) {
+                    seriesOptions += value1 + ",";
+                } else {
+                    seriesOptions = value1 + ",";
+                }
+            }
+        });
+        if (seriesOptions.endsWith(",")) {
+            seriesOptions = seriesOptions.substring(0, seriesOptions.length - 1);
+        }
+        return seriesOptions;
+    }
+    function BarChart(containerName, categories_data, seriesArr) {
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                zoomType: 'x',
+                renderTo: containerName
+            },
+            title: {
+                text: 'Instance Data'
+            },
+            xAxis: {
+                title: {
+                    text: ''
+                },
+                categories: categories_data
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: false,
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: seriesArr
+        });
+    }
+    function FillQueryData() {
+        
+        var opt = $("#ddlType option:selected").text();
+        document.getElementById("divExcel").style.display = "none";
+        if (ValidationData()) {
+            document.getElementById("instanceDataDiv").style.display = "none";
+            document.getElementById("instanceGraphDiv").style.display = "none";
+            document.getElementById("queryDataDiv").style.display = "block";
+            var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+            var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+            frmDate = $("#FromDate").val();
+            Todate = $("#ToDate").val();
+
+
+            var params = []
+            var queryList = $("#ddlQuery option:selected");
+            $.each(queryList, function (key, val) {
+                params.push(val.value);
+            });
+
+            var meters = []
+            var meterList = $("#meterList option:selected");
+            $.each(meterList, function (key, val) {
+                meters.push(val.value);
+            });
+
+            var InvoiceMeterData = {
+                "Meters": meters, //Category code
+                "GroupId": $("#groupList").val(),
+                "StartTime": $('#startTime').val(), //date code
+                "EndTime": $('#endTime').val(),
+                "FromDate": frmDate, //date code
+                "ToDate": Todate,
+                "Interval": $("#ddlInterval").val(),
+                "Params": params
+            };
+            $("#lblInterval").text($("#ddlInterval  option:selected").text());
+            $("#lblQuery").text($('#ddlQuery option:selected').text());
+            $("#lblMname").text($("#meterList option:selected").text());
+            var jdata = JSON.stringify(InvoiceMeterData);
+            opningtype = "query";            
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: BaseAddress + "MeterView/CommonView",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(InvoiceMeterData),
+                    dataType: "json",
+                    success: function (response, status, jqXHR) {
+                        var jsonObj = response;
+                        var legendArray = new Array();
+                        var seriesOptions = "";
+                        var FinString = "";
+
+                        var categories_data = new Array();
+
+                        if (jsonObj != null && jsonObj.length > 0) {
+                            if ($('#ddlQuery').val() == "E") {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                        legendArray[legendArray.length] = key;
+                                });
+                            } else if ($('#ddlQuery').val() == "P") {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toLowerCase() == "date" || key.toLowerCase() == "vll" || key.toLowerCase() == "i" || key.toLowerCase() == "pf" || key.toLowerCase() == "kw" || key.toLowerCase() == "kva" || key.toLowerCase() == "kvar" || key.toLowerCase() == "hz" || key.toLowerCase() == "vry" || key.toLowerCase() == "vyb" || key.toLowerCase() == "vbr" || key.toLowerCase() == "vrn" || key.toLowerCase() == "vyn" || key.toLowerCase() == "vbn" || key.toLowerCase() == "vln" || key.toLowerCase() == "ir" || key.toLowerCase() == "iy" || key.toLowerCase() == "ib" || key.toLowerCase() == "kwr" || key.toLowerCase() == "kwy" || key.toLowerCase() == "kwb" || key.toLowerCase() == "kvay" || key.toLowerCase() == "kvab" || key.toLowerCase() == "kw_demand" || key.toLowerCase() == "kva_demand")
+                                        legendArray[legendArray.length] = key;
+                                });
+                            } else if ($('#ddlQuery').val() == "C") {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                        legendArray[legendArray.length] = key;
+                                });
+                            } else if ($('#ddlQuery').val() == "CI") {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp")
+                                        legendArray[legendArray.length] = key;
+                                });
+                            } else if ($('#ddlQuery').val() == "CE") {
+                                $.each(jsonObj[0], function (key, value) {
+                                    if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp")
+                                        legendArray[legendArray.length] = key;
+                                });
+                            }
+                            else {
+                                $.each(jsonObj[0], function (key, value) {
+                                    legendArray[legendArray.length] = key;
+                                })
+                            }
+
+
+                            $("#tblquery_type").empty();
+                            if (opt.toLowerCase() == "table") {
+                                $("#query_type").show();
+                                $("#grapharea").hide();
+                                FinString = "<table id='tableProfileLog' class='table table-striped'  runat='server'>";
+                                FinString += "<thead>";
+                                FinString += "<tr>";
+                                for (var j = 0; j < legendArray.length; j++) {
+                                    FinString += "<th class='tableth'>" + legendArray[j].toUpperCase().replace("_", " ") + "</th>"
+                                }
+                                FinString += "</tr>";
+                                FinString += "</thead>";
+                                FinString += "<tbody>";
+                                $.each(jsonObj, function (index) {
+                                    FinString += "<tr>";
+                                    $.each(jsonObj[index], function (key, value) {
+                                        value = (value == null ? "-" : value);
+                                        if ($('#ddlQuery').val() == "E") {
+                                            if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        } else if ($('#ddlQuery').val() == "P") {
+                                            if (key.toLowerCase() == "date" || key.toLowerCase() == "vll" || key.toLowerCase() == "i" || key.toLowerCase() == "pf" || key.toLowerCase() == "kw" || key.toLowerCase() == "kva" || key.toLowerCase() == "kvar" || key.toLowerCase() == "hz" || key.toLowerCase() == "vry" || key.toLowerCase() == "vyb" || key.toLowerCase() == "vbr" || key.toLowerCase() == "vrn" || key.toLowerCase() == "vyn" || key.toLowerCase() == "vbn" || key.toLowerCase() == "vln" || key.toLowerCase() == "ir" || key.toLowerCase() == "iy" || key.toLowerCase() == "ib" || key.toLowerCase() == "kwr" || key.toLowerCase() == "kwy" || key.toLowerCase() == "kwb" || key.toLowerCase() == "kvay" || key.toLowerCase() == "kvab" || key.toLowerCase() == "kw_demand" || key.toLowerCase() == "kva_demand") {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        } else if ($('#ddlQuery').val() == "C") {
+                                            if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        }
+                                        else if ($('#ddlQuery').val() == "CI") {
+                                            if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_imp" || key.toLowerCase() == "kvah_imp" || key.toLowerCase() == "kvarh_lag_imp" || key.toLowerCase() == "kvarh_lead_imp") {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        }
+                                        else if ($('#ddlQuery').val() == "CE") {
+                                            if (key.toLowerCase() == "date" || key.toLowerCase() == "kwh_exp" || key.toLowerCase() == "kvah_exp" || key.toLowerCase() == "kvarh_lag_exp" || key.toLowerCase() == "kvarh_lead_exp") {
+                                                FinString += "<td>" + value + "</td>";
+                                            }
+                                        }
+                                        else {
+                                            FinString += "<td>" + value + "</td>";
+                                        }
+                                    });
+                                    FinString += "</tr>";
+                                });
+                                FinString += "</tbody></table><br/>";
+                                FinString += "<div class='colorstrip'>";
+                                FinString += "<label for='Sum_:'>Sum :</label>";
+                                FinString += "<label for='Sum' id='Sum'></label>";
+                                FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                FinString += "<label for='Avg_:'>Avg :</label>";
+                                FinString += "<label for='Avg' id='average'></label>";
+                                FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                FinString += "<label for='Min_:'>Min :</label>";
+                                FinString += "<label for='Min' id='Minimum'></label>";
+                                FinString += "<span>&nbsp;&nbsp;&nbsp;</span>";
+                                FinString += "<label for='Max_:'>Max :</label>";
+                                FinString += "<label  for='Max' id='Maximum'></label></div>";
+
+                                $("#tblquery_type").show();
+                                $("#tblquery_type").html(FinString);
+                               
+                                $('.dt-buttons').remove();
+
+                                $('#tableProfileLog').dataTable(
+                                    {
+                                        dom: 'lBfrtip',
+                                        "lengthMenu": [[10, 50, 100, 500, 1000], [10, 50, 100, 500, 1000, "All"]],
+                                        buttons: [{
+                                            extend: 'pdfHtml5',
+                                            orientation: 'landscape',
+                                            pageSize: 'LEGAL',
+                                            text: 'Export to PDF',
+                                            title: 'MeterViewData'
+                                        }],
+                                        pageLength: 10,
+                                        "scrollX": true,
+                                        select: true
+                                    });
+                                
+                                
+                                $('.dt-buttons').insertAfter('#graph');
+                                $("#query_type").show();
+                                $('#chart_type').hide();
+                                $('#instancetable_type').hide();
+                                document.getElementById("divExcel").style.display = "block";
+                                if (box) box.remove();
+                            }
+                            else {
+                                $("#tblquery_type").hide();
+                                $("#query_type").show();
+                                $("#grapharea").show();
+                                $.each(jsonObj, function (index) {
+                                    categories_data[categories_data.length] = new Date(jsonObj[index][legendArray[0]].replace("T", " "))
+                                });
+                                debugger;
+                                legendArray.splice(0, 1);
+                                $.each(legendArray, function (index) {
+                                    //   if (index != 0) {
+                                    $.each(jsonObj, function (jsonIndex) {
+                                        if (jsonObj.length - 1 != jsonIndex) {
+
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+
+
+                                        } else {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                        }
+
+                                    });
+                                    if (legendArray.length - 1 != index)
+                                        seriesOptions += "~";
+                                    // }
+                                })
+                                var FinSeriesOptions = seriesOptions.split('~');
+
+                                var seriesArr = [], series = []; var countx = 0;
+                                // Create Series Array with name and data property
+                                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                    var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+                                   // debugger;
+                                    series = { name: legendArray[ser], data: seriesOptions2, yAxis: countx };
+                                    seriesArr.push(series);
+                                    countx = countx + 1;
+
+
+                                }
+                                renderChart(categories_data, seriesArr, $("#ddlType").val());
+                                if (box) box.remove();
+                            }
+                        } else {
+                            $("#tblquery_type").empty();
+                            $("#query_type").hide();
+                            $('#chart_type').hide();
+                            $('#instancetable_type').hide();
+                            document.getElementById("divExcel").style.display = "none";
+                            if (box) box.remove();
+                            alert('No Data Found', '', false, "M");
+                            return false;
+                        }
+                    },
+                    failure: function (msg) {
+                        if (box) box.remove();
+                        alert(msg, '', false, "M");
+                    }
+                });
+            }
+
+            catch (err) {
+                if (box) box.remove();
+            }
+        }
+    }
+    function auto_load() {
+        if (opningtype != "na" && opningtype != "query" && $("#meterList").val() != "" && $("#meterList").val() != "" && $("#meterList").val() != "undefined") {
+            var meterId = $('#meterList').val();
+            InstanceData(meterId);
+        }
+        if (box) box.remove();
+        return false;
+    }
+    setInterval(auto_load, 60000);
+
+
+    Highcharts.theme = {
+        colors: ['#ff3a00', '#fff700', '#80ff00', '#00ffe8', '#0078ff', '#e000ff', '#b600ff'],
+        chart: {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: [
+                    [0, '#2a2a2b'],
+                    [1, '#3e3e40']
+                ]
+            },
+            style: {
+                fontFamily: '\'Unica One\', sans-serif'
+            },
+            plotBorderColor: '#606063'
+        },
+        title: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase',
+                fontSize: '20px'
+            }
+        },
+        subtitle: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase'
+            }
+        },
+        xAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        yAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            tickWidth: 1,
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            style: {
+                color: '#F0F0F0'
+            }
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    color: '#F0F0F3',
+                    style: {
+                        fontSize: '13px'
+                    }
+                },
+                marker: {
+                    lineColor: '#333'
+                }
+            },
+            boxplot: {
+                fillColor: '#505053'
+            },
+            candlestick: {
+                lineColor: 'white'
+            },
+            errorbar: {
+                color: 'white'
+            }
+        },
+        legend: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            itemStyle: {
+                color: '#E0E0E3'
+            },
+            itemHoverStyle: {
+                color: '#FFF'
+            },
+            itemHiddenStyle: {
+                color: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#C0C0C0'
+                }
+            }
+        },
+        credits: {
+            style: {
+                color: '#666'
+            }
+        },
+        labels: {
+            style: {
+                color: '#707073'
+            }
+        },
+        drilldown: {
+            activeAxisLabelStyle: {
+                color: '#F0F0F3'
+            },
+            activeDataLabelStyle: {
+                color: '#F0F0F3'
+            }
+        },
+        navigation: {
+            buttonOptions: {
+                symbolStroke: '#DDDDDD',
+                theme: {
+                    fill: '#505053'
+                }
+            }
+        },
+        // scroll charts
+        rangeSelector: {
+            buttonTheme: {
+                fill: '#505053',
+                stroke: '#000000',
+                style: {
+                    color: '#CCC'
+                },
+                states: {
+                    hover: {
+                        fill: '#707073',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    },
+                    select: {
+                        fill: '#000003',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    }
+                }
+            },
+            inputBoxBorderColor: '#505053',
+            inputStyle: {
+                backgroundColor: '#333',
+                color: 'silver'
+            },
+            labelStyle: {
+                color: 'silver'
+            }
+        },
+        navigator: {
+            handles: {
+                backgroundColor: '#666',
+                borderColor: '#AAA'
+            },
+            outlineColor: '#CCC',
+            maskFill: 'rgba(255,255,255,0.1)',
+            series: {
+                color: '#7798BF',
+                lineColor: '#A6C7ED'
+            },
+            xAxis: {
+                gridLineColor: '#505053'
+            }
+        },
+        scrollbar: {
+            barBackgroundColor: '#808083',
+            barBorderColor: '#808083',
+            buttonArrowColor: '#CCC',
+            buttonBackgroundColor: '#606063',
+            buttonBorderColor: '#606063',
+            rifleColor: '#FFF',
+            trackBackgroundColor: '#404043',
+            trackBorderColor: '#404043'
+        }
+    };
+    // Apply the theme
+    Highcharts.setOptions(Highcharts.theme);
+
+    function renderChart(categories_data, seriesArr, graphtype) {
+        //debugger
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: graphtype,
+                zoomType: 'x',
+
+                renderTo: 'grapharea',
+
+            },
+            title: {
+                text: 'TREND DATA'
+            },
+            xAxis: {
+                categories: categories_data,
+                title: {
+                    text: 'HOUR:MINUTES', style: { fontSize: '30px', fontWeight: 'bold' },
+                },
+
+
+                type: 'datetime',
+
+                labels: {
+                    format: '{value:%H:%M}', rotation: -45,
+                    align: 'left',
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+
+
+                    }
+                }
+            },
+            yAxis: [{
+                lineWidth: 3,
+                lineColor: '#ff3a00',
+                title: {
+                    text: 'VALUES'
+                    , style: {
+                        fontSize: '30px'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#ff3a00',
+                        fontSize: '25px'
+                    }
+                },
+
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#fff700',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#fff700',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#80ff00',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#80ff00',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#00ffe8',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#0078ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#0078ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#e000ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#e000ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#b600ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#b600ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: 'black',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#ffc100',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }
+
+
+
+
+            ],
+
+
+            tooltip: {
+                shared: true, headerFormat: '<small>{point.key}</small><br>', style: { fontSize: '20px' }
+
+            },
+            scrollbar: {
+                enabled: true
+            },
+            legend: {
+                enabled: true, style: {
+
+                    fontSize: '20px',
+                    fontWeight: 'bold'
+                }
+
+            },
+
+
+            exporting: {
+                enabled: true
+            },
+            plotOptions: {
+                series: {
+                    lineWidth: 4
+                }
+            },
+            series: seriesArr
+
+
+        });
+
+
+
+    }
+
+
+</script>
+<style>
+    .table-bordered thead tr th, .table-bordered tfoot tr th {
+        color: #fff;
+    }
+
+    .content-header {
+        margin-bottom: 0;
+        padding-left: 13px;
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .content-container {
+        padding: 10px 15px 10px 15px;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+</style>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">
+                            Meter View
+                        </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        @*<li><a href="#">Logs</a></li>*@
+                        <li class="active">Meter View</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="clearfix"></div>
+
+                    <div class="row ">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+
+                            <hr />
+                            <input type="hidden" id="ServerDate" />
+                            <input type="hidden" id="DateField" />
+
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class=" dashboard-panel-body-box">Query Selection</div>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-5">
+                                            <div class="row">
+
+                                                <div class="col-lg-4" style="padding-right:0px">
+                                                    <div class="row">
+                                                        <label for="select" class="col-lg-12" style="margin:0px 0px;">Group</label>
+                                                        <div class="col-lg-12 col-md-12">
+                                                            @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), "Select", new { @id = "groupList", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5">
+                                                    <div class="row">
+                                                        <label for="select" class="col-lg-12" style="margin:0px 0px;">Meter</label>
+                                                        <div class="col-lg-12 col-md-12">
+                                                            @Html.DropDownListFor(model => Model.MeterId, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), "Select", new { @id = "meterList", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                                <div class="col-lg-3" style="padding-left:0px">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select"> Interval</label>
+                                                    <select id="ddlInterval" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                                        <option value="">Select</option>
+                                                        <option value="I">instantaneous</option>
+                                                        <option value="B">BlockDisplay</option>
+                                                        <option value="H">HourDisplay</option>
+                                                        <option value="D">DayDisplay</option>
+                                                        <option value="M">MonthDisplay</option>
+                                                    </select>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-7" style=" padding:0;">
+                                            <div class="row">
+
+
+                                                <div class="col-lg-2 col-sm-12">
+                                                    <label style=" border:0px solid #000; padding:0px; margin:0px 0px;" for="select">
+                                                        Parameter
+                                                    </label>
+                                                    @Html.DropDownList("ddlQuery", Enumerable.Empty<SelectListItem>(), new { @id = "ddlQuery", @class = "form-control", @multiple = "multiple", required = true, title = "Please Provide Columns" })
+                                                    <br /> @Html.ValidationMessage("ddlQuery", "", new { @class = "text-danger" })
+
+                                                </div>
+                                                <div class="form-group col-sm-3" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                    <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+
+                                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">From Date</label>
+                                                        </div>
+                                                        <div id="dtFrmDate" class="input-group date">
+                                                            @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="border:0px solid #000; padding:0 0 1px 0;  ">
+                                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                                        </div>
+                                                        <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                            @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "col-md-12 form-control", @size = "1" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-3" style=" padding-left:6px; padding-right:0px; margin:0px 0px;">
+                                                    <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">To Date</label>
+                                                        </div>
+                                                        <div id="dtToDate" class="input-group date">
+                                                            @Html.TextBoxFor(m => m.ToDate, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtToDate" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6" style="border:0px solid #000;  padding:0; ">
+                                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                                        </div>
+                                                        <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                            @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "endTime", @class = "form-control", @size = "1" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2" style="padding-right:0px">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Type</label>
+                                                    <select id="ddlType" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                                        <option value="">Select</option>
+                                                        <option value="T">Table</option>
+                                                        <option value="spline">Spline</option>
+                                                        <option value="column">Column</option>
+                                                        <option value="bar">Bar</option>
+                                                        <option value="line">Line</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-1" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                                    <button type="submit" class="btn btn-primary" id="btnSearch" onclick="FillQueryData()" style="font-weight:bold;  margin:0px 10px;">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="panel panel-light-blue" id="instanceDataDiv" style="display:none">
+                        <div class="panel-heading p5">
+                            <div class="dashboard-panel-body-box">
+                                <span class="pull-left">Instance Data</span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                                    <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('instancetable', 'o');"><i class="fa fa-chevron-down"></i></a>
+                                    <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('instancetable', 'c');"><i class="fa fa-times"></i></a>
+                                </span>
+                                <span class="clearfix"></span>
+                            </div>
+
+                            @*<div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+
+                                </div>*@
+                        </div>
+                        <div class="panel-body" id="instancetable_type">
+
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Phase Voltage (V)</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="40%" class="data">R-N</td>
+                                                                <td class="value"><label id="RPhVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">Y-N</td>
+                                                                <td class="value"><label id="YPhVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">B-N</td>
+                                                                <td class="value"><label id="BPhVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">L-N</td>
+                                                                <td class="value"><label id="LNPhVoltage"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Line Voltage (V)</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="40%" class="data">RY</td>
+                                                                <td class="value"><label id="RYLineVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">YB</td>
+                                                                <td class="value"><label id="YBLineVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">BR</td>
+                                                                <td class="value"><label id="BRLineVoltage"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">LL</td>
+                                                                <td class="value"><label id="LLineVoltage"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Current (A)</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="40%" class="data">R</td>
+                                                                <td class="value"><label id="RCurrent"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">Y</td>
+                                                                <td class="value"><label id="YCurrent"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">B</td>
+                                                                <td class="value"><label id="BCurrent"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">I</td>
+                                                                <td class="value"><label id="ICurrent"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            <div class="panel panel-light-blue">
+
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed" style="margin:0px 0;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Power</th>
+                                                                <th>KW</th>
+                                                                <th>KVAR</th>
+                                                                <th>KVA</th>
+                                                                <th>PF</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="data"><strong>R</strong></td>
+                                                                <td class="value"><label id="RKW"></label></td>
+                                                                <td class="value"><label id="RKVAR"></label></td>
+                                                                <td class="value"><label id="RKVA"></label></td>
+                                                                <td class="value"><label id="RPF"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data"><strong>Y</strong></td>
+                                                                <td class="value"><label id="YKW"></label></td>
+                                                                <td class="value"><label id="YKVAR"></label></td>
+                                                                <td class="value"><label id="YKVA"></label></td>
+                                                                <td class="value"><label id="YPF"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data"><strong>B</strong></td>
+                                                                <td class="value"><label id="BKW"></label></td>
+                                                                <td class="value"><label id="BKVAR"></label></td>
+                                                                <td class="value"><label id="BKVA"></label></td>
+                                                                <td class="value"><label id="BPF"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data"><strong>Total</strong></td>
+                                                                <td class="value"><label id="TKW"></label></td>
+                                                                <td class="value"><label id="TKVAR"></label></td>
+                                                                <td class="value"><label id="TKVA"></label></td>
+                                                                <td class="value"><label id="TPF"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Hz</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td class="value"><label id="HZPower"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Energy Export</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="60%" class="data">
+                                                                    KWh
+                                                                </td>
+                                                                <td class="value"><label id="mwhEnergyExport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">
+                                                                    KVARh Lag
+                                                                </td>
+                                                                <td class="value"><label id="MVARhLagEnergyExport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">
+                                                                    KVARh Lead
+                                                                </td>
+                                                                <td class="value"><label id="MVARhLeadEnergyExport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">KVAh</td>
+                                                                <td class="value"><label id="MVAhEnergyExport"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="panel panel-light-blue">
+                                                <div class="panel-heading p5">
+                                                    <div class=" dashboard-panel-body-box">Energy Import</div>
+                                                </div>
+                                                <div class="panel-body p0">
+                                                    <table class="table table-striped table-bordered table-condensed">
+
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="60%" class="data">KWh </td>
+                                                                <td class="value"><label id="MWhEnergyImport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">KVARh Lag </td>
+                                                                <td class="value"><label id="MVARhLagEnergyImport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">KVARh Lead </td>
+                                                                <td class="value"><label id="MVARhLeadEnergyImport"></label></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td class="data">KVAh</td>
+                                                                <td class="value"><label id="MVAhEnergyImport"></label></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="panel panel-light-blue" id="instanceGraphDiv" style="display:none">
+                        <div class="panel-heading p5">
+                            <div class=" dashboard-panel-body-box">
+                                <span class="pull-left">
+                                    Instance Graph
+                                </span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+
+                                    <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('chart','o');"><i class="fa fa-chevron-down"></i></a>
+                                    <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('chart', 'c');"><i class="fa fa-times"></i></a>
+                                </span>
+                            </div><span class="clearfix"></span>
+
+                        </div>
+                        <div class="panel-body" id="chart_type">
+                            <div class="row">
+
+                                <div class="col-sm-3">
+
+                                    <div class="panel panel-light-blue">
+                                        <div class="panel-heading p5">
+                                            <div class="dashboard-panel-body-box"> Voltage Graph Vrn,Vyn,Vbn,Vln </div>
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div id="PV_CONTAINER" class="chart-holder" style="height:200px;width:200px"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+
+                                    <div class="panel panel-light-blue">
+                                        <div class="panel-heading p5">
+                                            <div class="dashboard-panel-body-box"> Voltage Graph Vry,Vyb,Vbr,Vll </div>
+
+                                        </div>
+
+                                        <div class="panel-body">
+
+                                            <div id="LV_CONTAINER" class="chart-holder" style="height:200px;width:200px"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-------------------------------------------------------------------------------------------------->
+
+                                <div class="col-sm-3">
+
+                                    <div class="panel panel-light-blue">
+                                        <div class="panel-heading p5">
+                                            <div class="dashboard-panel-body-box"> Current Graph Ir,Iy,Ib,I</div>
+
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div id="C_CONTAINER" class="chart-holder" style="height:200px;width:200px"></div>
+                                            <div class="  realtime-graph-checkbox">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+
+                                    <div class="panel panel-light-blue">
+                                        <div class="panel-heading p5">
+                                            <div class="dashboard-panel-body-box"> Frequency & Power Factor</div>
+
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div id="PH_CONTAINER" class="chart-holder" style="height:200px;width:200px"></div>
+                                            <div class="realtime-graph-checkbox">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-------------------------------------------------------------------------------------------------->
+
+                                <div class="col-sm-3">
+
+                                    <div class="panel panel-light-blue">
+                                        <div class="panel-heading p5">
+                                            <div class="dashboard-panel-body-box"> Power Graph KW, KVAR, KVA</div>
+
+                                        </div>
+
+                                        <div class="panel-body">
+                                            <div id="OT_CONTAINER" class="chart-holder" style="height:200px;width:200px"></div>
+                                            <div class="realtime-graph-checkbox">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="queryDataDiv" style="display:none">
+                        <div class="col-sm-12">
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading p5">
+                                    <div class="dashboard-panel-body-box">
+                                        <span class="pull-left"> Query Data</span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                                            <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('query', 'o');"><i class="fa fa-chevron-down"></i></a>
+                                            <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('query', 'c');"><i class="fa fa-times"></i></a>
+                                        </span>
+                                        <span class="clearfix"></span>
+                                    </div>
+
+                                </div>
+
+                                <div class="panel-body table" id="query_type" style="display:none">
+
+
+                                    @*<div class="row">
+
+                            <div class="col-lg-12 col-sm-12">
+                                <div class="col-lg-3 col-sm-12">
+                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Select Query</label>
+                                   <select id="ddlQuery" tabindex="1" data-placeholder="Select here.." class="form-control" multiple="multiple">
+                                            <option value="0">Select Query</option>
+                                            <option value="E">Energy Data</option>
+                                            <option value="P">Profile Data</option>
+                                            <option value="CI">Consumption Imp</option>
+                                            <option value="CE">Consumption Export</option>
+                                        </select>
+                                </div>
+                                <div class="form-group col-sm-3" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                    <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">From Date</label>
+                                        </div>
+                                        <div id="dtFrmDate" class="input-group date">
+                                            @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="border:0px solid #000;  ">
+                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                        </div>
+                                        <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                            @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "col-md-12 form-control", @size = "1" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-3" style=" padding:0px; margin:0px 0px;">
+                                    <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">To Date</label>
+                                        </div>
+                                        <div id="dtToDate" class="input-group date">
+                                            @Html.TextBoxFor(m => m.ToDate, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtToDate" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="border:0px solid #000;  ">
+                                        <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                        </div>
+                                        <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                            @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "endTime", @class = "form-control", @size = "1" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-sm-12" style="width:16.2%;">
+                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Select Interval</label>
+                                    <select id="ddlInterval" tabindex="1" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                        <option value="B">Block Wise</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-1" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                    <button type="submit" class="btn btn-primary" id="btnSearch" onclick="FillQueryData()" style="font-weight:bold;  margin:0px 10px;">Search</button>
+                                </div>
+                            </div>
+                        </div>*@
+                                    <div class="clearfix"></div>
+                                   
+                                    <div id="divExcel">
+                                        <div class="form-group col-md-12 pull-right" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:left;">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                            @using (Html.BeginForm("Export", "MeterView", FormMethod.Get, new { id = "PdfForm" }))
+                                            {
+                                                @Html.Hidden("InputString")
+                                                @Html.Hidden("InputStr")
+                                                <button type="submit" class="btn btn-success btn-sm" onclick="return Export()" id="btnExport" style="font-weight:bold;  margin:0px 10px;"><i class="fa fa-file-excel-o"></i> Export To excel</button>
+                                                <button type="button" class="btn btn-info btn-sm" id="graph"><i class="fa fa-bar-chart-o"></i> Graph</button>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div id="tblquery_type" style="overflow-x:scroll; width:100%;">
+                                    </div>                                   
+                                    <div class="col-lg-12" style="border:0px solid  #000; ">
+                                        <div id="grapharea" style="height:500px; width:auto !important; display:none"> </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div id="chart_dialog">
+                        <input type="hidden" id="diaTblName" value="tableProfileLog" />
+                        <a href="javascript:printDiv('divchart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+
+                        <div id="divchart_container" style="height:700px ! important">
+                            <table class="class-tbl-remove" style="width:100%; clear:both;">
+                                <tr>
+                                    <td>Meter Name : </td>
+                                    <td> <label id="lblMname"></label></td>
+                                    <td>Query : </td>
+                                    <td><label id="lblQuery"></label> </td>
+                                    <td>Interval : </td>
+                                    <td><label id="lblInterval"></label> </td>
+                                </tr>
+                            </table>
+                            <div id="chart_container" style="width:100%; clear:both; max-width:1247px;">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@Scripts.Render("~/bundles/jqueryval")

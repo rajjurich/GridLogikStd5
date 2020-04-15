@@ -1,0 +1,90 @@
+﻿@model GridLogik.ViewModels.MstUser
+@{
+    ViewBag.Title = "Change Password";
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#"> Change Password </a></li>
+                        <li class="active"> Reset </li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong></strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2">Old Password</label>
+                                                <div class="col-md-8">
+                                                    @Html.PasswordFor(model => model.Old_Password, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.Old_Password, null, new { @class = "text-danger field-validation-error" })
+                                                </div>
+                                                <div class="">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2">New Password</label>
+                                                <div class="col-md-8">
+                                                    @Html.PasswordFor(model => model.usrpassword, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.usrpassword, null, new { @class = "text-danger field-validation-error" })
+
+                                                </div>
+                                                <div class="">
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-2" >Confirm Password</label>
+                                                <div class="col-md-8">
+                                                    @Html.PasswordFor(model => model.usrRepassword, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.usrRepassword, null, new { @class = "text-danger field-validation-error" })
+                                                    @Html.HiddenFor(model => model.usrrecid, new { @Value = Convert.ToInt64(Session["usrrecid"]) })
+                                                    @Html.HiddenFor(model => model.usrid, new { @Value = Convert.ToString(Session["userid"]) })
+                                                    @Html.HiddenFor(model => model.usrroleid, new { @Value = Convert.ToString(Session["usrroleid"]) })
+                                                </div>
+                                                <div class="">
+                                                   
+                                                </div>
+                                            </div>
+                                            
+
+
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-info" id="btnUpdate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            </div>
+                                            <div>
+                                                <p id="msg" style="color:red">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

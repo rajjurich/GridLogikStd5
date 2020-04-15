@@ -1,0 +1,58 @@
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dblsml', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dblsml', '30', '10');
+
+
+
+create row type "etools_dev".rtlsml 
+(
+    tstamp datetime year to fraction(5),
+    meter_name lvarchar(50),
+     TimeSpan float,
+AmbientTemp float,
+WindSpeed float,
+WindSpeedMin float,
+WindSpeedMax float,
+WindSpeedNormalized float,
+Production float,
+WindDirection float,
+RotorSpeed float,
+NacellePositionRelative float,
+AirPressure float,
+StatusIdle float,
+StatusStop float,
+StatusError float,
+StatusStartup float,
+StatusRun float,
+StatusService float,
+StatusCableTwist float,
+StatusBatteryTest float,
+TimeT0 float,
+TimeT1 float,
+TimeT2 float,
+TimeT3 float,
+TimeT4 float,
+TimeT5 float,
+TimeT6 float,
+AirHumidity float,
+PowerFactor float,
+LimFreeTime float,
+TurbineInt float
+);
+
+
+
+create table etools_dev.tslsml
+  (
+    meterid int8 not null ,
+    series timeseries(rtlsml),
+    primary key (meterid) 
+  ) in dblsml extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwrtlsml','dblsml','rtlsml',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',365, 15, 'dblsml', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveylsml',
+'etools_dev.tslsml','calendar(cal_10min),
+container(tsconwrtlsml),irregular');

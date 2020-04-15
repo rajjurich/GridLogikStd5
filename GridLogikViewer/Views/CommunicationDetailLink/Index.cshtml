@@ -1,0 +1,88 @@
+﻿@model IEnumerable<GridLogik.ViewModels.CommunicationDetailLinkListModel>
+
+
+@{
+    ViewBag.Title = "Index";
+}
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#lsttable").dataTable(
+        {
+            pageLength: 10,
+            "aoColumns": [
+                        null,
+                        null,
+                        { "bSortable": false, "width": "144px" }
+            ]
+        });
+    })
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Convertor Link</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Convertor Link</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="table-responsive ls-table">
+                                        <div id="btnCreate">
+                                             @Html.ActionLink(" Create New", "create", "CommunicationDetailLink", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                            </div>
+                                            <table id="lsttable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">IP Address</th>
+                                                        <th class="text-center">Meter Name</th>
+                                                        <th class="text-center action">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.IpAddress)
+                                                            </td>
+                                                            <td class="text-left" style="word-wrap: break-word">
+                                                                @Html.DisplayFor(modelItem => item.MeterNames)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.ActionLink(" Edit", "Edit", new { id = item.ConvertorId }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                                @Html.ActionLink(" Delete", "Delete", new { id = item.ConvertorId }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                               </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+</section>
+

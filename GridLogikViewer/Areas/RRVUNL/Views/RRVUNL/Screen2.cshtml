@@ -1,0 +1,712 @@
+﻿@model List<GridLogikViewer.APIModels.GetInstanceData>
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #000000 !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+</style>
+
+<div class="col-lg-12" style="background:#000000">
+
+    <table class="rabtdt2" style=" text-align: center !important;background:#0f0f0f !important;color:red">
+ <tr>
+
+            <td style=" text-align: center !important;background:#000000 !important;color:#2FF009 !important;">
+                 <h1> 250X6 MW RRVUNL MAIN SCREEN  </h1>
+            </td>
+
+        </tr>
+    </table>
+</div>
+
+<div class="col-lg-12" style="background:#000000">
+ <table class="rabtdt2" style="white-space: nowrap; text-align: center !important; font-size:22px; font-weight:bold; ">
+        <tr>
+
+            
+            <th colspan="2"> UNIT</th>
+
+            <th colspan="2">UNIT-1</th>
+
+            <th colspan="2">UNIT-2</th>
+
+            <th colspan="2">UNIT-3</th>
+            <th colspan="2">UNIT-4</th>
+
+            <th colspan="2">UNIT-5</th>
+            <th colspan="2">UNIT-6</th>
+            <th colspan="2"> TOT. STN</th>
+
+        </tr>
+
+        <tr>
+
+            <td  colspan="2""> <label id="Unit"> GENRATION (MW)</label></td>
+
+            <td colspan="2"> <label id="Unit1GenMw"></label></td>
+
+            <td colspan="2""> <label id="Unit2GenMw"></label></td>
+
+            <td colspan="2"> <label id="Unit3GenMw"></label></td>
+            <td colspan="2"> <label id="Unit4GenMw"></label></td>
+
+            <td colspan="2"> <label id="Unit5GenMw"></label></td>
+            <td colspan="2"> <label id="Unit6GenMw"></label></td>
+            <td colspan="2"> <label id="UnitTotalGenMw"></label></td>
+        </tr>
+        <tr>
+
+            <td colspan="2"> <label id="Unit"> UNIT APC (MW)</label></td>
+
+            <td colspan="2"> <label id="Unit1APCMw"> </label></td>
+
+            <td colspan="2"> <label id="Unit2APCMw"> </label></td>
+
+            <td colspan="2"> <label id="Unit3APCMw"> </label></td>
+            <td colspan="2"> <label id="Unit4APCMw"> </label></td>
+
+            <td colspan="2"> <label id="Unit5APCMw"></label></td>
+            <td colspan="2"> <label id="Unit6APCMw"></label></td>
+            <td colspan="2"> <label id="UnitTotalAPCMw"> </label></td>
+
+        </tr>
+        <tr>
+
+            <td colspan="2"> <label id="Unit"> UNIT APC (%)</label></td>
+
+            <td colspan="2"> <label id="Unit1APCPer"> </label></td>
+
+            <td colspan="2"> <label id="Unit2APCPer"> </label></td>
+
+            <td colspan="2"> <label id="Unit3APCPer"> </label></td>
+            <td colspan="2"> <label id="Unit4APCPer"> </label></td>
+
+            <td colspan="2"> <label id="Unit5APCPer"></label></td>
+            <td colspan="2"> <label id="Unit6APCPer"></label></td>
+            <td colspan="2"> <label id="UnitTotalAPCPer"> </label></td>
+
+        </tr>
+    </table>
+</div>
+<div class="col-lg-12"  style="background:#000000">
+
+    <table class="rabtdt2" style="white-space: nowrap; text-align: center !important;font-size:22px; font-weight:bold; ">
+
+        <tr>
+
+            <th colspan="2"> STAGE</th>
+
+            <th colspan="2">STG-1(U#1 & 2)</th>
+
+            <th colspan="2"> STG-2(U#3 & 4)</th>
+
+            <th colspan="2"> STG-3(U#5)</th>
+            <th colspan="2"> STG-4(U#6)</th>
+
+
+        </tr>
+
+        <tr>
+
+            <td colspan="2"> <label id="Unit"> GENRATION (MW)</label></td>
+
+            <td colspan="2"> <label id="Stage1GenMw"> </label></td>
+
+            <td colspan="2"> <label id="Stage2GenMw"> </label></td>
+
+            <td colspan="2"> <label id="Stage3GenMw"> </label></td>
+            <td colspan="2"> <label id="Stage4GenMw"> </label></td>
+
+
+
+
+        </tr>
+        <tr>
+
+            <td colspan="2"> <label id="Unit"> UNIT APC (MW)</label></td>
+
+            <td colspan="2"> <label id="Stage1APCMw"> </label></td>
+
+            <td colspan="2"> <label id="Stage2APCMw"> </label></td>
+
+            <td colspan="2"> <label id="Stage3APCMw"> </label></td>
+            <td colspan="2"> <label id="Stage4APCMw"> </label></td>
+
+
+
+        </tr>
+        <tr>
+
+            <td colspan="2"> <label id="Unit"> UNIT APC (%)</label></td>
+
+            <td colspan="2"> <label id="Stage1APCPer"> </label></td>
+
+            <td colspan="2"> <label id="Stage2APCPer"> </label></td>
+
+            <td colspan="2"> <label id="Stage3APCPer"> </label></td>
+            <td colspan="2"> <label id="Stage4APCPer"> </label></td>
+
+
+
+
+        </tr>
+    </table>
+</div>
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <table class="table table-bordered results">
+
+            <tbody class="table-style_01">
+
+                <tr>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px; "
+                                id="btnUnit1">
+                            UNIT 1
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px; "
+                                id="btnUnit2">
+                            UNIT 2
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px; "
+                                id="btnUnit3">
+                            UNIT 3
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px; "
+                                id="btnUnit4">
+                            UNIT 4
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px; "
+                                id="btnUnit5">
+                            UNIT 5
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px; "
+                                id="btnUnit6">
+                            UNIT 6
+                        </button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px; "
+                                id="btnCHP">
+                            CHP
+                        </button>
+
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px;"
+                                id="btnAHP">
+                            AHP
+                        </button>
+
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <td>
+            <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px;"
+                    id="btnCW">
+                CW
+            </button>
+
+        </td>
+        <td>
+            <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px;" id="btnDM">
+                DM
+
+                PLANT
+            </button>
+
+        </td>
+        <td>
+            <button type="button" class="btn btn-twitter" style="font-weight: bold; margin: 0px 10px;" id="btnCT">
+                CT
+
+                STG-1
+            </button>
+
+        </td>
+
+
+
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#btnUnit1").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("EMSMeterDetails", "RRVUNL")';
+        });
+        $("#btnUnit2").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen3", "RRVUNL")';
+        });
+        $("#btnUnit3").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen4", "RRVUNL")';
+        });
+        $("#btnUnit4").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen5", "RRVUNL")';
+        });
+        $("#btnUnit5").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen6", "RRVUNL")';
+        });
+        $("#btnUnit6").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen7", "RRVUNL")';
+        });
+
+        $("#btnCHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen8", "RRVUNL")';
+        });
+        $("#btnAHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen9", "RRVUNL")';
+        });
+        $("#btnCW").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen42", "RRVUNL")';
+        });
+        $("#btnDM").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen41", "RRVUNL")';
+        });
+        $("#btnCT").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen43", "RRVUNL")';
+        });
+
+
+
+    });
+
+
+</script>
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "None";
+    var MF1 = 1, MF2 = 1, MF3 = 1, MF4 = 1, MF5 = 1, MF6 = 1, MF7 = 1, MF8 = 1;
+    var PlatMID = "1";
+    var MeterString = "2,26,27,39,53,54,79,80,105,121,140,154,228,247,258,279,280,300,301,336,337,371,377,395";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ttype = '@HttpContext.Current.Session["userid"]';
+    //debugger
+    if (ttype == "admin") {
+        $('#DataParameter').show();
+        $('#btnSet').show();
+    }
+    else {
+        //$("DataParameter").hide();
+        //$("btnSet").hide();
+        $('#DataParameter').hide();
+        $('#btnSet').hide();
+    }
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+       
+        $("#DataParameter").change(function () {
+            //data =
+            //   {
+            //       Parameter: $('#DataParameter option:selected').text()
+            //   };
+
+            data = $('#DataParameter option:selected').text()
+
+
+        });
+        $("#DataParameter1").change(function () {
+            //data =
+            //   {
+            //       Parameter: $('#DataParameter option:selected').text()
+            //   };
+
+            PlatMID = $('#DataParameter1 option:selected').text()
+
+
+        });
+      
+          
+        ABTMeterDetails();
+        parameter();
+    });
+  
+    setInterval(ABTMeterDetails, 1000);
+    function ABTMeterDetails() {
+               var UnitTotalGenMw= 0;
+       
+        $.ajax({
+            //type: "GET",
+            //contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+            //dataType: "json",//type of data to be received
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var TotalUnit1kw = 0;
+                var TotalUnit2kw = 0;
+                var TotalStationkw = 0;
+                var TotalUnit1apc = 0;
+                var TotalUnit2apc = 0;
+                var TotalStationapc = 0;
+		var UnitTotalGenMw = 0;
+		var totaladd=0;
+		var totalapc1=0;
+		var totalapc2=0;
+		var totalapc3=0;
+		var totalapc4=0;
+		var totalapc5=0;
+		var totalapc6=0;
+		var Genunit1=0;
+		var Genunit2=0;
+		var Genunit3=0;
+		var Genunit4=0;
+		var Genunit5=0;
+		var Genunit6=0;
+		var APCPerunit1=0;
+		var APCPerunit2=0;
+		var APCPerunit3=0;
+		var APCPerunit4=0;
+		var APCPerunit5=0;
+		var APCPerunit6=0;
+		var totalapc=0;
+		var stg1mw=0;
+		var stg2mw=0;
+		var stg1apcmw=0;
+		var stg2apcmw=0;
+		var stg3apcmw=0;
+		var stg4apcmw=0;
+		var APCPerstg1=0;
+		var APCPerstg2=0;
+		var APCPerstg3=0;
+		var APCPerstg4=0;
+		var totalperapc=0;
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {		
+
+
+                    debugger
+                    jsonObj.forEach(function (responseobj) {
+			var kwValue = 0;
+                            if (responseobj.kw < 0) {
+                                kwValue = responseobj.kw * -1;
+                            }
+                            else {
+                                kwValue = responseobj.kw;
+                            }
+
+                        if (responseobj.meterid == 39) {
+
+                            $("#Unit1GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit1=Genunit1+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+
+                            }
+			if (responseobj.meterid == 53) {
+
+                            $("#Unit2GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit2=Genunit2+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+                            }
+			if (responseobj.meterid == 154) {
+
+                            $("#Unit3GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit3=Genunit3+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+
+                            }
+			if (responseobj.meterid == 279) {
+
+                            $("#Unit4GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit4=Genunit4+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+
+                            }
+			if (responseobj.meterid == 336) {
+
+                            $("#Unit5GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit5=Genunit5+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+
+
+                            }
+			if (responseobj.meterid == 395) {
+
+                            $("#Unit6GenMw").html(responseobj.kw.toFixed(3).toString());
+Genunit6=Genunit6+responseobj.kw;
+totaladd=totaladd+responseobj.kw;
+
+                            } 
+if (responseobj.meterid == 2) {
+                            
+totalapc1=totalapc1+responseobj.kw;
+			      }
+if (responseobj.meterid == 26) {
+                            
+totalapc1=totalapc1+responseobj.kw;
+			      }
+if (responseobj.meterid == 27) {
+                            
+totalapc1=totalapc1+responseobj.kw;
+			      }
+
+if (responseobj.meterid == 54) {
+                            
+totalapc2=totalapc2+responseobj.kw;
+			      }
+if (responseobj.meterid == 79) {
+                            
+totalapc2=totalapc2+responseobj.kw;
+			      }
+if (responseobj.meterid == 80) {
+                            
+totalapc2=totalapc2+responseobj.kw;
+			      }
+
+if (responseobj.meterid == 105) {
+                            
+totalapc3=totalapc3+responseobj.kw;
+			      }
+if (responseobj.meterid == 121) {
+                            
+totalapc3=totalapc3+responseobj.kw;
+			      }
+if (responseobj.meterid == 140) {
+                            
+totalapc3=totalapc3+responseobj.kw;
+			      }
+
+if (responseobj.meterid == 228) {
+                            
+totalapc4=totalapc4+responseobj.kw;
+			      }
+if (responseobj.meterid == 247) {
+                            
+totalapc4=totalapc4+responseobj.kw;
+			      }
+if (responseobj.meterid == 258) {
+                            
+totalapc4=totalapc4+responseobj.kw;
+			      }
+
+if (responseobj.meterid == 280) {
+                            
+totalapc5=totalapc5+responseobj.kw;
+			      }
+if (responseobj.meterid == 300) {
+                            
+totalapc5=totalapc5+responseobj.kw;
+			      }
+if (responseobj.meterid == 301) {
+                            
+totalapc5=totalapc5+responseobj.kw;
+			      }
+
+if (responseobj.meterid == 337) {
+                            
+totalapc6=totalapc6+responseobj.kw;
+			      }
+if (responseobj.meterid == 371) {
+                            
+totalapc6=totalapc6+responseobj.kw;
+			      }
+if (responseobj.meterid == 377) {
+                            
+totalapc6=totalapc6+responseobj.kw;
+			      }
+						
+				
+                              
+			
+			
+                    });
+			
+			APCPerunit1 = ((totalapc1 / Genunit1/1000) * 100);
+			
+		
+			APCPerunit2 = ((totalapc2 / Genunit2/1000) * 100);
+
+			APCPerunit3 = ((totalapc3 / Genunit3/1000) * 100);
+			APCPerunit4 = ((totalapc4 / Genunit4/1000) * 100);
+			APCPerunit5 = ((totalapc5 / Genunit5/1000) * 100);
+			APCPerunit6 = ((totalapc6 / Genunit6/1000) * 100);
+			totalapc = (totalapc1+totalapc2+totalapc3+totalapc4+totalapc5+totalapc6);
+			totalperapc = totalperapc + ((totalapc/totaladd)/10);
+			stg1mw = stg1mw+(Genunit1+Genunit2);
+			stg2mw = stg2mw+(Genunit3+Genunit4);
+			stg1apcmw = stg1apcmw+(totalapc1+totalapc2);
+			stg2apcmw = stg2apcmw+(totalapc3+totalapc4);
+			stg3apcmw = stg3apcmw+totalapc5;
+			stg4apcmw = stg4apcmw+totalapc6;
+			APCPerstg1 = APCPerstg1+(stg1apcmw/stg1mw/10);
+			APCPerstg2 = APCPerstg2+(stg2apcmw/stg2mw/10);
+			APCPerstg3 = APCPerstg3+(stg3apcmw/Genunit5/10);
+			APCPerstg4 = APCPerstg4+(stg3apcmw/Genunit6/10)
+			$("#UnitTotalGenMw").html(totaladd.toFixed(3).toString());
+			$("#Unit1APCMw").html((totalapc1/1000).toFixed(3).toString());
+			$("#Unit1APCPer").html(APCPerunit1.toFixed(3).toString());
+			$("#Unit2APCMw").html((totalapc2/1000).toFixed(3).toString());
+			$("#Unit2APCPer").html(APCPerunit2.toFixed(3).toString());
+			$("#Unit3APCMw").html((totalapc3/1000).toFixed(3).toString());
+			$("#Unit3APCPer").html(APCPerunit3.toFixed(3).toString());
+			$("#Unit4APCMw").html((totalapc4/1000).toFixed(3).toString());
+			$("#Unit4APCPer").html(APCPerunit4.toFixed(3).toString());
+			$("#Unit5APCMw").html((totalapc5/1000).toFixed(3).toString());
+			$("#Unit5APCPer").html(APCPerunit5.toFixed(3).toString());
+			$("#Unit6APCMw").html((totalapc6/1000).toFixed(3).toString());
+			$("#Unit6APCPer").html(APCPerunit6.toFixed(3).toString());
+			$("#UnitTotalAPCMw").html((totalapc/1000).toFixed(3).toString());
+			$("#Stage1GenMw").html(stg1mw.toFixed(3).toString());
+			$("#Stage2GenMw").html(stg2mw.toFixed(3).toString());
+			$("#Stage3GenMw").html(Genunit5.toFixed(3).toString());
+			$("#Stage4GenMw").html(Genunit6.toFixed(3).toString());
+			$("#Stage1APCMw").html((stg1apcmw/1000).toFixed(3).toString());
+			$("#Stage2APCMw").html((stg2apcmw/1000).toFixed(3).toString());
+			$("#Stage3APCMw").html((stg3apcmw/1000).toFixed(3).toString());
+			$("#Stage4APCMw").html((stg4apcmw/1000).toFixed(3).toString());
+			$("#Stage1APCPer").html(APCPerstg1.toFixed(3).toString());
+			$("#Stage2APCPer").html(APCPerstg2.toFixed(3).toString());
+			$("#Stage3APCPer").html(APCPerstg3.toFixed(3).toString());
+			$("#Stage4APCPer").html(APCPerstg4.toFixed(3).toString());
+			$("#UnitTotalAPCPer").html(totalperapc.toFixed(3).toString());
+
+
+			 @* unit 1  is tripped/Shutdown*@
+
+                        if (Genunit1 == 0) {
+                        $("#Unit1APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage1APCPer").html("--");
+			}
+
+			  @* unit 2  is tripped/Shutdown*@
+
+			if (Genunit2 == 0) {
+                        $("#Unit2APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage1APCPer").html("--");
+			}
+			
+			@* unit 3  is tripped/Shutdown*@
+
+
+			if (Genunit3 == 0) {
+                        $("#Unit3APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage2APCPer").html("--");
+			}
+			
+			@* unit 4  is tripped/Shutdown*@
+
+
+			if (Genunit4 == 0) {
+                        $("#Unit4APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage2APCPer").html("--");
+			}
+
+			@* unit 5  is tripped/Shutdown*@
+
+
+			if (Genunit5 == 0) {
+                        $("#Unit5APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage3APCPer").html("--");
+			}
+
+			@* unit 6  is tripped/Shutdown*@
+
+
+			if (Genunit6 == 0) {
+                        $("#Unit6APCPer").html("--");
+			$("#UnitTotalAPCPer").html("--");
+			$("#Stage4APCPer").html("--");
+			}
+
+
+                    // document.getElementById(id3).value = Number(document.getElementById(id1).value) + Number
+
+                   
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

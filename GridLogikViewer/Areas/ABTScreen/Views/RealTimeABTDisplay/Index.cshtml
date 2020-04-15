@@ -1,0 +1,1237 @@
+﻿@model  GridLogikViewer.Areas.ABTScreen.Models.RealTimeABTDisplayViewModel
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "RealTimeABTDisplay";
+}
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box"><h3>Real Time ABT Display</h3></div>
+                    <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                        <div class="form-group col-md-8" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                            @Html.LabelForRequired(model => model.FromDate, null, "col-md-4 control-label")
+                            <div class="col-md-4" style="border:0px solid #000;padding:0px; ">
+                                <div id="dtFrmDate" class="input-group date">
+                                    @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                    @*&nbsp;<select id="fromtime">
+                                            <option>12:45 AM</option>
+                                        </select>*@
+                                </div>
+
+                            </div>
+                            <div class="col-md-4" style="border:0px solid #000;padding-left:10px; ">
+                                <div id="dtFrddmDate" class="input-group date">
+                                    <select class="col-md-12 form-control" id="FromTime" name="FromTime" size="1">
+                                        <option>12:00 AM</option>
+                                        <option>12:15 AM</option>
+                                        <option>12:30 AM</option>
+                                        <option>12:45 AM</option>
+                                        <option>01:00 AM</option>
+                                        <option>01:15 AM</option>
+                                        <option>01:30 AM</option>
+                                        <option>01:45 AM</option>
+                                        <option>02:00 AM</option>
+                                        <option>02:15 AM</option>
+                                        <option>02:30 AM</option>
+                                        <option>02:45 AM</option>
+                                        <option>03:00 AM</option>
+                                        <option>03:15 AM</option>
+                                        <option>03:30 AM</option>
+                                        <option>03:45 AM</option>
+                                        <option>04:00 AM</option>
+                                        <option>04:15 AM</option>
+                                        <option>04:30 AM</option>
+                                        <option>04:45 AM</option>
+                                        <option>05:00 AM</option>
+                                        <option>05:15 AM</option>
+                                        <option>05:30 AM</option>
+                                        <option>05:45 AM</option>
+                                        <option>06:00 AM</option>
+                                        <option>06:15 AM</option>
+                                        <option>06:30 AM</option>
+                                        <option>06:45 AM</option>
+                                        <option>07:00 AM</option>
+                                        <option>07:15 AM</option>
+                                        <option>07:30 AM</option>
+                                        <option>07:45 AM</option>
+                                        <option>08:00 AM</option>
+                                        <option>08:15 AM</option>
+                                        <option>08:30 AM</option>
+                                        <option>08:45 AM</option>
+                                        <option>09:00 AM</option>
+                                        <option>09:15 AM</option>
+                                        <option>09:30 AM</option>
+                                        <option>09:45 AM</option>
+                                        <option>10:00 AM</option>
+                                        <option>10:15 AM</option>
+                                        <option>10:30 AM</option>
+                                        <option>10:45 AM</option>
+                                        <option>11:00 AM</option>
+                                        <option>11:15 AM</option>
+                                        <option>11:30 AM</option>
+                                        <option>11:45 AM</option>
+                                        <option>12:00 PM</option>
+                                        <option>12:15 PM</option>
+                                        <option>12:30 PM</option>
+                                        <option>12:45 PM</option>
+                                        <option>01:00 PM</option>
+                                        <option>01:15 PM</option>
+                                        <option>01:30 PM</option>
+                                        <option>01:45 PM</option>
+                                        <option>02:00 PM</option>
+                                        <option>02:15 PM</option>
+                                        <option>02:30 PM</option>
+                                        <option>02:45 PM</option>
+                                        <option>03:00 PM</option>
+                                        <option>03:15 PM</option>
+                                        <option>03:30 PM</option>
+                                        <option>03:45 PM</option>
+                                        <option>04:00 PM</option>
+                                        <option>04:15 PM</option>
+                                        <option>04:30 PM</option>
+                                        <option>04:45 PM</option>
+                                        <option>05:00 PM</option>
+                                        <option>05:15 PM</option>
+                                        <option>05:30 PM</option>
+                                        <option>05:45 PM</option>
+                                        <option>06:00 PM</option>
+                                        <option>06:15 PM</option>
+                                        <option>06:30 PM</option>
+                                        <option>06:45 PM</option>
+                                        <option>07:00 PM</option>
+                                        <option>07:15 PM</option>
+                                        <option>07:30 PM</option>
+                                        <option>07:45 PM</option>
+                                        <option>08:00 PM</option>
+                                        <option>08:15 PM</option>
+                                        <option>08:30 PM</option>
+                                        <option>08:45 PM</option>
+                                        <option>09:00 PM</option>
+                                        <option>09:15 PM</option>
+                                        <option>09:30 PM</option>
+                                        <option>09:45 PM</option>
+                                        <option>10:00 PM</option>
+                                        <option>10:15 PM</option>
+                                        <option>10:30 PM</option>
+                                        <option>10:45 PM</option>
+                                        <option>11:00 PM</option>
+                                        <option>11:15 PM</option>
+                                        <option>11:30 PM</option>
+                                        <option>11:45 PM</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                            <button type="button" class="btn btn-danger" id="btnPlotTable" style="font-weight:bold;  margin:0px 10px;">Daily Report</button>
+                            <button type="button" class="btn btn-danger" id="btnstationReport" style="font-weight:bold;  margin:0px 10px;">Station Report</button>
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:10px 10px;">
+                        <div class="form-group col-md-8" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                            <label class="col-md-4 control-label" for="ToDate" style="white-space:nowrap;">To Date & Time <span class="validation-redcolor">*</span></label>
+                            <div class="col-md-4" style="border:0px solid #000;padding:0px; ">
+                                <div id="dtToDate" class="input-group date">
+                                    <input type="text" id="ToDate" class="form-control" readonly="readonly" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-4" style="border:0px solid #000;padding-left:10px; ">
+                                <div id="dtFrddmDate" class="input-group date">
+                                    <select class="col-md-12 form-control" id="ToTime" name="ToTime" size="1">
+                                        <option>12:00 AM</option>
+                                        <option>12:15 AM</option>
+                                        <option>12:30 AM</option>
+                                        <option>12:45 AM</option>
+                                        <option>01:00 AM</option>
+                                        <option>01:15 AM</option>
+                                        <option>01:30 AM</option>
+                                        <option>01:45 AM</option>
+                                        <option>02:00 AM</option>
+                                        <option>02:15 AM</option>
+                                        <option>02:30 AM</option>
+                                        <option>02:45 AM</option>
+                                        <option>03:00 AM</option>
+                                        <option>03:15 AM</option>
+                                        <option>03:30 AM</option>
+                                        <option>03:45 AM</option>
+                                        <option>04:00 AM</option>
+                                        <option>04:15 AM</option>
+                                        <option>04:30 AM</option>
+                                        <option>04:45 AM</option>
+                                        <option>05:00 AM</option>
+                                        <option>05:15 AM</option>
+                                        <option>05:30 AM</option>
+                                        <option>05:45 AM</option>
+                                        <option>06:00 AM</option>
+                                        <option>06:15 AM</option>
+                                        <option>06:30 AM</option>
+                                        <option>06:45 AM</option>
+                                        <option>07:00 AM</option>
+                                        <option>07:15 AM</option>
+                                        <option>07:30 AM</option>
+                                        <option>07:45 AM</option>
+                                        <option>08:00 AM</option>
+                                        <option>08:15 AM</option>
+                                        <option>08:30 AM</option>
+                                        <option>08:45 AM</option>
+                                        <option>09:00 AM</option>
+                                        <option>09:15 AM</option>
+                                        <option>09:30 AM</option>
+                                        <option>09:45 AM</option>
+                                        <option>10:00 AM</option>
+                                        <option>10:15 AM</option>
+                                        <option>10:30 AM</option>
+                                        <option>10:45 AM</option>
+                                        <option>11:00 AM</option>
+                                        <option>11:15 AM</option>
+                                        <option>11:30 AM</option>
+                                        <option>11:45 AM</option>
+                                        <option>12:00 PM</option>
+                                        <option>12:15 PM</option>
+                                        <option>12:30 PM</option>
+                                        <option>12:45 PM</option>
+                                        <option>01:00 PM</option>
+                                        <option>01:15 PM</option>
+                                        <option>01:30 PM</option>
+                                        <option>01:45 PM</option>
+                                        <option>02:00 PM</option>
+                                        <option>02:15 PM</option>
+                                        <option>02:30 PM</option>
+                                        <option>02:45 PM</option>
+                                        <option>03:00 PM</option>
+                                        <option>03:15 PM</option>
+                                        <option>03:30 PM</option>
+                                        <option>03:45 PM</option>
+                                        <option>04:00 PM</option>
+                                        <option>04:15 PM</option>
+                                        <option>04:30 PM</option>
+                                        <option>04:45 PM</option>
+                                        <option>05:00 PM</option>
+                                        <option>05:15 PM</option>
+                                        <option>05:30 PM</option>
+                                        <option>05:45 PM</option>
+                                        <option>06:00 PM</option>
+                                        <option>06:15 PM</option>
+                                        <option>06:30 PM</option>
+                                        <option>06:45 PM</option>
+                                        <option>07:00 PM</option>
+                                        <option>07:15 PM</option>
+                                        <option>07:30 PM</option>
+                                        <option>07:45 PM</option>
+                                        <option>08:00 PM</option>
+                                        <option>08:15 PM</option>
+                                        <option>08:30 PM</option>
+                                        <option>08:45 PM</option>
+                                        <option>09:00 PM</option>
+                                        <option>09:15 PM</option>
+                                        <option>09:30 PM</option>
+                                        <option>09:45 PM</option>
+                                        <option>10:00 PM</option>
+                                        <option>10:15 PM</option>
+                                        <option>10:30 PM</option>
+                                        <option>10:45 PM</option>
+                                        <option>11:00 PM</option>
+                                        <option>11:15 PM</option>
+                                        <option>11:30 PM</option>
+                                        <option>11:45 PM</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group col-md-12" style="border:0px solid #000; padding:0px; margin:0px 0px;margin-top:10px;  text-align:right;">
+                        <button type="button" class="btn btn-success" id="btnExportStation" style="font-weight:bold;  margin:0px 10px 10px;">Export</button>
+                        <button type="button" class="btn btn-success" id="btnExportDaily" style="font-weight:bold;  margin:0px 10px 10px;">Export</button>
+                    </div>
+
+                    <div id='data_container' class="col-md-12 Daily" style="overflow:auto">
+                        @*<table></table>*@
+                        <table cellspacing="0" border="0" id="tblDailyReport" style="display:none">
+
+                            <tbody>
+                                <tr>
+                                    <td style="border: 1px solid #000000" colspan="2" height="34" align="center" valign="middle"><font color="#000000"><img src="/Content/images/client-logo-01.png" class="clientlogo01_style" alt="BDB Logo" title="BDB Logo"></font></td>
+                                    <td style="border: 1px solid #000000" colspan="10" align="center" valign="middle" bgcolor="#CCC1DA"><b><font face="Times New Roman" size="4" color="#000000">NABHA POWER LIMITED RAJPURA-UI REPORT</font></b></td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000000;white-space:nowrap" height="21" align="left" valign="middle" bgcolor="#92D050"><b><font face="Times New Roman" color="#000000">FROM DATE</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle"><font size="2" color="#000000"><label id="lblFromDateRT"></label> </font></td>
+                                    <td style="border: 1px solid #000000" colspan="2" align="center" valign="middle"><font size="2" color="#000000"><label id="lblFromTimeRT"></label></font></td>
+                                    <td style="border: 1px solid #000000; white-space: nowrap; " align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">Total DC (MU)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalDCRT"></label></font></b></td>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; white-space: nowrap;" colspan="5" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"> NET EXP/SG %</font></b></td>
+                                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalNetExpPercRT"></label></font></b></td>
+
+
+
+                                </tr>
+                                <tr>
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" height="21" align="left" valign="middle" bgcolor="#92D050"><b><font face="Times New Roman" color="#000000">TO DATE</font></b></td>
+                                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign="middle"><font size="2" color="#000000"><label id="lblToDateRT"></label></font></td>
+                                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" colspan="2" align="center" valign="middle"><font size="2" color="#000000"><label id="lblToTimeRT"></label></font></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">Total SG (MU)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalSGRT"></label></font></b></td>
+                                    <td style="border: 1px solid #000000; white-space: nowrap;" colspan="5" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">GROSS UI (Lakh Rs.)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalUIRsRT"></label></font></b></td>
+                                    @*<td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF"><font color="#000000"><br></font></td>
+                                        <td align="left" valign="bottom"><font color="#000000"><br></font></td>
+                                        <td align="left" valign="bottom"><font color="#000000"><br></font></td>*@
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000000" height="21" align="left" valign="middle" bgcolor="#92D050"><b><font face="Times New Roman" color="#000000">DATE_TIME</font></b></td>
+                                    <td style="border: 1px solid #000000" colspan="3" align="center" valign="middle"><b><font size="2" color="#000000"><label id="lblDateTimeRT"></label></font></b></td>
+                                    <td style="border: 1px solid #000000; white-space: nowrap;" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">NET EXP (MU)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalNetExpRT"></label></font></b></td>
+
+                                    <td style="border-top: 1px solid #000000; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000; white-space: nowrap;" colspan="5" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"> TOTAL FUEL CHARGES (in Lakh Rs.)</font></b></td>
+                                    <td style="border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalFuelChargesSumRT"></label></font></b></td>
+
+                                    @*<td style="border: 1px solid #000000" colspan=5 align="center" bgcolor="#FFCC99"><b><font face="Arial" color="#000000">TOTAL FUEL CHARGES(in Lakh Rs.)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" bgcolor="#FFCC99"><b><font face="Arial" color="#000000">-6.215</font></b></td>*@
+
+
+                                    
+
+
+                                    @*<td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF"><font color="#000000"><br></font></td>
+                                    <td align="left" valign="bottom"><font color="#000000"><br></font></td>
+                                    <td align="left" valign="bottom"><font color="#000000"><br></font></td>*@
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #000000" colspan="4" height="20" align="center" valign="middle"><font color="#000000"><br></font></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">Dev. (MU)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalDevMURT"></label></font></b></td>
+                                    <td style="border: 1px solid #000000" colspan="5" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial">NET PROFIT(+)/LOSS (-) (in Lakh Rs.)</font></b></td>
+                                    <td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFCC99"><b><font face="Arial"><label id="lblTotalNeProfLossRT"></label></font></b></td>
+                                    
+                                    @*<td style="border: 1px solid #000000" align="center" valign="middle" bgcolor="#FFFFFF"><font color="#000000"><br></font></td>
+                                    <td style="border: 1px solid #000000" align="left" valign="bottom" colspan="8"><font color="#000000"><br></font></td>*@
+                                    
+                                <tr>
+                                    <td style="border:1px solid #000000" colspan=" 12" height="25" align="center" valign="middle" bgcolor="#B9CDE5"><font face="Times New Roman" size="4" color="#17375E">CALCULATIONS WITH RESPECT TO FREQUENCY AND FUEL COST</font></td>
+                                </tr>
+                                <tr>
+                                    <td style="border:1px solid #000000" height="64" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">BlockNo</font></b></td>
+                                    <td style="border:1px solid #000000" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">Date</font></b></td>
+                                    <td style="border:1px solid #000000" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">BlockTime</font></b></td>
+                                    <td style="border:1px solid #000000; white-space: nowrap" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">DC (MW)</font></b></td>
+                                    <td style="border:1px solid #000000" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">SG(MW)</font></b></td>
+                                    <td style="border:1px solid #000000;white-space:nowrap" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">NET EXP(MW)</font></b></td>
+                                    <td style="border:1px solid #000000" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">UI(MW)</font></b></td>
+                                    <td style="border:1px solid #000000;white-space:nowrap" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">AVG FREQ(HZ)</font></b></td>
+                                    <td style="border:1px solid #000000; white-space: nowrap" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">UI RATE (Rs.)</font></b></td>
+                                    <td style="border:1px solid #000000; white-space: nowrap" align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">UI. (Rs)</font></b></td>
+                                    <td style="border:1px solid #000000; white-space: nowrap; " align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">FUEL CHARGES (Rs.)</font></b></td>
+                                    <td style="border:1px solid #000000; white-space: nowrap; " align="center" valign="middle" bgcolor="#FFC000"><b><font size="2" color="#000000">PROFIT(+)/LOSS(-) (Rs.)</font></b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id='data_containerSR' class="col-md-12 Station" style="overflow:auto">
+                        <table cellspacing="0" border="0" id="tblStnRpt" style="display:none">
+
+                            <tr>
+                                <td style="border:1px solid #000000" height="31" align="left" valign=bottom><b><font face="Arial"><br></font></b></td>
+                                <td style="border:1px solid #000000" colspan=12 rowspan=2 align="center" valign="bottom" bgcolor="#DBEEF4"><b><font face="Arial" size=5>STATION REPORT</font></b></td>
+                                @*<td align="center" valign=bottom><b><font face="Arial" size=5><br></font></b></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>*@
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #000000" height="31" align="left" valign=bottom><b><font face="Arial"><br></font></b></td>
+                                <td align="center" valign=bottom><b><font face="Arial" size=5><br></font></b></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                            </tr>
+                            <tr>
+                                <td style="border:1px solid #000000" height="25" align="left" valign=bottom><b><font face="Arial"><br></font></b></td>
+                                <td style="border: 1px solid #000000" colspan=2 align="center" valign=bottom bgcolor="#DBEEF4"><b><font face="Arial" size=4>Date</font></b></td>
+                                <td style="border: 1px solid #000000" colspan=2 align="center" valign=bottom bgcolor="#DBEEF4"><b><font face="Arial" size=4><label id="lblDateStnRT"></label> </font></b></td>
+                                <td style="border: 1px solid #000000;white-space:nowrap" colspan="8" align="center" valign=bottom bgcolor="#DBEEF4"><b><font face="Arial" size=4>Generated at: <label id="lblGenTime"></label></font></b></td>
+                                @*<td align="left" valign=bottom><b><font face="Arial"><br></font></b></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>*@
+                            </tr>
+                            <tr>
+                                <td style="border: 1px solid #000000" height="20" align="left" valign=bottom><b><font face="Arial">Block </font></b></td>
+                                <td style="border: 1px solid #000000" align="left" valign=bottom><b><font face="Arial">Time</font></b></td>
+                                <td style="border: 1px solid #000000" colspan=5 align="center" valign=bottom bgcolor="#FFC000"><b><font face="Arial">LINE AVERAGE MW</font></b></td>
+                                <td style="border: 1px solid #000000" colspan=3 align="center" valign=bottom bgcolor="#8EB4E3"><b><font face="Arial">UNIT AVERAGE MW</font></b></td>
+                                <td style="border: 1px solid #000000;white-space:nowrap" rowspan=2 align="center" valign=top><b><font face="Arial">Aux . Power (Mus)</font></b></td>
+                                <td style="border: 1px solid #000000; white-space: nowrap" rowspan=2 align="center" valign=top><b><font face="Arial">Aux . Power   (%)</font></b></td>
+                                <td style="border: 1px solid #000000" rowspan=2 align="center" valign=top><b><font face="Arial">Freq</font></b></td>
+                            </tr>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<style>
+    .ui-datepicker {
+        z-index: 10000000 !important;
+    }
+
+    table.tableth {
+        border-collapse: collapse;
+        margin-bottom: 2px;
+        width: 100%;
+        background: #fff;
+        font-size: 20px;
+        line-height: 16px;
+        text-align: center !important;
+    }
+
+    .tableth tbody th {
+        background-color: black;
+        /*color: white;*/
+    }
+
+    .rabtdtl td, th {
+        /*padding: 2px 10px;*/
+        padding: 1px 1px;
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 50%;
+        /*white-space:nowrap;*/
+    }
+
+
+    /*.tableth tbody th
+    {
+        color:yellow;
+    }*/
+
+
+
+
+    /*th
+    {
+        background-color:yellow;
+    }*/
+</style>
+<script type="text/javascript">
+    var box;
+
+    var meterids_unit = new Array();
+    var meterids_line = new Array();
+
+
+
+
+    $(document).ready(function () {
+        $("#FromDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0'
+
+        });
+
+        $("#ToDate").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0'
+
+        });
+
+        $("#ToDate").val($("#FromDate").val());
+
+        //$("#ToDate").val($.datepicker.formatDate("dd-mm-yy", new Date()));
+
+        $("#btnPlotTable").on("click", function () {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            //PerformanceChart();
+            PerformanceChart_new();
+        });
+        $("#btnstationReport").on("click", function () {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            //PerformanceStationReport();
+            PerformanceStationReport_new();
+            //if (box) box.remove();
+        });
+
+        $("#btnExportStation").on("click", function () {
+            //debugger;
+            $(".Station").table2excel({
+                exclude: ".noExl",
+                name: "Real time ABT Station Report",
+                filename: "Station_Report",
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
+
+        $("#btnExportDaily").on("click", function () {
+            //debugger;
+            $(".Daily").table2excel({
+                exclude: ".noExl",
+                name: "Real time ABT Daily Report",
+                filename: "Daily_Report",
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
+        $("#btnExportStation").css("display", "none");
+        $("#btnExportDaily").css("display", "none");
+
+    });
+    function PerformanceChart() {
+        //debugger;
+        $("#data_containerSR").html(null);
+        var FinString = "";
+        var fromDate = new Date($("#FromDate").val());
+        var day1 = fromDate.getDate();
+        var month1 = fromDate.getMonth() + 1;
+        var year1 = fromDate.getFullYear();
+
+        var tillDate = new Date($("#ToDate").val());
+        var day2 = tillDate.getDate();
+        var month2 = tillDate.getMonth() + 1;
+        var year2 = tillDate.getFullYear();
+
+        var fromtime = $("#FromTime")[0].selectedIndex;
+        var tilltime = $("#ToTime")[0].selectedIndex;
+
+        var toDate = "";
+        var iAvgHzCnt = 0;
+        try {
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "RealTimeABTDisplayAPI/GetData/" + day1 + "/" + month1 + "/" + year1 + "/" + day2 + "/" + month2 + "/" + year2 + "/" + fromtime + "/" + tilltime,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //debugger;
+                    if (response != null) {
+                        if (response.length > 0) {
+                            var totalDC = 0, totalSG = 0, totalNetEx = 0, totalUIMW = 0, totalAvgHz = 0, totalUiRate = 0, totalUiRs = 0, totalFuelCharge = 0, totalProfitLoss = 0;
+                            var jsonObj = response;
+                            FinString = "<div class='panel-body'><b>From Date </b> <lable id='lblFromDateRT'></lable></br><b>To Date </b> <lable id='lblToDateRT'></lable><div class='col-md-12'><table id='dailyReportABT'>";
+                            FinString += "<tr>";
+                            FinString += "<th class='tableth col-md-1'> Block No </th>" +
+                                "<th class='tableth col-md-1'> Date </th>" + "<th class='tableth col-md-1'> Block Time </th>" +
+                            "<th class='tableth col-md-1'> DC (MW) </th>" + "<th class='tableth col-md-1'> SG (MW) </th>" +
+                             "<th class='tableth col-md-1'> NET EXP (MW) </th>" + "<th class='tableth col-md-1'> UI (MW) </th>" +
+                                "<th class='tableth col-md-1'> AVG HZ </th>" + "<th class='tableth col-md-1'> UI Rate (Rs) </th>" +
+                                "<th class='tableth col-md-1'> UI Rs.</th>" + "<th class='tableth col-md-1'> Fuel Charges </th>"
+                             + "<th class='tableth col-md-1'> Profit(+)/Loss(-) </th>";
+                            FinString += "</tr>";
+                            $.each(jsonObj, function (index) {
+                                //debugger;
+                                var avgHz = 0;
+                                var UiMw = 0;
+                                var UiRate = 0;
+                                var FuelRate = 0;
+                                var UiRs = 0;
+                                var FuelCharge = 0;
+                                var TotalDevRs = 0;
+                                var profitloss = 0;
+                                FinString += "<tr>";
+                                $.each(jsonObj[index], function (key, value) {
+                                    //debugger;
+                                    if (key != "$id" && key != "FromDate") {
+                                        if (key == "DCValue") {
+                                            totalDC += value;
+                                            FinString += "<td>" + value + "</td>"
+                                        }
+                                        else if (key == "SGValue") {
+                                            totalSG += value;
+                                            FinString += "<td>" + value + "</td>"
+                                        }
+                                        else if (key == "NetExp") {
+                                            totalNetEx += value;
+                                            FinString += "<td>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "UIMW") {
+                                            UiMw = value;
+                                            totalUIMW += UiMw;
+                                            FinString += "<td>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "AvgHz") {
+                                            avgHz = value;
+                                            totalAvgHz += avgHz;
+                                            FinString += "<td>" + value.toFixed(2) + "</td>"
+                                        }
+                                        else if (key == "UIRate") {
+                                            UiRate = value;
+                                            totalUiRs += UiRate;
+                                            FinString += "<td>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "UIRs") {
+                                            UiRs = value;
+                                            totalUiRs += UiRs;
+                                            FinString += "<td>" + UiRs.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "TotalDevRs") {
+                                            //debugger;
+                                            TotalDevRs = value;
+                                        }
+                                        else if (key == "FuelRate") {
+                                            FuelRate = value;
+                                        }
+                                        else if (key == "FuelCharge") {
+                                            FuelCharge = (FuelRate * 250 * UiMw);
+                                            totalFuelCharge += FuelCharge;
+                                            FinString += "<td>" + FuelCharge.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "ProfitLoss") {
+                                            //debugger;
+                                            //totalProfitLoss += (UiRs - FuelCharge);
+                                            //totalProfitLoss += (TotalDevRs - FuelCharge);//nikhil
+                                            profitloss = value;
+                                            //totalProfitLoss += pfloss;//daniyal
+                                            totalProfitLoss += profitloss.toFixed(3);
+                                            //FinString += "<td>" + (TotalDevRs - FuelCharge).toFixed(2) + "</td>"
+                                            FinString += "<td>" + profitloss.toFixed(3) + "</td>"
+
+                                        }
+                                        else if (key != "TimeStamp")
+                                            FinString += "<td>" + value + "</td>"
+                                    } else
+                                        toDate = value;
+                                });
+                                FinString += "</tr>";
+                                iAvgHzCnt++;
+                            });
+                            if (iAvgHzCnt == 0) {
+                                iAvgHzCnt = 1;
+                            }
+                            FinString += "<tr><th>Total</th>" + "<th></th><th></th><th>" + totalDC.toFixed(2) + "</th><th>" +
+                                         totalSG.toFixed(2) + "</th><th>" + totalNetEx.toFixed(3) + "</th><th>" + totalUIMW.toFixed(3) + "</th><th>" +
+                                         (totalAvgHz / iAvgHzCnt).toFixed(2) + "</th><th>" + totalUiRate.toFixed(3) + "</th><th>" + totalUiRs.toFixed(3) + "</th><th>" +
+                                         totalFuelCharge.toFixed(3) + "</th><th>" + totalProfitLoss.toFixed(3) + "</th></tr></table></div>";
+                            //FinString += "</table>";
+                            FinString += "<table><tr><th>Total DC(MU)</th><th>Total SG(MU)</th><th>Net Exp(MU)</th><th>Dev.(MU)</th>" +
+                                "<th>Net Exp/SG % DC(MU)</th><th>Gross UI Lac(Rs)</th><th>Gross Fuel ChargeS Lac(Rs)</th><th>Net Profit(+)/Loss(-)(in Lacs Rs.)</th></tr>" +
+                                "<tr><td>" + (totalDC / 4000).toFixed(2) + "</td><td>" + (totalSG / 4000).toFixed(2) + "</td><td>" + (totalNetEx / 4000).toFixed(3) + "</td><td>" +
+                                (totalUIMW / 4000).toFixed(3) + "</td><td>" + ((totalNetEx / 4000) / (totalSG / 4000)).toFixed(2) + "</td><td>" + (totalUiRs / 100000).toFixed(3) +
+                                "</td><td>" + (totalFuelCharge / 100000).toFixed(3) + "</td><td>" + (totalProfitLoss / 100000).toFixed(3) + "</td></tr></table>";
+                            // FinString += "<tr><td></td></tr>";
+
+                            $("#data_container").html(FinString);
+                            if (box) box.remove();
+                            //$("#lblFromDateRT").text($("#FromDate").val() + " : 12:15:00 AM");
+                            //$("#lblToDateRT").text($("#ToDate").val() + " : 11:45:00 PM");
+
+                            $("#lblFromDateRT").text($("#FromDate").val() + " : " + $("#FromTime").val());
+                            $("#lblToDateRT").text($("#ToDate").val() + " : " + $("#ToTime").val());
+
+                            $("#btnExportStation").css("display", "none");
+                            $("#btnExportDaily").css("display", "block");
+                            //$("#lblFromDateRT").text($("#FromDate").val());
+                            //  $("#lblToDateRT").text(toDate);
+                        } else
+                            if (box) box.remove();
+                    }
+                    else
+                        if (box) box.remove();
+                }
+            });
+        }
+        catch (err) {
+        }
+    }
+
+    function PerformanceChart_new() {
+        //debugger;
+        $("#data_containerSR").html(null);
+        var FinString = "";
+        var fromDate = new Date($("#FromDate").val());
+        var day1 = fromDate.getDate();
+        var month1 = fromDate.getMonth() + 1;
+        var year1 = fromDate.getFullYear();
+
+        var tillDate = new Date($("#ToDate").val());
+        var day2 = tillDate.getDate();
+        var month2 = tillDate.getMonth() + 1;
+        var year2 = tillDate.getFullYear();
+
+        var fromtime = $("#FromTime")[0].selectedIndex;
+        var tilltime = $("#ToTime")[0].selectedIndex;
+
+        var toDate = "";
+        var iAvgHzCnt = 0;
+        try {
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "RealTimeABTDisplayAPI/GetData/" + day1 + "/" + month1 + "/" + year1 + "/" + day2 + "/" + month2 + "/" + year2 + "/" + fromtime + "/" + tilltime,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    debugger;
+                    if (response != null) {
+                        if (response.length > 0) {
+                            var totalDC = 0, totalSG = 0, totalNetEx = 0, totalUIMW = 0, totalAvgHz = 0, totalUiRate = 0, totalUiRs = 0, totalFuelCharge = 0, totalProfitLoss = 0;
+                            var jsonObj = response;
+                            // FinString = "<div class='panel-body'><b>From Date </b> <lable id='lblFromDateRT'></lable></br><b>To Date </b> <lable id='lblToDateRT'></lable><div class='col-md-12'><table id='dailyReportABT'>";
+                            //FinString += "<tr>";
+                            /*FinString += "<th class='tableth col-md-1'> Block No </th>" +
+                                "<th class='tableth col-md-1'> Date </th>" + "<th class='tableth col-md-1'> Block Time </th>" +
+                            "<th class='tableth col-md-1'> DC (MW) </th>" + "<th class='tableth col-md-1'> SG (MW) </th>" +
+                             "<th class='tableth col-md-1'> NET EXP (MW) </th>" + "<th class='tableth col-md-1'> UI (MW) </th>" +
+                                "<th class='tableth col-md-1'> AVG HZ </th>" + "<th class='tableth col-md-1'> UI Rate (Rs) </th>" +
+                                "<th class='tableth col-md-1'> UI Rs.</th>" + "<th class='tableth col-md-1'> Fuel Charges </th>"
+                             + "<th class='tableth col-md-1'> Profit(+)/Loss(-) </th>";
+                            FinString += "</tr>";
+                            */
+                            $.each(jsonObj, function (index) {
+                                //debugger;
+                                var avgHz = 0;
+                                var UiMw = 0;
+                                var UiRate = 0;
+                                var FuelRate = 0;
+                                var UiRs = 0;
+                                var FuelCharge = 0;
+                                var TotalDevRs = 0;
+                                var profitloss = 0;
+                                FinString += "<tr>";
+                                $.each(jsonObj[index], function (key, value) {
+                                    //debugger;
+                                    if (key != "$id" && key != "FromDate") {
+                                        if (key == "DCValue") {
+                                            totalDC += value;
+                                            FinString += "<td style='border:1px solid #000000'>" + value + "</td>"
+                                        }
+                                        else if (key == "SGValue") {
+                                            totalSG += value;
+                                            FinString += "<td style='border:1px solid #000000'>" + value + "</td>"
+                                        }
+                                        else if (key == "NetExp") {
+                                            totalNetEx += value;
+                                            FinString += "<td style='border:1px solid #000000'>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "UIMW") {
+                                            UiMw = value;
+                                            totalUIMW += UiMw;
+                                            FinString += "<td style='border:1px solid #000000'>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "AvgHz") {
+                                            avgHz = value;
+                                            totalAvgHz += avgHz;
+                                            FinString += "<td style='border:1px solid #000000'>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "UIRate") {
+                                            UiRate = value;
+                                            totalUiRate += UiRate;
+                                            FinString += "<td style='border:1px solid #000000'>" + value.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "UIRs") {
+                                            UiRs = value;
+                                            totalUiRs += UiRs;
+                                            FinString += "<td style='border:1px solid #000000'>" + UiRs.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "TotalDevRs") {
+                                            //debugger;
+                                            TotalDevRs = value;
+                                        }
+                                        else if (key == "FuelRate") {
+                                            FuelRate = value;
+                                        }
+                                        else if (key == "FuelCharge") {
+                                            FuelCharge = (FuelRate * 250 * UiMw);
+                                            totalFuelCharge += FuelCharge;
+                                            FinString += "<td style='border:1px solid #000000'>" + FuelCharge.toFixed(3) + "</td>"
+                                        }
+                                        else if (key == "ProfitLoss") {
+                                            //debugger;
+                                            //totalProfitLoss += (UiRs - FuelCharge);
+                                            //totalProfitLoss += (TotalDevRs - FuelCharge);//nikhil
+                                            profitloss = value;
+                                            //totalProfitLoss += pfloss;//daniyal
+                                            totalProfitLoss += profitloss;//.toFixed(3);
+                                            //FinString += "<td>" + (TotalDevRs - FuelCharge).toFixed(2) + "</td>"
+                                            FinString += "<td style='border:1px solid #000000'>" + profitloss.toFixed(3) + "</td>"
+
+                                        }
+                                        else if (key != "TimeStamp")
+                                            FinString += "<td style='border:1px solid #000000;white-space:nowrap'>" + value + "</td>"
+                                    } else
+                                        toDate = value;
+                                });
+                                FinString += "</tr>";
+                                iAvgHzCnt++;
+                            });
+                            if (iAvgHzCnt == 0) {
+                                iAvgHzCnt = 1;
+                            }
+
+                            var totalrow = "<tr>" +
+                                    "<td style='border:1px solid #000000' height='20' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>TOTAL</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'><br></font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'><br></font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalDC.toFixed(2) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalSG.toFixed(2) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalNetEx.toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalUIMW.toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + (totalAvgHz / iAvgHzCnt).toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalUiRate.toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalUiRs.toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalFuelCharge.toFixed(3) + "</font></b></td>" +
+                                    "<td style='border:1px solid #000000' align='center' valign='middle' bgcolor='#FFFF00'><b><font color='#000000'>" + totalProfitLoss.toFixed(3) + "</font></b></td>" +
+                                "</tr>";
+
+
+                            FinString += totalrow;
+                            //FinString += "</table>";
+
+
+
+                            /*
+                            FinString += "<table><tr><th>Total DC(MU)</th><th>Total SG(MU)</th><th>Net Exp(MU)</th><th>Dev.(MU)</th>" +
+                                "<th>Net Exp/SG % DC(MU)</th><th>Gross UI Lac(Rs)</th><th>Gross Fuel ChargeS Lac(Rs)</th><th>Net Profit(+)/Loss(-)(in Lacs Rs.)</th></tr>" +
+                                "<tr><td>" + (totalDC / 4000).toFixed(2) + "</td><td>" + (totalSG / 4000).toFixed(2) + "</td><td>" + (totalNetEx / 4000).toFixed(2) + "</td><td>" +
+                                (totalUIMW / 4000).toFixed(2) + "</td><td>" + ((totalNetEx / 4000) / (totalSG / 4000)).toFixed(2) + "</td><td>" + (totalUiRs / 100000).toFixed(2) +
+                                "</td><td>" + (totalFuelCharge / 100000).toFixed(2) + "</td><td>" + (totalProfitLoss / 100000).toFixed(2) + "</td></tr></table>";
+
+                                */
+
+                            // FinString += "<tr><td></td></tr>";
+
+                            //$("#data_container").html(FinString);
+
+                            $("#tblDailyReport").append(FinString);
+                            if (box) box.remove();
+
+
+                            $("#lblFromDateRT").text($("#FromDate").val());
+                            $("#lblToDateRT").text($("#ToDate").val());
+
+                            $("#lblFromTimeRT").text($("#FromTime").val());
+                            $("#lblToTimeRT").text($("#ToTime").val());
+
+                            $("#lblTotalDCRT").text((totalDC / 4000).toFixed(2));
+                            $("#lblTotalNetExpPercRT").text(((totalNetEx / 4000) / (totalSG / 4000)).toFixed(3));
+                            $("#lblTotalSGRT").text((totalSG / 4000).toFixed(2));
+                            $("#lblTotalUIRsRT").text((totalUiRs / 100000).toFixed(3));
+                            $("#lblTotalNetExpRT").text((totalNetEx / 4000).toFixed(3));
+                            $("#lblTotalNeProfLossRT").text((totalProfitLoss / 100000).toFixed(3));
+                            $("#lblTotalDevMURT").text((totalUIMW / 4000).toFixed(3));
+                            $("#lblTotalFuelChargesSumRT").text((totalFuelCharge / 100000).toFixed(3));
+                            //debugger;
+                            try {
+                                var startdateDB = new Date();
+                                $("#lblDateTimeRT").html($.datepicker.formatDate("mm/dd/yy", new Date(startdateDB)) + " " + startdateDB.toString().substr(16, 8));
+                            } catch (e) {
+
+                            }
+
+                            $("#tblDailyReport").css("display", "block");
+
+                            $("#btnExportStation").css("display", "none");
+                            $("#btnExportDaily").css("display", "block");
+                            //$("#lblFromDateRT").text($("#FromDate").val());
+                            //  $("#lblToDateRT").text(toDate);
+                        } else
+                            if (box) box.remove();
+                    }
+                    else
+                        if (box) box.remove();
+                }
+            });
+        }
+        catch (err) {
+        }
+    }
+
+    function PerformanceStationReport() {
+        //debugger;
+        $("#data_container").html(null);
+        var FinStringSR = "";
+        var fromDate = new Date($("#FromDate").val());
+        var day1 = fromDate.getDate();
+        var month1 = fromDate.getMonth() + 1;
+        var year1 = fromDate.getFullYear();
+
+        var tillDate = new Date($("#ToDate").val());
+        var day2 = tillDate.getDate();
+        var month2 = tillDate.getMonth() + 1;
+        var year2 = tillDate.getFullYear();
+
+
+        //var fromtime = $("#FromTime").val();
+        //var tilltime = $("#ToTime").val();
+        //fromtime = fromtime.replace(":", "d");
+        //tilltime = tilltime.replace(":", "d");
+
+        var fromtime = $("#FromTime")[0].selectedIndex;
+        var tilltime = $("#ToTime")[0].selectedIndex;
+
+        var toDate = new Date();
+        var counter = 1;
+        try {
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "RealTimeABTDisplayAPI/GetStationReportData/" + day1 + "/" + month1 + "/" + year1 + "/" + day2 + "/" + month2 + "/" + year2 + "/" + fromtime + "/" + tilltime,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    //debugger;
+                    if (response != null) {
+                        if (response.length > 0) {
+                            var totalM1 = 0, totalM2 = 0, totalM3 = 0, totalM4 = 0, totalM5 = 0, totalM6 = 0;
+                            var jsonObjSR = response;
+                            FinStringSR = "<div class='panel-body col-md-12'><b>From Date</b><lable id='lblFromDate'></lable></br><b>To Date</b><lable id='lblToDate'></lable><table>";
+                            FinStringSR += "<tr>";
+                            FinStringSR += "<th class='tableth'> Block No </th><th class='tableth'> Time </th><th class='tableth' colspan='4'> Line Average MW </th>" +
+                                "<th class='tableth' colspan='2'> Unit Average MW </th>" +
+                                "</tr><tr><th></th><th></th>";
+                            $.each(jsonObjSR[0], function (key, value) {
+                                if (key != "blockno" && key != "timestampid" && key != "tstamp")
+                                    FinStringSR += "<th>" + key + "</th>";
+                            });
+                            FinStringSR += "</tr>";
+                            $.each(jsonObjSR, function (index) {
+                                FinStringSR += "<tr>";
+                                $.each(jsonObjSR[index], function (key, value) {
+                                    if (key == "timestampid") {
+                                        var tstampDate = new Date('1970-01-01 00:00:00');
+                                        tstampDate.setSeconds(tstampDate.getSeconds() + value);
+                                        toDate = new Date(tstampDate);
+                                        //var dt = new Date(value);
+                                        var timeMin = tstampDate.getMinutes()
+                                        if (timeMin == "0")
+                                            timeMin = "00"
+                                        var dtTime = tstampDate.getHours() + ":" + timeMin;
+                                        FinStringSR += "<td>" + dtTime + "</td>"
+                                    }
+                                    else if (key != "tstamp") {
+                                        if (counter == 4)
+                                            totalM1 += value;
+                                        else if (counter == 5)
+                                            totalM2 += value;
+                                        else if (counter == 6)
+                                            totalM3 += value;
+                                        else if (counter == 7)
+                                            totalM4 += value;
+                                        else if (counter == 8)
+                                            totalM5 += value;
+                                        else if (counter == 9)
+                                            totalM6 += value;
+                                        FinStringSR += "<td>" + (value == null ? "-" : value) + "</td>"
+                                    }
+
+                                    counter++;
+                                    //}
+                                    //else
+                                    //    FinStringSR += "<td></td>"
+                                });
+                                counter = 1;
+                                FinStringSR += "</tr>";
+                            });
+                            FinStringSR += "<table><tr><th class='tableth' colspan='2'>Total MUS</th><th class='tableth'>" + totalM1.toFixed(5) + "</th><th class='tableth'>" +
+                                totalM2.toFixed(5) + "</th><th class='tableth'>" + totalM3.toFixed(5) + "</th><th class='tableth'>" + totalM4.toFixed(5) + "</th><th class='tableth'>" + totalM5.toFixed(5) +
+                                "</th><th class='tableth'>" + totalM6.toFixed(5) + "</th></tr></table>";
+                            $("#data_containerSR").html(FinStringSR);
+                            if (box) box.remove();
+                            //$("#lblFromDate").text($("#FromDate").val() + " : 12:15:00 AM");
+                            //$("#lblToDate").text($("#FromDate").val() + " : 11:45:00 PM");
+
+                            $("#lblFromDate").text($("#FromDate").val() + " : " + $("#FromTime").val());
+                            $("#lblToDate").text($("#ToDate").val() + " : " + $("#ToTime").val());
+
+
+                            $("#btnExportStation").css("display", "block");
+                            $("#btnExportDaily").css("display", "none");
+                            // $("#lblToDate").text(dayto.toString().length == 1 ? ("0" + dayto) : dayto + "/" + monthto.toString().length == 1 ? ("0" + monthto) : monthto + "/" + yearto + " : " + hourto.toString().length == 1 ? ("0" + hourto) : hourto + ":" + minto.toString().length == 1 ? ("0" + minto) : minto + ":" + secondsto.toString().length == 1 ? ("0" + secondsto) : secondsto);
+                        } else
+                            if (box) box.remove();
+                    }
+                    else
+                        if (box) box.remove();
+                }
+            });
+        }
+        catch (err) {
+        }
+    }
+
+    //String.prototype.toHHMM = function () {
+    //    var sec_num = parseInt(this, 10); // don't forget the second param
+    //    var hours = Math.floor(sec_num / 3600);
+    //    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    //    var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    //    if (hours < 10) { hours = "0" + hours; }
+    //    if (minutes < 10) { minutes = "0" + minutes; }
+    //    //if (seconds < 10) { seconds = "0" + seconds; }
+    //    return hours + ':' + minutes;// + ':' + seconds;
+    //}
+
+    function PerformanceStationReport_new() {
+        //debugger;
+        var meterids = new Array();
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "LoadSurveryABT/GetRABTMeterNames",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //debugger;
+
+                var str = "";
+
+                var result = meters.Data.result;
+                //NexExBus_Prev = result.substring(0, result.indexOf("/") - 1);
+
+                var linemeters = result.substring(0, result.indexOf("/"));
+
+                var linemetersArray = linemeters.split("-");
+
+                meterids_line = linemetersArray;
+
+                for (var i = 0; i < linemetersArray.length; i++) {
+                    meterids[i] = linemetersArray[i].toString();
+                }
+
+                var meterindex = meterids.length;
+
+                var unitmeters = result.substring(result.indexOf("/") + 1);
+
+                var unitmetersArray = unitmeters.split("-");
+
+                meterids_unit = unitmetersArray;
+
+                for (var i = 0; i < unitmetersArray.length; i++) {
+                    meterids[i + meterindex] = unitmetersArray[i].toString();
+                }
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+        $("#data_container").html(null);
+        var FinStringSR = "";
+        var fromDate = new Date($("#FromDate").val());
+        var day1 = fromDate.getDate();
+        var month1 = fromDate.getMonth() + 1;
+        var year1 = fromDate.getFullYear();
+
+        var tillDate = new Date($("#ToDate").val());
+        var day2 = tillDate.getDate();
+        var month2 = tillDate.getMonth() + 1;
+        var year2 = tillDate.getFullYear();
+
+
+        //var fromtime = $("#FromTime").val();
+        //var tilltime = $("#ToTime").val();
+        //fromtime = fromtime.replace(":", "d");
+        //tilltime = tilltime.replace(":", "d");
+
+        var fromtime = $("#FromTime")[0].selectedIndex;
+        var tilltime = $("#ToTime")[0].selectedIndex;
+
+        var toDate = new Date();
+        var counter = 1;
+        try {
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "RealTimeABTDisplayAPI/GetStationReportData/" + day1 + "/" + month1 + "/" + year1 + "/" + day2 + "/" + month2 + "/" + year2 + "/" + fromtime + "/" + tilltime,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    debugger;
+                    if (response != null) {
+                        if (response.length > 0) {
+                            var totalM1 = 0, totalM2 = 0, totalM3 = 0, totalM4 = 0, totalM5 = 0, totalM6 = 0;
+                            var totalAuxMw = 0, totalAuxPowPerc = 0, totallinemeter = 0, totalunitmeter = 0, totalhz = 0, totalhzcnt = 0;
+                            var jsonObjSR = response;
+                            //FinStringSR = "<div class='panel-body col-md-12'><b>From Date</b><lable id='lblFromDate'></lable></br><b>To Date</b><lable id='lblToDate'></lable><table>";
+                            //FinStringSR += "<tr>";
+                            //FinStringSR += "<th class='tableth'> Block No </th><th class='tableth'> Time </th><th class='tableth' colspan='4'> Line Average MW </th>" +
+                            //    "<th class='tableth' colspan='2'> Unit Average MW </th>" +
+                            //    "</tr><tr><th></th><th></th>";
+                            FinStringSR += "<tr><td style='border: 1px solid #000000'></td><td style='border: 1px solid #000000'></td>";
+                            var indextd = 1;
+
+                            $.each(jsonObjSR[0], function (key, value) {
+                                //debugger;
+                                if (meterids_line[0].toUpperCase() == key.toUpperCase()) {
+                                    //FinStringSR += "<th>" + key.toUpperCase() + "</th>";
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td>";
+                                }
+                                else if (meterids_line[1].toUpperCase() == key.toUpperCase()) {
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td>";
+                                }
+                                else if (meterids_line[2].toUpperCase() == key.toUpperCase()) {
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td>";
+                                }
+                                else if (meterids_line[3].toUpperCase() == key.toUpperCase()) {
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td><td style='border: 1px solid #000000'><b>TOTAL</b></td>";
+                                }
+
+                                if (meterids_unit[0].toUpperCase() == key.toUpperCase()) {
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td>";
+                                }
+                                else if (meterids_unit[1].toUpperCase() == key.toUpperCase()) {
+                                    FinStringSR += "<td style='border: 1px solid #000000' align='left' valign=bottom><b><font face='Arial'>" + key.toUpperCase() + "</font></b></td><td style='border: 1px solid #000000'><b>TOTAL</b></td>";
+                                }
+                            });
+
+                            FinStringSR += "</tr>";
+                            $.each(jsonObjSR, function (index) {
+                                FinStringSR += "<tr>";
+                                var linemeterrowwisesum = 0;
+                                var unitmeterrowwisesum = 0;
+                                $.each(jsonObjSR[index], function (key, value) {
+                                    //debugger;
+
+                                    if (key == "timestampid") {
+                                        //debugger;                                       
+                                        var tstampDate = new Date('1970-01-01 00:00:00');
+                                        tstampDate.setSeconds(tstampDate.getSeconds() + value);
+                                        toDate = new Date(tstampDate);
+                                        //var dt = new Date(value);
+                                        var timeMin = tstampDate.getMinutes()
+                                        if (timeMin == "0")
+                                            timeMin = "00"
+                                        var dtTime = tstampDate.getHours() + ":" + timeMin;
+                                        
+                                        //FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + dtTime + "</font></td>"
+                                    }
+                                    else if (key == "tstamp")
+                                    {
+                                        FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + value + "</font></td>"
+                                    }
+                                    else if (key != "tstamp") {
+
+                                        if (meterids_line[0].toUpperCase() == key.toUpperCase()) {
+                                            totalM1 += (value == null ? 0 : value);
+                                            linemeterrowwisesum += (value == null ? 0 : value);
+                                            FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (meterids_line[1].toUpperCase() == key.toUpperCase()) {
+                                            totalM2 += (value == null ? 0 : value);
+                                            linemeterrowwisesum += (value == null ? 0 : value);
+                                            FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (meterids_line[2].toUpperCase() == key.toUpperCase()) {
+                                            //debugger;
+                                            totalM3 += (value == null ? 0 : value);
+                                            linemeterrowwisesum += (value == null ? 0 : value);
+                                            FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (meterids_line[3].toUpperCase() == key.toUpperCase()) {
+                                            totalM4 += (value == null ? 0 : value);
+                                            linemeterrowwisesum += (value == null ? 0 : value);
+                                            totallinemeter += linemeterrowwisesum;
+                                            FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td><td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (linemeterrowwisesum).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (meterids_unit[0].toUpperCase() == key.toUpperCase()) {
+                                            totalM5 += (value == null ? 0 : value);
+                                            unitmeterrowwisesum += (value == null ? 0 : value);
+                                            FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (meterids_unit[1].toUpperCase() == key.toUpperCase()) {
+                                            totalM6 += (value == null ? 0 : value);
+                                            unitmeterrowwisesum += (value == null ? 0 : value);
+                                            totalunitmeter += unitmeterrowwisesum;
+                                            totalAuxMw += (unitmeterrowwisesum - linemeterrowwisesum);
+                                            totalAuxPowPerc += (((unitmeterrowwisesum - linemeterrowwisesum) / unitmeterrowwisesum) * 100);
+                                            FinStringSR += "<td id=1 style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</font></td><td id=2 style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (unitmeterrowwisesum).toFixed(3) + "</font></td><td id=3 style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (unitmeterrowwisesum - linemeterrowwisesum).toFixed(3) + "</font></td><td id=1 style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (((unitmeterrowwisesum - linemeterrowwisesum) / unitmeterrowwisesum) * 100).toFixed(3) + "</font></td>";
+                                        }
+                                        else if (key != "meterid") {
+                                            if (key.toLowerCase() == "blockno") {
+                                                FinStringSR += "<td style='border:1px solid #000000;' height='20' align='right' valign='bottom'><b><font face='Arial'>" + value + "</font></b></td>";
+                                            }
+                                            else if (key.toUpperCase() == "HZ") {
+                                                totalhzcnt++;
+                                                totalhz += (value == null ? 0 : value)
+                                                FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? 0 : value).toFixed(3) + "</td>"
+                                            }
+                                            else {
+                                                FinStringSR += "<td style='border:1px solid #000000;' align='right' valign=bottom><font color='#000000'>" + (value == null ? "-" : value).toFixed(3) + "</td>"
+                                            }
+                                        }
+                                    }
+
+                                    counter++;
+                                    //}
+                                    //else
+                                    //    FinStringSR += "<td></td>"
+                                });
+                                counter = 1;
+                                FinStringSR += "</tr>";
+                            });
+
+                            //debugger;
+
+                            FinStringSR += "<tr><td colspan='2' style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>Total MUS</td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalM1).toFixed(3) + "</font></b></td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" +
+                               (totalM2).toFixed(3) + "</font></b></td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalM3).toFixed(3) + "</font></b></td><td  style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalM4).toFixed(3) + "</font></b></td>" +
+                                "<td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totallinemeter).toFixed(3) + "</td><td  style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalM5).toFixed(3) +
+                                "</font></b></td><td  style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalM6).toFixed(3) + "</font></b></td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalunitmeter).toFixed(3) +
+                                "</font></b></td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalAuxMw).toFixed(3) + "</font></b></td><td  style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalAuxPowPerc).toFixed(3) + "</font></b></td><td style='border: 1px solid #000000' align='right' valign=bottom bgcolor='#FFFF00'><b><font face='Arial'>" + (totalhz / totalhzcnt).toFixed(3) + "</font></b></td></tr>";
+                            //$("#data_containerSR").html(FinStringSR);
+
+                            $("#tblStnRpt").append(FinStringSR);
+
+                            if (box) box.remove();
+
+
+                            $("#lblFromDate").text($("#FromDate").val() + " : " + $("#FromTime").val());
+                            $("#lblToDate").text($("#ToDate").val() + " : " + $("#ToTime").val());
+
+
+                            try {
+                                var startdateDB = new Date();
+                                $("#lblDateStnRT").html($.datepicker.formatDate("mm/dd/yy", new Date(startdateDB)));
+                                $("#lblGenTime").html(startdateDB.toString().substr(16, 8));
+                            } catch (e) {
+
+                            }
+
+
+                            $("#tblStnRpt").css("display", "block");
+
+                            $("#btnExportStation").css("display", "block");
+                            $("#btnExportDaily").css("display", "none");
+                            // $("#lblToDate").text(dayto.toString().length == 1 ? ("0" + dayto) : dayto + "/" + monthto.toString().length == 1 ? ("0" + monthto) : monthto + "/" + yearto + " : " + hourto.toString().length == 1 ? ("0" + hourto) : hourto + ":" + minto.toString().length == 1 ? ("0" + minto) : minto + ":" + secondsto.toString().length == 1 ? ("0" + secondsto) : secondsto);
+                        } else
+                            if (box) box.remove();
+                    }
+                    else
+                        if (box) box.remove();
+                }
+            });
+        }
+        catch (err) {
+        }
+    }
+</script>

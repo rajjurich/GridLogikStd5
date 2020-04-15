@@ -1,0 +1,527 @@
+﻿@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<script src="~/Scripts/moment.js"></script>
+
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    table.rabtdtl {
+        border-collapse: collapse;
+        margin-bottom: 1px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdtl td, tr {
+        background-color: black;
+        color: white;
+        border:none !important;
+        
+    }
+        .rabtdtl td label{
+
+            padding:5px 10px;
+            margin:5px; 
+            border:2px groove;
+
+        }
+        
+         .rabtdtl td, th {
+            /*padding: 2px 10px;*/
+            /*padding: 1px 1px;*/
+            text-align: center !important;
+            /*border: 1px solid #f00;*/
+            width: 75%;
+            /*white-space:nowrap;*/
+        }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdtl td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdtl th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdtl tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+    table.rabtdt2 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt2 td, tr {
+        background-color: black;
+        color: white;
+    }
+
+    .rabtdt2 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+        width: 14.28%;
+        /*border: 1px solid #f00;*/
+        /*width: 50%;*/
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt2 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt2 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt2 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+
+    /*.rabtdtl tbody tr:nth-child(2n-1) {
+        background-color: #d4d4d4;
+        transition: all .125s ease-in-out;
+    }*/
+
+    table.rabtdt3 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt3 td, tr {
+        background-color: gray;
+        color: white;
+    }
+
+    .rabtdt3 td, th {
+        /*padding: 2px 10px;*/
+        padding: 1px 1px;
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 50%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt3 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt3 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt3 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+
+    .label1 {
+        color: #E6E600;
+    }
+
+    .label2 {
+        color: #00c100;
+    }
+
+    .label3 {
+        color: #FFBB00;
+    }
+
+    .label4 {
+        color: #F600F6;
+    }
+
+    .label5 {
+        color: #A0F6F6;
+    }
+
+    .label6 {
+        color: #F9F9A1;
+    }
+
+    .thheading {
+        color: white;
+        background-color: #1F475F;
+        font-weight: bold;
+    }
+    .green_txt {
+        color: #00c100;
+    }
+    .orange_txt {
+        color: #f09a4e;
+    }
+    .pink_txt {
+        color: #cb74cc;
+    }
+
+
+    /*tbody tr:hover {
+        background-color: #f4f4f4;
+    }*/
+</style>
+<script type="text/javascript">
+    var BlFlag = false;
+    var id = 0;
+    $(document).ready(function () {
+       id =@this.ViewContext.RouteData.Values["id"]
+        HideData(1);
+        GetPreviousblkData(id);
+        UptoGetPreviousblkData(id);
+        HideData(2);
+        $("#ddlState").change(function () {
+            var State = $('#ddlState :selected').val();
+            var Statetext = $('#ddlState :selected').text();
+            HideData(1);
+            $("#ddlArea").empty();
+            if (Statetext != 'Select') {
+                GetArea(State);
+            } else {
+                var str = "<option value=''>Select</option>";
+                $("#ddlArea").html(str);
+            }
+        });
+        $("#ddlArea").change(function () {
+            HideData(2);
+            GetPreviousblkData();
+        });
+
+    });
+    function GetState() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "UnilinkSummaryAPI/GetState",
+            dataType: "json",//type of data to be received
+            success: function (state, status, jqXHR) {
+                var str = "<option value=''>Select</option>";
+                if (state != null) {
+                    if (state.length > 0)
+                        for (var i in state) {
+                            str += "<option value=" + state[i].stateid + ">" + state[i].state_name + "</option>";
+                        }
+                }
+                $("#ddlState").empty();
+                $("#ddlState").html(str);
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+
+    function GetArea(stateId) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "UnilinkSummaryAPI/GetArea/" + stateId,
+            dataType: "json",//type of data to be received
+            success: function (Area, status, jqXHR) {
+                var str = "<option value=''>Select</option>";
+                if (Area != null) {
+                    if (Area.length > 0) {
+                        for (var i in Area) {
+                            str += "<option value=" + Area[i].recid + ">" + Area[i].area_name + "</option>";
+                        }
+                    }
+                }
+                $("#ddlArea").empty();
+                $("#ddlArea").html(str);
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+    function HideData(flag) {
+        if (flag == 1) {
+            $("#divMainblk").hide()
+            BlFlag = false;
+        } else {
+            $("#divMainblk").show();
+            BlFlag = true;
+        }
+    }
+    function GetPreviousblkData(ddlArea) {
+        try {
+            //var State = $('#ddlState :selected').val();
+            //var Statetext = $('#ddlState :selected').text();
+            //var stateId = 1;
+            //var ddlArea = $('#ddlArea :selected').val();
+            //var ddlAreatext = $('#ddlArea :selected').text();
+            if (ddlArea != 0 && ddlArea != null) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/GetMainScreenDetail/" + ddlArea + "/" + ddlArea,
+                    dataType: "json",//type of data to be received
+                    success: function (MainScreenDetail, status, jqXHR) {
+                        if (MainScreenDetail != null) {
+                            var AreaName = MainScreenDetail.AreaName;
+                            if (AreaName != "" && AreaName != "undefined")
+                                $("#UpperHead").html(AreaName + " DATA BY UNILINK ENGINEERING CORP. PVT. LTD.");
+                            $("#pre_ag").html(parseFloat(MainScreenDetail.pre_ag).toFixed(2));
+                            $("#pre_dumplingEnergy").html(parseFloat(MainScreenDetail.pre_dumplingEnergy).toFixed(2));
+                            $("#pre_frequency").html(parseFloat(MainScreenDetail.pre_frequency).toFixed(2));
+                            $("#pre_sg").html(parseFloat(MainScreenDetail.pre_sg).toFixed(2));
+                            $("#pre_uiamount").html(parseFloat(MainScreenDetail.pre_uiamount).toFixed(2));
+                            $("#pre_uimw").html(parseFloat(MainScreenDetail.pre_uimw).toFixed(2));
+                            $("#pre_uirate").html(parseFloat(MainScreenDetail.pre_uirate).toFixed(2));
+                            $("#pre_with30").html(MainScreenDetail.pre_with30);
+                            $("#pre_with50").html(MainScreenDetail.pre_with50);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+
+        }
+
+    }
+    function UptoGetPreviousblkData(ddlArea) {
+        try {
+          
+            //var State = $('#ddlState :selected').val();
+            //var Statetext = $('#ddlState :selected').text();
+            //var stateId = 1;
+            //var ddlArea = $('#ddlArea :selected').val();
+            //var ddlAreatext = $('#ddlArea :selected').text();
+            if (ddlArea != 0 && ddlArea != null) {
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/GetUPToPreblockMainScreenDetail/" + ddlArea + "/" + ddlArea,
+                    dataType: "json",//type of data to be received
+                    success: function (MainScreenDetail, status, jqXHR) {
+                      
+                        if (MainScreenDetail != null) {
+                            $("#upto_sg").html(parseFloat(MainScreenDetail.upto_sg).toFixed(2));
+                            $("#upto_ag").html(parseFloat(MainScreenDetail.upto_ag).toFixed(2));
+                            $("#upto_uimw").html(parseFloat(MainScreenDetail.upto_uimw).toFixed(2));
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+
+        }
+
+    }
+
+    function LoadData()
+    {
+        var crrdate = new Date();
+        var Mintes = crrdate.getMinutes();
+        var ModTime = Mintes % 15;
+        if(ModTime>0 && ModTime< 6)
+        {
+            GetPreviousblkData(id);
+            UptoGetPreviousblkData(id);
+        }
+    }
+  //  setInterval(function () { LoadData(); },60000);
+</script>
+
+<div class="panel panel-default">
+    @*<div class="panel-heading">
+        <div class=" dashboard-panel-body-box"><h3><sub id="datetidvalue" style="color: yellowgreen; position: absolute; left:940px; top:75px;"></sub></h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+        </div>
+    </div>*@
+
+    <div class="panel-body">
+        <input id="Dateformat" type="hidden" name="Dateformat" />
+        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+        <input type="hidden" id="DatabaseDateformat">
+        <div class="col-lg-12" id="divMainRABT">
+            <div style="display:block">
+                <div class="form-group col-md-4" style="border: 0px solid #f00; display: none">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">State</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="ddlState" name="ddlState" class="form-control">
+                            <option value=''>Select</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="border: 0px solid #f00;display: none">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Area</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="ddlArea" name="drpstageid" class="form-control">
+                            <option value=''>Select</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2" style="border:0px solid #f00;float:right;display:block">
+                    <div class="col-md-12" style="border:0px solid #f00; ">
+                        <a href='@Url.Action("SummaryBlockNotification")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div id="divMainblk" class="col-lg-12" style="background-color:black">
+            <div class="col-md-10" style="background-image: url(/Areas/Unilink/Image/unlink-logo.png); background-repeat: no-repeat; height: 73px; background-position: center right; color: #ffcccc; font-size: 24px; text-transform: uppercase; font-weight: bold; display:table-cell; line-height:73px; ">
+                <label id="UpperHead">DATA BY UNILINK ENGINEERING CORP. PVT. LTD.</label>
+            </div>
+            <div class="col-md-5">
+                <fieldset style="border:1px solid #fff; position:relative; padding:25px; margin:45px 10px;">
+                    <legend style=" position:absolute; top:-25px; background:#000; color:yellow; font-size:16px; padding:5px; border-bottom:0; width:200px; font-weight:bold; text-align:center;">Previous Block Data</legend>
+                    <table class="rabtdtl" style="white-space:nowrap; border:none!important;">
+                        @*<tr class="thheading" style="background-color: #1F475F"><td colspan="2">Previous Block Data</td></tr>*@
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font>SG</font></td>
+                            <td><label id="pre_sg" class="green_txt" ></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font >AG</font></td>
+                            <td><label id="pre_ag" class="green_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font > UI MW</font></td>
+                            <td><label id="pre_uimw" class="green_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font >Frequency</font></td>
+                            <td><label id="pre_frequency" class="orange_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:left !important; padding-left:40px;"><font >UI Rate</font></td>
+                            <td><label id="pre_uirate" class="orange_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:left !important; padding-left:40px;"><font >UI Amount</font></td>
+                            <td><label id="pre_uiamount" class="orange_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font >DUMPING ENERGY</font></td>
+                            <td><label id="pre_dumplingEnergy" class="orange_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:left !important; padding-left:40px;"><font > WITHIN 30 % LIMIT(+/-) </font></td>
+                            <td><label  id="pre_with30" class="pink_txt"></label></td>
+                        </tr>
+                        <tr>
+                            <td  style="text-align:left !important; padding-left:40px;"><font > WITHIN 50 % LIMIT(+/-) </font></td>
+                            <td><label id="pre_with50" class="pink_txt"></label></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+            <div class="col-md-5">
+                <fieldset style="border:1px solid #fff; position:relative; padding:25px; margin:45px 10px;">
+                    <legend style=" position: absolute; top: -25px; background: #000; color: #73a9ca; font-size: 16px; padding: 5px; border-bottom: 0; width: 230px; font-weight: bold; text-align: center;">Up to Previous Block Data.</legend>
+                    <table class="rabtdtl" style="white-space:nowrap;">
+                        @*<tr class="thheading" style="background-color: #1F475F">
+                                <td>Up to Previous Block Data.</td>
+                                <td><label class="label5" id="UpToLastBlock"></label></td>
+                            </tr>*@
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;">SG</td>
+                            <td><label class="green_txt" id="upto_sg"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;">AG</td>
+                            <td><label class="green_txt" id="upto_ag"></label></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:left !important; padding-left:40px;"><font>UI MW</font></td>
+                            <td><label class="green_txt" id="upto_uimw"></label></td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+
+    </div>
+</div>

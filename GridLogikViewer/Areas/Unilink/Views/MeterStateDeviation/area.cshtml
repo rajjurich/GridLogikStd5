@@ -1,0 +1,57 @@
+﻿
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: BaseAddress + "MeterStateDeviationAPI/showarea",
+            type: "Get",
+            dataType: "json",
+            success: function (data) {
+                debugger
+                if (data == null) {
+                    alert('Data Not Found', '', false, "E");
+                }
+                else {
+                    var table = data;
+                    var str = "";
+                    var count = 0;
+                    for (var i in table) {
+                        count++;
+                        str += "<tr>";
+                        str += "<td>" + count + "</td>";
+                        str += "<td>" + table[i].area_name + "</td>";
+                        str += "<td style='text-align:center'><a href='/MeterStateDeviation/Edit/" + table[i].recid + "' class='editor_edit label label-info btnEdit'>Edit</a>&nbsp; <a href='/MeterStateDeviation/Delete/" + table[i].recid + "' class='editor_remove label label-danger btnDelete'>Delete</a></td></tr>";
+
+                    }
+                    $("#tabledata").html(str);
+                    $("#table").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                          { "bSortable": false },
+                            ]
+                        });
+                }
+            }
+        });
+        $("#create").click(function () {
+            window.location.href = '@Url.Action("Index", "meterStateDeviation")';
+        });
+    });
+</script>
+
+<h2>State Area Mapping</h2>
+<input type="button" value="Create New" class="btn btn-success" id="create" style="float:right" />
+<br /><br /><br />
+<table class="table table-bordered table-striped" id="table">
+    <thead>
+        <tr>
+            <th style="color:#fff; width:106px;">Sr. No</th>
+            <th style="color:#fff; width:381px;">Area Name</th>
+            <th style="color:#fff; width:381px;">Action</th>
+        </tr>
+    </thead>
+    <tbody id="tabledata"></tbody>
+</table>
+

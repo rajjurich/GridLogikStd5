@@ -1,0 +1,69 @@
+﻿
+@*@model GridLogikViewer.APIModels.InstanceData*@
+@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+
+<script >
+    $(function () {
+        Highcharts.setOptions({
+            chart: {
+                backgroundColor: {
+                    linearGradient: [0, 0, 500, 500],
+                    stops: [
+                        [0, 'rgb(255, 255, 255)'],
+                        [1, 'rgb(240, 240, 255)']
+                    ]
+                },
+                borderWidth: 2,
+                plotBackgroundColor: 'rgba(255, 255, 255, .9)',
+                plotShadow: true,
+                plotBorderWidth: 1
+            }
+        });
+
+        var chart1 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'chart_container',
+            },
+            title: {
+                text: 'ABT Monitoring',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15']
+            },
+            series: [{
+                data: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                step: 'right',
+                name: 'Frequency'
+            }, {
+                data: [5, 6, 7, 8, 9, 10, 11, 12, 13],
+                step: 'center',
+                name: 'SG'
+            }, {
+                data: [9, 10, 11, 12, 13, 14, 15, 16, 17],
+                step: 'left',
+                name: 'ExBus'
+            }]
+           
+    
+        });
+
+       
+    });
+
+
+    
+</script>
+
+
+
+
+   
+
+    <div id="chart_container" style="height: 300px; width: 100%;"></div>
+        <div id="container2" style="height: 300px; width: 100%;">
+        </div>

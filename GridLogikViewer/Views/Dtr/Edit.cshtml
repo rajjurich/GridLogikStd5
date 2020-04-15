@@ -1,0 +1,233 @@
+﻿@model GridLogikViewer.Models.MstDtr
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "Feeder",
+                dataType: "json",
+                async: false,
+                success: function (feeders, status, jqXHR) {
+                    var str = "";
+                    if (feeders.Data.result != undefined) {
+                        var data = feeders.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].fdrid + ">" + data[i].fdrname + "</option>";
+                        }
+                    }
+                    else if (feeders.Data.e == "E") {
+                        if (feeders.Data.d.length > 0)
+                            alert(feeders.Data.d);
+                    }
+                    $("#dtrfeederid").html(str);
+                    $(".feederclass").selectpicker();
+                }
+            });
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "dtr/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                success: function (response) {
+                    if (response.Data.result.dtrrecid == null) {
+                        alert(response.Data.d);
+                    }
+                    else {
+                        $("#dtrrecid").val(response.Data.result.dtrrecid);
+                        $("#dtrid").val(response.Data.result.dtrid);
+                        $("#dtrname").val(response.Data.result.dtrname);
+                        $("#dtrdescription").val(response.Data.result.dtrdescription);
+                        $("#dtrratedvoltage").val(response.Data.result.dtrratedvoltage);
+                        $("#dtrratedpower").val(response.Data.result.dtrratedpower);
+                        $("#dtrconnectedload").val(response.Data.result.dtrconnectedload);
+                        $("#dtrphase").val(response.Data.result.dtrphase);
+                        $("#dtrmanufacturerid").val(response.Data.result.dtrmanufacturerid);
+                        $("#dtrinstallarea").val(response.Data.result.dtrinstallarea);
+                        $("#dtrserialno").val(response.Data.result.dtrserialno);
+                        $(".feederclass").selectpicker('val', response.Data.result.dtrfeederid);
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            $("#btnUpdate").click(function (e) {                
+                if ($('form').valid()) {
+                    var mstDtr = {
+                        "dtrrecid": $("#dtrrecid").val(),
+                        "dtrid": $("#dtrid").val(),
+                        "dtrname": $("#dtrname").val(),
+                        "dtrdescription": $("#dtrdescription").val(),
+                        "dtrratedvoltage": $("#dtrratedvoltage").val(),
+                        "dtrratedpower": $("#dtrratedpower").val(),
+                        "dtrconnectedload": $("#dtrconnectedload").val(),
+                        "dtrphase": $("#dtrphase").val(),
+                        "dtrmanufacturerid": $("#dtrmanufacturerid").val(),
+                        "dtrinstallarea": $("#dtrinstallarea").val(),
+                        "dtrserialno": $("#dtrserialno").val(),
+                        "dtrfeederid": $("#dtrfeederid").val(),
+                        "dtrisdeleted": false
+                    };
+                    var RecordID = $("#dtrrecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "dtr/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstDtr),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                ShowMessage("Success", response.Data.d);                                
+                                setTimeout(function () {
+                                    window.location.href = '@Url.Action("Index", "DTR")'
+                                }, 2000);
+                                //window.location.href = '@Url.Action("Index", "DTR")';
+                            }
+                            else if (response.Data.e == "M") {
+                                //alert(response.Data.d);
+                                ShowMessage("Error", response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                ShowMessage("Error", response.Data.d);
+                                //alert(response.Data.d);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+
+        });
+
+    </script>
+
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.HiddenFor(model => model.dtrrecid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrid)
+                @Html.ValidationMessageFor(model => model.dtrid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrname)
+                @Html.ValidationMessageFor(model => model.dtrname)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrdescription)
+                @Html.ValidationMessageFor(model => model.dtrdescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="DTRFeederID">Feeder</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.dtrfeederid, Enumerable.Empty<SelectListItem>(), new { @class = "feederclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Feeder" })
+                @Html.ValidationMessageFor(model => model.dtrfeederid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedvoltage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrratedvoltage)
+                @Html.ValidationMessageFor(model => model.dtrratedvoltage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedpower, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrratedpower)
+                @Html.ValidationMessageFor(model => model.dtrratedpower)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrconnectedload, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrconnectedload)
+                @Html.ValidationMessageFor(model => model.dtrconnectedload)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrinstallarea)
+                @Html.ValidationMessageFor(model => model.dtrinstallarea)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrserialno, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrserialno)
+                @Html.ValidationMessageFor(model => model.dtrserialno)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrphase, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrphase)
+                @Html.ValidationMessageFor(model => model.dtrphase)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrmanufacturerid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrmanufacturerid)
+                @Html.ValidationMessageFor(model => model.dtrmanufacturerid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnUpdate" type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,316 @@
+﻿@{
+    ViewBag.Title = "Mod Cost Limit";
+}
+@section scripts
+{
+
+    <script>
+        var resultFlag = false;
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "ModCostLimitAPI/GetMeters",
+                //dataType: "json",
+                success: function (response, status, jqXHR) {
+
+                    var str = "<option value=''>Select</option>";
+
+                    if (response != null && response.length > 0) {
+                        for (var i in response) {
+                            str += "<option value=" + response[i].id + ">" + response[i].metername + "</option>";
+                        }
+                    }
+                    $("#drpstageid").append(str);
+                }
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var stageid = $('#drpstageid :selected').val();
+            var selectedtext = $('#drpstageid :selected').text();
+
+            // console.log('1---');
+            //  console.log(stageid);
+            //  console.log(selectedtext);
+
+            //  console.log('1--end-');
+            if ('@TempData["Msg"]' != '' && '@TempData["MsgType"]' != '') {
+
+                if ('@TempData["Msg"]' == 'Code already exists') {
+                    var result = confirm("Records Already Exist for This date. Do you want to update?");
+                }
+                else {
+                    alert('@TempData["Msg"]', '', false, '@TempData["MsgType"]')
+                }
+            }
+
+            $("#drpstageid").change(function () {
+                var stageid = $('option:selected', this).val();
+                var selectedtext = $('#drpstageid :selected').text();
+                //  console.log('2---');
+                $('#drpstageid :selected').val();
+                $('#drpstageid :selected').text();
+                //  console.log('2--end-');
+                if (selectedtext != 'Select') {
+                    GetData(stageid);
+                }
+            });
+
+            function GetData(stageid) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+
+                    url: BaseAddress + "ModCostLimitAPI/GetData" + "/" + stageid,
+                    dataType: "json",//type of data to be received
+                    success: function (rates, status, jqXHR) {
+                        var str = "";
+
+                        if (rates.Data.result != undefined) {
+                            rates.Data.result.forEach(function (response) {
+
+                                str += "<tr>" +
+                                      "<td>" + ((response.mblockno == null) ? " " : response.mblockno) + "</td>" +
+                                    "<td>" + ((response.moperation == null) ? " " : response.moperation) + "</td>" +
+                                     "<td>" + ((response.mminsch == null) ? " " : response.mminsch) + "</td>" +
+                                    "<td>" + ((response.mmaxsch == null) ? " " : response.mmaxsch) + "</td>" +
+                                    "</tr>";
+
+                                //var parts = response.tstamp.substring(0, 10).split('-');
+                                //var newdate = parts[2] + '-' + parts[1] + '-' + parts[0];
+
+
+
+                                // $('#lblappdate').text(((response.tstamp == null) ? " " : newdate));
+
+
+                            });
+                        }
+                        if (rates.Data.e == "E") {
+                            if (rates.Data.d.length > 0)
+                                alert(rates.Data.d);
+
+                        }
+
+                        //$("#data").html(str);
+                        //$("#lsttable").dataTable(
+                        //    {
+                        //        pageLength: 10,
+                        //        "aoColumns": [
+                        //                    null,
+                        //                    null,
+                        //                    null//,
+                        //                   // null
+                        //        ]
+                        //    });
+
+
+                        if ($.fn.dataTable.isDataTable('#lsttable')) {
+                            var table = $('#lsttable').dataTable();
+
+                            table.fnClearTable();
+                            table.fnDestroy();
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                                {
+                                    pageLength: 10,
+                                    "aoColumns": [
+                                                null,
+                                                null,
+                                                null,
+                                                null//,
+                                               // null
+                                    ]
+                                });
+
+                            //Highlight();
+                        }
+                        else {
+                            var s = "";
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                               {
+                                   pageLength: 10,
+                                   "aoColumns": [
+                                               null,
+                                               null,
+                                               null,
+                                               null//,
+                                              // null
+                                   ]
+                               });
+
+                            //Highlight();
+                        }
+
+
+
+
+
+
+
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+
+
+
+
+
+
+            $("#btnSubmit").click(function () {
+                if ($('#drpstageid :selected').val() == "" || $('#drpstageid :selected').val() == null) {
+                    alert('Please Select Generator Id', '', false, 'E');
+                    return false;
+                }
+                if ($('#fileInput').val() == "" || $('#fileInput').val() == null) {
+                    alert('Please Select File', '', false, 'E');
+                    return false;
+                }
+                var TableRowCount = $('#data tr').length;
+                if (TableRowCount > 0) {
+                    if (!resultFlag) {
+                        var result = confirm("Unit details are uploaded are you sure to edit?");
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            });
+            //return false;
+        });
+
+        function deleterecord() {
+
+            resultFlag = true;
+            $('#btnSubmit').click();
+        }
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Generator Availability Schedule</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <span class="pull-left">
+                                        <strong>
+                                            Generator Availability Schedule
+                                        </strong>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body">
+                                    
+                                        @using (Html.BeginForm("Upload", "ModCostLimit", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                        {
+                                            <input id="Dateformat" name="Dateformat" type="hidden" />
+                                            <input id="ServerDateformat" name="ServerDateformat" type="hidden" />
+                                            <table style="width:300px;display:none;">
+                                                <tr>
+                                                    <td><input id="rdoupload" value="Upload" type="radio" name="mode" checked>Upload</td>
+                                                    <td><input id="rdosearch" value="Search" type="radio" name="mode">Search</td>
+                                                </tr>
+                                            </table>
+                                        <div id="uploadtable" class="row mb5">
+
+
+                                            <div class="col-md-1">
+                                                <div class="row mt20">
+                                                    <div class="col-md-12">
+                                                        @*<input type="file" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" />*@
+                                                        <input type="file" id="fileInput" name="Uploadfile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input id="txtstageid" name="txtstageid" value="1" class="form-control" type="text" style="display:none;" />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <input id="txtrevisionid" name="txtrevisionid" value="1" class="form-control" type="text" style="display:none;" />
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="row mt20">
+                                                    <div class="col-md-5">
+                                                        Generator ID
+                                                    </div>
+                                                    <div class="col-md-7">
+                                                        <select id="drpstageid" name="drpstageid" class="form-control"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="row mt20">
+                                                    <div class="col-md-10">
+                                                        <input type="submit" name="Upload" value="Upload" id="btnSubmit" class="btn btn-success" />
+                                                        @Html.ActionLink("Download Template", "download", "ModCostLimit", null, new { @id = "btnDownload", @class = "btn btn-success" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                                }
+
+                                    <div class="clear"></div>
+                                    <hr />
+                                    <table id="lsttable" class="table table-bordered table-striped">
+
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Block Number</th>
+                                                <th class="text-center">Operation</th>
+                                                <th class="text-center">Min Schedule</th>
+                                                <th class="text-center">Max Schedule</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

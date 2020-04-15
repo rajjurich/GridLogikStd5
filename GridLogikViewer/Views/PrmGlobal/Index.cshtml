@@ -1,0 +1,115 @@
+﻿@model IEnumerable<GridLogik.ViewModels.prmglobal>
+
+@{
+    ViewBag.Title = "Global Parameters";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+
+            $("#lsttable").DataTable({
+                pageLength: 10,
+
+            });
+
+        });
+
+    </script>
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Master</a></li>
+                        <li class="active">Global Parameters</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+
+                                    @Html.ActionLink(" Create New", "create", "PrmGlobal", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                    
+                                    <table class="table table-bordered table-striped" id="lsttable">
+                                        <thead>
+                                            <tr>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.prmrecid)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.prmmodule)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.prmunit)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.prmidentifier)
+                                                </th>
+                                                <th>
+                                                    @Html.DisplayNameFor(model => model.prmvalue)
+                                                </th>
+                                                <th>
+                                                    Actions
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.prmrecid)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.prmmodule)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.prmunit)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.prmidentifier)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.prmvalue)
+                                                    </td>
+                                                    <td class="text-center" style="width:144px">
+                                                        @Html.ActionLink(" Edit", "Edit", new { id = item.prmrecid }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                        @Html.ActionLink(" Delete", "Delete", new { id = item.prmrecid }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,254 @@
+execute procedure ifx_allow_newline('t');
+
+
+drop table if exists kvarh_exp_97_read_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_read_1','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($kvarh_exp_97)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_read_1;
+create view etools_dev.evt_kvarh_exp_97_read_1
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_read_1;
+
+
+
+drop table if exists kvarh_exp_97_con_1; 
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateExpressionVirtualTab
+('etools_dev.kvarh_exp_97_con_1','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("first($kvarh_exp_97)", "cal_15min",
+series,0,$ts_begin_time,$ts_end_time)::timeseries(reportqueryparam))',
+'reportqueryparam',0,'series');
+
+
+
+drop view if exists evt_kvarh_exp_97_con_1;
+create view etools_dev.evt_kvarh_exp_97_con_1
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_con_1;
+
+
+
+
+drop table if exists kvarh_exp_97_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($kvarh_exp_97)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_read_2;
+create view etools_dev.evt_kvarh_exp_97_read_2
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_read_2;
+
+
+
+drop table if exists kvarh_exp_97_con_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_con_2','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("max($kvarh_exp_97)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_con_2;
+create view etools_dev.evt_kvarh_exp_97_con_2
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_con_2;
+
+
+drop table if exists kvarh_exp_97_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($kvarh_exp_97)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_read_3;
+create view etools_dev.evt_kvarh_exp_97_read_3
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_read_3;
+
+
+
+
+drop table if exists kvarh_exp_97_con_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_con_3','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($kvarh_exp_97)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_con_3;
+create view etools_dev.evt_kvarh_exp_97_con_3
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_con_3;
+
+
+drop table if exists kvarh_exp_97_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($kvarh_exp_97)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_read_5;
+create view etools_dev.evt_kvarh_exp_97_read_5
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_read_5;
+
+
+
+
+drop table if exists kvarh_exp_97_con_5;
+execute procedure TSCreateExpressionVirtualTab ('etools_dev.kvarh_exp_97_con_5','tsLoadSurveyLogs','apply("$param - tsprevious($param)", aggregateby("last($kvarh_exp_97)","cal_1day",series,0,$ts_begin_time,$ts_end_time)::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_con_5;
+create view etools_dev.evt_kvarh_exp_97_con_5
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_con_5;
+
+
+
+drop table if exists kvarh_exp_97_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($kvarh_exp_97)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_read_6;
+create view etools_dev.evt_kvarh_exp_97_read_6
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_read_6;
+
+
+
+
+drop table if exists kvarh_exp_97_con_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kvarh_exp_97_con_6','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($kvarh_exp_97)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kvarh_exp_97_con_6;
+create view etools_dev.evt_kvarh_exp_97_con_6
+(
+meterid,
+tstamp,
+kvarh_exp_97
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kvarh_exp_97
+from
+kvarh_exp_97_con_6;
+
+
+
+

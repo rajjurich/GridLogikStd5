@@ -1,0 +1,747 @@
+@model GridLogikViewer.Models.MstTariff
+
+@{
+    ViewBag.Title = "Create Tariff";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script>
+
+
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            var dateformat1 = "";
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                                dateformat1 = data[i].prmvalue;
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                        }
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d, '', false, "M");
+
+                    }
+                }
+            });
+
+            //Set textbox as datepicker
+            $(function () {
+                $('#trffromdate').datepicker({
+                    dateFormat: $("#Dateformat").val(),
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+
+
+
+
+            $('#trftouid').change(function () {
+                var touid = $('#trftouid :selected').val()
+                $('#trftouslotid').removeAttr("disabled");
+                $.ajax({
+                    type: "GET",
+                    url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+
+                        //  $("#trftouslotid").html('');
+                        var items = [];
+                        var str = "";
+                        var i = 1;
+                        if (data.Data.result != undefined) {
+                            data.Data.result.forEach(function (response) {
+                                // items.push("<option value=" + result.tsslotno + ">" + result.tsslotno + "</option>");
+
+                                str += "<tr>" +
+                                //"<td><input type='text' id='tstouid" + i + "'' value='" + response.tstouid + "' disabled='true' > <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                "<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled=true class='form-control'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "'disabled=true class='form-control time' placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "'disabled=true class='form-control time'  placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsadditionalCharge" + i + "' class='form-control decimal' placeholder='0.00' maxlength='5'> </td>" +
+                                "</tr>"
+
+                                i = i + 1;
+                            });
+                        }
+                        if (str != "") {
+                            $("#tblTS").css("display", "");
+                            $("#tblTouSlot").html(str);
+                        }
+                        //  $("#trftouslotid").html(items.join(' '));
+                        $(".touslotclass").selectpicker('refresh');
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+            })
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tou",
+                dataType: "json",//type of data to be received
+                success: function (data) {
+
+                    var items = [];
+                    items.push("<option>Select</option>");
+
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.touid + ">" + result.touid + "</option>");
+                        });
+                    }
+
+                    $("#trftouid").html(items.join(' '));
+                    $(".toucodeclass").selectpicker();
+
+                    $('#trftouslotid').attr('disabled', 'disabled');
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+
+            $("#btnCreate").click(function (e) {
+                //debugger;
+                if ($('form').valid()) {
+                    var trftoucode = $("#trftouid :selected").val();
+                    if (trftoucode == 'Select') {
+                        trftoucode = null;
+                    }
+                    var msttou = {
+                        "trfid": $("#trfid").val(),
+                        "trftouid": trftoucode,
+                        "trftouslotid": $("#trftouslotid :selected").val(),
+                        "trfschemename": $("#trfschemename").val(),
+                        "trfisdeleted": 0,
+                        "trffromdate": GetFinaldate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                        "trfutilityid": $("#znutilityid").val(),
+                        "trfrevision": 1
+
+                    };
+
+                    //return;
+                    //  alert(JSON.stringify(msttou));
+                    //saving tarrif details
+                    var i = 0;
+                    var Data = new Array();
+                    $('#tab_logic tr').not(':first').each(function (row, tr) {
+                        if (row != 0) {
+
+
+                            Data[i] = {
+                                //"tstouid": $(tr).find('td:eq(0) input:first').val()
+
+                                //"tdltrfid": $(tr).find('td:eq(0) input:first').val()
+                                "tdltrfid": $("#trfid").val()
+                                // , "tdlslotno": $(tr).find('td:eq(1) input:first').val()
+                                , "tdlslotno": i + 1
+                                , "tdlunitsfrom": $(tr).find('td:eq(2) input:first').val()
+                                , "tdlunitsto": $(tr).find('td:eq(3) input:first').val()
+                                , "tdltarifffcperkva": $(tr).find('td:eq(4) input:first').val()
+                                , "tdltariffecperkwh": $(tr).find('td:eq(5) input:first').val()
+                                , "tdltariffwcperkwh": $(tr).find('td:eq(6) input:first').val()
+                                , "tdlregassetchg": $(tr).find('td:eq(7) input:first').val()
+                                , "tdlfueladjchg": $(tr).find('td:eq(8) input:first').val()
+                                , "tdlelectricityduty": $(tr).find('td:eq(9) input:first').val()
+                                , "tdlpfincentive": $(tr).find('td:eq(10) input:first').val()
+                                , "tdlsalestax": $(tr).find('td:eq(11) input:first').val()
+                                , "tdlpmtdisc": $(tr).find('td:eq(12) input:first').val()
+                                , "tdiisdeleted": "0"
+                                , "tdlfromdate": GetFinaldate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())
+                                , "tdlrevision": 1
+                                , "tdlgovtsubsidyfcperkva": 0
+                                , "tdigovtsubsidyecperkwh": 0
+                                , "tdinetratefcperkva": 0
+                                , "tdinetrateecperkva": 0
+
+                                //  , "tdlfromdate":new Date()
+
+                            }
+                            //alert(JSON.stringify(Data[i]));
+
+                            i = i + 1;
+                        }
+
+
+                    });
+                    //debugger;
+                    if (Data[0].tdlunitsfrom == "") {
+                        //alert("Please fill all the details for at least one Tariff Detail");
+                        alert("Please fill all the details for at least one Tariff Detail", '', false, "M");
+                        return false;
+                    }
+                    var TOUSlotData = new Array();
+
+                    $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                        TOUSlotData[row] = {
+                            "ttdltrfid": $("#trfid").val()
+                            //, "tsrecid": $(tr).find('td:eq(0) input:last').val()
+                            , "ttdltouslotid": $(tr).find('td:eq(0) input:hidden').val()
+                            //, "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                            //, "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                            , "ttdladditionalcharge": $(tr).find('td:eq(3) input:first').val()
+                            , "ttdlisdeleted": 0
+                            , "ttdrevision": 1
+                        }
+
+                    });
+                    //return;
+                    //alert(JSON.stringify(Data));
+                    var IsExist = "";
+
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "tariff",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttou),//data to be send
+                        async: false,
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '@Url.Action("create", "tariff")', true, response.Data.e);
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    // alert(response.Data.d);
+                                    alert(response.Data.d, '@Url.Action("create", "tariff")', false, response.Data.e);
+                                IsExist = "y";
+                                //window.location.href = "/tariff/create";
+
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    //    alert(response.Data.d);
+                                    alert(response.Data.d, '', false, response.Data.e);
+                            }
+
+                            //window.location.href = "/tariff/create";
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+                    //debugger;
+                    $.ajax({
+
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "TarrifTouDetailsAPI",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(TOUSlotData),//data to be send
+                        async: false,
+                        success: function (response) {
+
+                            if (response.Data.e == "10001") {
+                                alert("success");
+                            }
+                            // window.location.href = "/tariff/create";
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                    //posting tarrif deatils
+                    if (IsExist == "y") {
+                        return;
+                    }
+
+                    $.ajax({
+
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "tarrifdetails",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(Data),//data to be send
+                        async: false,
+                        success: function (response) {
+
+                            if (response.Data.e == "10001") {
+                                alert("success");
+                            }
+                            //window.location.href = "/tariff/create";
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+
+                    //end
+
+
+
+
+                    e.preventDefault();
+
+                }
+
+            });
+
+
+            //alert("dsfgsdgsd");
+
+            //test
+            $('#add_row').on('click', function () {
+                // Dynamic Rows Code
+
+                // Get max row id and set new id
+                var newid = 0;
+                $.each($("#tab_logic tr"), function () {
+                    if (parseInt($(this).data("id")) > newid) {
+                        newid = parseInt($(this).data("id"));
+                    }
+                });
+                if (newid != 0 && ($("#Parameter" + newid).val() == "" ||
+
+               $("#Condition" + newid).val() == "" || $("#value" + newid).val() == "")) {
+                    //setTimeout(function () {
+                    //    alert("Please fill all the values in previous row");
+                    //}, 1000);
+                    //alert("Please fill all the values in previous row");
+                    alert("Please fill all the values in previous row", '', false, "M");
+                    return false;
+                }
+                else {
+                    newid++;
+                    var tr = $("<tr></tr>", {
+                        id: "addr" + newid,
+                        "data-id": newid
+                    });
+
+                    // loop through each td and create new elements with name of newid
+                    $.each($("#tab_logic tbody tr:nth(0) td"), function () {
+                        var cur_td = $(this);
+
+                        var children = cur_td.children();
+
+                        // add new td and element if it has a nane
+                        if ($(this).data("name") != undefined) {
+                            var td = $("<td></td>", {
+                                "data-name": $(cur_td).data("name")
+                            });
+
+                            var c = $(cur_td).find($(children[0]).prop('tagName')).clone().val("");
+                            c.attr("name", $(cur_td).data("name") + newid);
+                            c.attr("id", $(cur_td).data("name") + newid);
+                            c.appendTo($(td));
+                            td.appendTo($(tr));
+                        } else {
+                            var td = $("<td></td>", {
+                                'text': $('#tab_logic tr').length
+                            }).appendTo($(tr));
+                        }
+                    });
+
+                    // add delete button and td
+                    /*
+                    $("<td></td>").append(
+                        $("<button class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>")
+                            .click(function() {
+                                $(this).closest("tr").remove();
+                            })
+                    ).appendTo($(tr));
+                    */
+
+                    // add the new row
+                    $(tr).appendTo($('#tab_logic'));
+
+                    $(tr).find("td button.row-remove").on("click", function () {
+                        if ($(this).parent().parent().index() > 1) {
+                            $(this).closest("tr").remove();
+                            $("#saveDetail").hide();
+                        }
+                        else {
+                            //  alert('Cannot remove this as at least one Tariff detail needs to be present');
+                            alert("Cannot remove this as at least one Tariff detail needs to be present", '', false, "M");
+                            return false;
+                        }
+                    });
+
+                    $("#saveDetail").show();
+                }
+            });
+
+            $("#add_row").trigger("click");
+        });
+
+
+        function isNumberKey(evt, txt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+                return false;
+            else {
+                var len = txt.value.length;
+                var index = txt.value.indexOf('.');
+
+                if (index > 0 && charCode == 46) {
+                    return false;
+                }
+                if (index > 0) {
+                    var CharAfterdot = (len + 1) - index;
+                    if (CharAfterdot > 3) {
+                        return false;
+                    }
+                }
+
+            }
+            return true;
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Tariff</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-horizontal" style="display:none">
+                                            <hr />
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.trfid, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.trfschemename, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouid">Utility</label>
+                                                <div class="col-md-10">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouid">TOD Code</label>
+                                                <div class="col-md-10">
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.trffromdate, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        //new HTML
+    <!--dummy text-->
+                                        <div>
+                                            <div class="panel panel-default">
+
+                                                <div class="panel-body">
+                                                   
+                                                       
+                                                            <div class="form-group col-md-6">
+                                                                 <div class="row">
+                                                                <label class="col-md-4 control-label" for="text-input">Tariff Code <span class="validation-redcolor">*</span></label>
+                                                                <div class="col-md-5">
+                                                                    @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                                                                    @Html.TextBoxFor(model => model.trfid, new { @class = "form-control alpha" })
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    @Html.ValidationMessageFor(model => model.trfid, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div> </div>
+                                                                                                             
+                                                            <div class="form-group col-md-6">
+                                                                <div class="row">
+                                                                <label class="col-md-4 control-label" for="text-input" style="white-space:nowrap">Tariff Scheme Name <span class="validation-redcolor">*</span></label>
+                                                                <div class="col-md-5">
+                                                                    @Html.TextBoxFor(model => model.trfschemename, new { @class = "form-control alphanumspace", @maxlength = "20" })
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+
+                                                                    @Html.ValidationMessageFor(model => model.trfschemename, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                          
+                                                        </div>
+                                                    </div>
+                                                    
+                           
+                                                       
+                                                            <div class="form-group col-md-6">
+                                                                  <div class="row">
+                                                                <label class="col-md-4 control-label" for="select">Utility <span class="validation-redcolor">*</span></label>
+                                                                <div class="col-md-5">
+                                                                    <input id="Dateformat" type="hidden" />
+                                                                    <input id="ServerDateformat" type="hidden" />
+                                                                    @Html.DropDownListFor(model => model.znutilityid, (IEnumerable<SelectListItem>)ViewBag.UtilityID, "Select", new { @size = "1", @class = "form-control" })
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    @Html.ValidationMessageFor(model => model.znutilityid, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div> </div>
+                                                      
+                                                   
+                                                      
+                                                            <div class="form-group col-md-6">
+                                                                <div class="row">
+                                                                <label class="col-md-4 control-label" for="select">TOD Code</label>
+                                                                <div class="col-md-5">
+                                                                    @Html.DropDownListFor(model => model.trftouid, Enumerable.Empty<SelectListItem>(), new { @title = "Select TOU Code", @class = "form-control" })
+                                                                     </div>
+                                                                     <div class="col-md-3">
+                                                                    @Html.ValidationMessageFor(model => model.trftouid)
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                  
+                                                    <div class="form-group col-md-12">
+                                                        <div class="row">
+                                                            <table border="1" id="tblTS" style="text-align:center" class="table table-bordered table-hover table-sortable">
+                                                                <thead>
+                                                                    <tr>
+                                                                        @*<th>TS Code</th>*@
+                                                                        <th style="color:white">TS Slot No</th>
+                                                                        <th style="color:white">TS Slot Start  (24 Hrs Format)</th>
+                                                                        <th style="color:white">TS Slot End  (24 Hrs Format)</th>
+                                                                        <th style="color:white">Additional Charge</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody id="tblTouSlot"></tbody>
+                                                            </table>
+
+                                                            <div class="col-md-10" id="divErr" style="border-color:red">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="text-input">Tariff From Date <span class="validation-redcolor">*</span></label>
+                                                                <div class="col-md-5">
+                                                                    @Html.TextBoxFor(model => model.trffromdate, new { @class = "form-control" })
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    @Html.ValidationMessageFor(model => model.trffromdate, null, new { @class = "validation-redcolor" })
+
+                                                                    <div class="checkbox checkbox-info" style="display:none">
+                                                                        <input id="dfdf" class="styled" type="checkbox">
+                                                                        <label for="checkbox4">
+                                                                            Info
+                                                                        </label>
+                                                                    </div>
+                                                                </div> </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="panel-body">
+
+                                                    <div class="col-md-12" style="overflow-x:scroll">
+
+                                                        <table class="table table-bordered table-hover table-sortable" id="tab_logic" width="100%">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th class="text-center;" style="color:white">
+                                                                        Tariff ID
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Slot No.
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Units From
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Units To
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Fixed Ch/KVA
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Energy Ch/Kwh
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Wheeling Ch/Kwh
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Regu. Asset <br />Charges /Kwh
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Fuel Adjustment<br /> Charge /Kwh
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Electricity <br />Duty
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        PF Incentive <br /> /Penalty
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Sales Tax <br /> /Kwh
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Payment <br /> Discount
+                                                                    </th>
+                                                                    <th class="text-center" style="color:white">
+                                                                        Remove
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr id='addr0' data-id="0" class="hidden">
+                                                                    <td data-name="parameter">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="Text" disabled>
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="Text" disabled>
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+
+                                                                    <td data-name="value">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0" onkeypress="return isNumber(event)">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0" onkeypress="return isNumber(event)">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0.00" onkeypress="return isNumberKey(event,this)">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        @*<input type="text" id="value0" name="value0" class="form-control" placeholder="0.0" onkeypress="return isNumberKey(event,this)">*@
+                                                                        <input type="text" id="value0" name="value0" class="form-control decimal" placeholder="0.00">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control decimal" placeholder="0.00">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control decimal" placeholder="0.00">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0.00" onkeypress="return isNumberKey(event,this)">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0.00" onkeypress="return isNumberKey(event,this)">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control" placeholder="0.00" onkeypress="return isNumberKey(event,this)">
+                                                                        <span class="help-block"></span> @* onkeypress="return isNumberKey(event,this)"*@
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control decimal" placeholder="0.00">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+                                                                    <td data-name="operator">
+                                                                        <input type="text" id="value0" name="value0" class="form-control decimal" placeholder="0.00">
+                                                                        <span class="help-block"></span>
+                                                                    </td>
+
+                                                                    <td data-name="del">
+                                                                        <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="form-group" style="float:right;display:none">
+                                                            <div class="col-md-offset-2 col-md-10">
+                                                                <button type="button" class="btn btn-success" id="add_row"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add Row</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="button" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                                <button type="button" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Reset</button>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div style="padding-bottom:20px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

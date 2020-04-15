@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "Add Role";
+}
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+
+            $("#btnCreate").click(function (e) {
+
+                var HeatRate1 = $("#ATPS_HEAT").val();
+                var HeatRate2 = $("#GEN_10_HEAT").val();
+                var HeatRate3 = $("#GEN_11_HEAT").val();
+
+                if (HeatRate1 == "" || HeatRate1 == null) {
+                    alert('Please Enter ATPS_GEN_NET Heat Rate', '', false, "M");
+                    return false;
+                }
+                if (HeatRate2 == "" || HeatRate2 == null) {
+                    alert('Please Enter STPS_GEN_NET_U10 Heat Rate', '', false, "M");
+                    return false;
+                }
+                if (HeatRate3 == "" || HeatRate3 == null) {
+                    alert('Please Enter STPS_GEN_NET_U11 Heat Rate', '', false, "M");
+                    return false;
+                }
+                var mstrole = {
+                    "UNTI1": HeatRate1,
+                    "UNTI2": HeatRate2,
+                    "UNTI3": HeatRate3
+                };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "HeatRateEntryAPI",
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(mstrole),//data to be send
+                    success: function (response) {
+                        if (response == 0) {
+                            alert("Data Save Successfully", '', false, "M");
+                        } else if (response == 1) {
+                            alert("Error Occur During Data Saving..!!", '', false, "E");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+
+                        alert(xhr.responseText);
+                    }
+                });
+            });
+        });
+
+    </script>
+
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Heat Rate Entry</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                     <strong>Heat Rate Entry</strong>
+                                </div>
+                                <div class="panel-body">
+                                            @Html.ValidationSummary(true)
+                                    <div class="form-group col-md-6">
+                                        <label>ATPS_GEN_NET</label>
+                                            <input class="form-control decimal" id="ATPS_HEAT" type="text" value="">
+                                    </div>
+
+                                    <div class="form-group col-md-6">
+                                        <label>STPS_GEN_NET_U10</label>
+                                            <input class="form-control decimal" id="GEN_10_HEAT" type="text" value="">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>STPS_GEN_NET_U11</label>
+                                            <input class="form-control decimal" id="GEN_11_HEAT" type="text" value="">
+                                    </div>
+
+                                    <div class="panel-footer col-md-12 text-center">
+                                        <button type="button" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                        <button type="reset" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

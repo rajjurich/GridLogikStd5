@@ -1,0 +1,230 @@
+@model GridLogik.ViewModels.StandardAlarmModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $(".btn-default").click(function () {
+
+            if ($('form').valid()) {
+                //alert(); $("#ddlmeterselect option").prop("selected", true);
+            }
+            else {
+                //alert('not valid');
+            }
+
+        })
+
+    })
+
+
+
+
+    function Delete() {
+        var msg = confirm(DeleteMessage);
+        //if (msg == false) {
+        //    return false;
+        //}
+        //else {
+
+        //}
+    }
+
+
+</script>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Standard Alarm </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Standard Alarm</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i> <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+                                            @Html.ValidationSummary(true)
+                                            @Html.HiddenFor(model => model.meterid)
+                                            <div class="form-group col-md-6">
+                                                <label class="control-label col-md-4">Enter Alarm Name</label>
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.alarmname, new { @disabled = "disabled", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.alarmname)
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group col-md-6">
+                                                <label class="col-md-3 control-label" for="multiple-select">Meter</label>
+                                                <div class="col-md-9">
+                                                    @Html.DropDownListFor(model => model.MeterSelectionList, (IEnumerable<SelectListItem>)ViewBag.meterids, new { @id = "ddlmeter", @class = "form-control", disabled = "disabled" })
+                                                    @Html.ValidationMessageFor(model => model.meterid)
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-body">
+                                                <table class="table bootstrap-datatable datatable small-font">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Parameters</th>
+                                                            <th class="text-center">Maximum Value</th>
+                                                            <th class="text-center">Minimum Value</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-success">Voltage</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxvll, new { @disabled = "disabled", @class = "form-control" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minvll, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-warning">Current</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxamp, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minamp, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-info">Active Power</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxkw, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minkw, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-danger">Avg KVA</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxkva, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minkva, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-success">Frequency</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxhz, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minhz, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-warning">Power Factor</span></td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.maxpf, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                            <td class="text-center">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.minpf, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-info">Connect Load</span></td>
+                                                            <td class="text-center" colspan="2">
+                                                                <div class="col-md-3 col-centered">
+                                                                    @Html.TextBoxFor(model => model.connectload, new { @placeholder = "value", @class = "form-control", @disabled = "disabled" })
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center"><span class="label label-info">Alerts</span></td>
+                                                            <td class="text-center" colspan="2">
+                                                                <div class="col-md-6 col-centered">
+                                                                    <div class="checkbox-inline col-md-12">
+                                                                        <div class="row">
+                                                                            <div class="col-md-4">
+
+                                                                                @Html.CheckBoxFor(model => model.SendSMSChecked, new { @disabled = "disabled" })
+                                                                                @Html.Label("Send SMS")
+                                                                            </div>
+
+                                                                            <div class="col-md-4">
+                                                                                @Html.CheckBoxFor(model => model.SendEmailChecked, new { @disabled = "disabled" })
+                                                                                @Html.Label("Send Email")
+                                                                            </div>
+                                                                            <div class="col-md-4">
+                                                                                @Html.CheckBoxFor(model => model.GivePopupChecked, new { @disabled = "disabled" })
+                                                                                @Html.Label("Give Popup")
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger" id="btnCreate" onclick="return Delete();"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,448 @@
+﻿@model GridLogikViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: start;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: start;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: start;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: start;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: start;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var hdMeterList = "";
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        $("#btnAHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("EMSMeterDetails", "RRVUNL")';
+        });
+$("#btngenerator").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Generation", "RRVUNL")';
+$("#btnBoiler").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("BOILERAUXILIARIES", "RRVUNL")';
+        });
+        $("#btnTurbine").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("TURBINEAUX", "RRVUNL")';
+        });
+        $("#btnOther").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("OTHERAUX", "RRVUNL")';
+        });
+        $("#btnCHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("CHPArea", "RRVUNL")';
+        });
+       
+        $("#btnFeeders").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("FEEDERSArea", "RRVUNL")';
+        });
+        auto_load();
+    });
+    function LoadData() {
+        ConfingArr = ConfigureBoilerScreen();
+        return GetMeterString(ConfingArr);
+    }
+    function auto_load()
+    {
+        var hdMeterList = LoadData();
+        ABTMeterDetails(hdMeterList);
+        return false;
+    }
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "RRVUNL")';
+    });*@
+    setInterval(auto_load,1000);
+    function ABTMeterDetails(MeterIdList) {
+        if (MeterIdList != "" && MeterIdList != "null") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterIdList,
+                dataType: "json",//type of data to be received
+                success: function (response, status, jqXHR) {
+
+                    if (response != undefined && response.length > 0) {
+                        if (!ConfingArr.length > 0) {
+                            ConfingArr = ConfigureBoilerScreen();
+                        }
+                        for (var m = 1; m < ConfingArr.length; m++) {
+                            if (typeof (ConfingArr[m]) != 'undefined' && ConfingArr[m] != null) {
+                                var SubArr = ConfingArr[m].toString().split('~');
+                                if (SubArr.length > 1) {
+                                    var id1 = SubArr[0] + "_unitkw1";
+                                    //var id2 = SubArr[0] + "_unitkw2";
+                                    //var id3 = SubArr[0] + "_station";
+                                    //var id4 = SubArr[0] + "_Rating";
+                                    response.forEach(function (responseobj) {
+                                        if (responseobj.meterid == SubArr[1]) {
+                                            // debugger;
+                                            if (!isNaN(responseobj.kw)) {
+                                                $('#' + id1).html(responseobj.kw.toFixed(2).toString());
+                                                //document.getElementById(id1).value = responseobj.kw;
+                                            } else {
+                                                $('#' + id1).html("0");// document.getElementById(id1).value = 0;
+                                            }
+                                        }
+                                        //if (responseobj.meterid == SubArr[2]) {
+
+                                        //    if (!isNaN(responseobj.kw)) {
+                                        //        $('#' + id2).html(responseobj.kw.toFixed(2).toString());
+                                        //        // document.getElementById(id2).value = responseobj.kw;
+                                        //    } else {
+                                        //        $('#' + id2).html("0");
+                                        //        //document.getElementById(id2).value = 0;
+                                        //    }
+                                        //}
+                                    });
+                                    // document.getElementById(id3).value.toFixed(2) = Number(document.getElementById(id1).value) + Number(document.getElementById(id2).value);
+                                    //    $('#' + id3).html((Number($('#' + id1).html()) + Number($('#' + id2).html())).toFixed(2));
+
+                                }
+                            }
+                        }
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+        }
+        return false;
+    }
+    function GetMeterString(StrArrayList) {
+        var MeterStr = "";
+        for (var i = 0; i < StrArrayList.length; i++) {
+            if (StrArrayList[i] != null && StrArrayList[i] != "") {
+                var SubLsit = StrArrayList[i].toString().split('~');
+                for (var j = 1; j < SubLsit.length; j++) {
+                    if (typeof (SubLsit[j]) != 'undefined' && SubLsit[j] != null) {
+                        if (MeterStr == "") {
+                            MeterStr = SubLsit[j] + ",";
+                        } else {
+                            MeterStr += SubLsit[j] + ",";
+                        }
+                    }
+                }
+            }
+        }
+       @* if (MeterStr != "" && MeterStr.endsWith(',')) {
+           MeterStr = MeterStr.substring(0, MeterStr.length - 2);
+           $('#' + id4).html("1000/700");
+       } *@
+MeterStr = MeterStr.substring(0, MeterStr.length - 1);
+        return MeterStr;
+    }
+    function ConfigureBoilerScreen() {
+        var StrArray = new Array();
+        //StrArray[1] = "1~67~22";   1----table row id   67------Unit 1 label meter id     22------Unit 2 label meter id
+        StrArray[1] = "1~119";
+        StrArray[2] = "2~120";
+        StrArray[3] = "3~121";
+        StrArray[4] = "4~124";
+        StrArray[5] = "5~125";
+        StrArray[6] = "6~126";
+        StrArray[7] = "7~116";
+        StrArray[8] = "8~117";
+        StrArray[9] = "9~118";
+        StrArray[10] = "10~142";
+        StrArray[11] = "11~143";
+        StrArray[12] = "12~144";
+        StrArray[13] = "13~145";
+        StrArray[14] = "14~146";
+        StrArray[15] = "15~147";
+        StrArray[16] = "16~148";
+        StrArray[17] = "17~149";
+        StrArray[18] = "18~150";
+        StrArray[19] = "19~151";
+        StrArray[20] = "20~152";
+        StrArray[21] = "21~153";
+
+        return StrArray;
+    }
+</script>
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2></h2>
+        @Html.HiddenFor(m => m.METERID)
+        <input type="hidden" id="hdnMeterList" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-6" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">AHP AREA (KW)</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">HV FEEDERS</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Rating(KW/Amp)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">KW</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr id="1">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PMCC_1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="1_Rating">2000 kVA / 260 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="2">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AWR_PMCC_1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="2_Rating">630 kVA / 80 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="3">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AHP PMCC_TR_1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="3_Rating">1600 kVA / 150 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="4">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AHP PMCC_TR_2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="4_Rating">1600 kVA / 160 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="5">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AWR_PMCC_2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="5_Rating">630 kVA / 80 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="5_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="6">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PMCC_2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="6_Rating">2000 kVA / 260 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="6_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="7">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CONV. BLOWER A</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="7_Rating">325 kW / 60 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="7_unitkw1"></label></td>
+
+                    </tr>
+                    <tr id="8">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CONV. BLOWER B</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="8_Rating">325 kW / 60 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="8_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="9">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CONV. BLOWER C</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="9_Rating">325 kW / 60 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="9_unitkw1"></label></td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-6" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;"></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">LV FEEDERS</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Rating(KW/Amp)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">KW</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+
+
+                    <tr id="10">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_A1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="10_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="10_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="11">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_A2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="11_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="11_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="12">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_A3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="12_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="12_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="13">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_B1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="13_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="13_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="14">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_B2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="14_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="14_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="15">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_B3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="15_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="15_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="16">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_C1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="16_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="16_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="17">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_C2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="17_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="17_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="18">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_C3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="18_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="18_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="19">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_D1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="19_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="19_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="20">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_D2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="20_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="20_unitkw1"></label></td>
+
+
+                    </tr>
+                    <tr id="21">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ASH_SLURRY_PUMP_D3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="21_Rating">125 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="21_unitkw1"></label></td>
+
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div id="divParent">
+            @*<div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;"
+                        id="btngenerator">
+                    Generation
+                </button>
+            </div>*@
+            <div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnAHP">Unit 1 Summary</button>
+            </div>
+            @*<div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBoiler">BOILER AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnTurbine">TURBINE AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCHP">CHP   </button>
+            </div>
+
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnFeeders">FEEDERS Area</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnOther">Other Aux</button>
+            </div>*@
+        </div>
+    </div>
+</div>

@@ -1,0 +1,749 @@
+﻿@{
+
+}
+<script src="~/Scripts/jquery.jmHighlight.js"></script>
+<style>
+    .input-group .form-control {
+        z-index: 999;
+    }
+</style>
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .panel-default {
+        border-color: #ddd;
+    }
+
+        .panel-default > .panel-heading {
+            color: #fff;
+            background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F));
+            background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%);
+            border-color: #d1d1d1;
+        }
+
+            .panel-default > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #ddd;
+            }
+
+        .panel-default > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #ddd;
+        }
+
+    .black-bg, .black-bg table tr {
+        background: #2f2f2f;
+        color: #f7943c;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .black-bg {
+        padding: 0;
+    }
+
+        .black-bg table th {
+            background: #0f0f0f;
+            text-align: center;
+            color: #1ef200;
+        }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .text-orange {
+        color: #f7943c;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .dashboard-panel-body-box {
+        /*display: block !important;*/
+    }
+
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+
+    .class-tbl-remove tr td {
+        background-color: none !important;
+        color: #000 !important;
+    }
+
+    .data {
+        background: #0f0f0f !important;
+        color: #f7943c;
+        padding: 0px;
+        font-weight: bold;
+    }
+
+    .value {
+        color: #00FF00;
+        padding: 0px;
+        background: #2f2f2f !important;
+    }
+
+    .p0 {
+        padding: 0 !important;
+    }
+
+        .p0 table {
+            margin-bottom: 0 !important;
+        }
+</style>
+<script type="text/javascript">
+    var box;
+    $(document).ready(function () {
+        $("#divMain").show();
+        $('#divDownLoad').hide();
+        FillRPTName();
+        HideQueryData("F");
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0',
+            onSelect: function (selected) {
+                HideQueryData('F');
+                var Todate = GetFinaldate(selected, $("#DateField").val(), $("#ServerDate").val());
+                var currdate = new Date();
+                var dt = new Date(Todate);
+                var dt1 = new Date(Todate);
+                dt.setDate(dt.getDate());
+                dt1.setDate(dt1.getDate() + 1);
+                $("#ToDate").datepicker("setDate", dt);
+                $("#ToDate").datepicker("option", "minDate", dt);
+                $("#ToDate").datepicker("option", "maxDate", dt1.getDate() + 1);
+            }
+        });
+        $("#ToDate").datepicker({
+            dateFormat: $("#ServerDate").val(),
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function (selected) {
+                //HideQueryData("F");
+                debugger;
+            }
+        });
+        $("#ddlQuery").change(function () {
+            HideQueryData("F");
+        });
+        $("#startTime").change(function () {
+            HideQueryData("F");
+        });
+        $("#endTime").change(function () {
+            HideQueryData("F");
+        });
+    });
+    function HideQueryData(type) {
+        if (type == "F") {
+            $('#divDownLoad').hide();
+            $('#divMain').show();
+        } else {
+            $("#divMain").hide();
+            $('#divDownLoad').show();
+        }
+
+    }
+    function FillRPTName() {
+        //  var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "ManualReportList/GetReportName",
+            dataType: "json",
+            success: function (substation, status, jqXHR) {
+                console.log(substation[0].rlistid);//reptname
+                console.log(substation[0].reptname);
+                var str = "";
+                if (substation != undefined) {
+                    if (substation.length > 0) {
+
+                        var data = substation;
+                        str += "<select id='ddlQuery'  class='form-control'>";
+                        str += "<option value=0>Report Name</option>";
+                        for (var i in data) {
+                            var k = data[i].reptname;
+                            if (data[i].reptname != undefined && data[i].reptname != "" && data[i].rlistid != undefined && data[i].rlistid != "") {
+                                str += "<option value=" + data[i].rlistid.toString() + ">" + data[i].reptname + "</option>";
+                            }
+                        }
+                        str += "</select>";
+                    } else {
+                        str += "<select id='ddlQuery' class='form-control'>";
+                        str += "<option value=0>Report Name</option>";
+                        str += "</select>";
+                    }
+                }
+                else if (substation.Data.e == "E") {
+                    if (substation.Data.d.length > 0)
+                        alert(substation.Data.d);
+                }
+                $("#divQuery").html(str);
+                if (box) box.remove();
+            }
+        });
+    }
+    function ValidationData() {
+        if ($("#ddlQuery").val() == "0" || $("#ddlQuery").val() == "") {
+            alert('Please Select Report Name', '', false, "M");
+            return false;
+        }
+        if ($("#FromDate").val() == "0" || $("#FromDate").val() == "") {
+            alert('Please Select From date', '', false, "M");
+            return false;
+        }
+        if ($("#ToDate").val() == "0" || $("#ToDate").val() == "") {
+            alert('Please Select To date', '', false, "M");
+            return false;
+        }
+        return true;
+    }
+    function CheckData() {
+        if ($("#txtDownload").val() == "") {
+            alert('Please Provide Download ID', '', false, "M");
+            return false;
+        }
+        return true;
+    }
+    function FillQueryData(opt) {
+
+        if (opt == "F") {
+
+            var frmDate = GetFinaldate($("#FromDate").val(), $("#ServerDate").val(), $("#DateField").val());
+            var Todate = GetFinaldate($("#ToDate").val(), $("#ServerDate").val(), $("#DateField").val());
+
+            var ManualReport = {
+                "RlistID": $('#ddlQuery').val(), //date code
+                "RequestDate": new Date(),
+                "FrmDate": frmDate, //date code
+                "FrmTime": $('#startTime').val(),
+                "ToDate": Todate,
+                "ToTime": $('#endTime').val(),
+                "FilePath": "",
+                "isDownload": 0
+            };
+            console.log(ManualReport);
+            var jdata = JSON.stringify(ManualReport);
+            opningtype = "query";
+
+            //return false;
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            try {
+                $.ajax({
+                    type: "POST",
+                    url: BaseAddress + "ReportManually",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(ManualReport),
+                    dataType: "json",
+                    success: function (response, status, jqXHR) {
+                        console.log(response);
+                        var jsonObj = response;
+
+                        if (jsonObj != null && jsonObj.length > 0) {
+
+                            if (box) box.remove();
+                            alert('No Data Found', '', false, "M");
+                            return false;
+                        }
+                        else {
+                            if (box) box.remove();
+                            $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                            $("#btn-success-trigger").trigger('click');
+                            $("#modal_message h3").text("Successfully Generated Report ID : " + response.reptmid);
+
+                        }
+                    },
+                    failure: function (msg) {
+                        if (box) box.remove();
+                        alert(msg, '', false, "M");
+                    }
+                });
+            }
+
+            catch (err) {
+                if (box) box.remove();
+            }
+
+        } else {
+            HideQueryData('D');
+
+        }
+    }
+    function GetData() {
+
+        if (CheckData()) {
+            var path = envisageURL + "GetReport/" + $("#txtDownload").val();
+            try {
+                $.ajax({
+                    type: "GET",
+                    url: BaseAddress + "ReportManually/GetReportStatus/" + $("#txtDownload").val(),
+                    contentType: "application/json; charset=utf-8",
+                    //data: JSON.stringify(ManualReport),
+                    //dataType: "json",
+                    success: function (response, status, jqXHR) {
+                        console.log(response);
+                        var data = response;
+                        if (data.length > 0) {
+                            debugger;
+                            for (var i in data) {
+                                var k = data[i].isdownload;
+                                if (k == 0) {
+                                    $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                                    $("#btn-success-trigger").trigger('click');
+                                    $("#modal_message h3").text("Report not ready, Please try again after some time");
+                                }
+                                else if (k == 2) {
+                                    $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                                    $("#btn-success-trigger").trigger('click');
+                                    $("#modal_message h3").text(data[i].filepath);
+                                }
+                                else {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: path,
+                                        contentType: "application/json; charset=utf-8",
+                                        success: function (response, status, jqXHR) {
+                                            if (response != "") {
+
+
+                                                window.location = path;
+                                                $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                                                $("#btn-success-trigger").trigger('click');
+                                                $("#modal_message h3").text("Success");
+                                            }
+                                            else
+                                                $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                                            $("#btn-danger-trigger").trigger('click');
+                                            $("#modal_message h3").text("File does not Exists");
+
+                                        },
+                                        failure: function (msg) {
+                                            $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                                            $("#btn-success-trigger").trigger('click');
+                                            $("#modal_message h3").text("Failure");
+                                        }
+                                    });
+                                }
+
+
+                            }
+                        }
+                        else {
+                            $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                            $("#btn-success-trigger").trigger('click');
+                            $("#modal_message h3").text("Invalid Download Id");
+
+                        }
+
+                    },
+                    failure: function (msg) {
+                        if (box) box.remove();
+                        $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                        $("#btn-success-trigger").trigger('click');
+                        $("#modal_message h3").text(msg);
+
+                    }
+                });
+            }
+
+            catch (err) {
+                if (box) box.remove();
+            }
+        }
+    }
+    function auto_load() {
+        if (opningtype != "na" && opningtype != "query" && $("#meterList").val() != "" && $("#meterList").val() != "" && $("#meterList").val() != "undefined") {
+            var meterId = $('#meterList').val();
+        }
+        if (box) box.remove();
+        return false;
+    }
+    $.ajax({
+        type: "GET",
+        contentType: "application/json;charset=utf-8",
+        url: BaseAddress + "PrmGlobal/getdateformat/",//prmglobal
+        dataType: "json",
+        async: false,
+        success: function (dateformat, status, jqXHR) {
+
+
+
+            if (dateformat.length > 0) {
+                $.each(dateformat, function (key, value) {
+
+
+                    debugger;
+                    if (value.prmunit == "DateField") {
+                        $("#Dateformat").val(value.prmvalue);
+
+                    }
+                    else if (value.prmunit == "ServerDate") {
+                        $("#DatabaseDateformat").val(value.prmvalue);
+                    }
+                })
+            }
+
+
+        }
+    });
+
+    // setInterval(auto_load, 3000);
+</script>
+
+
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Repoter Manual Generation</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li class="active">Repoter Manual Generation</li>
+                    </ol>
+                    <div class="panel panel-light-blue" id="divMain">
+                        <div class="panel-heading"> <strong>CREATE</strong> </div>
+                        <div class="panel-body">
+                            <div id="trgPopup">
+
+                            </div>
+                            <div class="table" id="query_type" style="display: block;">
+                                <div class="row">
+
+                                    <div class="col-lg-12 col-sm-12">
+                                        <div class="col-lg-3 col-sm-12">
+                                            <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Report Name</label>
+                                            <div id="divQuery">
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-3" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                            <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                                <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">From Date</label>
+                                                </div>
+                                                <input type="hidden" id="Dateformat">
+                                                <input type="hidden" id="DatabaseDateformat">
+                                                <div id="dtFrmDate" class="input-group date">
+                                                    @*<input class="form-control hasDatepicker" id="FromDate" name="FromDate" readonly="True" type="text" value="">*@
+                                                    <input id="FromDate" class="form-control" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="border:0px solid #000;  ">
+                                                <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                                </div>
+                                                <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                    <select class="col-md-12 form-control" id="startTime" name="StartTime" size="1">
+                                                        <option value="">select</option>
+                                                        <option>12:00 AM</option>
+                                                        <option>12:15 AM</option>
+                                                        <option>12:30 AM</option>
+                                                        <option>12:45 AM</option>
+                                                        <option>01:00 AM</option>
+                                                        <option>01:15 AM</option>
+                                                        <option>01:30 AM</option>
+                                                        <option>01:45 AM</option>
+                                                        <option>02:00 AM</option>
+                                                        <option>02:15 AM</option>
+                                                        <option>02:30 AM</option>
+                                                        <option>02:45 AM</option>
+                                                        <option>03:00 AM</option>
+                                                        <option>03:15 AM</option>
+                                                        <option>03:30 AM</option>
+                                                        <option>03:45 AM</option>
+                                                        <option>04:00 AM</option>
+                                                        <option>04:15 AM</option>
+                                                        <option>04:30 AM</option>
+                                                        <option>04:45 AM</option>
+                                                        <option>05:00 AM</option>
+                                                        <option>05:15 AM</option>
+                                                        <option>05:30 AM</option>
+                                                        <option>05:45 AM</option>
+                                                        <option>06:00 AM</option>
+                                                        <option>06:15 AM</option>
+                                                        <option>06:30 AM</option>
+                                                        <option>06:45 AM</option>
+                                                        <option>07:00 AM</option>
+                                                        <option>07:15 AM</option>
+                                                        <option>07:30 AM</option>
+                                                        <option>07:45 AM</option>
+                                                        <option>08:00 AM</option>
+                                                        <option>08:15 AM</option>
+                                                        <option>08:30 AM</option>
+                                                        <option>08:45 AM</option>
+                                                        <option>09:00 AM</option>
+                                                        <option>09:15 AM</option>
+                                                        <option>09:30 AM</option>
+                                                        <option>09:45 AM</option>
+                                                        <option>10:00 AM</option>
+                                                        <option>10:15 AM</option>
+                                                        <option>10:30 AM</option>
+                                                        <option>10:45 AM</option>
+                                                        <option>11:00 AM</option>
+                                                        <option>11:15 AM</option>
+                                                        <option>11:30 AM</option>
+                                                        <option>11:45 AM</option>
+                                                        <option>12:00 PM</option>
+                                                        <option>12:15 PM</option>
+                                                        <option>12:30 PM</option>
+                                                        <option>12:45 PM</option>
+                                                        <option>01:00 PM</option>
+                                                        <option>01:15 PM</option>
+                                                        <option>01:30 PM</option>
+                                                        <option>01:45 PM</option>
+                                                        <option>02:00 PM</option>
+                                                        <option>02:15 PM</option>
+                                                        <option>02:30 PM</option>
+                                                        <option>02:45 PM</option>
+                                                        <option>03:00 PM</option>
+                                                        <option>03:15 PM</option>
+                                                        <option>03:30 PM</option>
+                                                        <option>03:45 PM</option>
+                                                        <option>04:00 PM</option>
+                                                        <option>04:15 PM</option>
+                                                        <option>04:30 PM</option>
+                                                        <option>04:45 PM</option>
+                                                        <option>05:00 PM</option>
+                                                        <option>05:15 PM</option>
+                                                        <option>05:30 PM</option>
+                                                        <option>05:45 PM</option>
+                                                        <option>06:00 PM</option>
+                                                        <option>06:15 PM</option>
+                                                        <option>06:30 PM</option>
+                                                        <option>06:45 PM</option>
+                                                        <option>07:00 PM</option>
+                                                        <option>07:15 PM</option>
+                                                        <option>07:30 PM</option>
+                                                        <option>07:45 PM</option>
+                                                        <option>08:00 PM</option>
+                                                        <option>08:15 PM</option>
+                                                        <option>08:30 PM</option>
+                                                        <option>08:45 PM</option>
+                                                        <option>09:00 PM</option>
+                                                        <option>09:15 PM</option>
+                                                        <option>09:30 PM</option>
+                                                        <option>09:45 PM</option>
+                                                        <option>10:00 PM</option>
+                                                        <option>10:15 PM</option>
+                                                        <option>10:30 PM</option>
+                                                        <option>10:45 PM</option>
+                                                        <option>11:00 PM</option>
+                                                        <option>11:15 PM</option>
+                                                        <option>11:30 PM</option>
+                                                        <option>11:45 PM</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-3" style=" padding:0px; margin:0px 0px;">
+                                            <div class="col-md-6" style="border:0px solid #000;padding:0px; ">
+                                                <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">To Date</label>
+                                                </div>
+                                                <div id="dtToDate" class="input-group date">
+                                                    @*<input class="form-control hasDatepicker" id="ToDate" name="ToDate" readonly="True" type="text" value="">*@
+                                                    <input id="ToDate" name="ToDate" class="form-control" type="text" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="border:0px solid #000;  ">
+                                                <div class="col-md-12" style="border:0px solid #f00; padding:0px; margin:0px 0px;">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">Time</label>
+                                                </div>
+                                                <div class="col-md-0" style="border:0px solid #000;float:left; padding:0px; margin:0px 0px;">
+                                                    <select class="form-control" id="endTime" name="EndTime" size="1">
+                                                        <option value="">select</option>
+                                                        <option>12:00 AM</option>
+                                                        <option>12:15 AM</option>
+                                                        <option>12:30 AM</option>
+                                                        <option>12:45 AM</option>
+                                                        <option>01:00 AM</option>
+                                                        <option>01:15 AM</option>
+                                                        <option>01:30 AM</option>
+                                                        <option>01:45 AM</option>
+                                                        <option>02:00 AM</option>
+                                                        <option>02:15 AM</option>
+                                                        <option>02:30 AM</option>
+                                                        <option>02:45 AM</option>
+                                                        <option>03:00 AM</option>
+                                                        <option>03:15 AM</option>
+                                                        <option>03:30 AM</option>
+                                                        <option>03:45 AM</option>
+                                                        <option>04:00 AM</option>
+                                                        <option>04:15 AM</option>
+                                                        <option>04:30 AM</option>
+                                                        <option>04:45 AM</option>
+                                                        <option>05:00 AM</option>
+                                                        <option>05:15 AM</option>
+                                                        <option>05:30 AM</option>
+                                                        <option>05:45 AM</option>
+                                                        <option>06:00 AM</option>
+                                                        <option>06:15 AM</option>
+                                                        <option>06:30 AM</option>
+                                                        <option>06:45 AM</option>
+                                                        <option>07:00 AM</option>
+                                                        <option>07:15 AM</option>
+                                                        <option>07:30 AM</option>
+                                                        <option>07:45 AM</option>
+                                                        <option>08:00 AM</option>
+                                                        <option>08:15 AM</option>
+                                                        <option>08:30 AM</option>
+                                                        <option>08:45 AM</option>
+                                                        <option>09:00 AM</option>
+                                                        <option>09:15 AM</option>
+                                                        <option>09:30 AM</option>
+                                                        <option>09:45 AM</option>
+                                                        <option>10:00 AM</option>
+                                                        <option>10:15 AM</option>
+                                                        <option>10:30 AM</option>
+                                                        <option>10:45 AM</option>
+                                                        <option>11:00 AM</option>
+                                                        <option>11:15 AM</option>
+                                                        <option>11:30 AM</option>
+                                                        <option>11:45 AM</option>
+                                                        <option>12:00 PM</option>
+                                                        <option>12:15 PM</option>
+                                                        <option>12:30 PM</option>
+                                                        <option>12:45 PM</option>
+                                                        <option>01:00 PM</option>
+                                                        <option>01:15 PM</option>
+                                                        <option>01:30 PM</option>
+                                                        <option>01:45 PM</option>
+                                                        <option>02:00 PM</option>
+                                                        <option>02:15 PM</option>
+                                                        <option>02:30 PM</option>
+                                                        <option>02:45 PM</option>
+                                                        <option>03:00 PM</option>
+                                                        <option>03:15 PM</option>
+                                                        <option>03:30 PM</option>
+                                                        <option>03:45 PM</option>
+                                                        <option>04:00 PM</option>
+                                                        <option>04:15 PM</option>
+                                                        <option>04:30 PM</option>
+                                                        <option>04:45 PM</option>
+                                                        <option>05:00 PM</option>
+                                                        <option>05:15 PM</option>
+                                                        <option>05:30 PM</option>
+                                                        <option>05:45 PM</option>
+                                                        <option>06:00 PM</option>
+                                                        <option>06:15 PM</option>
+                                                        <option>06:30 PM</option>
+                                                        <option>06:45 PM</option>
+                                                        <option>07:00 PM</option>
+                                                        <option>07:15 PM</option>
+                                                        <option>07:30 PM</option>
+                                                        <option>07:45 PM</option>
+                                                        <option>08:00 PM</option>
+                                                        <option>08:15 PM</option>
+                                                        <option>08:30 PM</option>
+                                                        <option>08:45 PM</option>
+                                                        <option>09:00 PM</option>
+                                                        <option>09:15 PM</option>
+                                                        <option>09:30 PM</option>
+                                                        <option>09:45 PM</option>
+                                                        <option>10:00 PM</option>
+                                                        <option>10:15 PM</option>
+                                                        <option>10:30 PM</option>
+                                                        <option>10:45 PM</option>
+                                                        <option>11:00 PM</option>
+                                                        <option>11:15 PM</option>
+                                                        <option>11:30 PM</option>
+                                                        <option>11:45 PM</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-2" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right;">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label><br />
+                                                    <button type="submit" class="btn btn-info btn-sm" id="btnSearch" onclick="FillQueryData('F')" style="font-weight:bold;  margin:0px 10px;">Generate</button>
+                                                </div><div class="col-md-6">
+                                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px;" for="select">&nbsp;</label>
+                                                    <button type="submit" class="btn btn-success btn-sm" id="btnDownload" onclick="FillQueryData('D')" style="font-weight:bold;  margin:0px 10px;">Download</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="divDownLoad">
+					<div class="pull-right" style="border:0px solid #f00; text-align:right;">
+                                    <button type="submit" class="btn btn-warning pull-right btn-sm" id="btnBack" onclick="HideQueryData('F')" style="font-weight:bold; ">Back to Generate</button>
+                                </div>
+<div class="clearfix"></div>
+<hr/>
+
+                        <div class="panel panel-light-blue">
+
+                            <div class="panel-heading"> <strong>DOWNLOAD</strong> </div>
+                           
+                            <div class="panel-body form-group">
+                                <div class="col-md-10" style="margin-top: 1%; ">
+                                    <label style="border:0px solid #000; padding:0px; margin:0px 0px; float:left;" for="select">Download ID</label>
+                                    <div class="col-md-3">
+                                        <input id="txtDownload" name="txtDownload" class="form-control number" type="text" />
+                                    </div>
+                                    <div class="col-md-4"><button type="button" class="btn btn-success" id="btnFileDownload" onclick="GetData()"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;File Download</button></div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,242 @@
+﻿@model List<GridLogikViewer.APIModels.GetInstanceData>
+@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+    .bgimg {
+        background-image: url('../Content/images/4.png');
+        background-repeat: no-repeat;
+    }
+</style>
+
+
+<div style=" height:1310px;width:1980px;   border: 0px solid #000; background-image: url(/Content/images/4.png);background-repeat:no-repeat;background-size:cover;">
+
+
+    @*<label id="3" style="position: absolute; top: 250px; left: 355px; width: 100%;font-size:14px;color:maroon">25465</label>
+            <label id="4" style="position: absolute; top: 250px; left: 790px; width: 100%; font-size: 16px; color: maroon">25642</label>
+
+
+        <label id="3" style="position: absolute; top: 480px; left: 102px; width: 100%;font-size:17px;color:maroon">25468.01</label>
+        <label id="4" style="position: absolute; top: 480px; left: 200px; width: 100%;font-size:17px;color:maroon">25485.31</label>
+
+        <label id="5" style="position: absolute; top: 480px; left: 300px; width: 100%;font-size:17px;color:maroon">84562.52</label>
+        <label id="6" style="position: absolute; top: 480px; left: 395px; width: 100%;font-size:17px;color:maroon">58245.35</label>
+        <label id="7" style="position: absolute; top: 480px; left: 500px; width: 100%;font-size:17px;color:maroon">86252.35</label>
+        <label id="8" style="position: absolute; top: 480px; left: 600px; width: 100%;font-size:17px;color:maroon">98657.42</label>
+        <label id="9" style="position: absolute; top: 480px; left: 700px; width: 100%;font-size:17px;color:maroon">86574.25</label>
+        <label id="10" style="position: absolute; top: 480px; left: 800px; width: 100%;font-size:17px;color:maroon">25462.36</label>
+        <label id="11" style="position: absolute; top: 480px; left: 910px; width: 100%;font-size:17px;color:maroon">68548.62</label>
+        <label id="12" style="position: absolute; top: 665px; left: 780px; width: 100%;font-size:17px;color:maroon">98546.58</label>
+
+        <select id="DataParameter" name="DataParameter" size="1" style="position: absolute; top: 680px; left: 50px; font-size: 16px; color: maroon; width: 12%">
+            <option>MW</option>
+            <option>MWh_import</option>
+            <option>MWh_export</option>
+        </select>*@
+    @*<label id="15" style="position: absolute; top: 490px; left: 120px; width: 100%;font-size:14px;color:maroon">85485</label>
+        <label id="16" style="position: absolute; top: 490px; left: 210px; width: 100%; font-size: 14px; color: maroon">65245</label>
+        <label id="17" style="position: absolute; top: 490px; left: 300px; width: 100%; font-size: 14px; color: maroon">96584</label>
+        <label id="18" style="position: absolute; top: 490px; left: 370px; width: 100%; font-size: 14px; color: maroon">98574</label>
+        <label id="19" style="position: absolute; top: 490px; left: 460px; width: 100%; font-size: 14px; color: maroon">62541</label>
+        <label id="18" style="position: absolute; top: 490px; left: 560px; width: 100%; font-size: 14px; color: maroon">63521</label>
+        <label id="19" style="position: absolute; top: 490px; left: 640px; width: 100%; font-size: 14px; color: maroon">68547</label>
+        <label id="20" style="position: absolute; top: 490px; left: 740px; width: 100%; font-size: 14px; color: maroon">95241</label>
+        <label id="21" style="position: absolute; top: 490px; left: 840px; width: 100%; font-size: 14px; color: maroon">952466</label>
+        <label id="22" style="position: absolute; top: 700px; left: 770px; width: 100%;font-size:14px;color:maroon">98547</label>*@
+</div>
+@*</div>
+        </div>
+
+    </div>*@
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "kw";
+    var MeterString = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        $("#DataParameter").change(function () {
+            data =
+               {
+                   Parameter: $('#DataParameter option:selected').text()
+               };
+
+
+        });
+        debugger
+        ABTMeterDetails();
+    });
+    setInterval(ABTMeterDetails, 36000);
+    function ABTMeterDetails() {
+
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+
+                    jsonObj.forEach(function (responseobj) {
+                        debugger
+                        var valueText = responseobj + "." + data;
+                        if (isNaN(valueText)) {
+
+                            valueText = "0";
+
+                        }
+
+                        if (responseobj.meterid == 1) {
+
+
+                            $("#1").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 2) {
+
+
+                            $("#2").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 3) {
+
+
+                            $("#3").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 4) {
+
+
+                            $("#4").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 5) {
+
+
+                            $("#5").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 6) {
+
+
+                            $("#6").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 7) {
+
+
+                            $("#7").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 8) {
+
+
+                            $("#8").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 9) {
+
+
+                            $("#9").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 10) {
+
+
+                            $("#10").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 11) {
+
+
+                            $("#11").html(valueText.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 12) {
+
+
+                            $("#12").html(valueText.toFixed(2).toString());
+
+                        }
+                    });
+
+
+
+
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

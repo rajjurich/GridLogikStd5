@@ -1,0 +1,954 @@
+﻿@model List<GridLogikViewer.APIModels.GetInstanceData>
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Auxiliary Power Consumption Summary - SSTPS</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; "></th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">UNIT - 5</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">GENERATION (MW)</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="GENERATIONUnit1"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">UNIT APC (MW) </th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="UNITAPC1"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">UNIT APC (%)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="UNITAPCPer1"></label></td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-12" style="border:0px solid  #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">STN. GEN (MW)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALGEN"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STN. APC (MW) </th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALAPC"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STN. APC (%)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="APCPercent"></label></td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-12" style="border:0px solid  #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">STAGE GEN (MW)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALGEN2"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STAGE APC (MW) </th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALAPC2"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STAGE APC (%)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="APCPercent2"></label></td>
+
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;"><!--<b style="font-size:16px;">Energy</b>--></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; "></th>
+                        <th colspan="10" style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">UNIT - 5</th>
+
+                    </tr>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">AREA</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">LOAD (MW)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">APC VALUE (%)</th>
+
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">BOILER AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOILERAUXUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOILERAUXUnit1Apc"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">TURBINE AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="TURBINEAUXUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="TURBINEAUXUnit1Apc"></label></td>
+
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">COMMON AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COMPRESSORSUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COMPRESSORSUnit1Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AHP AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="AHPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="AHPUnit1Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CHP AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CHPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CHPUnit1Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">WSA AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOPUnit1Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CW/ACW AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOPUnit2Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CT AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="AHPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="AHPUnit2Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">WORKSHOP AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CHPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CHPUnit2Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ESP AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="TAUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="TAUnit2Apc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Common Meter</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CommonLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CommonApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">TOTAL</th>
+                        <td style=" background:#0f0f0f !important;color: #FFFF00; padding: 0px;"><label id="TOTALUnit1Load"></label></td>
+                        <td style=" background:#0f0f0f !important;color:#FFFF00; padding:0px;"><label id="TOTALUnit1Apc"></label></td>
+                        <td style=" background:#0f0f0f !important;color: #FFFF00; padding: 0px;"><label
+                </tbody>
+            </table>
+            <div class="col-lg-12">
+                <div class="form-group col-md-6" style="border:0px solid #f00;color:#ff0000;">
+                    <h3>*APC Excluding Feeders Area</h3>
+
+                </div>
+                <!-- Modal03 popup -->
+                <!--/col-->
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div id="divParent">
+                <div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBoiler">BOILER AUX</button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCHP">Gen 5   </button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnTurbine">TURBINE AUX</button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnFeeders">FEEDERS Area</button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnOther">Common Aux</button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCommon">Common Meter Setting</button>
+                </div>
+                <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnMain">MAIN SCREEN</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript">
+        var ws, w1, w2;
+        var meterId = "";
+        var box;
+        var data = "None";
+        var MF1 = 1, MF2 = 1, MF3 = 1, MF4 = 1, MF5 = 1, MF6 = 1, MF7 = 1, MF8 = 1;
+        var PlatMID = "1";
+        var MeterString = "280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336";
+        var MeterIdList = {
+            "MeterString": MeterString
+
+        };
+        var ttype = '@HttpContext.Current.Session["userid"]';
+        //debugger
+        if (ttype == "admin") {
+            $('#DataParameter').show();
+            $('#btnSet').show();
+        }
+        else {
+            //$("DataParameter").hide();
+            //$("btnSet").hide();
+            $('#DataParameter').hide();
+            $('#btnSet').hide();
+        }
+        var ConfingArr = new Array();
+        $(document).ready(function () {
+            $("#btnBoiler").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen13", "RRVUNL")';
+            });
+            $("#btnTurbine").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen23", "RRVUNL")';
+            });
+            $("#btnOther").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen33", "RRVUNL")';
+            });
+            $("#btnFeeders").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen28", "RRVUNL")';
+            });
+            $("#btnCHP").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen18", "RRVUNL")';
+            });
+            $("#btnCommon").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen1", "RRVUNL")';
+            });
+            $("#btnMain").click(function () {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                window.location.href = '@Url.Action("Screen2", "RRVUNL")';
+            });
+            $("#DataParameter").change(function () {
+                //data =
+                //   {
+                //       Parameter: $('#DataParameter option:selected').text()
+                //   };
+
+                data = $('#DataParameter option:selected').text()
+
+
+            });
+            $("#DataParameter1").change(function () {
+                //data =
+                //   {
+                //       Parameter: $('#DataParameter option:selected').text()
+                //   };
+
+                PlatMID = $('#DataParameter1 option:selected').text()
+
+
+            });
+            $("#btnSet").click(function () {
+
+                var path = "C:\\inetpub\\wwwroot\\EtoolsAPI\\setting.txt";
+                debugger
+                @*var ttype = '@HttpContext.Current.Session["userid"]';*@
+                if (PlatMID == "1") {
+
+                    PlatMID = "Meter1";
+                }
+                var flag = 0;
+                if (data == "None") {
+                    flag = 1;
+                }
+                else if (data == "PLANT A") {
+                    flag = 1;
+                }
+                else if (data == "PLANT B") {
+                    flag = 2;
+                }
+                try {
+                    $.ajax({
+                        type: "GET",
+
+                        //meterid,Month,Year
+                        url: BaseAddress + "GetAllInstanceData/write/" + PlatMID.toString() + "/Flag/" + flag,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (response) {
+                            debugger
+                            var jsonObj = response;
+
+                        },
+                        error: function (xhr, status, error) {
+                            if (box) box.remove();
+                        }
+                    });
+
+                }
+                catch (err) {
+                }
+
+                parameter();
+                window.location.reload(true);
+
+            });
+            ABTMeterDetails();
+            parameter();
+        });
+        @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "RRVUNL")';
+    });*@
+        function parameter() {
+
+
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter1/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF1 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m1").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m1").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter2/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF2 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m2").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m2").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter3/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF3 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m3").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m3").html("Plant B");
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter4/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF4 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m4").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m4").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter5/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF5 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m5").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m5").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter6/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF6 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m6").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m6").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter7/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF7 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m7").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m7").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "GetAllInstanceData/Read/Meter8/Flag/",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        debugger
+                        var jsonObj = response;
+                        MF8 = jsonObj;
+                        if (jsonObj == 1) {
+                            $("#m8").html("Plant A");
+                        }
+                        else if (jsonObj == 2) {
+                            $("#m8").html("Plant B");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+        }
+        setInterval(ABTMeterDetails, 1000);
+        function ABTMeterDetails() {
+            var Genunit1 = 0;
+            var Genunit2 = 0;
+            var APCMWunit1 = 0;
+            var APCMWunit2 = 0;
+            var APCPerunit1 = 0;
+            var APCPerunit2 = 0;
+            var TotalGen = 0;
+            var TotalAPC = 0;
+            var Hz1 = 0;
+            var Hz2 = 0;
+            var Hz3 = 0;
+            var Hz4 = 0;
+            var Hz5 = 0;
+            var Hz6 = 0;
+            var Hz7 = 0;
+            var BoilerAuxUnit1 = 0;
+            var BoilerAuxUnit2 = 0;
+            var BoilerAuxStation = 0;
+            var TAUnit1 = 0;
+            var TAUnit2 = 0;
+            var TAStation = 0;
+            var CHPUnit1 = 0;
+            var CHPUnit2 = 0;
+            var CHPStation = 0;
+            var AHPUnit1 = 0;
+            var AHPUnit2 = 0;
+            var AHPStation = 0;
+            var BOPUnit1 = 0;
+            var BOPUnit2 = 0;
+            var BOPStation = 0;
+            var COMPRESSORSUnit1 = 0;
+            var COMPRESSORSUnit2 = 0;
+            var COMPRESSORSStation = 0;
+            var SAFUnit1 = 0;
+            var ColonyUnit2 = 0;
+            var ColonyStation = 0;
+            var AdminUnit1 = 0;
+            var AdminUnit2 = 0;
+            var AdminStation = 0;
+            var ESPUnit1 = 0;
+            var ESPUnit2 = 0;
+            var ESPStation = 0;
+            var STNPMCCUnit1 = 0;
+            var STNPMCCUnit2 = 0;
+            var STNPMCCStation = 0;
+            var UNITPMCCUnit1 = 0;
+            var UNITPMCCUnit2 = 0;
+            var UNITPMCCStation = 0;
+            var SWYDUnit1 = 0;
+            var SWYDUnit2 = 0;
+            var SWYDStation = 0;
+            var RAWWATERUnit1 = 0;
+            var RAWWATERUnit2 = 0;
+            var RAWWATERStation = 0;
+
+            $.ajax({
+                //type: "GET",
+                //contentType: "application/json;charset=utf-8",//type of data to be send
+                //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+                //dataType: "json",//type of data to be received
+
+                type: "POST",
+                url: BaseAddress + "GetAllInstanceData/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(MeterIdList),
+                dataType: "json",
+
+                success: function (response, status, jqXHR) {
+                    var TotalUnit1kw = 0;
+                    var TotalUnit2kw = 0;
+                    var TotalStationkw = 0;
+                    var TotalUnit1apc = 0;
+                    var TotalUnit2apc = 0;
+                    var TotalStationapc = 0;
+
+                    var jsonObj = response.Data.result;
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+
+
+                        jsonObj.forEach(function (responseobj) {
+                            var kwValue = 0;
+                            if (responseobj.kw < 0) {
+                                kwValue = responseobj.kw * -1;
+                            }
+                            else {
+                                kwValue = responseobj.kw;
+                            }
+                            if (responseobj.meterid == 336) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    // $('#GENERATIONUnit1").html(kwValue.toString());
+                                    Genunit1 = kwValue.toFixed(2);
+                                    //document.getElementById(id1).value = kwValue;
+                                } else {
+                                    // $('#GENERATIONUnit1").html("0");// document.getElementById(id1).value = 0;
+                                    Genunit1 = 0;
+                                }
+                            }
+
+
+                            if (responseobj.meterid == 280 || responseobj.meterid == 300 || responseobj.meterid == 301) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    APCMWunit1 = APCMWunit1 + kwValue;
+                                }
+                            }
+
+
+                            if (responseobj.meterid == 302 || responseobj.meterid == 314 || responseobj.meterid == 292 || responseobj.meterid == 304 || responseobj.meterid == 316 || responseobj.meterid == 290 || responseobj.meterid == 303 || responseobj.meterid == 315 || responseobj.meterid == 305 || responseobj.meterid == 317 || responseobj.meterid == 310 || responseobj.meterid == 327 || responseobj.meterid == 325 || responseobj.meterid == 326 || responseobj.meterid == 328 || responseobj.meterid == 329 || responseobj.meterid == 330) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    BoilerAuxUnit1 = BoilerAuxUnit1 + kwValue;
+                                }
+                            }
+
+                            if (responseobj.meterid == 307 || responseobj.meterid == 319 || responseobj.meterid == 299 || responseobj.meterid == 306 || responseobj.meterid == 318 || responseobj.meterid == 291) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    TAUnit1 = TAUnit1 + kwValue;
+                                }
+                            }
+
+                            if (responseobj.meterid == 332 || responseobj.meterid == 333 || responseobj.meterid == 331 || responseobj.meterid == 334 || responseobj.meterid == 335 || responseobj.meterid == 311 || responseobj.meterid == 289 || responseobj.meterid == 322 || responseobj.meterid == 296 || responseobj.meterid == 323 || responseobj.meterid == 312) {
+                                COMPRESSORSUnit1 = COMPRESSORSUnit1 + kwValue;
+                            }
+                            if (responseobj.meterid == 283 || responseobj.meterid == 284) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    AHPUnit1 = AHPUnit1 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 297 || responseobj.meterid == 288) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    CHPUnit1 = CHPUnit1 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 285) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    BOPUnit1 = BOPUnit1 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 286) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    BOPUnit2 = BOPUnit2 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 00) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    AHPUnit2 = AHPUnit2 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 00) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    CHPUnit2 = CHPUnit2 + kwValue;
+                                }
+                            }
+                            if (responseobj.meterid == 309) {
+
+                                if (!isNaN(kwValue)) {
+
+                                    TAUnit2 = TAUnit2 + kwValue;
+                                }
+                            }
+                        });
+
+
+                        APCPerunit1 = ((APCMWunit1 / Genunit1) * 100);
+                        TotalGen = (Genunit1 / 1);
+                        TotalAPC = (APCMWunit1 / 1000);
+                        TotalUnit1kw = (BoilerAuxUnit1 + TAUnit1 + COMPRESSORSUnit1 + AHPUnit1 + CHPUnit1 + BOPUnit1 + BOPUnit2 + AHPUnit2 + CHPUnit2 + TAUnit2) / 1000;
+
+
+                        var d = new Date();
+                        var month = d.getMonth() + 1;
+                        var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+                        $("#datetidvalue").text(date.toString());
+
+
+
+                        // document.getElementById(id3).value = Number(document.getElementById(id1).value) + Number(document.getElementById(id2).value);
+                        // $('#' + id3).html(Number($('#' + id1).html()) + Number($('#' + id2).html()));
+
+
+                        $("#GENERATIONUnit1").html((Genunit1 / 1).toFixed(2).toString());
+                        $("#TOTALGEN").html((TotalGen).toFixed(2).toString());
+                        $("#TOTALAPC").html((TotalAPC).toFixed(2).toString());
+                        $("#UNITAPC1").html((APCMWunit1 / 1000).toFixed(2).toString());
+                        $("#BOILERAUXUnit1Load").html((BoilerAuxUnit1 / 1000).toFixed(4).toString());
+                        $("#TURBINEAUXUnit1Load").html((TAUnit1 / 1000).toFixed(4).toString());
+                        $("#CHPUnit1Load").html((CHPUnit1 / 1000).toFixed(4).toString());
+                        $("#AHPUnit1Load").html((AHPUnit1 / 1000).toFixed(4).toString());
+                        $("#COMPRESSORSUnit1Load").html((COMPRESSORSUnit1 / 1000).toFixed(4).toString());
+                        $("#SAFUnit1Load").html((SAFUnit1 / 1000).toFixed(4).toString());
+                        $("#BOPUnit1Load").html((BOPUnit1 / 1000).toFixed(4).toString());
+                        $("#BOPUnit2Load").html((BOPUnit2 / 1000).toFixed(4).toString());
+                        $("#AHPUnit2Load").html((AHPUnit2 / 1000).toFixed(4).toString());
+                        $("#CHPUnit2Load").html((CHPUnit2 / 1000).toFixed(4).toString());
+                        $("#TAUnit2Load").html((TAUnit2 / 1000).toFixed(4).toString());
+
+
+                        @* unit 1 is tripped/Shutdown*@
+
+                        if (Genunit1 == 0) {
+                            $("#UNITAPCPer1").html("NaN");
+                            $("#BOILERAUXUnit1Apc").html("NaN");
+                            $("#TURBINEAUXUnit1Apc").html("NaN");
+                            $("#COMPRESSORSUnit1Apc").html("NaN");
+                            $("#SAFUnit1Apc").html("NaN");
+                            $("#CHPUnit1Apc").html("NaN");
+                            $("#AHPUnit1Apc").html("NaN");
+                            $("#BOPUnit1Apc").html("NaN");
+                            $("#BOPUnit2Apc").html("NaN");
+                            $("#AHPUnit2Apc").html("NaN");
+                            $("#CHPUnit2Apc").html("NaN");
+                            $("#TAUnit2Apc").html("NaN");
+                            $("#UNITPMCCUnit1Apc").html("NaN");
+                            $("#SWYDUnit1Apc").html("NaN");
+                            $("#RAWWATERUnit1Apc").html("NaN");
+                            TotalUnit1apc = 0;
+                        }
+
+                        @* unit 1 is RUNNING*@
+
+                        if (Genunit1 > 0) {
+                            $("#UNITAPCPer1").html((APCPerunit1 / 1000).toFixed(4).toString());
+                            $("#BOILERAUXUnit1Apc").html(((BoilerAuxUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#TURBINEAUXUnit1Apc").html(((TAUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#COMPRESSORSUnit1Apc").html(((COMPRESSORSUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#SAFUnit1Apc").html(((SAFUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#CHPUnit1Apc").html(((CHPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#AHPUnit1Apc").html(((AHPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#BOPUnit1Apc").html(((BOPUnit1 / Genunit1) / 10).toFixed(4).toString());
+                            $("#BOPUnit2Apc").html(((BOPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                            $("#AHPUnit2Apc").html(((AHPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                            $("#CHPUnit2Apc").html(((CHPUnit2 / Genunit1) / 10).toFixed(4).toString());
+                            $("#TAUnit2Apc").html(((TAUnit2 / Genunit1) / 10).toFixed(4).toString());
+                            TotalUnit1apc = ((TotalUnit1kw / Genunit1) * 100);
+
+                        }
+
+
+
+
+                        @* IF BOTH UNITS ARE TRIPPED/SHUTDOWN *@
+
+                        if (TotalGen == 0) {
+                            $("#APCPercent").html("Nan");
+                            $("#BOILERAUXUnitStationApc").html("Nan");
+                            $("#TURBINEAUXStationApc").html("Nan");
+                            $("#CHPStationApc").html("Nan");
+                            $("#AHPStationApc").html("Nan");
+                            $("#BOPStationApc").html("Nan");
+                            $("#COMPRESSORSStationApc").html("Nan");
+                            $("#COLONYStationApc").html("Nan");
+                            $("#ADMINStationApc").html("Nan");
+                            $("#ESPStationApc").html("Nan");
+                            $("#STNPMCCStationApc").html("Nan");
+                            $("#UNITPMCCStationApc").html("Nan");
+                            $("#SWYDStationApc").html("Nan");
+                            $("#RAWWATERStationApc").html("Nan");
+                            TotalStationapc = 0;
+                        }
+
+                        @* IF BOTH UNITS ARE running *@
+
+                        if (TotalGen > 0) {
+                            $("#APCPercent").html(((TotalAPC / TotalGen) * 100).toFixed(4).toString());
+                            $("#BOILERAUXUnitStationApc").html(((BoilerAuxStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#TURBINEAUXStationApc").html(((TAStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#CHPStationApc").html((((CHPStation) * 100) / TotalGen).toFixed(2).toString());
+                            $("#AHPStationApc").html(((AHPStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#BOPStationApc").html(((BOPStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#COMPRESSORSStationApc").html(((COMPRESSORSStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#COLONYStationApc").html(((ColonyStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#ADMINStationApc").html(((AdminStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#ESPStationApc").html(((ESPStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#STNPMCCStationApc").html(((STNPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#UNITPMCCStationApc").html(((UNITPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#SWYDStationApc").html(((SWYDStation * 100) / TotalGen).toFixed(2).toString());
+                            $("#RAWWATERStationApc").html(((RAWWATERStation * 100) / TotalGen).toFixed(2).toString());
+                            TotalStationapc = ((TotalStationkw * 1000) / TotalGen);
+                        }
+
+
+
+
+
+                        $("#TOTALUnit1Load").html(TotalUnit1kw.toFixed(2).toString());
+                        $("#TOTALUnit1Apc").html(TotalUnit1apc.toFixed(2).toString());
+                        $("#TOTALStationLoad").html(TotalStationkw.toFixed(2).toString());
+                        $("#TOTALStationApc").html(TotalStationapc.toFixed(2).toString());
+
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+
+        }
+
+    </script>

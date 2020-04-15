@@ -1,0 +1,122 @@
+execute procedure ifx_allow_newline('t');
+
+
+
+drop table if exists kVA_Max_Demand_read_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVA_Max_Demand_read_1','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($kVA_Max_Demand)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVA_Max_Demand_read_1;
+create view etools_dev.evt_kVA_Max_Demand_read_1
+(
+meterid,
+tstamp,
+kVA_Max_Demand
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVA_Max_Demand
+from
+kVA_Max_Demand_read_1;
+
+drop table if exists kVA_Max_Demand_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVA_Max_Demand_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($kVA_Max_Demand)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVA_Max_Demand_read_2;
+create view etools_dev.evt_kVA_Max_Demand_read_2
+(
+meterid,
+tstamp,
+kVA_Max_Demand
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVA_Max_Demand
+from
+kVA_Max_Demand_read_2;
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists kVA_Max_Demand_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVA_Max_Demand_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($kVA_Max_Demand)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVA_Max_Demand_read_3;
+create view etools_dev.evt_kVA_Max_Demand_read_3
+(
+meterid,
+tstamp,
+kVA_Max_Demand
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVA_Max_Demand
+from
+kVA_Max_Demand_read_3;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists kVA_Max_Demand_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVA_Max_Demand_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($kVA_Max_Demand)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVA_Max_Demand_read_5;
+create view etools_dev.evt_kVA_Max_Demand_read_5
+(
+meterid,
+tstamp,
+kVA_Max_Demand
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVA_Max_Demand
+from
+kVA_Max_Demand_read_5;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists kVA_Max_Demand_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVA_Max_Demand_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($kVA_Max_Demand)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVA_Max_Demand_read_6;
+create view etools_dev.evt_kVA_Max_Demand_read_6
+(
+meterid,
+tstamp,
+kVA_Max_Demand
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVA_Max_Demand
+from
+kVA_Max_Demand_read_6;

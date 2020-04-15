@@ -1,0 +1,302 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbDLMS', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbDLMS', '30', '10');
+
+create row type "etools_dev".rteventslogs 
+	(
+	tstamp datetime year to fraction(5),
+	meter_name lvarchar(50),
+	tamper_event float,
+        ir float,
+	iy float,
+	ib float,
+	vrn float,
+   	vyn float,
+    	vbn float,
+        pfr float,
+	pfy float,
+	pfb float,
+        kwh float
+      ); 
+
+create table etools_dev.tseventslogs
+  (
+    meterid int8 not null ,
+    series timeseries(rteventslogs),
+    primary key (meterid) 
+  ) in dbDLMS extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconeventlogs','dbdlms','rteventslogs',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',65, 75, 'dbdlms', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.eventsLogs',
+'etools_dev.tseventslogs',
+'calendar(cal_1sec),
+container(tsconeventlogs),irregular');
+
+
+
+create row type "etools_dev".rtdaysurveylogs 
+	(
+	tstamp datetime year to fraction(5),
+	meter_name lvarchar(50),
+	kwh_imp float,
+        kwh_exp float,
+	kvah_imp float,
+	kvah_exp float,
+        Man_sp1 float,
+ 	Man_sp2 float,
+	Kvarh_lag_imp float,
+   	Kvarh_lag_exp float,
+    	Kvarh_lead_imp float,
+        Kvarh_lead_exp float
+      ); 
+
+create table etools_dev.tsdaysurveylogs
+  (
+    meterid int8 not null ,
+    series timeseries(rtdaysurveylogs),
+    primary key (meterid) 
+  ) in dbDLMS extent size 32 next size 32 lock mode row;
+
+
+  execute procedure tscontainercreate('tscondaysurveyLogs','dbDLMS','rtdaysurveylogs',1024,1024);
+
+
+drop table daysurveylogs;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.daysurveylogs',
+'etools_dev.tsdaysurveylogs','calendar(cal_1day),
+container(tscondaysurveyLogs),irregular');
+
+
+=============================================================================Billing Logs===========
+
+drop row type if exists rtBillingLogs  RESTRICT;
+create row type rtBillingLogs (
+tstamp	datetime year to fraction(5),
+kwh_imp	float ,
+kwh_imp_tz1	float ,
+kwh_imp_tz2	float ,
+kwh_imp_tz3	float ,
+kwh_imp_tz4	float ,
+kwh_imp_tz5	float ,
+kwh_imp_tz6	float ,
+kwh_imp_tz7	float ,
+kwh_imp_tz8	float ,
+kwh_exp	float ,
+kwh_exp_tz1	float ,
+kwh_exp_tz2	float ,
+kwh_exp_tz3	float ,
+kwh_exp_tz4	float ,
+kwh_exp_tz5	float ,
+kwh_exp_tz6	float ,
+kwh_exp_tz7	float ,
+kwh_exp_tz8	float ,
+kvah_imp	float ,
+kvah_imp_tz1	float ,
+kvah_imp_tz2	float ,
+kvah_imp_tz3	float ,
+kvah_imp_tz4	float ,
+kvah_imp_tz5	float ,
+kvah_imp_tz6	float ,
+kvah_imp_tz7	float ,
+kvah_imp_tz8	float ,
+kvah_exp	float ,
+kvah_exp_tz1	float ,
+kvah_exp_tz2	float ,
+kvah_exp_tz3	float ,
+kvah_exp_tz4	float ,
+kvah_exp_tz5	float ,
+kvah_exp_tz6	float ,
+kvah_exp_tz7	float ,
+kvah_exp_tz8	float ,
+kvar1	float ,
+kvar1_tz1	float ,
+kvar1_tz2	float ,
+kvar1_tz3	float ,
+kvar1_tz4	float ,
+kvar1_tz5	float ,
+kvar1_tz6	float ,
+kvar1_tz7	float ,
+kvar1_tz8	float ,
+kvar2	float ,
+kvar2_tz1	float ,
+kvar2_tz2	float ,
+kvar2_tz3	float ,
+kvar2_tz4	float ,
+kvar2_tz5	float ,
+kvar2_tz6	float ,
+kvar2_tz7	float ,
+kvar2_tz8	float ,
+kvar3	float ,
+kvar3_tz1	float ,
+kvar3_tz2	float ,
+kvar3_tz3	float ,
+kvar3_tz4	float ,
+kvar3_tz5	float ,
+kvar3_tz6	float ,
+kvar3_tz7	float ,
+kvar3_tz8	float ,
+kvar4	float ,
+kvar4_tz1	float ,
+kvar4_tz2	float ,
+kvar4_tz3	float ,
+kvar4_tz4	float ,
+kvar4_tz5	float ,
+kvar4_tz6	float ,
+kvar4_tz7	float ,
+kvar4_tz8	float ,
+avg_kwh_imp	float ,
+avg_kwh_imp_tz1	float ,
+avg_kwh_imp_tz2	float ,
+avg_kwh_imp_tz3	float ,
+avg_kwh_imp_tz4	float ,
+avg_kwh_imp_tz5	float ,
+avg_kwh_exp	float ,
+avg_kwh_exp_tz1	float ,
+avg_kwh_exp_tz2	float ,
+avg_kwh_exp_tz3	float ,
+avg_kwh_exp_tz4	float ,
+avg_kwh_exp_tz5	float ,
+avg_kvah_imp	float ,
+avg_kvah_imp_tz1	float ,
+avg_kvah_imp_tz2	float ,
+avg_kvah_imp_tz3	float ,
+avg_kvah_imp_tz4	float ,
+avg_kvah_imp_tz5	float ,
+avg_kvah_exp	float ,
+avg_kvah_exp_tz1	float ,
+avg_kvah_exp_tz2	float ,
+avg_kvah_exp_tz3	float ,
+avg_kvah_exp_tz4	float ,
+avg_kvah_exp_tz5	float ,
+avg_kvar1	float ,
+avg_kvar1_tz1	float ,
+avg_kvar1_tz2	float ,
+avg_kvar1_tz3	float ,
+avg_kvar1_tz4	float ,
+avg_kvar1_tz5	float ,
+avg_kvar2	float ,
+avg_kvar2_tz1	float ,
+avg_kvar2_tz2	float ,
+avg_kvar2_tz3	float ,
+avg_kvar2_tz4	float ,
+avg_kvar2_tz5	float ,
+avg_kvar3	float ,
+avg_kvar3_tz1	float ,
+avg_kvar3_tz2	float ,
+avg_kvar3_tz3	float ,
+avg_kvar3_tz4	float ,
+avg_kvar3_tz5	float ,
+avg_kvar4	float ,
+avg_kvar4_tz1	float ,
+avg_kvar4_tz2	float ,
+avg_kvar4_tz3	float ,
+avg_kvar4_tz4	float ,
+avg_kvar4_tz5	float ,
+max_kvar_imp	float ,
+max_kvar_exp	float ,
+min_kvar_imp	float ,
+min_kvar_exp	float ,
+md_kw_imp	float ,
+md_kw_imp_tstamp	datetime year to fraction(5),
+md_kw_imp_tz1	float ,
+md_kw_imp_tz1_tstamp	datetime year to fraction(5),
+md_kw_imp_tz2	float ,
+md_kw_imp_tz2_tstamp	datetime year to fraction(5),
+md_kw_imp_tz3	float ,
+md_kw_imp_tz3_tstamp	datetime year to fraction(5),
+md_kw_imp_tz4	float ,
+md_kw_imp_tz4_tstamp	datetime year to fraction(5),
+md_kw_imp_tz5	float ,
+md_kw_imp_tz5_tstamp	datetime year to fraction(5),
+md_kw_imp_tz6	float ,
+md_kw_imp_tz6_tstamp	datetime year to fraction(5),
+md_kw_imp_tz7	float ,
+md_kw_imp_tz7_tstamp	datetime year to fraction(5),
+md_kw_imp_tz8	float ,
+md_kw_imp_tz8_tstamp	datetime year to fraction(5),
+md_kw_exp	float ,
+md_kw_exp_tstamp	datetime year to fraction(5),
+md_kw_exp_tz1	float ,
+md_kw_exp_tz1_tstamp	datetime year to fraction(5),
+md_kw_exp_tz2	float ,
+md_kw_exp_tz2_tstamp	datetime year to fraction(5),
+md_kw_exp_tz3	float ,
+md_kw_exp_tz3_tstamp	datetime year to fraction(5),
+md_kw_exp_tz4	float ,
+md_kw_exp_tz4_tstamp	datetime year to fraction(5),
+md_kw_exp_tz5	float ,
+md_kw_exp_tz5_tstamp	datetime year to fraction(5),
+md_kw_exp_tz6	float ,
+md_kw_exp_tz6_tstamp	datetime year to fraction(5),
+md_kw_exp_tz7	float ,
+md_kw_exp_tz7_tstamp	datetime year to fraction(5),
+md_kw_exp_tz8	float ,
+md_kw_exp_tz8_tstamp	datetime year to fraction(5),
+md_kva_imp	float ,
+md_kva_imp_tstamp	datetime year to fraction(5),
+md_kva_imp_tz1	float ,
+md_kva_imp_tz1_tstamp	datetime year to fraction(5),
+md_kva_imp_tz2	float ,
+md_kva_imp_tz2_tstamp	datetime year to fraction(5),
+md_kva_imp_tz3	float ,
+md_kva_imp_tz3_tstamp	datetime year to fraction(5),
+md_kva_imp_tz4	float ,
+md_kva_imp_tz4_tstamp	datetime year to fraction(5),
+md_kva_imp_tz5	float ,
+md_kva_imp_tz5_tstamp	datetime year to fraction(5),
+md_kva_imp_tz6	float ,
+md_kva_imp_tz6_tstamp	datetime year to fraction(5),
+md_kva_imp_tz7	float ,
+md_kva_imp_tz7_tstamp	datetime year to fraction(5),
+md_kva_imp_tz8	float ,
+md_kva_imp_tz8_tstamp	datetime year to fraction(5),
+md_kva_exp	float ,
+md_kva_exp_tstamp	datetime year to fraction(5),
+md_kva_exp_tz1	float ,
+md_kva_exp_tz1_tstamp	datetime year to fraction(5),
+md_kva_exp_tz2	float ,
+md_kva_exp_tz2_tstamp	datetime year to fraction(5),
+md_kva_exp_tz3	float ,
+md_kva_exp_tz3_tstamp	datetime year to fraction(5),
+md_kva_exp_tz4	float ,
+md_kva_exp_tz4_tstamp	datetime year to fraction(5),
+md_kva_exp_tz5	float ,
+md_kva_exp_tz5_tstamp	datetime year to fraction(5),
+md_kva_exp_tz6	float ,
+md_kva_exp_tz6_tstamp	datetime year to fraction(5),
+md_kva_exp_tz7	float ,
+md_kva_exp_tz7_tstamp	datetime year to fraction(5),
+md_kva_exp_tz8	float ,
+md_kva_exp_tz8_tstamp	datetime year to fraction(5),
+avg_pf	float ,
+avg_net_pf	float ,
+country_spec_indian	float,
+cblk_avg_mw float,
+man_sp1 float,
+man_sp2 float,
+man_sp3 float,
+man_sp4 float,
+man_sp5 float,
+man_sp6 float
+);
+
+create table etools_dev.tsBillingLogs
+  (
+    meterid int8 not null ,
+    series timeseries(rtBillingLogs),
+    primary key (meterid) 
+  ) in dbDLMS extent size 32 next size 32 lock mode row;
+
+  execute procedure TSContainerDestroy('tsconBillingLogs'); 
+  execute procedure tscontainercreate('tsconBillingLogs','dbDLMS','rtBillingLogs',1024,1024);
+
+drop table BillingLogs;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.BillingLogs',
+'etools_dev.tsBillingLogs','calendar(cal_1sec),
+container(tsconBillingLogs),irregular');

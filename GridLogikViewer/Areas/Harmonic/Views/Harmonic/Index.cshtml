@@ -1,0 +1,701 @@
+﻿@model GridLogikViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "Harmonic  Parameter Details";
+}
+<style>
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    .panel-default {
+        border-color: #ddd;
+    }
+
+        .panel-default > .panel-heading {
+            color: #fff;
+            background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F));
+            background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%);
+            border-color: #d1d1d1;
+        }
+
+            .panel-default > .panel-heading + .panel-collapse .panel-body {
+                border-top-color: #ddd;
+            }
+
+        .panel-default > .panel-footer + .panel-collapse .panel-body {
+            border-bottom-color: #ddd;
+        }
+
+    .black-bg, .black-bg table tr {
+        background: #2f2f2f;
+        color: #f7943c;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .black-bg {
+        padding: 0;
+    }
+
+        .black-bg table th {
+            background: #0f0f0f;
+            text-align: center;
+            color: #1ef200;
+        }
+
+    .text-white {
+        color: #fff !important;
+    }
+
+    .text-orange {
+        color: #f7943c;
+    }
+
+    .text-center {
+        text-align: center !important;
+    }
+
+    .dashboard-panel-body-box {
+        display: block !important;
+    }
+
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+
+    .class-tbl-remove tr td {
+        background-color: none !important;
+        color: #000 !important;
+    }
+</style>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Harmonic</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <strong>Selection</strong>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div class="col-lg-12">
+                                        <div class="panel-body" style="border:0px solid #000;">
+                                            <div class="form-group col-md-4" style="border:0px solid #f00;">
+                                                <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group</label>
+                                                <div class="form-group col-md-7" style="border:0px solid #f00;">
+                                                    @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), "select", new { @id = "groupList", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4" style="border:0px solid #f00;">
+                                                <label class="col-md-4" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>
+                                                <div class="form-group col-md-7" style="border:0px solid #f00;">
+                                                    @Html.DropDownListFor(model => Model.METERID, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), "select", new { @id = "meterList", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4" style="border:0px solid #f00;">
+                                                <label class="col-md-4" for="ccyear" style="border:0px solid #f00; margin:5px 0px;"></label>
+                                                <div class="form-group col-md-7" style="border:0px solid #f00;">
+                                                    <button class="btn btn-success" id="btnExport" type="button"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-4" style="border:0px solid #f00;display:none">
+                                                <div class="col-md-12" style="border:0px solid #f00; ">
+                                                    <button type="button" class="btn btn-flatpurple col-md-12" id="CurrentDate" style="font-weight:bold; margin:0px 5px;">@Model.CurrentDate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="rwData">
+                                        <div class="col-sm-12">
+                                            <div>
+                                                <input type="hidden" id="hdnHarmoniccurrent" />
+                                                <input type="hidden" id="hdnHarmonicvoltage" />
+                                                <input type="hidden" id="hdnchartflag" />
+                                                <div class="clearfix"></div>
+                                                <br />
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(VRN)</strong></center></div>
+
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-striped">
+                                                                    <tbody id="vrn_data"></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(VYN)</strong></center></div>
+
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-striped">
+                                                                    <tbody id="vyn_data"></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div><div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(VBN)</strong></center></div>
+
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-condensed">
+
+                                                                    <tbody id="vbn_data"></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div><div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(IR)</strong></center></div>
+
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-condensed">
+                                                                    <tbody id="ir_data"></tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div><div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(IY)</strong></center></div>
+
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-condensed">
+
+                                                                    <tbody id="iy_data"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div><div class="col-md-2">
+                                                        <div class="panel panel-default">
+                                                            <div class="panel-heading">
+                                                                <div class=" dashboard-panel-body-box text-center text-white"><center><strong>(IB)</strong></center></div>
+                                                            </div>
+                                                            <div class="panel-body black-bg">
+                                                                <table class="table table-bordered table-condensed">
+                                                                    <tbody id="ib_data"></tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div id="chart_dialog">
+                                                    <a href="javascript:printDiv('chart_dialog')" class="btn btn-default btn-sm pull-right">Print</a>
+                                                    <table class="class-tbl-remove">
+                                                        <tr>
+                                                            <td>Group Name : </td>
+                                                            <td> <label id="lblGpname"></label></td>
+                                                            <td>Meter Name : </td>
+                                                            <td><label id="lblMname"></label> </td>
+                                                            <td>Date : </td>
+                                                            <td><label id="lblDate"></label> </td>
+                                                        </tr>
+                                                    </table>
+                                                    <div id="chart_container" style="max-width:908px; width:100%; clear:both;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script type="text/javascript">
+    var meterId;
+    var box;
+    var datatext = "";
+    var vrn = []; // create an empty array
+    var vyn = []; // create an empty array
+    var vbn = []; // create an empty array
+    var ir = []; // create an empty array
+    var iy = []; // create an empty array
+    var ib = []; // create an empty array
+    function FillArray(ArrayBName, resonseobject) {
+        $.each(resonseobject, function (key, value) {
+            if (key != "$id" && key.toUpperCase() != "ID" && key.toUpperCase() != "METERID" && key.toUpperCase() != "METER_NAME" && key.toUpperCase() != "TSTAMP") {
+                var foo = [key, value];
+                //  foo[key] = value;
+                ArrayBName.push(foo);
+            }
+        });
+    }
+    function clearData() {
+        vrn = []; // create an empty array
+        vyn = []; // create an empty array
+        vbn = []; // create an empty array
+        ir = []; // create an empty array
+        iy = []; // create an empty array
+        ib = []; // create an empty array
+        $("#btnExport").hide();
+    }
+    $(document).ready(function () {
+        $('#rwData').hide();
+        $("#hdnchartflag").val("na");
+        clearData();
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: '70%',
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $("#groupList").change(function () {
+            $('#rwData').hide();
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var grpId = $('#groupList').val();
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "meterAPI/GetMetersByGroupID/" + grpId,
+                dataType: "json",
+                success: function (data) {
+
+                    var markup = "";
+                    var markup = "<option value=''>Select Meters</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].ID + ">" + data[x].MeterName + "</option>";
+                    }
+                    $("#meterList").html(markup).show();
+                    if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                }
+            });
+        });
+        $("#meterList").change(function () {
+            $('#rwData').hide();
+            $("#hdnchartflag").val("na");
+            clearData();
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            auto_load($('#meterList').val());
+            if (box) box.remove();
+        });
+        $("#btnExport").on("click", function () {
+
+            var currentdate = new Date()
+            var month = currentdate.getMonth() + 1
+            //var d = currentdate.getDate() + "-" + month + "-" + currentdate.getFullYear();
+            var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+            var localdate1 = currentdate.getDate() + '-' + (currentdate.getMonth() + 1) + '-' + currentdate.getFullYear() + ' ' + currentdate.getHours() + ':' + currentdate.getMinutes();
+            if (vrn != null) {
+                var str = "";
+                str = "<table style='border-collapse: collapse;border: 1px solid #69899F;'><tr>";
+                str += "<th colspan='2' >&nbsp;</th><th colspan='2'>&nbsp;</th><th colspan='2'>&nbsp;</th>";
+                str += "<th colspan='2' >&nbsp;</th><th colspan='2'>&nbsp;</th><th colspan='2'>&nbsp;</th></tr>";
+
+                str += "<th colspan='2' >Meter Group</th><th colspan='2'>" + $('#groupList option:selected').text() + "</th><th colspan='2'>Meter Name</th>";
+                str += "<th colspan='2' >" + $("#meterList option:selected").text() + "</th><th colspan='2'>Date</th><th colspan='2'>" + localdate1 + "</th></tr>";
+
+
+                str += "<tr><th colspan='2' >&nbsp;</th><th colspan='2'>&nbsp;</th><th colspan='2'>&nbsp;</th>";
+                str += "<th colspan='2' >&nbsp;</th><th colspan='2'>&nbsp;</th><th colspan='2'>&nbsp;</th></tr>";
+
+                // str += "<table id='ExcelData_print' style='border-collapse: collapse;border: 1px solid #69899F;'>";
+                str += "<tr><th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>VRN</th>";
+                str += "<th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>VYN </th>";
+                str += "<th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>VBN</th>";
+                str += "<th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>IR</th>";
+                str += "<th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>IY</th>";
+                str += "<th colspan='2' style='border: 2px solid #69899F;color: #3E5260;padding:10px;'>IB</th></tr>";
+
+                str += "<tr><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Data</td>";
+                str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>Value</td></tr>";
+                $.each(vrn, function (key, value) {
+                    var count = key + 1;
+                    var value1 = GetVAlue(key, vrn);
+                    var value2 = GetVAlue(key, vyn);
+                    var value3 = GetVAlue(key, vbn);
+                    var value4 = GetVAlue(key, ir);
+                    var value5 = GetVAlue(key, iy);
+                    var value6 = GetVAlue(key, ib);
+                    str += "<tr><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>vrnh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value1 + "</td>";
+                    str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>vynh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value2 + "</td>";
+                    str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>vbnh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value3 + "</td>";
+                    str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>irh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value4 + "</td>";
+                    str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>iyh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value5 + "</td>";
+                    str += "<td style='padding:15px;border: 1px dotted black;color: #002F5E;'>ibh" + count + "</td><td style='padding:15px;border: 1px dotted black;color: #002F5E;'>" + value6 + "</td></tr>";
+                });
+            }
+            str += "</table>";
+            //if (str != null && str != "")
+            //    $("#excel_data").html(str);
+
+            // datatext = $("#ExcelData_print").html();
+
+            $(str).table2excel({
+                exclude: ".noExl",
+                name: "Harmonic Data",
+                filename: "Harmonic_Data_" + localdate,
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
+    });
+    function auto_load(meterId) {
+        meterId = $('#meterList').val();
+        if (meterId != null && meterId != "" && meterId != "undefined") {
+            //clearData();
+
+            var currentdate = new Date()
+            var month = currentdate.getMonth() + 1
+            //var d = currentdate.getDate() + "-" + month + "-" + currentdate.getFullYear();
+            var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+            var localdate1 = currentdate.getDate() + '-' + (currentdate.getMonth() + 1) + '-' + currentdate.getFullYear() + ' ' + currentdate.getHours() + ':' + currentdate.getMinutes();
+            $("#lblGpname").text($("#groupList option:selected").text());
+            $("#lblMname").text($("#meterList option:selected").text());
+            $("#lblDate").text(localdate1);
+
+
+            HarmonicvoltageData(meterId);
+            harmonicCurrentData(meterId);
+            // $('#rwData').show();
+            var cp = $('#hdnchartflag').val();
+            if (cp != "na") {
+                drawCharts(cp)
+            }
+        }
+        if (box) box.remove();
+        return false;
+    }
+    setInterval(auto_load, 180000);
+    function HarmonicvoltageData(meterId) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "HarmonicDataAPI/GethamonicVoltageDetails/" + meterId,
+            dataType: "json",//type of data to be received
+            success: function (response, status, jqXHR) {
+
+                if (response != undefined && response != null) {
+                    $("#btnExport").show();
+                    var obj = response;
+                    var fullDate = new Date();
+                    var twoDigitMonth = ((fullDate.getMonth().length + 1) === 1) ? (fullDate.getMonth() + 1) : '0' + (fullDate.getMonth() + 1);
+                    var ampm = fullDate.getHours() < 12 ? " AM" : " PM";
+                    var time = moment(fullDate).format("hh:mm:ss") + ampm;
+                    var currentDate = fullDate.getDate() + "-" + twoDigitMonth + "-" + fullDate.getFullYear() + " | " + time;
+                    $("#CurrentDate").text(currentDate);
+
+                    var vrndata = response.vrn;
+                    if (vrndata != null) {
+                        filltables("vrn", 32, vrndata);
+                        vrn = [];
+                        FillArray(vrn, vrndata);
+                        $('#vrn_data').show();
+                    } else {
+                        $('#vrn_data').hide();
+                    }
+                    var vyndata = response.vyn;
+                    if (vyndata != null) {
+                        filltables("vyn", 32, vyndata);
+                        vyn = [];
+                        FillArray(vyn, vyndata);
+                        $('#vyn_data').show();
+                    }
+                    else {
+                        $('#vyn_data').hide();
+                    }
+                    var vbndata = response.vbn;
+                    if (vbndata != null) {
+                        filltables("vbn", 32, vbndata);
+                        vbn = [];
+                        FillArray(vbn, vbndata);
+                        $('#vbn_data').show();
+                    } else {
+                        $('#vbn_data').hide();
+                    }
+                    $('#rwData').show();
+                } else {
+                    $('#rwData').hide();
+                }
+                if (box) box.remove();
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+
+        });
+    }
+    function harmonicCurrentData(meterId) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "HarmonicDataAPI/GethamonicCurrnetDetails/" + meterId,
+            dataType: "json",//type of data to be received
+            success: function (response, status, jqXHR) {
+                var str = "";
+                if (response != undefined && response != null) {
+                    $("#btnExport").show();
+                    var irdata = response.ir;
+                    if (irdata != null) {
+                        filltables("ir", 32, irdata);
+                        ir = [];
+                        FillArray(ir, irdata);
+                        $('#ir_data').show();
+                    } else {
+                        $('#ir_data').hide();
+                    }
+                    var iydata = response.iy;
+                    if (iydata != null) {
+                        filltables("iy", 32, iydata);
+                        iy = [];
+                        FillArray(iy, iydata);
+                        $('#iy_data').show();
+                    } else {
+                        $('#iy_data').hide();
+                    }
+                    var ibdata = response.ib;
+                    if (ibdata != null) {
+                        filltables("ib", 32, ibdata);
+                        ib = [];
+                        FillArray(ib, ibdata);
+                        $('#ib_data').show();
+                    }
+                    else {
+                        $('#ib_data').hide();
+                    }
+                    $('#rwData').show();
+                } else {
+                    $('#rwData').hide();
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+    function GetVAlue(key, ArrName) {
+        var value = 0;
+
+        if (ArrName != null) {
+            try {
+                value = ArrName[key][1];
+            } catch (ex) {
+                value = 0;
+            }
+        }
+        return value;
+    }
+    function filltables(parameter, count, resonseobject) {
+        var str = "";
+        str = "<tr><th width='40%' class='text-white'>Data</th><th class='text-white'>Value</th></tr>";
+        try {
+            $.each(resonseobject, function (key, value) {
+                if (key != "$id" && key.toUpperCase() != "ID" && key.toUpperCase() != "METERID" && key.toUpperCase() != "METER_NAME" && key.toUpperCase() != "TSTAMP") {
+                    var val = value == null ? "-" : value;
+                    str += "<tr><th>" + key.toUpperCase() + "</th><td>" + val + "</td></tr>";
+                }
+            });
+            //str += "<tr><td colspan=2><a href=javascript:drawCharts('" + parameter + "') class=btn btn-default btn-sm pull-right>Graph</a></td></tr>";
+            str += "<tr><td colspan=2><button class='btn btn-default btn-sm pull-right'  type='button' onclick=drawCharts('" + parameter + "')>Graph</button></td></tr>";
+
+            $("#" + parameter + "_data").html(str);
+        } catch (ex) {
+        }
+    }
+    function drawCharts(param) {
+        try {
+            param = param.toLowerCase();
+            $("#hdnchartflag").val(param);
+            if (param.startsWith('v')) {
+                var vrndata = vrn;
+                if (vrndata != null && param == "vrn") {
+                    FillChartDetail("vrn", 32, vrndata);
+                }
+                var vyndata = vyn;
+                if (vyndata != null && param == "vyn") {
+                    FillChartDetail("vyn", 32, vyndata);
+                }
+                var vbndata = vbn;
+                if (vbndata != null && param == "vbn") {
+                    FillChartDetail("vbn", 32, vbndata);
+                }
+            } else {
+
+                var irdata = ir;
+                if (irdata != null && param == "ir") {
+                    FillChartDetail("ir", 32, irdata);
+                }
+                var iydata = iy;
+                if (iydata != null && param == "iy") {
+                    FillChartDetail("iy", 32, iydata);
+                }
+                var ibdata = ib;
+                if (ibdata != null && param == "ib") {
+                    FillChartDetail("ib", 32, ibdata);
+                }
+
+            }
+        } catch (ex) {
+        }
+    }
+    function BarChart(categories_data, seriesArr) {
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'column',
+                zoomType: 'x',
+                renderTo: 'chart_container'
+            },
+            title: {
+                text: 'Harmonic Data'
+            },
+            xAxis: {
+                title: {
+                    text: ''
+                },
+                categories: categories_data
+            },
+            yAxis: {
+                title: {
+                    text: ''
+                },
+                labels: {
+                    formatter: function () {
+                        return this.value;
+                    }
+                }
+            },
+            tooltip: {
+                crosshairs: false,
+                shared: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: seriesArr
+        });
+    }
+    function FillChartDetail(parameter, count, resonseobject) {
+        var legendArray = new Array();
+        var categories_data = new Array();
+        var seriesOptions = "";
+        if (resonseobject != null) {
+            //$.each(resonseobject, function (key, value) {
+            //    if (key != "$id" && key.toUpperCase() != "ID" && key.toUpperCase() != "METERID" && key.toUpperCase() != "METER_NAME" && key.toUpperCase() != "TSTAMP" && key.toUpperCase() != parameter + "h1")
+            legendArray[legendArray.length] = parameter;
+            //});
+            $.each(resonseobject, function (key, value) {
+                var key1 = value[0];
+                var value1 = value[1];
+                if (key1 != "$id" && key1.toUpperCase() != "ID" && key1.toUpperCase() != "METERID" && key1.toUpperCase() != "METER_NAME" && key1.toUpperCase() != "TSTAMP" && key1.toLowerCase() != parameter + "h1") {
+                    categories_data[categories_data.length] = key1;
+                    if (seriesOptions != null && seriesOptions != "" && seriesOptions.length > 0) {
+                        seriesOptions += value1 + ",";
+                    } else {
+                        seriesOptions = value1 + ",";
+                    }
+                }
+            });
+
+            if (seriesOptions.endsWith(",")) {
+                seriesOptions = seriesOptions.substring(0, seriesOptions.length - 1);
+            }
+            var FinSeriesOptions = seriesOptions.split('~');
+            var seriesArr = [];
+            // Create Series Array with name and data property
+            for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+                //for (var item = 0; item < seriesOptions1.length; item++) {
+                //    seriesOptions2[item] = Number(seriesOptions1[item]);
+                //}
+
+                var series = { name: legendArray[ser], data: seriesOptions2 }; //Create Series Array with name and data property
+                seriesArr.push(series);
+            }
+            BarChart(categories_data, seriesArr);
+            $("#chart_dialog").dialog('open');
+
+            if (box) box.remove();
+        }
+    }
+
+</script>

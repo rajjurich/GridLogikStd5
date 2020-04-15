@@ -1,0 +1,927 @@
+﻿@model GridLogik.ViewModels.QueryViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" />
+<script src="~/Content/js/bootstrap-multiselect.js"></script>
+<style>
+    .form-control {
+        padding: 6px 6px !important;
+    }
+</style>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    <section>
+        <div id="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--Top header start-->
+                        @*<h3 class="ls-top-header">Employee</h3>*@
+                        <!--Top header end -->
+                        <!--Top breadcrumb start -->
+                        <ol class="breadcrumb">
+                            <li><a href="#"><i class="fa fa-home"></i></a></li>
+                            @*<li><a href="#">Configurations</a></li>*@
+                            <li class="active">Query View</li>
+                        </ol>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <hr>
+                                <div class="panel panel-light-blue">
+
+                                    <div class="panel-heading">
+
+                                        <div class=" dashboard-panel-body-box">Query View</div>
+                                        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                                        </div>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="row">
+
+                                                    <div class="form-group col-md-4">
+                                                        @Html.LabelFor(model => model.TableName, new { @class = "control-label" })
+                                                        <div>
+                                                            @Html.DropDownListFor(model => model.TableName, (IEnumerable<SelectListItem>)ViewBag.Tables, "Select", new { @id = "ddlTables", @class = "form-control", required = true, title = "Please Provide Tables" })
+                                                            @Html.ValidationMessageFor(model => model.TableName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label class="control-label"> Columns<span style="color:red">&nbsp;*</span>  </label>
+                                                        <div>
+                                                            @Html.DropDownList("ddlColumns", Enumerable.Empty<SelectListItem>(), new { @id = "ddlColumns", @class = "form-control", @multiple = "multiple", required = true, title = "Please Provide Columns" })
+                                                            <br /> @Html.ValidationMessage("ddlColumns", "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    <div id="divMeters" class="form-group col-md-4 ">
+                                                        <label class="control-label"> Meters  </label>
+                                                        <div>
+                                                            @Html.DropDownList("ddlMeters", Enumerable.Empty<SelectListItem>(), new { @id = "ddlMeters", @class = "form-control", @multiple = "multiple", title = "Please Provide Meters" })
+                                                            <br /> @Html.ValidationMessage("ddlMeters", "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-4">
+                                                            @Html.LabelFor(model => model.Interval, new { @class = "control-label" })
+                                                            @Html.DropDownListFor(model => model.Interval, (IEnumerable<SelectListItem>)ViewBag.Interval, "select", new { @id = "startTime", @class = "form-control", required = true })
+                                                            @Html.ValidationMessageFor(model => model.Interval, "", new { @class = "text-danger" })
+                                                        </div>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="form-group col-md-4" style="border-left: 1px solid #ccc;">
+                                                        <div class="row">
+
+                                                            @*<label class="col-md-2 control-label" style="border: 0px solid #000; padding: 0px; margin: 5px 0px;" for="select">
+                                                                    From
+                                                                </label>*@
+
+                                                            <div class="col-md-6">
+                                                                <label class="control-label" for="select">
+                                                                    From Date
+                                                                </label>
+                                                                <div id="dtFrmDate">
+                                                                    <input id="FromDate" name="txtFrmDate" class="form-control" type="text" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="control-label" for="select">
+                                                                    From Time
+                                                                </label>
+                                                                <div id="dtFrmDate">
+                                                                    @Html.DropDownList("ddlStartTime", (IEnumerable<SelectListItem>)ViewBag.Schedule, null, new { @id = "ddlStartTime", @class = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-md-4" style="border-left: 1px solid #ccc;">
+                                                        <div class="row">
+
+                                                            @*<label class="control-label" for="select">
+                                                                    To
+                                                                </label>*@
+
+                                                            <div class="col-md-6">
+                                                                <label class="control-label" for="select">
+                                                                    To Date
+                                                                </label>
+                                                                <div id="dtFrmDate">
+                                                                    <input id="ToDate" name="txtToDate" class="form-control" type="text" readonly />
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <label class="control-label" for="select">
+                                                                    To Time
+                                                                </label>
+                                                                <div id="dtFrmDate">
+                                                                    @Html.DropDownList("ddlEndTime", (IEnumerable<SelectListItem>)ViewBag.Schedule, null, new { @id = "ddlEndTime", @class = "form-control" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2" style="padding-right:0px">
+                                                        <label class="control-label" 
+                                                               for="select">Type</label>
+                                                        <select id="ddlType" tabindex="1" required="required" data-placeholder="Select here.." class="col-lg-12 form-control col-sm-12">
+                                                            <option value="">Select</option>
+                                                            <option value="T">Table</option>
+                                                            <option value="spline">Spline</option>
+                                                            <option value="column">Column</option>
+                                                            <option value="bar">Bar</option>
+                                                            <option value="line">Line</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="form-group has-feedback" style="text-align:right;">
+                                                            <label for="cvv">&nbsp;</label>
+                                                            <div>
+                                                                <input type="submit" value="Display" id="updateDetail" class="toggle btn btn-warning" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table id="tableOne" class="collapse">
+                                                <tbody></tbody>
+                                            </table>
+                                            <table id="tableTwo" class="collapse">
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="border:0px solid  #000; ">
+                                                <div id="grapharea" style="height:500px; width:auto !important; display:none"> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#FromDate').addClass('form-control');
+        $('#ToDate').addClass('form-control');
+
+        $(function () {
+            $('#ddlColumns,#ddlMeters').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    //$("#ddlTables").valid();
+                    //$("#ddlColumns").valid();
+                    getColumns();
+                }
+            });
+        });
+
+        $("#FromDate,#ToDate,#ddlStartTime,#ddlEndTime").change(function () {
+            getColumns();
+        });
+
+        function getColumns() {
+
+            if ($("#ddlColumns option:selected").length > 0) {
+                debugger;
+                $("#tableOne tbody").empty();
+
+                var items = $("#ddlColumns option:selected");
+
+                var ftime = $("#FromDate").val() + ' ' + $("#ddlStartTime :selected").val();
+                var ttime = $("#ToDate").val() + ' ' + $("#ddlEndTime").val();
+                var i = 0;
+                @{
+                var i = -1;
+            }
+                var row = ''
+                $.each(items, function (key, value) {
+                    console.log(key);
+                    console.log(value.value);
+                    row += '<tr>';
+                    row += '<td class="col-sm-1">';
+                    var readerId = '@Html.TextBoxFor(model => Model.Columns[i], new { @class = "form-control", Value = "" + i + "", @readonly = true })';
+                    var readerIdval = '@Html.ValidationMessageFor(model => Model.Columns[i], "", new { @class = "text-danger" })'
+                    readerId = readerId.replace("[-1]", "[" + i + "]");
+                    readerId = readerId.replace("-1", value.value);
+                    readerId = readerId.replace("-1", i);
+                    readerIdval = readerIdval.replace("[-1]", "[" + i + "]");
+                    readerIdval = readerIdval.replace("-1", i);
+                    row += readerId + readerIdval;
+
+
+                    row += '</td>';
+
+
+                    row += '</tr>';
+
+                    i++;
+                });
+
+                row += '<tr>';
+                row += '<td class="col-sm-1">';
+                var fromTime = '@Html.TextBoxFor(model => Model.FromTime, new { @class = "form-control", Value = "ftimexxx", @readonly = true })';
+                var toTime = '@Html.TextBoxFor(model => Model.ToTime, new { @class = "form-control", Value = "ttimexxx", @readonly = true })';
+                fromTime = fromTime.replace("ftimexxx", ftime);
+                toTime = toTime.replace("ttimexxx", ttime);
+                row += fromTime + toTime;
+                row += '</td>';
+                row += '</tr>';
+                $("#tableOne tbody").append(row);
+                var form = $("form");
+                form.data('validator', null);
+                //$.validator.unobtrusive.parse(form);
+            }
+            else {
+                $("#tableOne tbody").empty();
+            }
+
+            if ($("#ddlMeters option:selected").length > 0) {
+                debugger;
+                $("#tableTwo tbody").empty();
+
+                var items = $("#ddlMeters option:selected");
+
+                var ftime = $("#FromDate").val() + ' ' + $("#ddlStartTime :selected").val();
+                var ttime = $("#ToDate").val() + ' ' + $("#ddlEndTime").val();
+                var i = 0;
+                @{
+                   i = -1;
+               }
+                var row = ''
+                $.each(items, function (key, value) {
+                    console.log(key);
+                    console.log(value.value);
+                    row += '<tr>';
+                    row += '<td class="col-sm-1">';
+                    var meterId = '@Html.TextBoxFor(model => Model.Meters[i], new { @class = "form-control", Value = "" + i + "", @readonly = true })';
+                    var meterIdval = '@Html.ValidationMessageFor(model => Model.Meters[i], "", new { @class = "text-danger" })'
+                    meterId = meterId.replace("[-1]", "[" + i + "]");
+                    meterId = meterId.replace("-1", value.value);
+                    meterId = meterId.replace("-1", i);
+                    meterIdval = meterIdval.replace("[-1]", "[" + i + "]");
+                    meterIdval = meterIdval.replace("-1", i);
+                    row += meterId + meterIdval;
+
+
+                    row += '</td>';
+
+
+                    row += '</tr>';
+
+                    i++;
+                });
+
+
+                $("#tableTwo tbody").append(row);
+                var form = $("form");
+                form.data('validator', null);
+                //$.validator.unobtrusive.parse(form);
+            }
+            else {
+                $("#tableTwo tbody").empty();
+            }
+
+        }
+        var DateFormat = $("#DateField").val();
+        $("#ToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+
+            onSelect: function (selected) {
+                getColumns();
+            }
+            //maxDate: '0'
+
+        }).datepicker('setDate', new Date());
+
+
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0',
+
+
+
+            onSelect: function (selected) {
+                var dt = $("#FromDate").datepicker('getDate');
+                dt.setDate(dt.getDate() + 30);   
+                var currentDt = $("#CurrentDate").datepicker('getDate');
+                if (dt > currentDt) {
+                    currentDt.setDate(currentDt.getDate() + 1);
+                    dt = currentDt;
+                }
+                
+                $("#ToDate").datepicker("option", "minDate", selected);
+                $("#ToDate").datepicker("option", "maxDate", dt);
+                getColumns();
+            }
+
+
+
+        }).datepicker('setDate', new Date());
+    });
+    $('#updateDetail').click(function () {        
+        
+        var opt = $("#ddlType option:selected").text();
+        if (opt.toLowerCase() == "table") {
+            //alert('Please Select Type', '', false, "M");
+            $("#grapharea").hide();
+            return true;
+        }
+        else {
+
+            $("#grapharea").show();
+            var ftime = $("#FromDate").val() + ' ' + $("#ddlStartTime :selected").val();
+            var ttime = $("#ToDate").val() + ' ' + $("#ddlEndTime  :selected").val();
+            var meters = []
+            var meterList = $("#ddlMeters option:selected");
+            $.each(meterList, function (key, val) {
+                meters.push(val.value);
+            });
+
+            var columns = []
+            var columnList = $("#ddlColumns option:selected");
+            $.each(columnList, function (key, val) {
+                columns.push(val.value);
+            });
+
+            var QueryMeterData = {
+                "TableName": $("#ddlTables").val(),
+                "Meters": meters, //Category code
+                "Columns" : columns,                
+                "FromTime": ftime, //date code
+                "ToTime": ttime                
+            };
+            
+
+            $.ajax({
+                type: "POST",
+                url: BaseAddress + "QueryView",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(QueryMeterData),
+                dataType: "json",
+                success: function (response, status, jqXHR) {
+                    var jsonObj = response;
+                    var legendArray = new Array();
+                    var seriesOptions = "";
+                    var FinString = "";
+
+                    var categories_data = new Array();
+                    $.each(jsonObj[0], function (key, value) {
+                        legendArray[legendArray.length] = key;
+                    })
+
+                    legendArray.splice(0, 1);
+                    $.each(legendArray, function (index) {
+                        //   if (index != 0) {
+                        $.each(jsonObj, function (jsonIndex) {
+                            if (jsonObj.length - 1 != jsonIndex) {
+
+                                seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+
+
+                            } else {
+                                seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                            }
+
+                        });
+                        if (legendArray.length - 1 != index)
+                            seriesOptions += "~";
+                        // }
+                    })
+                    var FinSeriesOptions = seriesOptions.split('~');
+
+                    var seriesArr = [], series = []; var countx = 0;
+                    // Create Series Array with name and data property
+                    for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                        var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                        var seriesOptions2 = seriesOptions1.map(Number);    ////convert String Array into Number Array
+
+                        // debugger;
+                        series = { name: legendArray[ser], data: seriesOptions2, yAxis: countx };
+                        seriesArr.push(series);
+                        countx = countx + 1;
+
+
+                    }
+                    renderChart(categories_data, seriesArr, $("#ddlType").val());
+                    if (box) box.remove();
+                },
+                failure: function (msg) {
+                    if (box) box.remove();
+                    alert(msg, '', false, "M");
+                }
+            });
+            return false;
+
+
+        }
+        return $("#ddlTables").valid() || $("#ddlColumns").valid() || $("#ddlType").valid();
+    });
+
+
+    Highcharts.theme = {
+        colors: ['#ff3a00', '#fff700', '#80ff00', '#00ffe8', '#0078ff', '#e000ff', '#b600ff'],
+        chart: {
+            backgroundColor: {
+                linearGradient: { x1: 0, y1: 0, x2: 1, y2: 1 },
+                stops: [
+                    [0, '#2a2a2b'],
+                    [1, '#3e3e40']
+                ]
+            },
+            style: {
+                fontFamily: '\'Unica One\', sans-serif'
+            },
+            plotBorderColor: '#606063'
+        },
+        title: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase',
+                fontSize: '20px'
+            }
+        },
+        subtitle: {
+            style: {
+                color: '#E0E0E3',
+                textTransform: 'uppercase'
+            }
+        },
+        xAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        yAxis: {
+            gridLineColor: '#707073',
+            labels: {
+                style: {
+                    color: '#E0E0E3'
+                }
+            },
+            lineColor: '#707073',
+            minorGridLineColor: '#505053',
+            tickColor: '#707073',
+            tickWidth: 1,
+            title: {
+                style: {
+                    color: '#A0A0A3'
+                }
+            }
+        },
+        tooltip: {
+            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            style: {
+                color: '#F0F0F0'
+            }
+        },
+        plotOptions: {
+            series: {
+                dataLabels: {
+                    color: '#F0F0F3',
+                    style: {
+                        fontSize: '13px'
+                    }
+                },
+                marker: {
+                    lineColor: '#333'
+                }
+            },
+            boxplot: {
+                fillColor: '#505053'
+            },
+            candlestick: {
+                lineColor: 'white'
+            },
+            errorbar: {
+                color: 'white'
+            }
+        },
+        legend: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            itemStyle: {
+                color: '#E0E0E3'
+            },
+            itemHoverStyle: {
+                color: '#FFF'
+            },
+            itemHiddenStyle: {
+                color: '#606063'
+            },
+            title: {
+                style: {
+                    color: '#C0C0C0'
+                }
+            }
+        },
+        credits: {
+            style: {
+                color: '#666'
+            }
+        },
+        labels: {
+            style: {
+                color: '#707073'
+            }
+        },
+        drilldown: {
+            activeAxisLabelStyle: {
+                color: '#F0F0F3'
+            },
+            activeDataLabelStyle: {
+                color: '#F0F0F3'
+            }
+        },
+        navigation: {
+            buttonOptions: {
+                symbolStroke: '#DDDDDD',
+                theme: {
+                    fill: '#505053'
+                }
+            }
+        },
+        // scroll charts
+        rangeSelector: {
+            buttonTheme: {
+                fill: '#505053',
+                stroke: '#000000',
+                style: {
+                    color: '#CCC'
+                },
+                states: {
+                    hover: {
+                        fill: '#707073',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    },
+                    select: {
+                        fill: '#000003',
+                        stroke: '#000000',
+                        style: {
+                            color: 'white'
+                        }
+                    }
+                }
+            },
+            inputBoxBorderColor: '#505053',
+            inputStyle: {
+                backgroundColor: '#333',
+                color: 'silver'
+            },
+            labelStyle: {
+                color: 'silver'
+            }
+        },
+        navigator: {
+            handles: {
+                backgroundColor: '#666',
+                borderColor: '#AAA'
+            },
+            outlineColor: '#CCC',
+            maskFill: 'rgba(255,255,255,0.1)',
+            series: {
+                color: '#7798BF',
+                lineColor: '#A6C7ED'
+            },
+            xAxis: {
+                gridLineColor: '#505053'
+            }
+        },
+        scrollbar: {
+            barBackgroundColor: '#808083',
+            barBorderColor: '#808083',
+            buttonArrowColor: '#CCC',
+            buttonBackgroundColor: '#606063',
+            buttonBorderColor: '#606063',
+            rifleColor: '#FFF',
+            trackBackgroundColor: '#404043',
+            trackBorderColor: '#404043'
+        }
+    };
+    // Apply the theme
+    Highcharts.setOptions(Highcharts.theme);
+
+    function renderChart(categories_data, seriesArr, graphtype) {
+        //debugger
+        Highcharts.setOptions({
+            global: {
+                useUTC: false
+            }
+        });
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: graphtype,
+                zoomType: 'x',
+
+                renderTo: 'grapharea',
+
+            },
+            title: {
+                text: 'TREND DATA'
+            },
+            xAxis: {
+                categories: categories_data,
+                title: {
+                    text: 'HOUR:MINUTES', style: { fontSize: '30px', fontWeight: 'bold' },
+                },
+
+
+                type: 'datetime',
+
+                labels: {
+                    format: '{value:%H:%M}', rotation: -45,
+                    align: 'left',
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '12px',
+                        fontWeight: 'bold',
+
+
+                    }
+                }
+            },
+            yAxis: [{
+                lineWidth: 3,
+                lineColor: '#ff3a00',
+                title: {
+                    text: 'VALUES'
+                    , style: {
+                        fontSize: '30px'
+                    }
+                },
+                labels: {
+                    style: {
+                        color: '#ff3a00',
+                        fontSize: '25px'
+                    }
+                },
+
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#fff700',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#fff700',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#80ff00',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#80ff00',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#00ffe8',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#00ffe8',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#0078ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#0078ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#e000ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#e000ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: '#b600ff',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#b600ff',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }, {
+                gridLineWidth: 0,
+                lineWidth: 3,
+                lineColor: 'black',
+                title: {
+                    text: ''
+                     , style: {
+                         fontSize: '25px'
+                     }
+                },
+                labels: {
+                    style: {
+                        color: '#ffc100',
+                        fontSize: '25px'
+                    }
+                },
+
+                opposite: true
+            }
+
+
+
+
+            ],
+
+
+            tooltip: {
+                shared: true, headerFormat: '<small>{point.key}</small><br>', style: { fontSize: '20px' }
+
+            },
+            scrollbar: {
+                enabled: true
+            },
+            legend: {
+                enabled: true, style: {
+
+                    fontSize: '20px',
+                    fontWeight: 'bold'
+                }
+
+            },
+
+
+            exporting: {
+                enabled: true
+            },
+            plotOptions: {
+                series: {
+                    lineWidth: 4
+                }
+            },
+            series: seriesArr
+
+
+        });
+
+
+
+    }
+
+
+    function fillColumns() {
+        //var selected = $("#ddlTables option:selected");
+
+        $.ajax({
+            type: 'GET',
+            url: BaseAddress + "gettableschema/" + $("#ddlTables").val(),
+            success: function (data) {
+                if (data) {
+                    var mySelect = $('#ddlColumns');
+                    // mySelect.children('option:not(:first)').remove();
+                    mySelect.empty();
+                    $.each(data, function (val, text) {
+                        if (text.columnName == "meterid") {
+                            $.ajax({
+                                type: 'GET',
+                                url: BaseAddress + "prmglobal/GetMetersByQueryViewValue/" + $("#ddlTables").val(),
+                                success: function (data) {
+                                    if (data) {
+                                        var mySelect = $('#ddlMeters');
+                                        // mySelect.children('option:not(:first)').remove();
+                                        mySelect.empty();
+                                        $.each(data, function (val, text) {
+                                            var meters = text.rfu1.split(',');
+                                            $.each(meters, function (key, value) {
+
+
+                                                mySelect.append(
+                                                    $('<option></option>').val(value).html(value)
+                                                );
+                                            });
+                                        });
+                                        $("#ddlMeters").multiselect('rebuild');
+                                        $("#divMeters").removeClass('collapse');
+                                    }
+                                    else {
+
+                                    }
+                                },
+                                error: function (jqXHR) {
+                                    debugger;
+                                }
+                            });
+                        }
+                        mySelect.append(
+                            $('<option></option>').val(text.columnName).html(text.columnName)
+                        );
+                    });
+                    $("#ddlColumns").multiselect('rebuild');
+                }
+                else {
+
+                }
+            },
+            error: function (jqXHR) {
+                debugger;
+            }
+        });
+
+
+
+    }
+
+    $('#ddlTables').change(function () {
+        fillColumns();
+    });
+
+</script>

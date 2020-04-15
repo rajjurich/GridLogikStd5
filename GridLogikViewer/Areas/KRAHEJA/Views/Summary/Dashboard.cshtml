@@ -1,0 +1,214 @@
+﻿@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    @*<title>Dashboard</title>*@
+    <style>
+        .tbl_design {
+            height: 300px;
+            width: 750px;
+            text-align: center;
+            background-color: #5DADE2;
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-transform: uppercase;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: white;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+
+            .tbl_design td, .tbl_design th {
+                border: 2px solid black;
+                border-collapse: collapse;
+                height: 20px;
+                /*line-height: 20px;*/
+            }
+            .tbl_design th {
+                line-height: 25px;
+            }
+                
+                 .tbl_design tbody tr:nth-child(2n-1) {
+                    background-color: #5DADE2;
+                }
+
+            .tbl_design tbody tr:hover {
+                background-color: #5DADE2;
+            }
+        .cell {
+            color: #1f475f;
+        }
+    </style>
+</head>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box"><h3>Management Dashboard</h3></div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols">
+            </div>
+        </div>
+        <div class="panel-body">
+
+            <table class="tbl_design">
+                <thead>
+                    <tr>
+                        <th style="width:28%;">@Html.Label("LOCATION")</th>
+                        <th style="width:18%;">@Html.Label("SERENE")</th>
+                        <th style="width:18%;">@Html.Label("GIGAPLEX")</th>
+                        <th style="width:18%;">@Html.Label("HYDERABAD")</th>
+                        <th style="width:18%;">@Html.Label("JUINAGAR")</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td class="cell">@Html.Label("VLL")</td>
+                        <td>@Html.Label("422")</td>
+                        <td>@Html.Label("430")</td>
+                        <td>@Html.Label("425")</td>
+                        <td>@Html.Label("421")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("I")</td>
+                        <td>@Html.Label("370")</td>
+                        <td>@Html.Label("110")</td>
+                        <td>@Html.Label("220")</td>
+                        <td>@Html.Label("159")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("MW") </td>
+                        <td>@Html.Raw("13.234")</td>
+                        <td>@Html.Raw("3.45")</td>
+                        <td>@Html.Raw("7.905")</td>
+                        <td>@Html.Raw("5.872")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("KWH")</td>
+                        <td>@Html.Raw("432678.1")</td>
+                        <td>@Html.Raw("765431.8")</td>
+                        <td>@Html.Raw("123456.9")</td>
+                        <td>@Html.Raw("654321.9")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("FORECAST VALUE (MW)")</td>
+                        <td>@Html.Label("13")</td>
+                        <td>@Html.Label("3")</td>
+                        <td>@Html.Label("8")</td>
+                        <td>@Html.Label("6")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("SCHEDULE DRAWL (MW)")</td>
+                        <td>@Html.Label("13")</td>
+                        <td>@Html.Label("3")</td>
+                        <td>@Html.Label("8")</td>
+                        <td>@Html.Label("6")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("CHARGES (Rs)")</td>
+                        <td>@Html.Raw("2340.2")</td>
+                        <td>@Html.Raw("7890.5")</td>
+                        <td>@Html.Raw("3451.8")</td>
+                        <td>@Html.Raw("4907.9")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("LAST BLOCK (MW)")</td>
+                        <td>@Html.Raw("12.954")</td>
+                        <td>@Html.Raw("3.234")</td>
+                        <td>@Html.Raw("8.98")</td>
+                        <td>@Html.Raw("6.01")</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <table class="tbl_design">
+                <thead>
+                    <tr>
+                        <th colspan="6">
+                            @Html.Label("FORECAST VS ACTUAL (MW) FOR LAST FOUR BLOCK")
+                        </th>
+                        </tr>
+                    </thead>
+                <tbody>
+                   
+                    <tr>
+                        <td style="width:28%;" class="cell">@Html.Label("LOCATION")</td>
+                        <td style="width:14%;" class="cell">@Html.Label("BLOCK NUMBER")</td>
+                        <td style="width:14%;">@Html.Label("48")</td>
+                        <td style="width:14%;">@Html.Label("47")</td>
+                        <td style="width:14%;">@Html.Label("46")</td>
+                        <td style="width:14%;">@Html.Label("45")</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="cell">@Html.Label("SERENE")</td>
+                        <td class="cell">@Html.Label("FORECAST")</td>
+                        <td>@Html.Raw("12.954")</td>
+                        <td>@Html.Raw("12.78")</td>
+                        <td>@Html.Raw("12.56")</td>
+                        <td>@Html.Raw("12.89")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("ACTUAL")</td>
+                        <td>@Html.Label("13")</td>
+                        <td>@Html.Label("13")</td>
+                        <td>@Html.Label("13")</td>
+                        <td>@Html.Label("13")</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="cell">@Html.Label("GIGAPLEX") </td>
+                        <td class="cell">@Html.Label("FORECAST")</td>
+                        <td>@Html.Raw("3.324")</td>
+                        <td>@Html.Raw("3.45")</td>
+                        <td>@Html.Raw("3.7")</td>
+                        <td>@Html.Raw("3.21")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("ACTUAL")</td>
+                        <td>@Html.Label("3")</td>
+                        <td>@Html.Label("3")</td>
+                        <td>@Html.Label("3")</td>
+                        <td>@Html.Label("3")</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="cell">@Html.Label("HYDERABAD") </td>
+                        <td class="cell">@Html.Label("FORECAST")</td>
+                        <td>@Html.Raw("8.98")</td>
+                        <td>@Html.Raw("8.76")</td>
+                        <td>@Html.Raw("8.54")</td>
+                        <td>@Html.Raw("8.88")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("ACTUAL")</td>
+                        <td>@Html.Label("9")</td>
+                        <td>@Html.Label("9")</td>
+                        <td>@Html.Label("9")</td>
+                        <td>@Html.Label("9")</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2" class="cell">@Html.Label("JUINAGAR") </td>
+                        <td class="cell">@Html.Label("FORECAST")</td>
+                        <td>@Html.Raw("6.012")</td>
+                        <td>@Html.Raw("5.98")</td>
+                        <td>@Html.Raw("6.12")</td>
+                        <td>@Html.Raw("6.03")</td>
+                    </tr>
+                    <tr>
+                        <td class="cell">@Html.Label("ACTUAL")</td>
+                        <td>@Html.Label("6")</td>
+                        <td>@Html.Label("6")</td>
+                        <td>@Html.Label("6")</td>
+                        <td>@Html.Label("6")</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</body>
+</html>

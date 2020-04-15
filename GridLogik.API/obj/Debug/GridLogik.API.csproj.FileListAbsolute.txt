@@ -1,0 +1,162 @@
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\GridLogik.API.dll.config
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\GridLogik.API.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\GridLogik.API.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Antlr3.Runtime.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.Integration.WebApi.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Domain.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\EntityFramework.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\EntityFramework.SqlServer.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\GridLogik.ViewModels.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\IBM.Data.DB2.EntityFramework.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\IBM.Data.Informix.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Microsoft.Web.Infrastructure.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Newtonsoft.Json.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Net.Http.Formatting.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Cors.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Helpers.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.Cors.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.WebHost.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Mvc.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Optimization.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Razor.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.Deployment.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.Razor.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\WebGrease.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\CMSDateTime.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\CMS.Framework.Common.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Domain.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\GridLogik.ViewModels.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.Integration.WebApi.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Autofac.Integration.WebApi.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\EntityFramework.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\EntityFramework.SqlServer.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Newtonsoft.Json.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Net.Http.Formatting.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.Cors.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Http.WebHost.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Helpers.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Mvc.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Optimization.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.Razor.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.Deployment.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\System.Web.WebPages.Razor.xml
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\Antlr3.Runtime.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\bin\CMS.Framework.Common.pdb
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\obj\Debug\GridLogik.API.csprojResolveAssemblyReference.cache
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\obj\Debug\GridLogik.API.dll
+D:\Devang Project\GridLogik_STD5_NEW\GridLogik.API\obj\Debug\GridLogik.API.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\GridLogik.API.dll.config
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\GridLogik.API.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\GridLogik.API.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Antlr3.Runtime.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.Integration.WebApi.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Domain.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\EntityFramework.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\EntityFramework.SqlServer.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\GridLogik.ViewModels.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\IBM.Data.DB2.EntityFramework.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\IBM.Data.Informix.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Microsoft.Web.Infrastructure.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Newtonsoft.Json.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Net.Http.Formatting.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Cors.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Helpers.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.Cors.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.WebHost.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Mvc.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Optimization.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Razor.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.Deployment.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.Razor.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\WebGrease.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\CMSDateTime.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Domain.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\GridLogik.ViewModels.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.Integration.WebApi.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Autofac.Integration.WebApi.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\EntityFramework.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\EntityFramework.SqlServer.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Newtonsoft.Json.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Net.Http.Formatting.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.Cors.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Http.WebHost.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Helpers.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Mvc.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Optimization.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.Razor.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.Deployment.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\System.Web.WebPages.Razor.xml
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\Antlr3.Runtime.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\bin\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\GridLogik.API\obj\Debug\GridLogik.API.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std5\GridLogik.API\obj\Debug\GridLogik.API.dll
+D:\sachin data\GridLogik_Std5\GridLogik.API\obj\Debug\GridLogik.API.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\GridLogik.API.dll.config
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\GridLogik.API.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\GridLogik.API.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Antlr3.Runtime.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.Integration.WebApi.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Domain.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\EntityFramework.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\EntityFramework.SqlServer.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\GridLogik.ViewModels.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\IBM.Data.DB2.EntityFramework.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\IBM.Data.Informix.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Microsoft.Web.Infrastructure.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Newtonsoft.Json.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Net.Http.Formatting.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Cors.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Helpers.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.Cors.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.WebHost.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Mvc.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Optimization.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Razor.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.Deployment.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.Razor.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\WebGrease.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\CMSDateTime.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\CMS.Framework.Common.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Domain.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\GridLogik.ViewModels.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.Integration.WebApi.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Autofac.Integration.WebApi.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\EntityFramework.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\EntityFramework.SqlServer.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Newtonsoft.Json.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Net.Http.Formatting.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.Cors.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Http.WebHost.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Helpers.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Mvc.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Optimization.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.Razor.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.Deployment.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\System.Web.WebPages.Razor.xml
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\Antlr3.Runtime.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\bin\CMS.Framework.Common.pdb
+E:\RajneeshData\GridLogikStd5\GridLogik.API\obj\Debug\GridLogik.API.csprojResolveAssemblyReference.cache
+E:\RajneeshData\GridLogikStd5\GridLogik.API\obj\Debug\GridLogik.API.dll
+E:\RajneeshData\GridLogikStd5\GridLogik.API\obj\Debug\GridLogik.API.pdb

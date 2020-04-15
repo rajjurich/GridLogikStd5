@@ -1,0 +1,12 @@
+1|1|admin|admin|0|
+2|2|user|user|0|
+3|\ |\ |\ |1|
+4|121|212|\ |1|
+5|12345|ayssss|asdasdasrfasfas|1|
+6|5|GUEST|GUEST LOGIN|0|
+7|3002|user|\ |1|
+8|888|UCR1|UCR1|1|
+9|777|unit1client|\ |1|
+10|3002|user|\ |0|
+11|344|dg|tet|0|
+12|000456|Tester|Test Functionality|0|

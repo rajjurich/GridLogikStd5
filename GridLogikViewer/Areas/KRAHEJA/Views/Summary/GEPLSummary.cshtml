@@ -1,0 +1,1318 @@
+﻿@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<script src="~/Scripts/moment.js"></script>
+
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    table.rabtdtl {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 21px;
+    }
+
+    .rabtdtl td, tr {
+        background-color: black;
+        color: yellow;
+    }
+
+    .rabtdtl td, th {
+        /*padding: 2px 10px;*/
+        /*padding: 1px 1px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 75%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdtl td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdtl th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdtl tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+    table.rabtdt2 {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .rabtdt2 td, tr {
+        background-color: black;
+        color: white;
+    }
+
+    .rabtdt2 td, th {
+        text-align: center !important;
+        width: 14.28%;
+        /*border: 1px solid #f00;*/
+        /*width: 50%;*/
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt2 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+        }
+
+    .rabtdt2 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt2 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+
+
+    /*.rabtdtl tbody tr:nth-child(2n-1) {
+        background-color: #d4d4d4;
+        transition: all .125s ease-in-out;
+    }*/
+
+    table.rabtdt3 {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .rabtdt3 td, tr {
+        background-color: gray;
+        color: orange;
+    }
+
+    .rabtdt3 td, th {
+        /*padding: 2px 10px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt3 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt3 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt3 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+    table.rabtdt4 {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 21px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .rabtdt4 td, tr {
+        background-color: black;
+        color: orange;
+    }
+
+    .rabtdt4 td, th {
+        /*padding: 2px 10px;*/
+        /*padding: 1px 1px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 75%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt4 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt4 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt4 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+    table.rabtdt5 {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .rabtdt5 td, tr {
+        background-color: black;
+        color: salmon;
+    }
+
+    .rabtdt5 td, th {
+        /*padding: 2px 10px;*/
+        /*padding: 1px 1px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 75%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt5 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt5 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt5 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+
+    table.rabtdt6 {
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        width: 100%;
+        background: #fff;
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 14px;
+        line-height: 21px;
+    }
+
+    .rabtdt6 td, tr {
+        background-color: black;
+        color: cyan;
+    }
+
+    .rabtdt6 td, th {
+        /*padding: 2px 10px;*/
+        /*padding: 1px 1px;*/
+        text-align: center !important;
+        /*border: 1px solid #f00;*/
+        width: 75%;
+        /*white-space:nowrap;*/
+    }
+        /*.rabtdtl td {
+        color: #A4F2F2;
+    }*/
+
+        .rabtdt6 td.err {
+            /*background-color: #e992b9;*/
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt6 th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#1F475F), to(#1F475F)) !important;
+        background: -moz-linear-gradient(80% 72% 89deg, #1F475F, #1F475F 100%) !important;*/
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+        /*width:100%;*/
+    }
+
+    .rabtdt6 tbody th {
+        /*background: -webkit-gradient(linear, 50% 100%, 50% 0%, from(#f5f5f5), to(#f5f5f5));
+        background: -moz-linear-gradient(80% 72% 89deg, #f5f5f5, #f5f5f5 100%);*/
+        color: #fff;
+    }
+
+    .label1 {
+        color: #E6E600;
+    }
+
+    .label2 {
+        color: #00c100;
+    }
+
+    .label3 {
+        color: #FFBB00;
+    }
+
+    .label4 {
+        color: #F600F6;
+    }
+
+    .label5 {
+        color: #A0F6F6;
+    }
+
+    .label6 {
+        color: #F9F9A1;
+    }
+
+    .thheading {
+        color: white;
+        background-color: #1F475F;
+        font-weight: bold;
+    }
+    /*tbody tr:hover {
+        background-color: #f4f4f4;
+    }*/
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('html,body').animate({
+            scrollTop: $("#divMainRABT").offset().top
+        },
+            'slow');
+    });
+
+    var meterids = new Array();
+    var meterids_unit = new Array();
+    var meterids_line = new Array();
+    var requestelapased = 0;
+    var cur_blk_no = 0;
+    var GBreakFrq = 0;
+    var GAvg = 0;
+    var flag = 0;
+    var pflag = 0;
+    var p1 = 0;
+    var p2 = 0;
+    var p3 = 0;
+    var dataflag = 0;
+    var first = 0;
+    //window.setInterval(function () { alert('hello', '', false, 'S'); }, 5000);
+
+    $(document).ready(function () {
+        //
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            //url: "http://localhost:8487/EToolsAPI/api/prmglobal",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(Date().toString());
+
+                        }
+                    }
+
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+
+            }
+        });
+        LoadRABTData();
+        nextfourblockandlastblkdata();
+
+        //  LoadInstanceDataRABT();
+    });
+
+
+    setInterval(function () { LoadRABTData(); }, 1000);
+    // setInterval(function () { LoadInstanceDataRABT(); }, 1000);
+    setInterval(function () { LoadData(); }, 30000);
+
+
+
+
+
+
+    function LoadRABTData() {
+        var APC = 0, APCPer = 0;
+        var Line = 0, Gen = 0;
+        requestelapased = requestelapased + 1;
+        if (requestelapased > 270) {
+            requestelapased = 1;
+            //
+            // window.location.reload(true);
+        }
+        //
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            url: BaseAddress + "InstanceDataAPIKRAHEJAMBPL/GetInstanceDataRABT_New",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //
+                var str = "";
+                var BusFreq = 0;
+                var BusVolt = 0;
+                var MW = 0;
+                var MVAR = 0;
+                var AvgHz = 0;
+                var finaldate = new Date();
+                if (meters.Data.result != undefined) {
+
+
+
+                    meters.Data.result.forEach(function (response) {
+                        //
+
+                        //var startdateDB = moment(response.tstamp, $("#DatabaseDateformat").val());
+
+                        var startdateDB = new Date();
+                        var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                        $("#lblDate").html(startdate);
+
+                        try {
+                            $("#lblBusTime").html(startdateDB.toString().substr(16, 8));
+                        } catch (e) {
+
+                        }
+
+
+
+
+                        if (response.meterid == 1) {
+
+                            Line = Line + response.cblk_avg_mw;
+
+                        }
+                        else if (response.meterid == 2) {
+                            Line = Line + response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 3) {
+
+                            Line = Line + response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 4) {
+
+                            Line = Line + response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 5) {
+
+                            Line = Line + response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 6) {
+
+
+                            Line = Line + response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 7) {
+
+                            Gen = Gen + +response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 8) {
+
+                            Gen = Gen + +response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 9) {
+
+                            Gen = Gen + +response.cblk_avg_mw;
+                        }
+                        else if (response.meterid == 10) {
+
+                            Gen = Gen + +response.cblk_avg_mw;
+                        }
+                        //ends here
+
+
+
+
+                    });
+                }
+
+                APC = Gen - Line;
+
+                APCPer = APC * 100;
+
+
+                var d = new Date();
+                var month = d.getMonth() + 1;
+                var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+                $("#datetidvalue").text(date.toString());
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+        GBreakFrq = parseFloat(49.54);
+
+        //current block and depending calculation
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: "http://localhost:8487/EnvisageWebAPI/api/utility",
+            //url: BaseAddress + "InstanceDataAPIKRAHEJA/GetInstanceDataRABT_CurrentBlockNX4",
+            url: BaseAddress + "InstanceDataAPIKRAHEJA/GetInstanceDataRABT_CurrentBlockNX4_Final",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //
+                var currentindexno = 0;
+                var response = meters.Data.result;
+
+                response.lasttwoblockdata.forEach(function (response) {
+
+                    if (currentindexno == 0) {
+                        if (cur_blk_no == "") {
+                            cur_blk_no = response.blockno;
+                        }
+
+                        var CurrentDateNow = new Date();
+                        var y = CurrentDateNow.getFullYear();
+                        var m = CurrentDateNow.getMonth();
+                        var dater = CurrentDateNow.getDate();
+                        var stringData = response.blocktime.split("-");
+                        var s = stringData[1].split(":");
+                        var h = s[0];
+                        var min = s[1];
+                        var prevTime = new Date(y, m, dater, h, min, 0, 0);
+                        var diff = prevTime - CurrentDateNow;
+                        var s1 = stringData[0].split(":");
+                        var h1 = s1[0];
+                        var min1 = s1[1];
+                        var prevTime1 = new Date(y, m, dater, h1, min1, 0, 0);
+                        var diff1 = CurrentDateNow - prevTime1;
+                        var secondx = parseInt((diff / 1000) % 60);
+                        var minutes = parseInt((diff / (1000 * 60)) % 60);
+                        var secondx1 = parseInt((diff1 / 1000) % 60);
+                        var minutes1 = parseInt((diff1 / (1000 * 60)) % 60);
+
+
+                        $("#cbdBlockNo").html(response.blockno);
+                        $("#CurrentBlockNumberdata").html(response.blockno);
+                        $("#CurrentBlockTime").html(response.blocktime);
+
+                        $("#CurrentBlockTimedata").text(minutes.toString() + ":" + secondx.toString()).toString();
+                        $("#CurrentBlockTimeElapseddata").text(minutes1.toString() + ":" + secondx1.toString());
+                        $("#cbdBlockTime").html(response.blocktime);
+                        $("#cbdDCMW").html(response.dcmw);
+                        $("#cbdSGMW").html((response.sgmw).toFixed(3));
+                        $("#InstMw").html(parseFloat(response.mw/1000).toFixed(3));
+                        $("#AVGMw").html(parseFloat(response.netexbusmw/1000).toFixed(3));
+
+                        $("#cbdNexExBus").html(parseFloat(response.netexbusmw/1000).toFixed(3));
+                        $("#cbdAvgHz").html(parseFloat(response.avghz).toFixed(2));
+                        $("#AverageBlockHz").html(parseFloat(response.avghz).toFixed(2));
+                        GAvg = parseFloat(response.avghz);
+                        $("#InstHz").html(parseFloat(response.hz).toFixed(2));
+                        $("#cbdExpDC").html(parseFloat(response.expdcperc).toFixed(2)); //current block Exp DC %
+                        $("#cbdExpSG").html(parseFloat(response.expscperc/1000).toFixed(2)); //current block Exp SG %
+
+                        //debugger
+                        $("#dacbAROverInj1").html(parseFloat(response.sgmw * 1.05).toFixed(3));
+                        $("#dacbARUnderInj1").html(parseFloat(response.sgmw * 0.95).toFixed(3));
+                        $("#dacbSG1").html(parseFloat(response.sgmw).toFixed(3));
+
+                        if((response.netexbusmw/1000).toFixed(3)==(response.sgmw).toFixed(3))
+                        {
+                            $("#dacbSG").html("-");
+                            $("#dacbAROverInj").html("-");
+                            $("#dacbARUnderInj").html("-");
+                            $("#dacbSG").html(parseFloat(response.netexbusmw/1000).toFixed(3));
+
+                        }
+                        else if((response.netexbusmw/1000).toFixed(3)>=(response.sgmw * 1.05).toFixed(3))
+                        {
+                            $("#dacbSG").html("-");
+                            $("#dacbAROverInj").html("-");
+                            $("#dacbARUnderInj").html("-");
+                            $("#dacbAROverInj").html(parseFloat((response.netexbusmw)/1000).toFixed(3));
+                        }
+                        else if((response.netexbusmw/1000).toFixed(3)<(response.sgmw ).toFixed(3))
+                        {
+                            $("#dacbSG").html("-");
+                            $("#dacbAROverInj").html("-");
+                            $("#dacbARUnderInj").html("-");
+                            $("#dacbARUnderInj").html(parseFloat((response.netexbusmw)/1000).toFixed(3));
+                        }
+
+
+
+                        $("#cbdBackingDown").html(parseFloat(response.backingdown).toFixed(2));
+                        $("#cbdDevMW").html(parseFloat(response.devmw).toFixed(2));
+
+                        $("cbdDevRs").html(parseFloat(response.devrs).toFixed(2));
+
+                        $("#cbdTotalDev").html(parseFloat(response.totaldevrs).toFixed(2));
+
+                        $("#cbdNetGain").html(parseFloat(response.netgainloss).toFixed(2));
+                        $("#cbdFuelCost").html(parseFloat(response.fuelcost).toFixed(2));
+                        $("#cbdAddiDev").html(parseFloat(response.addidevrs).toFixed(2));
+                        $("#cbdDevRate").html(parseFloat(response.devrate).toFixed(2));
+                        $("#CurrentFualRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#cbdFuelRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#cbdDevRs").html(parseFloat(response.devrs).toFixed(2));
+
+                        //CurBlkAvgMW = parseFloat(response.netexbusmw).toFixed(2);
+
+                        if (parseFloat(response.devrate).toFixed(2) > parseFloat(response.fuelrate).toFixed(2)) {
+                            $("#cbdAvgHz").css("color", "red");
+                        }
+                        else {
+                            $("#cbdAvgHz").css("color", "#FFBB00");
+                        }
+
+                        if (parseFloat($("#cbdExpSG").text()) > 105) {
+                            $("#lblNetmsg").text("Exceed Over Drawal Limit");
+                            $("#lblNetmsg").css("color", "yellow");
+                        }
+                        if (parseFloat($("#cbdExpSG").text()) < 95) {
+                            $("#lblNetmsg").text("Exceed Under Drawal Limit");
+                            $("#lblNetmsg").css("color", "pink");
+                        }
+@*
+if((parseFloat(response.netexbusmw)/1000)>(parseFloat(response.sgmw)*1.05))
+                        {
+                            $("#lblNetmsg").text("Exceed Over Drawal Limit");
+                            $("#lblNetmsg").css("color", "yellow");
+                        }
+                        if((parseFloat(response.netexbusmw)/1000)<(parseFloat(response.sgmw)*0.95))
+                        {
+                            $("#lblNetmsg").text("Exceed Under Drawal Limit");
+                            $("#lblNetmsg").css("color", "pink");
+                        }*@
+                                                currentindexno = currentindexno + 1;
+                    }
+                    else {
+
+
+                        //  debugger
+                        $("#pbdAvgHz").html((response.avghz).toFixed(2));
+                        $("#pbdDC").html(response.dcmw);
+                        $("#pbdSG").html((response.sgmw).toFixed(3));
+
+                        $("#pbdExpDC").html(parseFloat(response.expdcperc).toFixed(2)); //current block Exp DC %
+                        $("#pbdExSG").html(parseFloat(response.expscperc/1000).toFixed(2)); //current block Exp SG %
+
+                        $("#pbdBackDown").html(parseFloat(response.backingdown).toFixed(2));
+                        $("#pbdDevMW").html(parseFloat(response.devmw).toFixed(2));
+                        $("#pbdFuelRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#PrevInstfreq").html(parseFloat(response.hz).toFixed(2));//1
+                        dataflag = 1;
+                        $("#PAvgHZ").html(parseFloat(response.avghz).toFixed(2));
+
+                        $("#pbdDevRs").html(parseFloat(response.devrs).toFixed(2));
+
+                        $("#pbdTotalDev").html(parseFloat(response.totaldevrs).toFixed(2));
+
+                        $("#pbdNetGainLoss").html(parseFloat(response.netgainloss).toFixed(3));
+                        $("#pbdFuelCost").html(parseFloat(response.fuelcost).toFixed(3));
+                        $("#pbdAddiDev").html(parseFloat(response.addidevrs).toFixed(2));
+                        $("#pbdDevRate").html(parseFloat(response.devrate).toFixed(3));
+                        $("#pbdBlockNo").html(response.blockno);
+                        $("#pdbBlockTime").html(response.blocktime);
+                        $("#pbdNExBus").html(parseFloat(response.netexbusmw/1000).toFixed(3));
+                        // $("#AverageExBus").html(parseFloat(response.netexbusmw).toFixed(3));
+                        $("#pbdDevRate").html(parseFloat(response.devrate).toFixed(2));
+                        $("#pbdFuelRate").html(parseFloat(response.fuelrate).toFixed(2));
+                        $("#pbdDevRs").html(parseFloat(response.devrs).toFixed(2));
+
+                        if (parseFloat(response.devrate).toFixed(2) > parseFloat(response.fuelrate).toFixed(2)) {
+                            $("#pbdAvgHz").css("color", "red");
+                        }
+                        else {
+                            $("#pbdAvgHz").css("color", "#FFBB00");
+                        }
+
+
+                    }
+                    if (parseFloat($("#cbdExpSG").text()) > 105) {
+                        $("#lblNetmsg").text("Exceed Over Drawal Limit");
+                        $("#lblNetmsg").css("color", "yellow");
+                    }
+                    else if (parseFloat($("#cbdExpSG").text()) < 95) {
+                        $("#lblNetmsg").text("Exceed Under Drawal Limit");
+                        $("#lblNetmsg").css("color", "pink");
+                    }
+                    else
+                    {
+                        $("#lblNetmsg").text("");
+                    }
+                });
+
+                //
+
+                //$("#dacbSG").html(parseFloat(response.for100sg/1000).toFixed(2));
+                //$("#dacbAROverInj").html(parseFloat(response.askrateoverinj/1000).toFixed(2));
+                //$("#dacbARUnderInj").html(parseFloat(response.askrateunderinj/1000).toFixed(3));
+                $("#dacbOpOverInj").html(parseFloat(response.limopoverinj).toFixed(3));
+                $("#dacbOpUnderInj").html(parseFloat(response.limopunderinj).toFixed(3));
+
+
+                $("#dacExpDC").html(parseFloat(response.cumexpdcperc).toFixed(2));
+
+                $("#dacPosBlk").html(response.posblk);
+                $("#dacNegBlk").html(response.negblk);
+                $("#dacbOverInjBlk").html(parseFloat(response.overinjoppblk).toFixed(2));
+                $("#dacbUnderInjBlk").html(parseFloat(response.underinjoppblk).toFixed(2));
+
+
+                if (APC != 0) {
+                    if (GAvg < GBreakFrq) {
+
+                        $("#Target").html(parseFloat((response.askrateoverinj + APC)/1000).toFixed(3));
+                    }
+                    else if (GBreakFrq <= GAvg && GAvg < 50.05) {
+                        $("#Target").html(parseFloat((response.for100sg + APC)/1000).toFixed(3));
+                    }
+                    else if (GAvg > 50.05) {
+                        $("#Target").html(parseFloat((response.askrateunderinj + APC)/1000).toFixed(3));
+                    }
+                }
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+        //CURRENT BLOCK & PREVIOUS BLOCK ENDS HERE
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "LoadSurveyABTKRAHEJA/GetNextFourBlocks_Final",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                //
+
+                var indexN4 = 1;
+                if (meters.Data.result != undefined) {
+                    try {
+                        meters.Data.result.forEach(function (response) {
+                            //
+                            try {
+                                var dc=0;
+                                if (response.blockno > 0) {
+
+
+                                    $("#n4BlkDC" + indexN4).html((response.dcvalue/1000).toFixed(3));
+
+                                    dc=(response.sgvalue ).toFixed(3);
+
+
+                                    // $("#n4BlkDC" + indexN4).html(response.dcvalue);
+                                    $("#n4BlkSG" + indexN4).html((response.sgvalue).toFixed(3));
+                                    $("#N4BlkFTF" + indexN4).html(((response.dcvalue/1000)/(response.sgvalue).toFixed(3)*100).toFixed(2));
+                                    $("#n4BlkNo" + indexN4).html(response.blockno);//sagar
+                                    indexN4 = indexN4 + 1;
+                                }
+                            } catch (e) {
+                                console.log(e)
+                            }
+
+                        })
+                    }
+                    catch (e) {
+                        console.log(e)
+                    }
+                }
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+
+
+
+    }
+
+    function LoadData() {
+        var crrdate = new Date();
+        var Mintes = crrdate.getMinutes();
+        var ModTime = Mintes % 15;
+        if (ModTime > 3.5 && ModTime < 10) {
+            nextfourblockandlastblkdata();
+        }
+    }
+    function nextfourblockandlastblkdata() {
+        //NEXT FOUR BLOCK DATA
+
+        //NEXT FOUR BLOCK DATA ENDS HERE
+
+        //CUMULATIVE UPTO LAST BLOCK DATA
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "LoadSurveyABTKRAHEJA/GetDCSGLastBlockData_New",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                // debugger
+                $("#culbdDC").html(parseFloat(meters.Data.result.dcvalue));
+                $("#culbdSG").html(parseFloat(meters.Data.result.sgvalue));
+                $("#culbdBackingDown").html(parseFloat(meters.Data.result.backingdown).toFixed(2));
+                $("#culbdExport").html(parseFloat((meters.Data.result.export)/1000).toFixed(2));
+                $("#culbdImport").html(parseFloat((meters.Data.result.import)/1000).toFixed(2));
+
+                $("#culbdNetExp").html(parseFloat(((meters.Data.result.netexp*-1))/1000).toFixed(2));
+                $("#culbdExpSg").html(parseFloat(((((meters.Data.result.netexp*-1))/1000) / meters.Data.result.sgvalue) * 100).toFixed(2));
+                $("#culbdUnderInj").html(parseFloat((Math.abs(meters.Data.result.underinjectionmwh))/4).toFixed(2));
+                $("#culbdOverInj").html(parseFloat((meters.Data.result.overinjectionmwh)/4).toFixed(2));
+                $("#culbdOverInjLacs").html(parseFloat(meters.Data.result.overinjectionlacs/1000).toFixed(2));
+                $("#culbdUnderInjLacs").html(parseFloat(meters.Data.result.underinjectionlacs/1000).toFixed(2));
+                $("#culbdDevMWh").html(Math.abs(parseFloat(meters.Data.result.devmwh)/4).toFixed(2));
+                $("#culbdDevLacs").html(Math.abs(parseFloat(meters.Data.result.devmwhlacs)).toFixed(2));
+                $("#culbdFuelCost").html(parseFloat(meters.Data.result.fuelcost).toFixed(2));
+                $("#culbdTotalDev").html(parseFloat(meters.Data.result.totaldev).toFixed(2));
+                $("#culbdAddiDev").html(parseFloat(meters.Data.result.addidev).toFixed(2));
+                $("#culbdNetGain").html(parseFloat(meters.Data.result.netgainloss).toFixed(2));
+
+
+                $("#UIPayable").html(parseFloat(meters.Data.result.uipayablemonth).toFixed(2));
+                $("#UIReceivable").html(parseFloat(meters.Data.result.uireceivablemonth).toFixed(2));
+                $("#NETUI").html(parseFloat(meters.Data.result.netuimonth).toFixed(2));
+                $("#NETUIGain").html(parseFloat(meters.Data.result.netgainlossmonth).toFixed(2));
+
+
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+        //CUMULATIVE UPTO LAST BLOCK DATA ENDS HERE
+    }
+
+
+
+
+</script>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box"><h3> DRAWL MONITORING SYSTEM : GEPL <sub id="datetidvalue" style="color: yellowgreen; position: absolute; left:940px; top:75px;"></sub></h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+        </div>
+    </div>
+    <div class="panel-body">
+        <input id="Dateformat" type="hidden" name="Dateformat" />
+        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+        <input type="hidden" id="DatabaseDateformat">
+        <div class="col-lg-12" id="divMainRABT">
+            <div style="display:none">
+                <div class="form-group col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Meter Group</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Meter Name</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+
+                    </div>
+                </div>
+
+                <div class="form-group col-md-2" style="border:0px solid #f00;float:right">
+                    <div class="col-md-12" style="border:0px solid #f00; ">
+                        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label style="border:0px solid #f00; margin:0px 0px;">Bus Frequency</label>
+            <label id="lblBusFreq1" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Bus Voltage</label>
+            <label id="lblBusVolt" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Date</label>
+            <label id="lblDate" style="margin-left:10px"></label>
+
+        </div>
+        <div class="form-group col-md-3" style="border: 0px solid #f00; display: none;">
+            <label for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Time</label>
+            <label id="lblBusTime" style="margin-left:10px"></label>
+
+        </div>
+
+
+
+
+
+        <div class="col-lg-12" style="background-color:black">
+            @*<hr />*@
+            <div class="col-lg-12">
+
+
+                <table class="rabtdt2" style="white-space: nowrap; ">
+                    <tr style="white-space: nowrap; display: none;">
+                        <td></td>
+                        <td><label id="meter1"></label></td>
+                        <td><label id="meter2"></label></td>
+                        <td><label id="meter3"></label></td>
+                        <td><label id="meter4"></label></td>
+                        <td><label id="meter5"></label></td>
+                        <td><label id="meter6"></label></td>
+                    </tr>
+                    <tr style="white-space: nowrap; display: none;">
+                        <td>MW</td>
+                        <td><label id="MW1"></label></td>
+                        <td><label id="MW2"></label></td>
+                        <td><label id="MW3"></label></td>
+                        <td><label id="MW4"></label></td>
+                        <td><label id="MW5"></label></td>
+                        <td><label id="MW6"></label></td>
+                    </tr>
+                    <tr class="thheading" style="background-color: #1F475F">
+                        <td>Current BLK. No.</td>
+                        <td><label id="CurrentBlockNumberdata"></label></td>
+                        <td>Time Remaining (mm:ss)</td>
+                        <td><label id="CurrentBlockTimedata"></label></td>
+                        <td>Inst. BLK. Min Hz</td>
+                        <td><label id="InstHz"></label></td>
+                        <td>Inst. Drawl (MW)</td>
+                        <td><label id="InstMw"></label></td>
+                        <td style="display:none">Ui Rate</td>
+                        <td style="display:none"><label id="CurrentFualRate">00.00</label></td>
+
+                    </tr>
+                    <tr class="thheading" style="background-color: #1F475F">
+                        <td>BLK. Time (HH:MM)</td>
+                        <td><label id="CurrentBlockTime"></label></td>
+                        <td>Time Elapsed (mm:ss)</td>
+                        <td><label id="CurrentBlockTimeElapseddata"></label></td>
+                        <td>Inst. BLK. Max Hz</td>
+                        <td><label id="AverageBlockHz"></label></td>
+                        <td>Avg. Drawl(MW)</td>
+                        <td><label id="AVGMw">00000</label></td>
+                        <td></td>
+                        <td><label id="breakFrq" style="display:none">00000</label></td>
+                    </tr>
+                    <tr>
+                        <td colspan="10" align="center"><marquee><label id="lblNetmsg" style="margin-top: 5px;margin-bottom: 0px !important;"></label><marquee></td>
+                    </tr>
+                </table>
+
+            </div>
+            <div class="col-md-4">
+                <table class="rabtdtl" style="white-space:nowrap;font-weight: bold;">
+                    <tr class="thheading" style="background-color: #1F475F"><td colspan="2">Previous Block Data</td></tr>
+                    <tr>
+                        <td>Block No</td>
+                        <td><label class="label5" id="pbdBlockNo"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Block Time (HH:MM)</td>
+                        <td><label class="label5" id="pdbBlockTime"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label1"> DC (MW)</font></td>
+                        <td><label class="label1" id="pbdDC"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label1">SD (MW)</font></td>
+                        <td><label id="pbdSG" class="label1"></label></td>
+                    </tr>
+                    <tr>
+                        <td style="color: yellow;"><font class="label2"> Avg Drawl(MW)</font></td>
+                        <td><label class="label2" id="pbdNExBus">0</label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Avg Drawl/SD %</font></td>
+                        <td><label class="label5" id="pbdExSG"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label3">Max Hz</font></td>
+                        <td><label id="pbdAvgHz" class="label3"></label></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label6"><font class="label6">Dev. MW</font></td>
+                        <td><label class="label5" id="pbdDevMW"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Provisional UI Rate (Rs)</font></td>
+                        <td><label class="label5" id="pbdDevRate"></label></td>
+                    </tr>
+
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Dev. (Rs)</font></td>
+                        <td><label class="label5" id="pbdDevRs"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Addi. Dev.(Rs)</font></td>
+                        <td><label class="label5" id="pbdAddiDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Total. Dev.(Rs)</font></td>
+                        <td><label class="label5" id="pbdTotalDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label4">Fuel Cost.(Rs)</font></td>
+                        <td><label class="label4" id="pbdFuelCost"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Net Gain(Rs)</font></td>
+                        <td><label id="pbdNetGainLoss"></label></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="rabtdt2" style="white-space:nowrap;font-weight: bold;">
+                    <tr class="thheading" style="background-color: #1F475F"><td colspan="2">Current Block Data</td></tr>
+                    <tr>
+                        <td>Block No</td>
+                        <td><label class="label5" id="cbdBlockNo"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Block Time (HH:MM)</td>
+                        <td><label class="label5" id="cbdBlockTime"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label1">DC (MW)</font> </td>
+                        <td><label id="cbdDCMW" class="label1"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label1">SD (MW)</font></td>
+                        <td><label id="cbdSGMW" class="label1"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Avg Drawl(MW)</font></td>
+                        <td><label class="label2" id="cbdNexExBus">0</label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Avg Drawl/SD %</font></td>
+                        <td><label class="label5" id="cbdExpSG"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label3">Max Hz</font></td>
+                        <td><label id="cbdAvgHz" class="label3"></label></td>
+                    </tr>
+
+                    <tr>
+                        <td class="label6"><font class="label6">Dev. MW</font></td>
+                        <td><label class="label5" id="cbdDevMW"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Provisional UI Rate (Rs)</font></td>
+                        <td><label class="label5" id="cbdDevRate"></label></td>
+                    </tr>
+
+                    <tr style="display:none">
+                        <td class="label6"><font class="label6">Dev. (Rs)</font></td>
+                        <td><label class="label5" id="cbdDevRs"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label6">Addi. Dev.(Rs)</font></td>
+                        <td><label class="label5" id="cbdAddiDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label6">Total. Dev.(Rs)</font></td>
+                        <td><label class="label5" id="cbdTotalDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label4"> Fuel Cost.(Rs)</font></td>
+                        <td><label class="label4" id="cbdFuelCost"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label6">Net Gain/Loss.(Rs)</font></td>
+                        <td><label id="cbdNetGain"></label></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-4">
+                <table class="rabtdt4" style="line-height: 32px;font-weight: bold;">
+
+                    <tr class="thheading" style="background-color: #1F475F">
+                        <td>Decision Aspects Current Blk For</td>
+                        <td>Target (Limit)</td>
+                        <td>Target </td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">100% SD MW</font></td>
+                        <td><label class="label2" id="dacbSG1"></label></td>
+                        <td><label class="label2" id="dacbSG"></label></td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">105% SD MW</font></td>
+                        <td><label class="label2" id="dacbAROverInj1"></label></td>
+                        <td><label class="label2" id="dacbAROverInj"></label></td>
+                    </tr>
+                    <tr>
+                        <td class="label6"><font class="label6">95% SD MW</font></td>
+                        <td><label class="label2" id="dacbARUnderInj1"></label></td>
+                        <td><label class="label2" id="dacbARUnderInj"></label></td>
+                    </tr>
+
+
+
+                </table>
+                <table class="rabtdtl" style="line-height:15px;display:none">
+
+
+                    <tr class="thheading" style="background-color: #1F475F"><td colspan="2">Decision Aspects Cumulative</td></tr>
+
+                    <tr>
+                        <td>Cont Positive Blks</td>
+                        <td><label class="label5" id="dacPosBlk">0</label></td>
+                    </tr>
+                    <tr>
+                        <td style="white-space:nowrap">Cont Negative Blks</td>
+                        <td><label class="label5" id="dacNegBlk">0</label></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+        <div class="col-lg-12" style="background-color:black;font-weight: bold;">
+            <div class="col-md-6">
+                <table class="rabtdt5" style="white-space:nowrap" frame="box">
+                    <tr class="thheading" style="background-color: #1F475F">
+                        <td colspan="2" style="line-height: 37px;">Total up to Last BLK.</td>
+
+                    </tr>
+                    <tr>
+                        <td>Export (MWh)</td>
+                        <td><label class="label5" id="culbdExport"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Import (MWh)</td>
+                        <td><label class="label5" id="culbdImport"></label></td>
+                    </tr>
+                    <tr>
+                        <td><font class="label2"> Net Import (MWh)</font></td>
+                        <td><label class="label2" id="culbdNetExp">0</label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label6">Net Imp/ SD(MWh)%</font></td>
+                        <td><label class="label2" id="culbdExpSg">0</label></td>
+
+                    </tr>
+                    <tr>
+                        <td>Under Drawl (MWH)</td>
+                        <td><label id="culbdUnderInj"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Under Drawl (Lacs)</td>
+                        <td><label class="label5" id="culbdUnderInjLacs"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Over Drawl (MWH)</td>
+                        <td><label class="label5" id="culbdOverInj"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Over Drawl (Lacs)</td>
+                        <td><label class="label5" id="culbdOverInjLacs"></label></td>
+                    </tr>
+                    <tr>
+                        <td>Dev. (MWH)</td>
+                        <td><label class="label5" id="culbdDevMWh"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Dev. (Lacs)</td>
+                        <td><label class="label5" id="culbdDevLacs"></label></td>
+                    </tr>
+
+                    <tr style="display:none">
+                        <td>Addi. Dev.(Lacs)</td>
+                        <td><label id="culbdAddiDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Total. Dev.(Lacs)</td>
+                        <td><label class="label5" id="culbdTotalDev"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td><font class="label4">Fuel Cost.(Lacs)</font>a</td>
+                        <td><label class="label4" id="culbdFuelCost"></label></td>
+                    </tr>
+                    <tr style="display:none">
+                        <td>Net Gain/Loss.(Lacs)</td>
+                        <td><label id="culbdNetGain"></label></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <table class="rabtdt6">
+                    <tr class="thheading" style="background-color: #1F475F"><td colspan="4" style="line-height: 26px; ">Next 4 Block Data</td></tr>
+                    <tr style="font-weight:bold">
+                        <td>Block No</td>
+                        <td>Forecast SD(MW)</td>
+                        <td>SD(MW)</td>
+                        <td>Per. Forecast %</td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo1" style="line-height: 22px; "></label></td>
+                        <td><label class="label5" id="n4BlkDC1"></label></td>
+                        <td><label class="label5" id="n4BlkSG1"></label></td>
+                        <td><label class="label5" id="N4BlkFTF1"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo2" style="line-height: 22px; "></label></td>
+                        <td><label class="label5" id="n4BlkDC2"></label></td>
+                        <td><label class="label5" id="n4BlkSG2"></label></td>
+                        <td><label class="label5" id="N4BlkFTF2"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo3" style="line-height: 22px; "></label></td>
+                        <td><label class="label5" id="n4BlkDC3"></label></td>
+                        <td><label class="label5" id="n4BlkSG3"></label></td>
+                        <td><label class="label5" id="N4BlkFTF3"></label></td>
+                    </tr>
+                    <tr>
+                        <td><label id="n4BlkNo4" style="line-height: 22px; "></label></td>
+                        <td><label class="label5" id="n4BlkDC4"></label></td>
+                        <td><label class="label5" id="n4BlkSG4"></label></td>
+                        <td><label class="label5" id="N4BlkFTF4"></label></td>
+                    </tr>
+                </table>
+            </div>
+        </div>

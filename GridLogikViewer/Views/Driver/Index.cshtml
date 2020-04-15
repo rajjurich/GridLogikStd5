@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+@section head
+{
+    <style>
+        #tbl {
+            border: solid;
+        }
+
+            #tbl th {
+                border: dashed;
+            }
+
+            #tbl td {
+                border: dashed;
+            }
+    </style>
+}
+
+<h2>Index</h2>
+
+Meter Model
+
+
+@Html.DropDownList("MeterModelID", string.Empty)
+<button id="btnAdd">Add</button>
+<table id="tbl">
+    <tr>
+        <th>Address</th>
+        <th>Parameter Name</th>
+        <th>Data Type</th>
+        <th>Instance Parameter Mapping</th>
+        <th>Multiplication Factor</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" />
+        </td>
+        <td>
+            <input type="text" />
+        </td>
+        <td>
+            <select>
+                <option value="0">Test 1</option>
+                <option value="0">Test 2</option>
+                <option value="0">Test 3</option>
+            </select>
+        </td>
+        <td>
+            @Html.DropDownList("InstanceParameterID", String.Empty)
+        </td>
+        <td>
+            <input type="text" />
+        </td>
+    </tr>
+</table>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $().ready(function () {
+            $("#btnAdd").click(function () {
+                $("#tbl").append("<tr><td><input type=\"text\" /></td><td><input type=\"text\" /></td><td><select><option value=\"0\">Test 1</option><option value=\"0\">Test 2</option><option value=\"0\">Test 3</option></select></td><td>@Ajax.JavaScriptStringEncode(Html.DropDownList("InstanceParameterID", String.Empty).ToString())</td><td><input type=\"text\" /></td></tr>");
+            });
+        });
+    </script>
+}

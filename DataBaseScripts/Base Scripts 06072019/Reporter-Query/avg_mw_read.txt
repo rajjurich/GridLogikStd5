@@ -1,0 +1,124 @@
+execute procedure ifx_allow_newline('t');
+
+
+
+drop table if exists avg_mw_read_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.avg_mw_read_1','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($avg_mw)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_avg_mw_read_1;
+create view etools_dev.evt_avg_mw_read_1
+(
+meterid,
+tstamp,
+avg_mw
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) avg_mw
+from
+avg_mw_read_1;
+
+
+
+drop table if exists avg_mw_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.avg_mw_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($avg_mw)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_avg_mw_read_2;
+create view etools_dev.evt_avg_mw_read_2
+(
+meterid,
+tstamp,
+avg_mw
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) avg_mw
+from
+avg_mw_read_2;
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists avg_mw_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.avg_mw_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($avg_mw)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_avg_mw_read_3;
+create view etools_dev.evt_avg_mw_read_3
+(
+meterid,
+tstamp,
+avg_mw
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) avg_mw
+from
+avg_mw_read_3;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists avg_mw_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.avg_mw_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($avg_mw)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_avg_mw_read_5;
+create view etools_dev.evt_avg_mw_read_5
+(
+meterid,
+tstamp,
+avg_mw
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) avg_mw
+from
+avg_mw_read_5;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists avg_mw_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.avg_mw_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($avg_mw)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_avg_mw_read_6;
+create view etools_dev.evt_avg_mw_read_6
+(
+meterid,
+tstamp,
+avg_mw
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) avg_mw
+from
+avg_mw_read_6;

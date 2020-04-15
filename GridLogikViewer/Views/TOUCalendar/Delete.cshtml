@@ -1,0 +1,213 @@
+﻿@model GridLogikViewer.Models.MstTOUCalendar
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+                $.ajax({
+                    //url: "http://localhost:8487/GridLogikViewerWebAPI/api/toucalendar/" + id,
+                    url: BaseAddress + "toucalendar/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        
+                        if (response.Data.result.tcrecid == null) {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d);
+                        }
+                        else {
+                            //$("#tcrecid").val(response.Data.result.tcrecid);
+                            //$("#tctouid").val(response.Data.result.tctouid);
+                            //$("#tcmonday").val(response.Data.result.tcmonday);
+                            //$("#tctuesday").val(response.Data.result.tctuesday);
+                            //$("#tcmonday").val(response.Data.result.tcmonday);
+                            //$("#tctuesday").val(response.Data.result.tctuesday);
+                            //$("#tcwednesday").val(response.Data.result.tcwednesday);
+                            //$("#tcthursday").val(response.Data.result.tcthursday);
+                            //$("#tcfriday").val(response.Data.result.tcfriday);
+                            //$("#tcsaturday").val(response.Data.result.tcsaturday);
+                            //$("#tcsunday").val(response.Data.result.tcsunday);
+                            //$("#tcholiday").val(response.Data.result.tcholiday);
+                            //$("#tcisdeleted").val(response.Data.result.tcisdeleted);
+
+                            $("#tcrecid").val(response.Data.result.tcrecid);
+                            $("#tctouid").val(response.Data.result.tctouid);
+                            response.Data.result.tcmonday == 1 ? $('#tcmonday').prop('checked', true) : $('#tcmonday').prop('checked', false);
+                            response.Data.result.tctuesday == 1 ? $('#tctuesday').prop('checked', true) : $('#tctuesday').prop('checked', false);
+                            response.Data.result.tcwednesday == 1 ? $('#tcwednesday').prop('checked', true) : $('#tcwednesday').prop('checked', false);
+                            response.Data.result.tcthursday == 1 ? $('#tcthursday').prop('checked', true) : $('#tcthursday').prop('checked', false);
+                            response.Data.result.tcfriday == 1 ? $('#tcfriday').prop('checked', true) : $('#tcfriday').prop('checked', false);
+                            response.Data.result.tcsaturday == 1 ? $('#tcsaturday').prop('checked', true) : $('#tcsaturday').prop('checked', false);
+                            response.Data.result.tcsunday == 1 ? $('#tcsunday').prop('checked', true) : $('#tcsunday').prop('checked', false);
+                            response.Data.result.tcholiday == 1 ? $('#tcholiday').prop('checked', true) : $('#tcholiday').prop('checked', false);
+                            $("#tcisdeleted").val(response.Data.result.tcisdeleted);
+                        }
+                    },
+                    error: function (xhr) {
+                        
+                        alert(xhr.responseText);
+                    }
+                });
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm(DeleteMessage);
+                if (msg == false) {
+                    return false;
+                }
+                else {
+                    var msttoucalendar = {
+                        "tcrecid": $("#tcrecid").val(),
+                        "tctouid": $("#tctouid").val(),
+                        "tcmonday": $("#tcmonday").prop("checked") ? 1 : 0,
+                        "tctuesday": $("#tctuesday").prop("checked") ? 1 : 0,
+                        "tcwednesday": $("#tcwednesday").prop("checked") ? 1 : 0,
+                        "tcthursday": $("#tcthursday").prop("checked") ? 1 : 0,
+                        "tcfriday": $("#tcfriday").prop("checked") ? 1 : 0,
+                        "tcsaturday": $("#tcsaturday").prop("checked") ? 1 : 0,
+                        "tcsunday": $("#tcsunday").prop("checked") ? 1 : 0,
+                        "tcholiday": $("#tcholiday").prop("checked") ? 1 : 0,
+                        "tcisdeleted": 1
+                    };
+                    var RecordID = $("#tcrecid").val();
+
+                    
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost:8487/GridLogikViewerWebAPI/api/toucalendar/" + RecordID,
+                        url: BaseAddress + "toucalendar/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttoucalendar),//data to be send
+                        success: function (response) {
+                            
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                window.location.href = '@Url.Action("Index", "TOUCalendar")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                           }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                           }
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+                    e.preventDefault();
+                }
+            });
+        });
+
+    </script>
+
+}
+
+
+<h2>Delete TOU Calendar</h2>
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        
+        <hr />
+        <div class="form-group">
+            @Html.HiddenFor(model => model.tcrecid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tctouid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.tctouid, new { disabled = "disabled" })
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcmonday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @* @Html.TextBoxFor(model => model.tcmonday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcmonday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tctuesday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @* @Html.TextBoxFor(model => model.tctuesday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tctuesday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcwednesday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.tcwednesday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcwednesday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcthursday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.tcthursday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcthursday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcfriday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.tcfriday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcfriday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcsaturday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.tcsaturday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcsaturday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcsunday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.TextBoxFor(model => model.tcsunday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcsunday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tcholiday, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @* @Html.TextBoxFor(model => model.tcholiday, new { disabled = "disabled" })*@
+                @Html.CheckBoxFor(model => model.tcholiday, new { })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Delete" class="btn btn-default" id="btnDelete" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+

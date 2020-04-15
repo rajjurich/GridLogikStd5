@@ -1,0 +1,231 @@
+@model IEnumerable<GridLogik.ViewModels.RealTimeAlarmModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@*<script src="~/Scripts/jquery.ba-throttle-debounce.min.js"></script>*@
+@*<link href="~/Content/css/style-stickyheader.css" rel="stylesheet" />*@
+@*<script src="~/Scripts/jquery.stickyheader.js"></script>*@
+
+<script src="~/Scripts/jquery.dataTables.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+       
+
+
+    
+
+
+
+        $("#btnupdate").click(function (e) {
+
+
+            var TableData = new Array();
+
+            var myTr = [];
+            $('#table1 tr').each(function () {
+                $(this).find('td').each(function () {
+                    myTr.push($(this).text());
+                });
+
+            });
+
+
+            var TableData = new Array();
+
+            //$('#table1 tr').not(':first').each(function (row, tr) {
+            $('#table1 tbody tr').each(function (row, tr) {
+                TableData[row] = {
+
+                    "id": $(tr).find('td:eq(0)').text()
+            , "status": $(tr).find('td:eq(3) input:first').is(':checked')
+            , "sendsms": $(tr).find('td:eq(4) input:first').is(':checked')
+            , "sendemail": $(tr).find('td:eq(5) input:first').is(':checked')
+            , "givepopup": $(tr).find('td:eq(6) input:first').is(':checked')
+
+                }
+            });
+            console.log(TableData);
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "RealtimeAlarm/UpdateData",
+                //crossDomain: true,
+                data: JSON.stringify(TableData),
+                dataType: "json",//type of data to be received
+                success: function (response) {
+
+                    $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                    $("#btn-success-trigger").trigger('click');
+                    $("#modal_message h3").text("Success");
+
+                },
+                error: function (xhr, status, error) {
+                    debugger;
+                    if (box) box.remove();
+                    alert(xhr.responseText);
+                }
+            });
+            if (box) box.remove();
+
+        })
+
+        
+
+        $("#table1").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false },
+                                        { "bSortable": false, "searchable": false }
+                            ]
+                        });
+    });
+
+</script>
+
+
+
+<style>
+    .dataTables_scrollHead {
+        overflow: visible !important;
+       
+    }
+
+    .dataTables_scroll {
+        overflow-y: scroll !important;
+        margin-bottom: 15px;
+    }
+
+    .dataTables_scrollBody {
+        width: 1351px !important;
+    }
+
+    .dataTables_info {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+</style>
+
+<div id="trgPopup">
+
+</div>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter Groups</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">RealTime Alarm</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <div class="table-responsive ls-table">
+                                        @Html.ActionLink(" Create New", "create", "RealtimeAlarm", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm  mr15 btnCreateClass" })
+                                        <button id="btnupdate" type="button" class="btn btn-info  btn-sm pull-right btnCreateClass mb5"><i class="fa fa-save"></i>&nbsp;&nbsp;Update</button>
+                                        @*<div class="clearfix"></div>
+                                        <hr />*@
+                                        <table id="table1" class="table table-bordered table-striped" style="width:100%!important;">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        ID
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Alarm Name
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Alarm Message
+                                                    </th>
+
+                                                    <th class="text-center">
+                                                        Status
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Send SMS
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Send Email
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Give Popup
+                                                    </th>
+                                                    <th class="text-center action">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.alarmname)
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.DisplayFor(modelItem => item.alarmmessage)
+                                                        </td>
+                                                        <td style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.StatusChecked, new { @id = "Status" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.SendSMSChecked, new { @id = "SendSMS" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.SendEmailChecked, new { @id = "SendEmail" })
+                                                        </td>
+                                                        <td class="colortd" style="text-align:center">
+                                                            @Html.CheckBoxFor(model => item.GivePopupChecked, new { @id = "GivePopup" })
+                                                        </td>
+                                                        <td style="white-space:nowrap;text-align:center">
+                                                             @Html.ActionLink(" Edit", "Edit", new { id = item.id }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                             @Html.ActionLink(" Delete", "delete", new { id = item.id }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                            </div>
+                        </div>
+                    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

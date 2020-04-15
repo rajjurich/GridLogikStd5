@@ -1,0 +1,21 @@
+﻿@model GridLogikViewer.APIModels.MemoryMap_Addressdetails
+
+
+<tr>
+    <td>
+        @Html.TextBoxFor(model => model.Address)
+    </td>
+    <td>
+        @Html.TextBoxFor(model => model.ParameterName)
+    </td>
+    <td>
+        @Html.DropDownList("DataTypeID", string.Empty)
+    </td>
+    <td>
+        @Html.DropDownList("InstanceParameterID", String.Empty)
+    </td>
+    <td>
+        @Html.TextBoxFor(model => model.MultiplicationFactor)
+    </td>
+</tr>
+

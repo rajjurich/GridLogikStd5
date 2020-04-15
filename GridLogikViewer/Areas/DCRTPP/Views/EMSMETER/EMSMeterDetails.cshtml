@@ -1,0 +1,820 @@
+﻿@model List<GridLogikViewer.APIModels.GetInstanceData>
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2>Dashbord</h2>
+
+    </div>
+    @*<div class="form-group col-md-4" style="border:0px solid #f00;">
+            <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group</label>
+            <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 5px 0px;">
+                @Html.DisplayFor(model => model.Group_Name)
+            </div>
+        </div>
+        <div class="form-group col-md-4" style="border:0px solid #f00;">
+            <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>
+            <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 5px 0px;">
+                @Html.DisplayFor(model => model.Meter_Name)
+            </div>
+        </div>*@
+
+    @*<div class="row">
+        <div class="col-md-12">
+            <div id="divParent">
+                <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:right;">
+                    <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBack">Back</button>
+                </div>
+                </div>
+            </div>
+        </div>*@
+    @*<div class="form-group col-md-4" style="border:0px solid #f00;">
+            <div class="col-md-12" style="border:0px solid #f00; ">
+                <button type="button" class="btn btn-flatpurple col-md-12" id="CurrentDate" style="font-weight:bold; margin:0px 5px;">@Model.CurrentDate</button>
+            </div>
+        </div>*@
+    @*<div class="form-group col-md-2" style="border:0px solid #f00;">
+            <div class="col-md-12" style="border:0px solid #f00; ">
+                <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+            </div>
+        </div>*@
+</div>
+<br />
+@*kunal new abt*@
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Auxiliary Power Consumption Summary - DCRTPP / HPGCL<!--<b style="font-size:16px;">Energy</b>--></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; "></th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">UNIT - 1</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">UNIT - 2</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">GENERATION (MW)</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="GENERATIONUnit1"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="GENERATIONUnit2"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">UNIT APC (MW) </th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="UNITAPC1"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="UNITAPC2"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">UNIT APC (%)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="UNITAPCPer1"></label></td>
+                        <td style=" color:#00FFF6;padding:0px;"><label id="UNITAPCPer2"></label></td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-12" style="border:0px solid  #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">STN. GEN (MW)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALGEN"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STN. APC (MW) </th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="TOTALAPC"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">STN. APC (%)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="APCPercent"></label></td>
+
+                        @*</tr>
+                            <tr>*@
+                        <th style=" background:#0f0f0f !important; color:#f7943c; padding:0px;" scope="row">Freq. (Hz)</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="Frequency"></label></td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;"><!--<b style="font-size:16px;">Energy</b>--></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; "></th>
+                        <th colspan="2" style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">UNIT - 1</th>
+                        <th colspan="2" style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">UNIT - 2</th>
+                        <th colspan="2" style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center; ">STATION</th>
+                    </tr>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">AREA</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">LOAD (MW)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">APC VALUE (%)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">LOAD (MW)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">APC VALUE (%)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">LOAD (MW)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">APC VALUE (%)</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">BOILER AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOILERAUXUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOILERAUXUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOILERAUXUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOILERAUXUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOILERAUXUnitStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOILERAUXUnitStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">TURBINE AUX.</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="TURBINEAUXUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="TURBINEAUXUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="TURBINEAUXUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="TURBINEAUXUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="TURBINEAUXStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="TURBINEAUXStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">CHP</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CHPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CHPUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CHPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CHPUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CHPStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="CHPStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">AHP</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="AHPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="AHPUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="AHPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="AHPUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="AHPStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="AHPStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">BOP</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOPUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOPUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="BOPStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="BOPStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">COMPRESSORS</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COMPRESSORSUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COMPRESSORSUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COMPRESSORSUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COMPRESSORSUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COMPRESSORSStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COMPRESSORSStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">COLONY</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COLONYUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COLONYUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COLONYUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COLONYUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="COLONYStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="COLONYStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ADMIN</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ADMINUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ADMINUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ADMINUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ADMINUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ADMINStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ADMINStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">ESP</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ESPUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ESPUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ESPUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ESPUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="ESPStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="ESPStationApc"></label></td>
+                    </tr>
+
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">STN PMCC</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="STNPMCCUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="STNPMCCUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="STNPMCCUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="STNPMCCUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="STNPMCCStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="STNPMCCStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">UNIT PMCC</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="UNITPMCCUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="UNITPMCCUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="UNITPMCCUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="UNITPMCCUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="UNITPMCCStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="UNITPMCCStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SWYD T/F</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="SWYDUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="SWYDUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="SWYDUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="SWYDUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="SWYDStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="SWYDStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">RAW WATER</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="RAWWATERUnit1Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="RAWWATERUnit1Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="RAWWATERUnit2Load"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="RAWWATERUnit2Apc"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="RAWWATERStationLoad"></label></td>
+                        <td style=" color:#00FFF6; padding:0px;"><label id="RAWWATERStationApc"></label></td>
+                    </tr>
+                    <tr>
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">TOTAL</th>
+                        <td style=" background:#0f0f0f !important;color: #ffff00; padding: 0px;"><label id="TOTALUnit1Load"></label></td>
+                        <td style=" background:#0f0f0f !important;color:#faebd7; padding:0px;"><label id="TOTALUnit1Apc"></label></td>
+                        <td style=" background:#0f0f0f !important;color: #ffff00; padding: 0px;"><label id="TOTALUnit2Load"></label></td>
+                        <td style=" background:#0f0f0f !important;color:#faebd7; padding:0px;"><label id="TOTALUnit2Apc"></label></td>
+                        <td style=" background:#0f0f0f !important;color: #ffff00; padding: 0px;"><label id="TOTALStationLoad"></label></td>
+                        <td style=" background:#0f0f0f !important;color:#faebd7; padding:0px;"><label id="TOTALStationApc"></label></td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div id="divParent">
+            <div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBoiler">BOILER AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnTurbine">TURBINE AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCHP">CHP   </button>
+            </div>
+            <div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnAHP">AHP</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnFeeders">FEEDERS Area</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnOther">Other Aux</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var MeterString = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+        $("#btnBoiler").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("BOILERAUXILIARIES", "EMSMETER")';
+        });
+        $("#btnTurbine").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("TURBINEAUX", "EMSMETER")';
+        });
+        $("#btnOther").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("OTHERAUX", "EMSMETER")';
+        });
+        $("#btnCHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("CHPArea", "EMSMETER")';
+        });
+        $("#btnAHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("AHP", "EMSMETER")';
+        });
+        $("#btnFeeders").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("FEEDERSArea", "EMSMETER")';
+        });
+        ABTMeterDetails();
+    });
+
+
+
+
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "EMSMeter")';
+    });*@
+    setInterval(ABTMeterDetails, 6000);
+    function ABTMeterDetails() {
+        var Genunit1 = 0;
+        var Genunit2 = 0;
+        var APCMWunit1 = 0;
+        var APCMWunit2 = 0;
+        var APCPerunit1 = 0;
+        var APCPerunit2 = 0;
+        var TotalGen = 0;
+        var TotalAPC = 0;
+        var Hz1 = 0;
+        var Hz2 = 0;
+        var Hz3 = 0;
+        var Hz4 = 0;
+        var Hz5 = 0;
+        var Hz6 = 0;
+        var Hz7 = 0;
+
+        var BoilerAuxUnit1 = 0;
+        var BoilerAuxUnit2 = 0;
+        var BoilerAuxStation = 0;
+        var TAUnit1 = 0;
+        var TAUnit2 = 0;
+        var TAStation = 0;
+        var CHPUnit1 = 0;
+        var CHPUnit2 = 0;
+        var CHPStation = 0;
+        var AHPUnit1 = 0;
+        var AHPUnit2 = 0;
+        var AHPStation = 0;
+        var BOPUnit1 = 0;
+        var BOPUnit2 = 0;
+        var BOPStation = 0;
+        var COMPRESSORSUnit1 = 0;
+        var COMPRESSORSUnit2 = 0;
+        var COMPRESSORSStation = 0;
+        var ColonyUnit1 = 0;
+        var ColonyUnit2 = 0;
+        var ColonyStation = 0;
+        var AdminUnit1 = 0;
+        var AdminUnit2 = 0;
+        var AdminStation = 0;
+        var ESPUnit1 = 0;
+        var ESPUnit2 = 0;
+        var ESPStation = 0;
+        var STNPMCCUnit1 = 0;
+        var STNPMCCUnit2 = 0;
+        var STNPMCCStation = 0;
+        var UNITPMCCUnit1 = 0;
+        var UNITPMCCUnit2 = 0;
+        var UNITPMCCStation = 0;
+        var SWYDUnit1 = 0;
+        var SWYDUnit2 = 0;
+        var SWYDStation = 0;
+        var RAWWATERUnit1 = 0;
+        var RAWWATERUnit2 = 0;
+        var RAWWATERStation = 0;
+        debugger
+        $.ajax({
+            //type: "GET",
+            //contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+            //dataType: "json",//type of data to be received
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var TotalUnit1kw = 0;
+                var TotalUnit2kw = 0;
+                var TotalStationkw = 0;
+                var TotalUnit1apc = 0;
+                var TotalUnit2apc = 0;
+                var TotalStationapc = 0;
+                var jsonObj = response.Data.result;
+                debugger
+                if (jsonObj != undefined && jsonObj.length > 0) {
+                
+
+                    jsonObj.forEach(function (responseobj) {
+                        if (responseobj.meterid == 109) {
+  
+                            if (!isNaN(responseobj.kw)) {
+
+                                // $('#GENERATIONUnit1").html(responseobj.kw.toString());
+                                Genunit1 = responseobj.kw;
+                                //document.getElementById(id1).value = responseobj.kw;
+                            } else {
+                                // $('#GENERATIONUnit1").html("0");// document.getElementById(id1).value = 0;
+                                Genunit1 = 0;
+                            }
+                        }
+                        if (responseobj.meterid == 52) {
+
+                            if (!isNaN(responseobj.kw)) {
+                                //   $("#GENERATIONUnit2").html(responseobj.kw);
+                                Genunit2 = responseobj.kw;
+                                // document.getElementById(id2).value = responseobj.kw;
+                            } else {
+                                // $('#GENERATIONUnit2").html("0");
+                                Genunit2 = 0;
+                                //document.getElementById(id2).value = 0;
+                            }
+
+                        }
+
+                        if (responseobj.meterid == 84 || responseobj.meterid == 85 || responseobj.meterid == 93 || responseobj.meterid == 108 || responseobj.meterid == 96 || responseobj.meterid == 105 || responseobj.meterid == 70 || responseobj.meterid == 71 || responseobj.meterid == 72 || responseobj.meterid == 73 || responseobj.meterid == 74 || responseobj.meterid == 75 || responseobj.meterid == 76 || responseobj.meterid == 77 || responseobj.meterid == 78 || responseobj.meterid == 79 || responseobj.meterid == 80 || responseobj.meterid == 87 || responseobj.meterid == 88 || responseobj.meterid == 90 || responseobj.meterid == 92) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                APCMWunit1 = APCMWunit1 + responseobj.kw;
+                            }
+                        }
+
+                        if (responseobj.meterid == 5 || responseobj.meterid == 36 || responseobj.meterid == 51 || responseobj.meterid == 40 || responseobj.meterid == 47 || responseobj.meterid == 13 || responseobj.meterid == 14 || responseobj.meterid == 15 || responseobj.meterid == 16 || responseobj.meterid == 17 || responseobj.meterid == 18 || responseobj.meterid == 19 || responseobj.meterid == 20 || responseobj.meterid == 21 || responseobj.meterid == 22 || responseobj.meterid == 23 || responseobj.meterid == 24 || responseobj.meterid == 1 || responseobj.meterid == 2 || responseobj.meterid == 9 || responseobj.meterid == 10) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                APCMWunit2 = APCMWunit2 + responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 46) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                APCMWunit2 = APCMWunit2 - responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 127) {
+                            Hz1 = responseobj.Hz;
+                        }
+                        if (responseobj.meterid == 128) {
+                            Hz2 = responseobj.Hz;
+                        }
+                        if (responseobj.meterid == 92) {
+                            Hz4 = responseobj.Hz;
+                        }
+                        if (responseobj.meterid == 109) {
+                            Hz5 = responseobj.Hz;
+                        }
+                        if (Hz1 > Hz2) {
+                            Hz3 = Hz1
+                        }
+                        if (Hz1 < Hz2) {
+                            Hz3 = Hz2
+                        }
+                        if (Hz4 < Hz5) {
+                            Hz6 = Hz5
+                        }
+                        if (Hz4 > Hz5) {
+                            Hz6 = Hz4
+                        }
+                        if (Hz6 > Hz3) {
+                            Hz7 = Hz6
+                        }
+                        if (Hz6 < Hz3) {
+                            Hz7 = Hz3
+                        }
+
+                        @*if (responseobj.meterid == 36 ) {
+                            Hz21 = responseobj.Hz;
+                        }
+                        if (responseobj.meterid == 51) {
+                            Hz22 = responseobj.Hz;
+                        }
+                        if (Hz21 > Hz22) {
+                            Hz32 = Hz21
+                        }
+                        if (Hz21 < Hz22) {
+                            Hz32 = Hz22
+                        }
+if (hz31>hz32) {
+hz3=hz31
+}
+if (hz31<hz32) {
+hz3=hz32
+} *@
+
+                        if (responseobj.meterid == 67 || responseobj.meterid == 72 || responseobj.meterid == 113 || responseobj.meterid == 68 || responseobj.meterid == 71 || responseobj.meterid == 69 || responseobj.meterid == 70 || responseobj.meterid == 65 || responseobj.meterid == 74 || responseobj.meterid == 64 || responseobj.meterid == 75 || responseobj.meterid == 63 || responseobj.meterid == 111) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                BoilerAuxUnit1 = BoilerAuxUnit1 + responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 22 || responseobj.meterid == 27 || responseobj.meterid == 56 || responseobj.meterid == 23 || responseobj.meterid == 26 || responseobj.meterid == 24 || responseobj.meterid == 25 || responseobj.meterid == 30 || responseobj.meterid == 29 || responseobj.meterid == 18 || responseobj.meterid == 19 || responseobj.meterid == 20 || responseobj.meterid == 54) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                BoilerAuxUnit2 = BoilerAuxUnit2 + responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 58 || responseobj.meterid == 59 || responseobj.meterid == 60 || responseobj.meterid == 61 || responseobj.meterid == 62 || responseobj.meterid == 66 || responseobj.meterid == 73 || responseobj.meterid == 76 || responseobj.meterid == 77 || responseobj.meterid == 78 || responseobj.meterid == 79 || responseobj.meterid == 80 || responseobj.meterid == 114 || responseobj.meterid == 115) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                TAUnit1 = TAUnit1 + responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 13 || responseobj.meterid == 14 || responseobj.meterid == 15 || responseobj.meterid == 16 || responseobj.meterid == 17 || responseobj.meterid == 21 || responseobj.meterid == 28 || responseobj.meterid == 31 || responseobj.meterid == 32 || responseobj.meterid == 33 || responseobj.meterid == 34 || responseobj.meterid == 35 || responseobj.meterid == 57) {
+
+                            if (!isNaN(responseobj.kw)) {
+
+                                TAUnit2 = TAUnit2 + responseobj.kw;
+                            }
+                        }
+                        if (responseobj.meterid == 97 || responseobj.meterid == 99) {
+                            CHPUnit1 = CHPUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 41 || responseobj.meterid == 43) {
+                            CHPUnit2 = CHPUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 107) {
+                            AHPUnit1 = AHPUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 50) {
+                            AHPUnit2 = AHPUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 98 || responseobj.meterid == 102) {
+                            BOPUnit1 = BOPUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 42 || responseobj.meterid == 48) {
+                            BOPUnit2 = BOPUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 110 || responseobj.meterid == 112) {
+                            COMPRESSORSUnit1 = COMPRESSORSUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 53 || responseobj.meterid == 55) {
+                            COMPRESSORSUnit2 = COMPRESSORSUnit2 + responseobj.kw;
+                        }
+                        //if (responseobj.meterid == 46) {
+                        //    ColonyUnit1 = ColonyUnitUnit1 + responseobj.kw;
+                        //}
+                        if (responseobj.meterid == 39) {
+                            ColonyUnit2 = ColonyUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 101) {
+                            AdminUnit1 = AdminUnit1 + responseobj.kw;
+                        }
+                        //if (responseobj.meterid == 101) {
+                        //    AdminUnit2 = AdminUnit2 + responseobj.kw;
+                        //}
+
+                        if (responseobj.meterid == 81 || responseobj.meterid == 88) {
+                            ESPUnit1 = ESPUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 1 || responseobj.meterid == 8) {
+                            ESPUnit2 = ESPUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 95 || responseobj.meterid == 106) {
+                            STNPMCCUnit1 = STNPMCCUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 38 || responseobj.meterid == 49) {
+                            STNPMCCUnit2 = STNPMCCUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 82 || responseobj.meterid == 87) {
+                            UNITPMCCUnit1 = UNITPMCCUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 2 || responseobj.meterid == 7) {
+                            UNITPMCCUnit2 = UNITPMCCUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 94) {
+                            SWYDUnit1 = SWYDUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 37) {
+                            SWYDUnit2 = SWYDUnit2 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 104) {
+                            RAWWATERUnit1 = RAWWATERUnit1 + responseobj.kw;
+                        }
+                        if (responseobj.meterid == 46) {
+                            RAWWATERUnit2 = RAWWATERUnit2 + responseobj.kw;
+                        }
+                    });
+                    debugger
+                    APCPerunit1 = ((APCMWunit1 / 1) * 100) / Genunit1;
+                    APCPerunit2 = ((APCMWunit2 / 1) * 100) / Genunit2;
+                    TotalGen = (Genunit1 + Genunit2) / 1000;
+                    TotalAPC = (APCMWunit1 + APCMWunit2) / 1000;
+                    BoilerAuxStation = BoilerAuxUnit1 / 1000 + BoilerAuxUnit2 / 1000;
+                    TAStation = (TAUnit1 / 1000) + (TAUnit2 / 1000);
+                    CHPStation = (CHPUnit1 / 1000) + (CHPUnit1 / 1000);
+                    AHPStation = (AHPUnit1 / 1000) + (AHPUnit2 / 1000);
+                    BOPStation = (BOPUnit1 / 1000) + (BOPUnit2 / 1000);
+                    COMPRESSORSStation = (COMPRESSORSUnit1 / 1000) + (COMPRESSORSUnit2 / 1000);
+                    ColonyStation = (ColonyUnit1 / 1000) + (ColonyUnit2 / 1000);
+                    AdminStation = (AdminUnit1 / 1000) + (AdminUnit2 / 1000);
+                    ESPStation = (ESPUnit1 / 1000) + (ESPUnit2 / 1000);
+                    STNPMCCStation = (STNPMCCUnit1 / 1000) + (STNPMCCUnit2 / 1000);
+                    UNITPMCCStation = (UNITPMCCUnit1 / 1000) + (UNITPMCCUnit2 / 1000);
+                    SWYDStation = (SWYDUnit1 / 1000) + (SWYDUnit2 / 1000);
+                    RAWWATERStation = (RAWWATERUnit1 / 1000) + (RAWWATERUnit2 / 1000);
+
+                    TotalUnit1kw = (BoilerAuxUnit1 + TAUnit1 + CHPUnit1 + AHPUnit1 + BOPUnit1 + COMPRESSORSUnit1 + AdminUnit1 + ESPUnit1 + STNPMCCUnit1 + UNITPMCCUnit1 + SWYDUnit1 + RAWWATERUnit1) / 1000;
+                    TotalUnit2kw = (BoilerAuxUnit2 + TAUnit2 + CHPUnit2 + AHPUnit2 + BOPUnit2 + COMPRESSORSUnit2 + AdminUnit2 + ESPUnit2 + STNPMCCUnit2 + UNITPMCCUnit2 + SWYDUnit2 + RAWWATERUnit2) / 1000;
+                    TotalStationkw = (TotalUnit1kw + TotalUnit2kw);
+                    TotalUnit1apc = (TotalUnit1kw * 100000 / Genunit1);
+                    TotalUnit2apc = (TotalUnit2kw * 100000 / Genunit2);
+                    TotalStationapc = ((TotalStationkw * 100) / TotalGen);
+
+                    // document.getElementById(id3).value = Number(document.getElementById(id1).value) + Number(document.getElementById(id2).value);
+                    // $('#' + id3).html(Number($('#' + id1).html()) + Number($('#' + id2).html()));
+                    $("#GENERATIONUnit1").html((Genunit1 / 1000).toString());
+                    $("#GENERATIONUnit2").html((Genunit2 / 1000).toString());
+                    $("#UNITAPC1").html((APCMWunit1 / 1000).toFixed(2).toString());
+                    $("#UNITAPC2").html((APCMWunit2 / 1000).toFixed(2).toString());
+                    $("#UNITAPCPer1").html((APCPerunit1).toFixed(2).toString());
+                    $("#UNITAPCPer2").html((APCPerunit2).toFixed(2).toString());
+                    $("#TOTALGEN").html((TotalGen).toFixed(2).toString());
+                    $("#TOTALAPC").html(TotalAPC.toFixed(2).toString());
+                    $("#APCPercent").html((TotalAPC * 100 / TotalGen).toFixed(2).toString());
+                    $("#Frequency").html((Hz7).toFixed(2).toString());
+                    $("#BOILERAUXUnit1Load").html((BoilerAuxUnit1 / 1000).toFixed(2).toString());
+                    $("#BOILERAUXUnit1Apc").html((((BoilerAuxUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#BOILERAUXUnit2Load").html((BoilerAuxUnit2 / 1000).toFixed(2));
+                    $("#BOILERAUXUnit2Apc").html((((BoilerAuxUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#BOILERAUXUnitStationLoad").html((BoilerAuxStation).toFixed(2).toString());
+                    $("#BOILERAUXUnitStationApc").html(((BoilerAuxStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#TURBINEAUXUnit1Load").html((TAUnit1 / 1000).toFixed(2).toString());
+                    $("#TURBINEAUXUnit1Apc").html((((TAUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#TURBINEAUXUnit2Load").html((TAUnit2 / 1000).toFixed(2).toString());
+                    $("#TURBINEAUXUnit2Apc").html((((TAUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#TURBINEAUXStationLoad").html((TAStation).toFixed(2).toString());
+                    $("#TURBINEAUXStationApc").html(((TAStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#CHPUnit1Load").html((CHPUnit1 / 1000).toFixed(2).toString());
+                    $("#CHPUnit1Apc").html((((CHPUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#CHPUnit2Load").html((CHPUnit2 / 1000).toFixed(2).toString());
+                    $("#CHPUnit2Apc").html((((CHPUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#CHPStationLoad").html((CHPStation).toFixed(2).toString());
+                    $("#CHPStationApc").html((((CHPStation) * 100) / TotalGen).toFixed(2).toString());
+                    $("#AHPUnit1Load").html((AHPUnit1 / 1000).toFixed(2).toString());
+                    $("#AHPUnit1Apc").html((((AHPUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#AHPUnit2Load").html((AHPUnit2 / 1000).toFixed(2));
+                    $("#AHPUnit2Apc").html((((AHPUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#AHPStationLoad").html((AHPStation).toFixed(2).toString());
+                    $("#AHPStationApc").html(((AHPStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#BOPUnit1Load").html((BOPUnit1 / 1000).toFixed(2).toString());
+                    $("#BOPUnit1Apc").html((((BOPUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#BOPUnit2Load").html((BOPUnit2 / 1000).toFixed(2).toString());
+                    $("#BOPUnit2Apc").html((((BOPUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#BOPStationLoad").html((BOPStation).toFixed(2).toString());
+                    $("#BOPStationApc").html(((BOPStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#COMPRESSORSUnit1Load").html((COMPRESSORSUnit1 / 1000).toFixed(2).toString());
+                    $("#COMPRESSORSUnit1Apc").html((((COMPRESSORSUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#COMPRESSORSUnit2Load").html((COMPRESSORSUnit2 / 1000).toFixed(2).toString());
+                    $("#COMPRESSORSUnit2Apc").html((((COMPRESSORSUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#COMPRESSORSStationLoad").html((COMPRESSORSStation).toFixed(2).toString());
+                    $("#COMPRESSORSStationApc").html(((COMPRESSORSStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#COLONYUnit1Load").html("-");
+                    $("#COLONYUnit1Apc").html("-");
+                    $("#COLONYUnit2Load").html((ColonyUnit2 / 1000).toFixed(2).toString());
+                    $("#COLONYUnit2Apc").html((((ColonyUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#COLONYStationLoad").html((ColonyStation).toFixed(2).toString());
+                    $("#COLONYStationApc").html(((ColonyStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#ADMINUnit1Load").html((AdminUnit1 / 1000).toFixed(2).toString());
+                    $("#ADMINUnit1Apc").html((((AdminUnit1 / 1) * 100) / Genunit1).toFixed(2).toString());
+                    $("#ADMINUnit2Load").html("-");
+                    $("#ADMINUnit2Apc").html("-");
+                    $("#ADMINStationLoad").html((AdminStation).toFixed(2).toString());
+                    $("#ADMINStationApc").html(((AdminStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#ESPUnit1Load").html((ESPUnit1 / 1000).toFixed(2).toString());
+                    $("#ESPUnit1Apc").html(((((ESPUnit1 / 1) * 100) / Genunit1)).toFixed(2).toString());
+                    $("#ESPUnit2Load").html((ESPUnit2 / 1000).toFixed(2).toString());
+                    $("#ESPUnit2Apc").html((((ESPUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#ESPStationLoad").html((ESPStation).toFixed(2).toString());
+                    $("#ESPStationApc").html(((ESPStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#STNPMCCUnit1Load").html((STNPMCCUnit1 / 1000).toFixed(2).toString());
+                    $("#STNPMCCUnit1Apc").html(((((STNPMCCUnit1 / 1) * 100) / Genunit1)).toFixed(2).toString());
+                    $("#STNPMCCUnit2Load").html((STNPMCCUnit2 / 1000).toFixed(2).toString());
+                    $("#STNPMCCUnit2Apc").html((((STNPMCCUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#STNPMCCStationLoad").html((STNPMCCStation).toFixed(2).toString());
+                    $("#STNPMCCStationApc").html(((STNPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#UNITPMCCUnit1Load").html((UNITPMCCUnit1 / 1000).toFixed(2).toString());
+                    $("#UNITPMCCUnit1Apc").html(((((UNITPMCCUnit1 / 1) * 100) / Genunit1)).toFixed(2).toString());
+                    $("#UNITPMCCUnit2Load").html((UNITPMCCUnit2 / 1000).toFixed(2).toString());
+                    $("#UNITPMCCUnit2Apc").html((((UNITPMCCUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#UNITPMCCStationLoad").html((UNITPMCCStation).toFixed(2).toString());
+                    $("#UNITPMCCStationApc").html(((UNITPMCCStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#SWYDUnit1Load").html((SWYDUnit1 / 1000).toFixed(2).toString());
+                    $("#SWYDUnit1Apc").html(((((SWYDUnit1 / 1) * 100) / Genunit1)).toFixed(2).toString());
+                    $("#SWYDUnit2Load").html((SWYDUnit2 / 1000).toFixed(2).toString());
+                    $("#SWYDUnit2Apc").html((((SWYDUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#SWYDStationLoad").html((SWYDStation).toFixed(2).toString());
+                    $("#SWYDStationApc").html(((SWYDStation * 100) / TotalGen).toFixed(2).toString());
+                    $("#RAWWATERUnit1Load").html((RAWWATERUnit1 / 1000).toFixed(2).toString());
+                    $("#RAWWATERUnit1Apc").html(((((RAWWATERUnit1 / 1) * 100) / Genunit1)).toFixed(2).toString());
+                    $("#RAWWATERUnit2Load").html((RAWWATERUnit2 / 1000).toFixed(2).toString());
+                    $("#RAWWATERUnit2Apc").html((((RAWWATERUnit2 / 1) * 100) / Genunit2).toFixed(2).toString());
+                    $("#RAWWATERStationLoad").html((RAWWATERStation).toFixed(2).toString());
+                    $("#RAWWATERStationApc").html(((RAWWATERStation * 100) / TotalGen).toFixed(2).toString());
+
+
+
+                    $("#TOTALUnit1Load").html(TotalUnit1kw.toFixed(2).toString());
+                    $("#TOTALUnit1Apc").html(TotalUnit1apc.toFixed(2).toString());
+                    $("#TOTALUnit2Load").html(TotalUnit2kw.toFixed(2).toString());
+                    $("#TOTALUnit2Apc").html(TotalUnit2apc.toFixed(2).toString());
+                    $("#TOTALStationLoad").html(TotalStationkw.toFixed(2).toString());
+                    $("#TOTALStationApc").html(TotalStationapc.toFixed(2).toString());
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

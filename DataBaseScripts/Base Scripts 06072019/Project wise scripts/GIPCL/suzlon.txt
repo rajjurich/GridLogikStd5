@@ -1,0 +1,33 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbsuzlon', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbsuzlon', '30', '10');
+
+
+
+create row type "etools_dev".rtsuzlon 
+(
+    tstamp datetime year to fraction(5),
+    meter_name lvarchar(50),
+    WspAvg float,WindDirAvg float,
+	NacelPos float,
+	Power float,
+	SecBrakeActive float,
+	SecGridConnection float,
+        AmbientTemp float
+);
+
+
+
+create table etools_dev.tssuzlon
+  (
+    meterid int8 not null ,
+    series timeseries(rtsuzlon),
+    primary key (meterid) 
+  ) in dbsuzlon extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwrtsuzlon','dbsuzlon','rtsuzlon',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',365, 15, 'dbsuzlon', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveysuzlon',
+'etools_dev.tssuzlon','calendar(cal_10min),
+container(tsconwrtsuzlon),irregular');

@@ -1,0 +1,222 @@
+@model  GridLogik.ViewModels.MstRole
+
+@{
+    ViewBag.Title = "Delete Role";
+}
+@section scripts
+{
+    @*<script>
+            $(document).ready(function () {
+
+                var id =@this.ViewContext.RouteData.Values["id"]
+                    IsDeleteRole();
+                GetAdminRole(id);
+                $.ajax({
+                    //url: "http://localhost:8487/EnvisageWebAPI/api/role/" + id,
+                    url: BaseAddress + "role/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.Data.result.rolrecid == null) {
+                            alert(response.Data.d);
+                        }
+                        else {
+                            $("#rolrecid").val(response.Data.result.rolrecid);
+                            $("#rolid").val(response.Data.result.rolid);
+                            $("#rolname").val(response.Data.result.rolname);
+                            $("#roldescription").val(response.Data.result.roldescription);
+                            $("#rolisdeleted").val(response.Data.result.rolisdeleted);
+
+                        }
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+                $("#btnDelete").click(function (e) {
+                    var msg = confirm(DeleteMessage);
+                    //if (msg == false) {
+                    //    return false;
+                    //}
+                    // else {
+
+                    // }
+                });
+            });
+            function deleterecord() {
+                var mstrole = {
+                    "rolrecid": $("#rolrecid").val(),
+                    "rolid": $("#rolid").val(),
+                    "rolname": $("#rolname").val(),
+                    "roldescription": $("#roldescription").val(),
+                    "rolisdeleted": 1
+
+                };
+                var RecordID = $("#rolrecid").val();
+                $.ajax({
+                    type: "PUT",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    //url: "http://localhost:8487/EnvisageWebAPI/api/role/" + RecordID,
+                    url: BaseAddress + "role/" + RecordID,
+                    //crossDomain: true,
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(mstrole),//data to be send
+                    success: function (response) {
+
+                        if (response.Data.e == "S") {
+                            alert(response.Data.d, '@Url.Action("Index", "Role")', false, response.Data.e);
+                            // window.location.href = '@Url.Action("Index", "Role")';
+                        }
+                        else if (response.Data.e == "M") {
+                            alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        else if (response.Data.e == "E") {
+                            alert(response.Data.d, '', false, response.Data.e);
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+
+                        alert(xhr.responseText);
+                    }
+                });
+
+                e.preventDefault();
+            }
+
+        </script>*@
+    @*<script>
+            function GetAdminRole(id) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",
+                    url: BaseAddress + "prmglobal/GetGlobalParamValue/AdminRole/AdminRole/AdminRole",
+                    dataType: "json",
+                    async: false,
+                    success: function (dateformat, status, jqXHR) {
+                        var str = "";
+                        if (dateformat.Data.result != undefined) {
+                            var data = dateformat.Data.result;
+                            for (var i in data) {
+                                if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                    if (data[i].prmvalue == id) {
+                                        $('#btnDelete').hide();
+                                    }
+                                }
+                            }
+                        }
+                        else if (dateformat.Data.e == "E") {
+                            if (dateformat.Data.d.length > 0)
+                                alert(dateformat.Data.d);
+                        }
+                    }
+                });
+            }
+            function IsDeleteRole() {
+                var id =@this.ViewContext.RouteData.Values["id"]
+                $.ajax({
+                    url: BaseAddress + "CheckRoleUserApi/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    dataType: "json",//type of data to be received
+                    success: function (response) {
+                        if (response.Data.e != null) {
+                            if (response.Data.e == "M") {
+
+                                $("#btnDelete").attr("disabled", true);
+                                alert(response.Data.d, '', false, "M");
+                            }
+                            else {
+                                $("#btnDelete").attr("disabled", false);
+                            }
+
+                        }
+
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+        </script>*@
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Role</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            @Html.HiddenFor(model => model.rolrecid)
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            <label>Code <span class="validation-redcolor">*</span></label>
+                                            @Html.TextBoxFor(model => model.rolid, new { @class = "form-control" })
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            <label>Name <span class="validation-redcolor">*</span></label>
+                                            @Html.TextBoxFor(model => model.rolname, new { @class = "form-control" })
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label>Description <span class="validation-redcolor">*</span></label>
+                                            @Html.TextBoxFor(model => model.roldescription, new { @class = "form-control" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<script>
+
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+    });
+</script>

@@ -1,0 +1,208 @@
+﻿@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<script>
+    var box;
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                    }
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+            }
+        });
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "GroupCalIntimationAPI/get",
+            dataType: "json",//type of data to be received
+            success: function (data, status, jqXHR) {
+                var table = data;
+                var str = "";
+                var Action = "";
+                $.each(table, function (index) {
+                    str += "<tr>";
+                    $.each(table[index], function (key, value) {
+                        if (key == "fromdate" || key == "todate") {
+                            if (key == "fromdate") {
+                                var svsFrmDt = moment(value, $("#DatabaseDateformat").val());
+                                var frmDt = $.datepicker.formatDate($("#Dateformat").val(), new Date(svsFrmDt));
+                                str += "<td>" + frmDt + "</td>";
+
+                            } else {
+                                var svsToDt = moment(value, $("#DatabaseDateformat").val());
+                                var toDt = $.datepicker.formatDate($("#Dateformat").val(), new Date(svsToDt))
+                                str += "<td>" + toDt + "</td>";
+                            }
+
+                        }
+                        else if (key == "groupname") {
+                            str += "<td>" + value + "</td>";
+                        }
+                        else if (key == "flagprocess") {
+                            var file = "'" + table[index].filepath + table[index].filename + "'";
+
+                            if (value == 0) {
+                                str += "<td>Ready to Process</td>";
+                                str += "<td></td>";
+                                str += "<td></td>";
+                            }
+                            else if (value == 1) {
+                                str += "<td>In Progress</td>";
+                                str += "<td></td>";
+                                str += "<td></td>";
+                            }
+                            else if (value == 2) {
+                                file = file.replace(/\\/g, "\\\\");
+                                str += "<td>Process Successful</td>";
+                                // str += "<td><a href='#'  onclick=FileDownload(" + file + ") style='color:green'><b>Download</b></a></td>";
+                                str += "<td><a href='" + envisageURL + "/GroupCalIntimation/Download/" + table[index].id + "' class='btn btn-xs btn-warning fa fa-pencil-square-o'> Download</a></td>";
+                                str += "<td><a href='#'  onclick='DeleteRecord(" + table[index].id + ")' class='btn btn-xs btn-danger fa fa-trash-o'>Delete</a></td>";
+
+                            }
+                            else if (value == 3) {
+                                str += "<td>Errror</td>";
+                                str += "<td></td>";
+                                str += "<td><a href='#' onclick='DeleteRecord(" + table[index].id + ")' class='btn btn-xs btn-danger fa fa-trash-o'>Delete</a></td>";
+                            }
+                        }
+
+                    });
+
+                    str += "</tr>";
+                });
+                str += "</tbody></table>";
+
+                $("#data").html(str);
+                $("#lsttable").dataTable(
+                    {
+                        pageLength: 10,
+                        "aoColumns": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    { "bSortable": false, "width": "144px" }
+                        ]
+                    });
+            }
+        });
+        $(document).on('click', '#delete', function () {
+            var c = $(this).val();
+            var id = $("#id" + c).val();
+            id = id.slice(0, -1);
+
+        });
+    });
+    function DeleteRecord(id) {
+        $.ajax({
+            type: "DELETE",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "GroupCalIntimationAPI/delete/" + id,
+            dataType: "json",
+            success: function (data, status, jqXHR) {
+                var result = data;
+                if (result == true) {
+                    alert('Record Deleted Successfully..!!!', '', true, 'S');
+                } else {
+                    alert('Error Occur During Record Deletion..!!!', '', true, 'S');
+                }
+            }
+        });
+    }
+</script>
+@*<style>
+        .table-bordered thead tr th, .table-bordered tfoot tr th {
+            color: #fff;
+        }
+
+        .content-header {
+            margin-bottom: 0;
+            padding-left: 13px;
+            border-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .content-container {
+            padding: 10px 15px 10px 15px;
+        }
+
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+    </style>*@
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Group Calculation Intimation</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @Html.ActionLink(" Create New", "create", "GroupCalIntimation", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <br />
+                                        <br />
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <input id="Dateformat" type="hidden" />
+                                            <input id="ServerDateformat" type="hidden" />
+                                            <input id="hdnId" type="hidden" />
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Group Name</th>
+                                                    <th class="text-center">From Date</th>
+                                                    <th class="text-center">To Date</th>
+                                                    <th class="text-center">Status</th>
+                                                    <th class="text-center">Action</th>
+                                                    <th class="text-center">Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

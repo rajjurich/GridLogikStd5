@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../GridLogikViewer/favicon.ico">
+    <title>@Page.Title</title>
+
+    <link href="~/Content/Template/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="~/Content/Template/css/bootstrap-theme.min.css" rel="stylesheet" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="~/Content/Template/css/ie10-viewport-bug-workaround.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="~/Content/Template/css/navbar-fixed-top.css" rel="stylesheet" />
+
+
+    <!-- User Define Stylesheet CSS -->
+    <link href="~/Content/Template/css/userdefine-stylesheet/main-stylesheet.css" rel="stylesheet" />
+
+    <!-- Bootstrap Sub-Menus. Stylesheet CSS -->
+    <link href="~/Content/Template/css/bootstrap-submenu.min.css" rel="stylesheet" />
+    <link href="~/Content/Template/css/bootstrap-dropdownmenu.css" rel="stylesheet" />
+
+
+
+    <script src="~/Content/Template/js/bootstrap-submenu.min.js"></script>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="~/Content/Template/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    @RenderSection("head", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#"><img class="mainlogo-styling" src="~/Content/Template/images/logo_img/etoolviewer-logo01.png"></a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav active">
+                    <li>@Html.ActionLink("Dashboard", "Index", "Dashboard")</li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Configurations <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li>@Html.ActionLink("Meter Types", "Index", "MeterType")</li>
+                            <li>@Html.ActionLink("Meter Group", "Index", "MeterGroup")</li>
+                            <li>@Html.ActionLink("Communication Details", "Index", "CommunicationDetail")</li>
+                            <li>@Html.ActionLink("Communication Types", "Index", "CommunicationType")</li>
+                            <li>@Html.ActionLink("Meter Model", "Index", "MeterModel")</li>
+                            <li>@Html.ActionLink("Meters", "Index", "Meter")</li>
+                            <li>@Html.ActionLink("Roles", "Index", "Role")</li>
+                            <li>@Html.ActionLink("Logins", "Index", "Login")</li>
+                            <li>@Html.ActionLink("DriverConfiguration", "Index", "Driver Configuration")</li>
+                            <li class="divider"></li>
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 4</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Dropdown Submenu Link 4.1</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.2</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.3</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.4</a></li>
+                                </ul>
+                            </li>
+                            @*<li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 5</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Dropdown Submenu Link 5.1</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 5.2</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 5.3</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Dropdown Submenu Link 5.4.1</a></li>
+                                            <li><a href="#">Dropdown Submenu Link 5.4.2</a></li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown dropdown-submenu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.3</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.1</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.2</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.3</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.4</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown dropdown-submenu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.4</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.1</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.2</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.3</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.4</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>*@
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Dropdown Link 1</a></li>
+                            <li><a href="#">Dropdown Link 2</a></li>
+                            <li><a href="#">Dropdown Link 3</a></li>
+                            <li class="divider"></li>
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 4</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Dropdown Submenu Link 4.1</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.2</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.3</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 4.4</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Link 5</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Dropdown Submenu Link 5.1</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 5.2</a></li>
+                                    <li><a href="#">Dropdown Submenu Link 5.3</a></li>
+                                    <li class="divider"></li>
+                                    <li class="dropdown dropdown-submenu">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Dropdown Submenu Link 5.4.1</a></li>
+                                            <li><a href="#">Dropdown Submenu Link 5.4.2</a></li>
+                                            <li class="divider"></li>
+                                            <li class="dropdown dropdown-submenu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.3</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.1</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.2</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.3</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.3.4</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="dropdown dropdown-submenu">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown Submenu Link 5.4.4</a>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.1</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.2</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.3</a></li>
+                                                    <li><a href="#">Dropdown Submenu Link 5.4.4.4</a></li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p class="navbar-right"> <img class="cms-logo-styling " src="~/Content/Template/images/logo_img/cms-logo.png"> </p>
+                <p class="navbar-form btn btn-primary styling-alarmbtn">Alarm <span class="badge">42</span></p>
+            </div>
+
+        </div>
+    </nav>
+    <div class="container">
+        @RenderBody()
+
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="~/Content/Template/js/jquery/jquery.min.js"></script>
+    <script src="~/Content/Template/js/bootstrap.min.js"></script>
+    <script src="~/Content/Template/js/bootstrap-dropdownmenu.js"></script>
+    <script src="~/Content/Template/js/jquery/jquery-2.1.4.min.js"></script>
+    <script src="~/Content/Template/js/bootstrap-submenu.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="~/Content/Template/js/ie10-viewport-bug-workaround.js"></script>
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

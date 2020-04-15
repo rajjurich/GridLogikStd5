@@ -1,0 +1,467 @@
+﻿@model GridLogikViewer.APIModels.MstConsumerCategoryTariff
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Scripts/moment.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        var globalboolFlag = null;
+
+
+        $('#check').change(function () {
+
+            if ($('#check').is(":checked")) {
+                $("#RevisedFDate").css("display", "");
+                globalboolFlag = true;
+
+            }
+            else {
+                $("#RevisedFDate").css("display", "none");
+                globalboolFlag = false;
+
+            }
+
+        });
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            //url: "http://localhost:8487/EToolsAPI/api/prmglobal",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                            //$('#cmrrelationshipstartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$("#cmrrelationshipenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$('#cmrservicestartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$("#cmrserviceenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(data[i].prmvalue);
+                        }
+                    }
+
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d);
+                }
+            }
+        });
+
+        //Set textbox as datepicker
+        $(function () {
+            $('#txtFromDate').datepicker({
+                dateFormat: $("#Dateformat").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+
+
+
+
+        //var startdateDB = moment($("#startdate").val(), $("#DatabaseDateformat").val());
+        //var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+        //$("#startdate").val(startdate);
+
+
+        //var enddateDB = moment($("#enddate").val(), $("#DatabaseDateformat").val());
+        //var enddate = $.datepicker.formatDate($("#Dateformat").val(), new Date(enddateDB))
+        //$("#enddate").val(enddate);
+
+
+        //$.ajax({
+        //    type: "GET",
+        //    contentType: "application/json;charset=utf-8",
+        //    url: "http://localhost:8487/EToolsAPI/api/Tariff",
+        //    //url: BaseAddress + "tariff",
+        //    dataType: "json",
+        //    success: function (tariffs, status, jqXHR) {
+        //        var str = "";
+        //        if (tariffs.Data.result != undefined) {
+        //            var data = tariffs.Data.result;
+        //            str = "<option value='select'>Select</option>";
+        //            for (var i in data) {
+        //                str += "<option value=" + data[i].trfid + ">" + data[i].trfschemename + "</option>";
+        //            }
+        //        }
+        //        else if (tariffs.Data.e == "E") {
+        //            if (tariffs.Data.d.length > 0)
+        //                alert(tariffs.Data.d);
+        //        }
+
+        //        $("#tarifid").html(str);
+        //        //$(".tariffclass").selectpicker();
+        //    }
+        //});
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "ConsumerCategory",
+            async: false,
+            //url: BaseAddress + "tariff",
+            dataType: "json",
+            success: function (tariffs, status, jqXHR) {
+                var str = "";
+                if (tariffs.Data.result != undefined) {
+                    var data = tariffs.Data.result;
+                    str = "<option value='select'>Select</option>";
+                    for (var i in data) {
+                        str += "<option value=" + data[i].ccatid + ">" + data[i].ccatdescription + "</option>";
+                    }
+                }
+                else if (tariffs.Data.e == "E") {
+                    if (tariffs.Data.d.length > 0)
+                        alert(tariffs.Data.d);
+                }
+
+                $("#cctcategoryid").html(str);
+                //$(".tariffclass").selectpicker();
+            }
+        });
+
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "Tariff",
+            async: false,
+            //url: BaseAddress + "tariff",
+            dataType: "json",
+            success: function (tariffs, status, jqXHR) {
+                var str = "";
+                if (tariffs.Data.result != undefined) {
+                    var data = tariffs.Data.result;
+                    str = "<option value='select'>Select</option>";
+                    for (var i in data) {
+                        str += "<option value=" + data[i].trfid + ">" + data[i].trfschemename + "</option>";
+                    }
+                }
+                else if (tariffs.Data.e == "E") {
+                    if (tariffs.Data.d.length > 0)
+                        alert(tariffs.Data.d);
+                }
+
+                $("#ccttariffid").html(str);
+                //$(".tariffclass").selectpicker();
+            }
+        });
+
+
+        var id =@this.ViewContext.RouteData.Values["id"]
+
+
+             $.ajax({
+                 type: "GET",
+                 contentType: "application/json;charset=utf-8",//type of data to be send
+                 url: BaseAddress + "ConsumerCategoryTariffAPI/" + id,
+                 dataType: "json",//type of data to be received
+                 async: false,
+                 success: function (tariff) {
+                     if (tariff.cctrecid == null) {
+                         if (tariff.Data.d.length > 0)
+                             alert(tariff.Data.d);
+                     }
+                     else {
+                         $("#cctrecid").val(tariff.cctrecid);
+                         $("#cctcategoryid").val(tariff.cctcategoryid);
+                         $("#ccttariffid").val(tariff.ccttariffid);
+                         $("#PreviousFromdate").val(tariff.cctfromdate);
+                         $("#txtFromDate").val(tariff.cctfromdate);
+
+                         var startdateDB = moment($("#txtFromDate").val(), $("#DatabaseDateformat").val());
+                         var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                         $("#txtFromDate").val(startdate);
+
+                         var setToDate = moment($("#txtFromDate").val(), "DD/MM/YYYY").add(1, 'd');
+                         var setToDateFinal = $.datepicker.formatDate($("#Dateformat").val(), new Date(setToDate))
+
+
+                         $(function () {
+                             $('#cctfromdate').datepicker({
+                                 dateFormat: $("#Dateformat").val(),
+                                 changeMonth: true,
+                                 changeYear: true,
+                                 minDate: setToDateFinal
+                             });
+                         });
+
+
+                         //$("#znutilityid").val(tariff.Data.result.trfutilityid);
+
+                         //$("#trftouslotid").val(tariff.Data.result.trftouslotid);
+
+
+                     }
+
+                 },
+                 error: function (xhr, status, error) {
+                     alert(error);
+                 }
+             });
+
+
+        $("#btnUpdate").click(function (e) {
+            ;
+            if ($('form').valid()) {
+
+                if (globalboolFlag) {
+
+                    var tododate = moment($("#cctfromdate").val(), "DD/MM/YYYY").subtract(1, 'd');
+                    var todatefinal = $.datepicker.formatDate($("#Dateformat").val(), new Date(tododate))
+                    todatefinal = GetFinaldate(todatefinal, $("#ServerDateformat").val(), $("#Dateformat").val())
+
+
+                    formmodified = 0;
+                    var msttou = {
+                        "cctrecid": $("#cctrecid").val(),
+                        "cctcategoryid": $("#cctcategoryid :selected").val(),
+                        "ccttariffid": $("#ccttariffid :selected").val(),
+                        "cctisdeleted": 0,
+                        "ccttodate": todatefinal,
+                        "cctfromdate": $("#PreviousFromdate").val()
+
+                    };
+
+                    var RecordID = $("#cctrecid").val();
+
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "ConsumerCategoryTariffAPI/" + RecordID,
+                        async: false,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttou),//data to be send
+                        success: function (response) {
+                            ;
+                            //alert(response);
+                            //if (response.Data.e == "S") {
+                            //    alert(response.Data.d);
+
+                            //}
+                            //else if (response.Data.e == "M") {
+                            //    alert(response.Data.d);
+                            //}
+                            //else if (response.Data.e == "E") {
+                            //    alert(response.Data.d);
+                            //}
+                            if (response == undefined) {
+
+                                var msttouNew = {
+                                    "cctcategoryid": $("#cctcategoryid :selected").val(),
+                                    "ccttariffid": $("#ccttariffid :selected").val(),
+                                    "cctisdeleted": 0,
+                                    "cctfromdate": GetFinaldate($("#cctfromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())
+
+                                };
+
+
+                                $.ajax({
+
+                                    type: "POST",
+                                    contentType: "application/json;charset=utf-8",//type of data to be send
+                                    url: BaseAddress + "ConsumerCategoryTariffAPI",
+                                    dataType: "json",//type of data to be received
+                                    data: JSON.stringify(msttouNew),//data to be send
+                                    async: false,
+                                    success: function (response) {
+                                        ;
+                                        //if (response.Data.e == "S") {
+                                        //    if (response.Data.d.length > 0)
+                                        //        alert(response.Data.d);
+
+                                        //}
+                                        //  alert("Record saved successfully")
+                                        alert('Record saved successfully', '@Url.Action("Index", "MeterTariff")', false, "S");
+                                        //  window.location.href = '@Url.Action("Index", "MeterTariff")';
+
+                                    },
+                                    error: function (xhr, status, error) {
+
+                                        alert(xhr.responseText);
+                                    }
+                                });
+
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+
+                }
+                else {
+                    formmodified = 0;
+
+                    var msttou = {
+                        "cctrecid": $("#cctrecid").val(),
+                        "cctcategoryid": $("#cctcategoryid :selected").val(),
+                        "ccttariffid": $("#ccttariffid :selected").val(),
+                        "cctisdeleted": 0,
+                        "cctfromdate": $("#PreviousFromdate").val()
+                    };
+
+                    var RecordID = $("#cctrecid").val();
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "ConsumerCategoryTariffAPI/" + RecordID,
+                        async: false,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttou),//data to be send
+                        success: function (response) {
+                            //alert(response);
+                            //if (response.Data.e == "S") {
+                            //    alert(response.Data.d);
+
+                            //}
+                            //else if (response.Data.e == "M") {
+                            //    alert(response.Data.d);
+                            //}
+                            //else if (response.Data.e == "E") {
+                            //    alert(response.Data.d);
+                            //}
+                            if (response == undefined) {
+                                // alert('Record updated successfully');
+                                alert('Record updated successfully', '@Url.Action("Index", "MeterTariff")', false, "S");
+                                // window.location.href = '@Url.Action("Index", "MeterTariff")';
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+
+
+
+                }
+
+                return false;
+            }
+
+        });
+
+    });
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Consumer Category Tariff</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.cctrecid)
+                                        <input id="Dateformat" type="hidden" name="Dateformat" />
+                                        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+                                        <input type="hidden" id="DatabaseDateformat">
+                                        <div class="form-group col-md-6">
+
+                                            <label>Consumer Category</label>
+                                            @Html.DropDownListFor(model => model.cctcategoryid, Enumerable.Empty<SelectListItem>(), new { disabled = "disabled", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.cctcategoryid)
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            <label>Tariff</label>
+                                            @Html.DropDownListFor(Tariff => Tariff.ccttariffid, Enumerable.Empty<SelectListItem>(), new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(Tariff => Tariff.ccttariffid)
+                                        </div>
+
+
+
+                                        <div class="form-group" style="display:none">
+                                            @*@Html.LabelFor(model => model.startdate, new { @class = "control-label col-md-2" })*@
+                                            <label class="control-label col-md-2">From Date</label>
+                                            <div class="col-md-10">
+                                                @*@Html.EditorFor(model => model.cctfromdate)
+                                                    @Html.ValidationMessageFor(model => model.cctfromdate)*@
+
+                                                <input type="text" id="txtFromDate" disabled />
+                                                <input type="hidden" id="PreviousFromdate" />
+
+                                                <div class="checkbox checkbox-info" style="display:none">
+                                                    <input id="check" class="styled" type="checkbox">
+                                                    <label for="checkbox4">
+                                                        Power Source Changed
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group col-md-6" id="RevisedFDate" style="display:none;">
+                                            @*@Html.LabelFor(model => model.enddate, new { @class = "control-label col-md-2" })*@
+                                            <label>Changed From Date</label>
+                                            @Html.EditorFor(model => model.cctfromdate)
+                                            @Html.ValidationMessageFor(model => model.cctfromdate)
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-success" id="btnUpdate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick="formmodified=0;location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

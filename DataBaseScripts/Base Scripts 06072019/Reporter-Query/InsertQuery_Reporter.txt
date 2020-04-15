@@ -1,0 +1,101 @@
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_imp_read','kwh_imp-evt_kwh_imp_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_imp_con','kwh_imp-evt_kwh_imp_con','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_exp_read','kwh_exp-evt_kwh_exp_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_exp_con','kwh_exp-evt_kwh_exp_con','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','VRN','vrn-evt_vrn_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','VYN','vyn-evt_vyn_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','VBN','vbn-evt_vbn_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','VLN','vln-evt_vln_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','VLL','vll-evt_vll_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kVA_Max_Demand','kVA_Max_Demand-evt_kVA_Max_Demand_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','i','i-evt_i_read','','');
+
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','pf','pf-evt_pf_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kw','kw-evt_kw_read','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kVAh_exp_read','kVAh_exp-evt_kVAh_exp_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kVAh_exp_con','kVAh_exp-evt_kVAh_exp_con','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','CBlk_KWh_Exp_read','CBlk_KWh_Exp-evt_CBlk_KWh_Exp_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','CBlk_KWh_Imp_read','CBlk_KWh_Imp-evt_CBlk_KWh_Imp_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kvar_read','kvar-evt_kvar_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','avg_hz_read','avg_hz-evt_avg_hz_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','avg_mw_read','avg_mw-evt_avg_mw_read','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','runhrimp','runhrimp-evt_runhrimp_read','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','runhrexp','runhrexp-evt_runhrexp_read','','');
+
+
+///////////////////////////////////////// For User Query Patch ///////////////////
+
+insert into GroupTemplateQuery (queryname, queryscript ) values ('DCSG','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_imp_read_roll','kwh_imp-evt_kwh_imp_read_roll','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_imp_con_roll','kwh_imp-evt_kwh_imp_con_roll','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_exp_read_roll','kwh_exp-evt_kwh_exp_read_roll','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kwh_exp_con_roll','kwh_exp-evt_kwh_exp_con_roll','','');
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kvarh_exp_97_read','kvarh_exp_97-evt_kvarh_exp_97_read','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','kvarh_exp_103_read','kvarh_exp_103-evt_kvarh_exp_103_read','','');
+
+
+
+

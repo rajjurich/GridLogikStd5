@@ -1,0 +1,586 @@
+@model GridLogik.ViewModels.LoadProfile
+@{
+    ViewBag.Title = "Index";
+    <style>
+        .content-container {
+            padding: 30px 25px 65px 25px !important;
+    </style>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.table2excel.js"></script>
+    <script language="javascript" type="text/javascript">
+
+        var GraphType = "";
+        function PerformanceChart() {
+
+            var legendArray = new Array();
+            var seriesOptions = "";
+            var FinString = "";
+            var AdditionInfo = "";
+            //var opt = "table";
+            var opt = GraphType;
+            var SubType = "line";
+            var categories_data = new Array();
+            var MeterID = $("#ddlMeters").val();
+            var ddlMonth = $("#ddlMonth").val();
+            var ddlYear = $("#ddlYear").val();
+            var ddlParameter = $("#ddlParameter").val();
+
+            try {
+                $.ajax({
+                    type: "GET",
+
+                    //meterid,Month,Year
+                    url: BaseAddress + "loadprofile/GetDayWiseData/" + MeterID + "/" + ddlMonth + "/" + ddlYear + "/" + ddlParameter,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+
+                        //convert Input to normal format
+                        // var jsonObj = JSON.parse(response);
+
+                        var jsonObj = response;
+
+                        if (jsonObj.length > 0 && jsonObj != null) {
+                            $.each(jsonObj[0], function (key, value) {
+                                if (key != "$id")
+                                    legendArray[legendArray.length] = key; // Columns from DB
+                            });
+
+                            $("#chart_container").empty();
+                            if (opt == "table") {
+                                FinString = "<div class='panel-body'><table class='data table table-bordered table-striped'>";
+                                FinString += "<tr>";
+                                for (var j = 0; j < legendArray.length; j++) {
+                                    if (ddlParameter.toLowerCase() == "pf") {
+                                        var oc = "ts" + ddlParameter
+                                        if (legendArray[j].toLowerCase() == "day" || legendArray[j] == "pf") {
+                                            FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                        } else if (legendArray[j] == oc) {
+                                            FinString += "<th class='tableth text-center text-white bg-dark'>Peak Time</th>"
+                                        }
+                                    } else
+                                        if (ddlParameter.toLowerCase() == "kw") {
+                                            var oc = "ts" + ddlParameter
+                                            if (legendArray[j].toLowerCase() == "day" || legendArray[j] == "kw") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                            } else if (legendArray[j] == oc) {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>Peak Time</th>"
+                                            }
+                                        }
+                                        else if (ddlParameter.toLowerCase() == "kva") {
+                                            var oc = "ts" + ddlParameter
+                                            if (legendArray[j].toLowerCase() == "day" || legendArray[j].toString().toLowerCase() == "kva") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                            } else if (legendArray[j].toLowerCase() == oc.toLowerCase())  {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>Peak Time</th>"
+                                            }
+                                        }
+                                        else if (ddlParameter.toLowerCase() == "v") {
+                                            if (legendArray[j].toLowerCase() == "day" || legendArray[j] == "vrn" || legendArray[j] == "vbn" || legendArray[j] == "vyn") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                            }
+                                            else if (legendArray[j] == "tsvrn" || legendArray[j] == "tsvbn" || legendArray[j] == "tsvyn") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>Peak Time " + legendArray[j].replace("ts", "").toUpperCase() + "</th>"
+                                            }
+                                        }
+                                        else if (ddlParameter.toLowerCase() == "i") {
+                                            if (legendArray[j].toLowerCase() == "day" || legendArray[j] == "ir" || legendArray[j] == "ib" || legendArray[j] == "iy") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                            }
+                                            else if (legendArray[j] == "tsir" || legendArray[j] == "tsib" || legendArray[j] == "tsiy") {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>Peak Time " + legendArray[j].replace("ts", "").toUpperCase() + "</th>"
+                                            }
+                                        } else if (ddlParameter.toLowerCase() == "kw" || ddlParameter.toLowerCase() == "kwh" || ddlParameter.toLowerCase() == "kvarh" ||  ddlParameter.toLowerCase() == "kva") {
+                                            if ((legendArray[j].toLowerCase() == "day" || legendArray[j].toLowerCase() == ddlParameter.toLowerCase()) && (legendArray[j].toLowerCase() == "kwh" || legendArray[j].toLowerCase() == "kw" || legendArray[j].toLowerCase() == "kvarh" || legendArray[j].toLowerCase() == "day" || legendArray[j].toLowerCase() == "kva")) {
+                                                FinString += "<th class='tableth text-center text-white bg-dark'>" + legendArray[j].toString().toUpperCase() + "</th>"
+                                            }
+                                        }
+                                }
+                                FinString += "</tr>";
+                                $.each(jsonObj, function (index) {
+                                    FinString += "<tr>";
+
+                                    $.each(jsonObj[index], function (key, value) {
+                                        if (key != "$id" && (key == "pf" || key == "tspf" || key.toLowerCase() == "day") && ddlParameter.toLowerCase() == "pf") {
+                                            if (key.indexOf('ts') > -1) {
+                                                FinString += "<td class='text-center'>" + String(value).split('T')[1] + "</td>"
+                                            } else {
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                            }
+
+                                        } else if (key != "$id" && (key == "kw" || key == "tskw" || key.toLowerCase() == "day") && ddlParameter.toLowerCase() == "kw") {
+                                            if (key.indexOf('ts') > -1) {
+                                                FinString += "<td class='text-center'>" + String(value).split('T')[1] + "</td>"
+                                            } else {
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                            }
+
+                                        }
+                                        else if (key != "$id" && (key.toLowerCase() == "kva" || key.toLowerCase() == "tskva" || key.toLowerCase() == "day") && ddlParameter.toLowerCase() == "kva") {
+                                            if (key.indexOf('ts') > -1) {
+                                                FinString += "<td class='text-center'>" + String(value).split('T')[1] + "</td>"
+                                            } else {
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                            }
+
+                                        }
+                                        else if (key != "$id" && (key == "vrn" || key == "vbn" || key == "vyn" || key == "tsvrn" || key == "tsvbn" || key == "tsvyn" || key.toLowerCase() == "day") && ddlParameter.toLowerCase() == "v") {
+                                            if (key.indexOf('ts') > -1) {
+                                                FinString += "<td class='text-center'>" + String(value).split('T')[1] + "</td>"
+                                            } else {
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                            }
+                                        } else if (key != "$id" && (key == "ir" || key == "ib" || key == "iy" || key == "tsir" || key == "tsib" || key == "tsiy" || key.toLowerCase() == "day") && ddlParameter.toLowerCase() == "i") {
+                                            if (key.indexOf('ts') > -1) {
+                                                FinString += "<td class='text-center'>" + String(value).split('T')[1] + "</td>"
+                                            } else {
+                                                FinString += "<td class='text-center'>" + value + "</td>"
+                                            }
+                                        }
+                                        else if (key != "$id" && (key.toLowerCase() == "day" || key.toLowerCase() == ddlParameter.toLowerCase())) {
+                                            FinString += "<td class='text-center'>" + value + "</td>"
+                                        }
+
+                                    });
+                                    FinString += "</tr>";
+                                });
+                                FinString += "</table>";
+                                $("#chart_container").html(FinString);
+                                $("#btnExport").css("display", "block");
+                            } else {
+                                $.each(jsonObj, function (index) {
+                                    categories_data[categories_data.length] = jsonObj[index][legendArray[0]]
+                                });
+                                legendArray.splice(0, 1);
+
+                                $.each(legendArray, function (index) {
+                                    //   if (index != 0) {
+                                    $.each(jsonObj, function (jsonIndex) {
+                                        if (jsonObj.length - 1 != jsonIndex) {
+
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]] + ",";
+                                            AdditionInfo += String(jsonObj[jsonIndex]["ts" + legendArray[index]]).split('T')[1] + ",";
+                                        } else {
+                                            seriesOptions += jsonObj[jsonIndex][legendArray[index]];
+                                            AdditionInfo += String(jsonObj[jsonIndex]["ts" + legendArray[index]]).split('T')[1];
+                                        }
+
+                                    });
+                                    if (legendArray.length - 1 != index)
+                                        seriesOptions += "~";
+                                    AdditionInfo += "~";
+                                    // }
+                                })
+                                var FinSeriesOptions = seriesOptions.split('~');
+                                var FinAdditionInfo = AdditionInfo.split('~');
+
+                                var seriesArr = [];
+                                // Create Series Array with name and data property
+                                for (var ser = 0; ser < FinSeriesOptions.length; ser++) {
+
+                                    var seriesOptions1 = FinSeriesOptions[ser].split(',');  //data Array in string Format
+                                    var seriesOptions2 = seriesOptions1.map(Number);//data Array in string Format////convert String Array into Number Array
+                                    var AdditionInfo1 = FinAdditionInfo[ser].split(',');
+                                    if (ddlParameter == "V") {
+                                        //debugger
+                                        if (legendArray[ser] == "vrn" || legendArray[ser] == "vyn" || legendArray[ser] == "vbn") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "I") {
+                                        if (legendArray[ser] == "ir" || legendArray[ser] == "iy" || legendArray[ser] == "ib") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+
+                                    }
+                                    else if (ddlParameter == "kwh") {
+                                        if (legendArray[ser] == "kwh") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "kw") {
+                                        if (legendArray[ser] == "kw") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "kvarh") {
+                                        if (legendArray[ser] == "kVARh") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    if (ddlParameter.toLowerCase() == "kva") {
+                                        if (legendArray[ser].toLowerCase() == "kva") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+                                    else if (ddlParameter == "pf") {
+                                        if (legendArray[ser] == "pf") {
+                                            var series = { name: legendArray[ser], data: seriesOptions2, MyData: AdditionInfo1 }; //Create Series Array with name and data property
+                                            seriesArr.push(series);
+                                        }
+                                    }
+
+                                }
+                                BarChart(categories_data, seriesArr);
+                                //lineChart(categories_data, seriesArr);
+                                $("#btnExport").css("display", "none");
+                            }
+                        }
+                        else {
+                            alert(NoDataMessage, '', false, "M");
+                            return false;
+                        }
+                    },
+                    failure: function (msg) {
+                        alert(msg);
+                    }
+                });
+
+            }
+            catch (err) {
+            }
+        }
+        function BarChart(categories_data, seriesArr) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'column',
+                    renderTo: 'chart_container'
+                },
+                title: {
+                    text: 'Load Profile'
+                },
+                xAxis: {
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    },
+                    labels: {
+                        formatter: function () {
+                            return this.value;
+                        }
+                    }
+                },
+                tooltip: {
+                    crosshairs: false,
+                    shared: true,
+                    formatter: function () {
+                        var PointLength = this.points.length;
+                        var points = this.points;
+                        var ToolStr = "";
+                        $.each(points, function (index) {
+                            var point = points[index],
+                           series = point.series,
+                           GROUP = series.options.MyData[point.point.x];
+                            if (this.series.name != "kwh" && this.series.name != "kVARh") {
+                                if (PointLength - 1 != index) {
+                                    ToolStr += this.series.name + "<b> :" + this.y + "</b> Time : <b>" + GROUP + "</b><br\>";
+                                } else {
+                                    ToolStr += this.series.name + "<b> :" + this.y + "</b> Time : <b>" + GROUP + "</b>";
+                                }
+                            } else {
+                                ToolStr += this.series.name + "<b> :" + this.y;
+                            }
+                        });
+
+                        //    var point = this.points[0],
+                        //        series = point.series,
+                        //        GROUP = series.options.MyData[point.point.x];
+                        //console.log(point);
+                        //return 'Extra data: <b>' + GROUP + '</b>';
+                        return ToolStr;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    },
+                    series: {
+                        pointWidth: 10
+                    }
+                },
+                series: seriesArr
+            });
+        }
+        function lineChart(categories_data, seriesArr) {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    type: 'spline',
+                    renderTo: 'chart_container',
+                    width: 2300
+                },
+                title: {
+                    text: 'Monthly Average Temperature',
+                    x: -20 //center
+                },
+                subtitle: {
+                    text: 'Source: WorldClimate.com',
+                    x: -20
+                },
+                xAxis: {
+                    categories: categories_data
+                },
+                yAxis: {
+                    title: {
+                        text: 'Temperature (°C)'
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    valueSuffix: '°C'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: seriesArr
+            });
+        }
+
+        $(document).ready(function () {
+
+            $("#divParent").css("display", "none");
+            var dateObj = new Date();
+            var month = dateObj.getUTCMonth() + 1; //months from 1-12
+            var year = dateObj.getUTCFullYear();
+            $('#ddlMonth').val(month);
+            $('#ddlYear').val(year);
+            $("#btnPlotChart").on("click", function () {
+                if ($("form").valid()) {
+                    GraphType = "Chart";
+                    var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                    //$("#divMain").css("display", "none");
+                    //$("#divParent").css("display", "");
+                    //AssignLabelValue("1");
+
+                    PerformanceChart();
+                    $("#btnSwitch").html('Table');
+                    if (box) box.remove();
+                }
+                else {
+                    if (box) box.remove();
+                }
+            });
+
+            $("#btnPlotTable").on("click", function () {
+                if ($("form").valid()) {
+                    var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                    GraphType = "table";
+                    //$("#divMain").css("display", "none");
+                    //$("#divParent").css("display", "");
+                    //AssignLabelValue("1");
+                    PerformanceChart();
+                    $("#btnSwitch").html('Chart');
+                    if (box) box.remove();
+                }
+                else {
+                    if (box) box.remove();
+                }
+            });
+            $("#btnSwitch").on("click", function () {
+
+                if ($("#btnSwitch").html() == "Chart") {
+                    GraphType = "chart";
+                    $("#btnSwitch").html('Table');
+                    AssignLabelValue("1");
+                    PerformanceChart();
+                }
+                else {
+                    GraphType = "table";
+                    $("#btnSwitch").html('Chart');
+                    AssignLabelValue("1");
+                    PerformanceChart();
+                }
+
+            });
+
+
+            $("#btnBack").on("click", function () {
+                $("#divMain").css("display", "");
+                $("#divParent").css("display", "none");
+                $('#btnReset').click();
+                AssignLabelValue("2");
+            });
+
+            $("#btnExport").on("click", function () {
+                var currentdate = new Date()
+
+                var month = currentdate.getMonth() + 1
+
+               // var d = currentdate.getDate() + "-" + month + "-" + currentdate.getFullYear();
+                var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+                //debugger;
+                $(".rowheader").remove();
+                $('.data').prepend("<tr class='rowheader' style='display:none;'><th>Meter Name : </th> <th>" + $("#ddlMeters option:selected").text() + "</th></tr><tr  class='rowheader'  style='display:none;'><th>Parameter : </th> <th>" + $("#ddlParameter option:selected").text() + "</th> </tr><tr class='rowheader' style='display:none;'><th>Month :</th><th>" + $("#ddlMonth option:selected").text() + "</th></tr><tr  class='rowheader' style='display:none;'><th>Year :</th><th>" + $("#ddlYear option:selected").text() + "</th></tr><tr  class='rowheader' style='display:none;'></tr>");
+                $(".data").table2excel({
+                    exclude: ".noExl",
+                    name: "Load Profile",
+                    filename: "Load_Profile_" + localdate,
+                    fileext: ".xls",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true
+                });
+            });
+
+            $("#btnExport").css("display", "none");
+
+        });
+
+        function GetMeters(GroupID) {
+
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                url: '@Url.Action("MetersBymultipleGroupID", "GroupView")',
+                data: { id: GroupID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "<option value=''>Select</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                    }
+                    $("#ddlMeters").html(markup).show();
+                },
+                error: function (reponse) {
+                    //  alert("error : " + reponse);
+                }
+            });
+
+            if (box) box.remove();
+        }
+        function AssignLabelValue(flag) {
+            if (flag == "1") {
+                $("#lblMeterGroup").text($("#MeterGroup option:selected").text());
+                $("#lblMeters").text($("#ddlMeters option:selected").text());
+                $("#lblParameter").text($("#ddlParameter option:selected").text());
+                $("#lblMonths").text($("#ddlMonth option:selected").text());
+                $("#lblYears").text($("#ddlYear option:selected").text());
+            } else {
+                $("#lblMeterGroup").text("");
+                $("#lblMeters").text("");
+                $("#lblParameter").text("");
+                $("#lblMonths").text("");
+                $("#lblYears").text("");
+            }
+        }
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">Group Display</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">Load Profile</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class="dashboard-panel-body-box">Selection </div>
+                                </div>
+                                @using (Html.BeginForm())
+                                {
+                                    @Html.AntiForgeryToken()
+                                        <div class="panel-body" id="divMain" style="min-height:89px">
+                                            <div class="row">
+                                               
+                                                    <div class="form-group col-md-2">
+                                                         <div class="row">
+                                                        @Html.LabelFor(model => model.MeterGroup, new { @class = "col-md-12 control-label"})
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.MeterGroup, (IEnumerable<SelectListItem>)ViewBag.MeterGroup, "Select", new { @onchange = "javascript:GetMeters(this.value);", @class = "form-control" })
+                                                             @Html.ValidationMessageFor(model => model.MeterGroup)
+                                                            </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2"> <div class="row">
+                                                        @Html.LabelFor(model => model.Meters, new { @class = "col-md-12 control-label"})
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.Meters, Enumerable.Empty<SelectListItem>(), "Select", new { @id = "ddlMeters", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Meters)
+                                                            </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2"> <div class="row">
+                                                        @Html.LabelFor(model => model.Parameter, new { @class = "col-md-12  control-label" })
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.Parameter, (IEnumerable<SelectListItem>)ViewBag.Parameters, "Select", new { @id = "ddlParameter", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Parameter)
+                                                            </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2"> <div class="row">
+                                                        @Html.LabelFor(model => model.Months, new { @class = "col-md-12  control-label" })
+                                                        <div class="col-md-12">
+                                                            @Html.DropDownListFor(model => model.Months, (IEnumerable<SelectListItem>)ViewBag.Months, "Select", new { @id = "ddlMonth", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.Months)
+                                                            </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2"> <div class="row">
+                                                        @Html.LabelFor(model => model.Years, new { @class = "col-md-12 control-label" })
+                                                        <div class="col-md-12" >
+                                                            @Html.DropDownListFor(model => model.Years, (IEnumerable<SelectListItem>)ViewBag.Years, "Select", new { @id = "ddlYear", @class = "form-control" })
+                                                             @Html.ValidationMessageFor(model => model.Years)
+                                                            </div> </div>
+                                                    </div>
+
+                                                    <div class="form-group col-md-2"> <div class="row" style="margin-top:22px;">
+                                                       
+                                                            <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnPlotChart">Chart</button>
+                                                       
+                                                            <button type="button" class="btn btn-danger" style="font-weight:bold;  margin:0px 10px;" id="btnPlotTable">Table</button>
+                                                        </div>
+                                                    </div>
+                                               
+                                            </div>
+                                            <input type="reset" value="Reset" class="btn btn-default" id="btnReset" style="display:none;" />
+                                            <div id='chart_container'>
+
+                                            </div>
+
+                                            <div class="form-group col-md-12">
+                                                <button type="button" class="fa fa-file-excel-o btn btn-success btn-sm" id="btnExport"> Export To Excel</button>
+                                            </div>
+
+                                        </div>
+                                       
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

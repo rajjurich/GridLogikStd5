@@ -1,0 +1,281 @@
+﻿@model GridLogik.ViewModels.UserLogin
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <!-- Viewport metatags -->
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <!-- iOS webapp metatags -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <title>GridLogik- Login</title>
+    <link rel="shortcut icon" href="~/Content/images/logo_img/favicon1.ico" type="image/x-icon">
+    <link rel="icon" href="~/Content/images/logo_img/favicon1.ico" type="image/x-icon">
+    <!--Page loading plugin Start -->
+    <link rel="stylesheet" href="~/Content/css/pace.css">
+    @*<script src="~/Content/js/pace.min.js"></script>*@
+    <!--Page loading plugin End   -->
+    <!-- Plugin Css Put Here -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/css/bootstrap-switch.min.css">
+    @*<link rel="stylesheet" href="~/Content/css/ladda-themeless.min.css">*@
+    <link rel="stylesheet" href="~/Content/css/font-awesome/css/font-awesome.min.css">
+    <!-- Plugin Css End -->
+    <!-- Custom styles Style -->
+    <link href="~/Content/css/style.css" rel="stylesheet">
+    <!-- Custom styles Style End-->
+    <!-- Responsive Style For-->
+    <link href="~/Content/css/responsive.css" rel="stylesheet">
+    <!-- Responsive Style For-->
+    <!-- Custom styles for this template -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="html5shiv.js"></script>
+    <script src="respond.min.js"></script>
+    <![endif]-->
+    <script src="~/Content/js/jquery-2.1.1.min.js"></script>
+    <script src="~/Content/js/jquery.easing.js"></script>
+    <script src="~/Content/js/bootstrap-switch.min.js"></script>
+    <!--Script for notification start-->
+    @*<script src="~/Content/js/spin.js"></script>
+    <script src="~/Content/js/ladda.js"></script>
+    <script src="~/Content/js/humane.min.js"></script>*@
+    <!--Script for notification end-->
+
+    @*<script src="~/Content/js/login.js"></script>*@
+    @*<script src="~/Scripts/ProjectType.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#usrid").focus();
+            $("#usrpassword").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $('#btnLogin').focus().click();
+                }
+            });
+            $("#usrid").keyup(function (event) {
+                if (event.keyCode == 13) {
+                    $("#btnLogin").click();
+                }
+            });
+            $("#btnLogin").click(function (e) {
+                //$("#btnLogin").prop('disabled', true);
+                //var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                if ($("form").valid()) {
+
+                    var mstuser = {
+                        "usrid": $("#usrid").val(),
+                        "usrpassword": $("#usrpassword").val(),
+                        "captchaResult": $("#captchaResult").val(),
+                        "firstNumber": $("#firstNumber").val(),
+                        "secondNumber": $("#secondNumber").val(),
+                        "oprtr": $("#oprtr").val(),
+
+                    };
+                    //var box;
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: '@Url.Action("Login", "Home")',// "/GridLogikViewer/Home/Login/",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstuser),//data to be send
+                        beforeSend: function (response) {
+                            $("#btnLogin").prop('disabled', true);
+                        },
+                        complete: function (response) {
+                            $("#btnLogin").prop('disabled', false);
+                        },
+                        success: function (response) {
+                            debugger;
+                            // window.location.href = "/Dashboard/Index"
+                            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                            try {
+                                if (response != null) {
+                                    if (response.e == "S") {
+                                        
+                                            FillMenuSubType(2);  //Normal login process
+                                            //if (box) box.remove();
+                                            window.location.href = '@Url.Action("Index", "Dashboard")'// "/GridLogikViewer/Dashboard/Index"
+                                        
+                                    }
+                                    else if (response.e == "M") {
+                                        //if (box) box.remove();
+                                        if (response.d.length > 0)
+                                            alert(response.d);
+                                        if (response.d = "Invalid Captcha") {
+
+                                            window.location.reload();
+                                        }
+                                    }
+                                    else if (response.e == "E") {
+                                       // if (box) box.remove();
+                                        if (response.d.length > 0)
+                                            alert(response.d);
+                                    }
+                                } else {
+                                    //if (box) box.remove();
+                                    debugger;
+                                    alert('Error occur during Login.Please try again later');
+                                    return false;
+                                }
+                            }
+                            catch (ex) {
+                                //if (box) box.remove();
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+                            //if (box) box.remove();
+                             alert(status);
+                        }
+                    });
+
+                }
+               // if (box) box.remove();
+                e.preventDefault();
+
+
+            });
+           
+        });
+       
+        function FillMenuSubType(type) {
+            if (type != null && type != 0 && type != 4) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: '@Url.Action("FillSubMenuType", "MasterDashboard")',
+                    dataType: "json",//type of data to be received
+                    data: { Type: type },//data to be send
+                    success: function (response) {
+                        window.location.href = '@Url.Action("Index", "Dashboard")';
+                        return false;
+                    },
+                    error: function (xhr, status, error) {
+                       // alert(xhr.responseText, '', false, 'E')
+                    }
+                });
+            } else if (type == 4) {
+                window.location = "http://www.google.com/";
+                return false;
+            }
+            return false;
+
+        }
+    </script>
+  
+</head>
+<body class="login-screen">
+    @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @class = "form-signin" }))
+    {
+        <div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="login-box">
+                            <div class="login-content">
+                                @{
+                                    var VersionCheck = Session["Version_display"];
+                                }
+                                <img src="~/Content/glimages/logo-main.png" style="width:100%;  padding:3px 26px;"><br />@VersionCheck
+                            </div>
+                            
+                            <div class="login-form" style="padding-bottom:0;">
+                                <div class="form-horizontal ls_form">
+                                  
+                                    <div class="input-group ls-group-input mb5 mt5">
+                                        @Html.TextBoxFor(m => m.usrid, new { @placeholder = "User ID", @class = "form-control", required = true })
+
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.usrid, "", new { @class = "text-danger mb5" })
+
+                                  
+                                    <div class="input-group ls-group-input mb5 mt5">
+
+                                        @Html.PasswordFor(m => m.usrpassword, new { @placeholder = "Password", @class = "form-control", required = true })
+                                        
+                                        <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+                                      
+                                       
+                                    </div>
+                                    @Html.ValidationMessageFor(model => model.usrpassword, "", new { @class = "text-danger", @style = "margin-bottom:10px; display: block;" })
+                                    
+                                    <div class="row">
+                                        <div class="col-sm-5 captcha-txt" style="font-size: 20px; line-height: 36px; text-align: center;">
+                                            @Html.HiddenFor(m => m.firstNumber, new { Value = @ViewBag.FirstNumber.ToString() })
+                                            @Html.HiddenFor(m => m.secondNumber, new { Value = @ViewBag.SecondNumber.ToString() })
+                                            @Html.HiddenFor(m => m.oprtr, new { Value = @ViewBag.Operators.ToString() })
+
+                                            <label id="firstNumber">@ViewBag.FirstNumber</label>
+                                            <label id="Operators">@ViewBag.Operators</label>
+                                            <label id="secondNumber">@ViewBag.SecondNumber</label>
+                                        </div>
+                                        <div style="width: 50%; float: left; text-align: right; ">
+                                            
+                                            @Html.TextBoxFor(m => m.captchaResult, new { @placeholder = "Captcha", @class = "form-control form-control-sm", @autocomplete = "off", @style = "width:100%; margin-left:10px; margin-bottom:5px;" })
+                                          @Html.ValidationMessageFor(model => model.captchaResult, "", new { @class = "text-danger", @style = "margin-bottom:10px;"})
+                                         </div>
+                                    </div>
+                                  
+
+                                    @*<div class="remember-me">
+                                        <input class="switchCheckBox" type="checkbox" checked data-size="mini"
+                                               data-on-text="<i class='fa fa-check'><i>"
+                                               data-off-text="<i class='fa fa-times'><i>">
+                                        <span>Remember me</span>
+                                    </div>*@
+                                    <div class="input-group ls-group-input login-btn-box mt5">
+                                        <button type="submit" class="btn ls-dark-btn ladda-button col-md-12 col-sm-12 col-xs-12 btn-disabled mt5" data-style="slide-down" id="btnLogin">
+                                            <span class="ladda-label"><i class="fa fa-key"></i></span>
+                                        </button>
+
+                                        @*<a class="forgot-password" href="javascript:void(0)">Forgot password</a>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="forgot-pass-box">
+                                <div class="form-horizontal ls_form">
+                                    <div class="input-group ls-group-input">
+                                        <input class="form-control" type="text" placeholder="Youremail@mail.com">
+                                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                    </div>
+                                    <div class="input-group ls-group-input login-btn-box">
+                                        <button class="btn ls-dark-btn col-md-12 col-sm-12 col-xs-12">
+                                            <i class="fa fa-rocket"></i> Send
+                                        </button>
+
+                                        <!--<a class="login-view" href="javascript:void(0)">Login</a> & <a class="" href="registration.html">Registration</a>-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    }
+</body>
+
+
+</html>

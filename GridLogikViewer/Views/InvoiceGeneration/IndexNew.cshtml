@@ -1,0 +1,301 @@
+﻿@{
+    ViewBag.Title = "Invoice Generation";
+    <style>
+        .form-control {
+            padding: 6px 10px !important;
+        }
+
+        .ErrorMessage {
+            color: red !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            align-items: center !important;
+            margin-left: 30% !important;
+        }
+
+        #btnExport {
+            width: 100px !important;
+            /*margin-top: -75% !important;*/
+            position:absolute;
+            left:10 px;
+        }
+        td, th {
+            text-align: center !important;
+        }
+    </style>
+    <style>
+        #btnExport {
+            width: 100px !important;
+            
+            position:absolute;
+            left:30px;
+        }
+    </style>
+    @*<link href="~/Content/css/style-stickyheader.css" rel="stylesheet" />
+        <link href="~/Content/css/jquery-ui.min.css" rel="stylesheet" />*@
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                    $("#DatabaseDateformat").val(data[i].prmvalue);
+                                }
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                            //  $("#ServerDatabaseDateformat").val('dd/MM/yy');
+                               $("#ServerDatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            HideGrid();
+            CategoryDropdown();
+        });
+    </script>
+    <script type="text/javascript">
+        function CategoryDropdown() {
+            // var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/GetCategoryList/",
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        str += "<select id='ddlCat' onchange='onChangeCat()' class='form-control'>";
+                        str += "<option value=0>Select Category</option>";
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+
+                            for (var i in data) {
+                                if (data[i].CategoryName != undefined && data[i].CategoryName != "" && data[i].CategoryCode != undefined && data[i].CategoryCode != "") {
+                                    str += "<option value=" + data[i].CategoryCode + ">" + data[i].CategoryName + "</option>";
+                                }
+                            }
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                    str += "</select>";
+                    $("#divCategory").html(str);
+                }
+            });
+        }
+        function DateDetail() {
+            // var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/GetDateDetail/" + $("#ddlCat").val(),
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+                            for (var i in data) {
+
+                                var frmDate = Date.parse(data[i].FromDate, $("#ServerDatabaseDateformat").val());
+                                $("#txtFrmDate").text($.datepicker.formatDate($("#DatabaseDateformat").val(), new Date(frmDate)));
+
+                                var Todate = Date.parse(data[i].ToDate, $("#ServerDatabaseDateformat").val());
+                                $("#txtToDate").text($.datepicker.formatDate($("#DatabaseDateformat").val(), new Date(Todate)));
+                            }
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                }
+            });
+        }
+        function onChangeCat() {
+            HideGrid();
+            if ($("#ddlCat").val() != "0")
+                DateDetail();
+        }
+        function HideGrid() {
+            try {
+                document.getElementById("lblError").style.display = "none";
+                $("#txtFrmDate").text("");
+                $('#txtToDate').text("");
+                $('#ddlCat').css('background-color', 'white');
+            } catch (ex) {
+            }
+
+        }
+       // var box;
+        function Export() {
+            var FinalStr = "";
+            var TableStr = "";
+            if ($("#ddlCat").val() == "0") {
+                alert('Please Select Category', '', false, "M");
+                return false;
+            }
+            document.getElementById('MeterCountString').value = count;
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            var frmdate = GetFinaldate($('#txtFrmDate').text(), $("#DatabaseDateformat").val(), $("#ServerDatabaseDateformat").val());
+            var todate = GetFinaldate($('#txtToDate').text(), $("#DatabaseDateformat").val(), $("#ServerDatabaseDateformat").val());
+            var InvoiceMeterData = $("#ddlCat").val() + "~" + "BHARAT DIAMOND BOURSE" + "," + FinalStr + "," + frmdate + "," + todate + "," + $("#txtFrmDate").text() + "," + $("#txtToDate").text();
+            document.getElementById('InputString').value = InvoiceMeterData;
+        }
+        function ConvertMMDDYYYY(date) {
+            var dateFormat = $("#DatabaseDateformat").val();
+            var DateArr;
+            if (date.indexOf("/") > 0) {
+                while (date.indexOf("/") > 0) {
+                    date = date.replace("/", "-");
+                    dateFormat = dateFormat.replace("/", "-");
+                }
+            }
+            if (dateFormat.toUpperCase() == "DD-MM-YY" || dateFormat.toUpperCase() == "DD-MM-YYYY") {
+                DateArr = date.split('-');
+                return DateArr[2] + "-" + DateArr[1] + "-" + DateArr[0];
+            } else if (dateFormat.toUpperCase() == "MM-DD-YY" || dateFormat.toUpperCase() == "MM-DD-YYYY") {
+                DateArr = date.split('-');
+                return DateArr[2] + "-" + DateArr[0] + "-" + DateArr[1];
+            } else if (dateFormat.toUpperCase() == "YY-MM-DD" || dateFormat.toUpperCase() == "YYYY-MM-DD") {
+                DateArr = date.split('-');
+                return DateArr[0] + "-" + DateArr[1] + "-" + DateArr[2];
+            }
+        }
+        function ErrDisplay(value, ctrl) {
+            $("#lblError").html(value);
+            $('#lblError').addClass('ErrorMessage');
+            $("#lblError").css("display", "block");
+            if (ctrl != '' || ctrl != "") {
+                var id = "#" + ctrl;
+                $(id).css('background-color', 'Red');
+            }
+        }
+        function HideErrorMsg() {
+            document.getElementById("lblError").style.display = "none";
+        }
+        $("#PdfForm").submit(function (e) {
+            var count =600;
+            var TimeCount = 19000 * Number(count);
+            setTimeout(function () {
+                if (box) box.remove();
+            }, TimeCount);
+        })
+    </script>
+}
+<h2>Invoice Generation</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+           
+            <div class="panel-heading">
+
+                <div class=" dashboard-panel-body-box"><h3>Generating Invoice Criteria</h3></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+                </div>
+            </div>
+            <div>
+                <label id="lblError"></label>
+            </div>
+            @Html.Hidden("DatabaseDateformat", "dd/mm/yy")
+            
+            <div class="panel-body">
+                <div class="form-group col-sm-2">
+                    <label for="ccmonth">
+                        Category <span class="validation-redcolor">*</span>
+                    </label>
+                    <div id='divCategory'></div>
+                </div>
+                <div class="form-group col-lg-3" style="border-left: 1px solid #ccc;">
+
+                    <label class="col-md-3 control-label" style="border: 0px solid #000; padding: 0px; margin: 5px 0px;" for="select">
+                        From
+                    </label>
+
+                    <div class="col-md-9" style="border: 0px solid #f00; padding:0px;">
+                        <label class="col-md-12 control-label" style="border: 0px solid #000; padding: 0px;
+                                        margin: 5px 0px; font-weight:lighter;" for="select">
+                            Date <span class="validation-redcolor">*</span>
+                        </label>
+                        <div id="dtFrmDate">
+                            <label id="txtFrmDat" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group col-md-3" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc;">
+                    <label class="col-md-1 control-label" style="border: 0px solid #000; padding: 0px; margin: 5px 0px;" for="select">
+                        To
+                    </label>
+                    <div class="col-md-11" style="border: 0px solid #f00;">
+                        <label class="col-md-12 control-label" style="border: 0px solid #000; padding: 0px;
+                                        margin: 5px 0px; font-weight:lighter;" for="select">
+                            Date <span class="validation-redcolor">*</span>
+                        </label>
+                        <div id="dtToDate">
+                            <label id="txtToDate" class="form-control" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="form-group has-feedback col-md-6">
+                        <label for="cvv">
+                            &nbsp;
+                        </label>
+                        <div>
+                            <input type="submit" id="btnShow" onclick="return PerformanceChart()" class="toggle btn btn-info" value="Display" />
+                        </div>
+                    </div>
+
+                    <label for="cvv">
+                        &nbsp;
+                    </label>
+
+                    <div>
+
+                        @*@using (Html.BeginForm("PDF", "GeneratePDF"))*@
+                        @using (Html.BeginForm("PDF", "GeneratePDF", FormMethod.Get, new { id = "PdfForm" }))
+                        {
+                            @Html.Hidden("InputString")
+                            @Html.Hidden("ServerDatabaseDateformat")
+                            <input type="submit" id="btnExport" onclick="return Export()" class="toggle btn btn-primary"  value="Export PDF" style="border:1px solid #f0f;display:none" />
+
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div id="chart_container" class="panel-body">
+
+            </div>
+            @Html.Hidden("MeterCountString")
+        </div>
+    </div>
+</div>

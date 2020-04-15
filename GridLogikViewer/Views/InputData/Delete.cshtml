@@ -1,0 +1,100 @@
+﻿@model GridLogikViewer.APIModels.InputData
+@{
+    ViewBag.Title = "Delete Input Data";
+}
+<div class="row">
+    <div class="col-lg-10">
+        <h2>Input Data</h2>
+    </div>
+    <div class="col-lg-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+        @*@Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-danger" })*@
+        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back to List</a>
+    </div>
+</div>
+
+@using (Html.BeginForm("DeleteInputData", "InputData", FormMethod.Post, new { id = "deleteInputData" }))
+{
+    <div class="panel panel-default">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(m => m.IpNo)
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box"><h3>Delete</h3></div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+        </div>
+        <div class="modal-body">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        <label class="col-md-6 control-label">Select Input Data Type :</label>
+                        <div class="col-md-6" style="border:0px solid #000;">
+                            <label class="checkbox-inline" for="inline-checkbox1">
+                                @Html.RadioButton("RadioInputData", "Constant", true)
+                                @Html.Label("Constant")
+                            </label>
+                            <label class="checkbox-inline" for="inline-checkbox2">
+                                @Html.RadioButton("RadioInputData", "RealTimeDerived")
+                                @Html.Label("RealTime Derived")
+                            </label>
+
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        <label class="col-md-6 control-label" for="text-input">Enter Name</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.ParaName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ParaName)
+                        </div>
+                    </div>
+
+
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        <label class="col-md-6 control-label" for="text-input">Enter Value</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.ParaValue, new { id = "numberParaValue", @class = "form-control" })
+                        </div>
+                    </div>
+                    @if (Model.Condition != null)
+                    {
+                        <div class="form-group  col-md-12" style="border:0px solid #000;">
+                            <label class="col-md-6 control-label" for="text-input">Condition</label>
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.Condition, new { id = "condition", @class = "form-control" })
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                @*<button type="submit" class="btn btn-danger" id="btnReset"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>*@
+                <button type="submit" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                @*<button type="button" id="btnBack" class="btn btn-twitter"> Back</button>*@
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+    $("#deleteInputData").find('input,select,radio').attr("disabled", true);
+    $(document).ready(function () {
+        $("#btnDelete").click(function () {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var msg = confirm(DeleteMessage);
+            if (msg == false) {
+                if (box) box.remove();
+                return false;
+            }
+            else {
+                $("#deleteInputData").find('input,select,radio').removeAttr("disabled");
+                return true;
+            }
+        });
+    });
+</script>

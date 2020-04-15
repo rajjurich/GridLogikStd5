@@ -1,0 +1,72 @@
+﻿@{
+    ViewBag.Title = "Report";
+}
+
+
+@section scripts
+{
+    <script>
+
+        var UserID = '@HttpContext.Current.Session["usrrecid"]';
+        // var box;
+        $(document).ready(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "UnilinkWebReportAPI/GetWebRortsList",
+                dataType: "json",//type of data to be received
+                success: function (response, status, jqXHR) {
+                    if (response != undefined && response != null && response.length != 0) {
+                        var str = "";
+                        response.forEach(function (responses) {
+                            str += "<tr>" +
+                       "<td>" + ((responses.username == null) ? " " : responses.username) + "</td>" +
+                       "<td> <a href='#' onclick=GetFileData('" + responses.folderpath + "') class='editor_edit label label-info btnEdit'>" + ((responses.folderpath == null) ? " " : responses.folderpath) + "</a></td>" +
+                       "<td style='text-align:center'><a href='Edit/" + responses.id + "' class='editor_edit label label-info btnEdit'>Edit</a> &nbsp; <a href='Delete/" + responses.id + "' class='editor_remove label label-danger btnDelete'>Delete</a></td>" +
+                        "</tr>";
+
+                        });
+                        $("#data").html(str);
+                    }
+                    else {
+                        $("#data").empty();
+                        alert('No file path found', '', false, "M");
+                        return false;
+                    }
+                },
+                error: function (xhr, status, error) {
+                    // alert(error);
+                    if (box) box.remove();
+                }
+            });
+            return false;
+        });
+        function GetFileData(path) {
+            window.open(path);
+            return false;
+        }
+    </script>
+
+}
+<h2>Report Path</h2>
+<p style="text-align:right;">
+    <div style="text-align:right">
+        @Html.ActionLink("Create Report Path", "SetReportPath", "WebReport", null, new { @id = "btnCreate", @class = "btn btn-success" }
+    )
+    </div>
+</p>
+<div>
+    <table id="lsttable" class="table table-bordered table-hover">
+
+        <thead>
+            <tr>
+                <th width="15%" style="text-align:center;color:#fff;">Client Id</th>
+                <th width="50%" style="text-align: center; color: #fff;">Folder Path</th>
+                <th width="50%" style="text-align: center; color: #fff;">Action</th>
+            </tr>
+        </thead>
+        <tbody id="data"></tbody>
+
+    </table>
+</div>

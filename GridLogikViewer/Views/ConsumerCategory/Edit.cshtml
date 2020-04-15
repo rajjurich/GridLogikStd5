@@ -1,0 +1,218 @@
+﻿@model GridLogik.ViewModels.ConsumerCategory
+
+@{
+    ViewBag.Title = "Edit";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    //url: "http://localhost/GridLogikViewerWebAPI/api/Tariff",
+            //    url: BaseAddress + "tariff",
+            //    dataType: "json",
+            //    async:false,
+            //    success: function (tariffs, status, jqXHR) {
+            //        var str = "";
+            //        if (tariffs.Data.result != undefined) {
+            //            var data = tariffs.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].trfid + ">" + data[i].trfschemename + "</option>";
+            //            }
+            //        }
+            //        else if (tariffs.Data.e == "E") {
+            //            if (tariffs.Data.d.length > 0)
+            //                alert(tariffs.Data.d);
+            //        }
+
+            //        $("#cctariffid").html(str);
+            //        $(".tariffclass").selectpicker();
+            //    }
+            //});
+
+
+
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+                //$.ajax({
+                //    //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumercategory/" + id,
+                //    url: BaseAddress + "consumercategory/" + id,
+                //    type: "GET",
+                //    contentType: "application/json;charset=utf-8",//type of data to be send
+                //    dataType: "json",//type of data to be received
+                //    success: function (response) {
+                //        if (response.Data.result.ccatrecid == null) {
+                //            if (response.Data.d.length > 0)
+                //                alert(response.Data.d, '', false, 'S');
+                //        }
+                //        else {
+                //            $("#ccatrecid").val(response.Data.result.ccatrecid);
+                //            $("#ccatid").val(response.Data.result.ccatid);
+                //            $("#ccatdescription").val(response.Data.result.ccatdescription);
+                //            //debugger;
+                //            if (response.Data.result.cfixedstatus == 1)
+                //            {
+                //                $("#cfixedstatus").prop("checked", true);
+                //            }
+                //            //$(".tariffclass").selectpicker('val', response.Data.result.cctariffid);
+
+                //        }
+                //    },
+                //    error: function (xhr) {
+                //        alert(xhr.responseText, '', false, 'E');
+                //    }
+                //});
+
+
+
+
+            $("#btnUpdate").click(function (e) {
+                //;
+                @*if ($('form').valid()) {
+
+                    formmodified = 0;
+
+                    var mstconsumercategory = {
+                        "ccatid": $("#ccatid").val(),
+                        "ccatdescription": $("#ccatdescription").val(),
+                        //"cctariffid": $("#cctariffid").val(),
+                        "ccatisdeleted": 0,
+                        "cfixedstatus": $("#cfixedstatus").prop("checked") == true ? 1 : 0
+                    };
+                    var RecordID = $("#ccatrecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumercategory/" + RecordID,
+                        url: BaseAddress + "consumercategory/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstconsumercategory),//data to be send
+                        success: function (response) {
+
+                            if (response.Data.e == "S") {
+
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '@Url.Action("Index", "ConsumerCategory")', false, 'S');
+                                //window.location.href = '@Url.Action("Index", "ConsumerCategory")';
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, 'M');
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, 'E');
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText, '', false, 'E');
+                        }
+                    });
+                }
+                e.preventDefault();*@
+
+            });
+        });
+
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Consumer Category</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.categoryrecid)
+
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="text-input">Code <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-3">
+                                                        @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                                                        @Html.TextBoxFor(model => model.categoryid, new { @readonly = true, @class = "form-control" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @Html.ValidationMessageFor(model => model.categoryid, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="text-input">Description <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-3">
+                                                        @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                                                        @Html.TextBoxFor(model => model.categorydescription, new { @class = "form-control", @maxlength = "20" })
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @Html.ValidationMessageFor(model => model.categorydescription, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="text-input">Fixed Charge Applicable <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-3">
+                                                        @Html.CheckBoxFor(model => model.checkcategoryfixedstatus, new { @class = "" })
+                                                        @*<input id="cfixedstatus" class="styled" type="checkbox">*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-success" id="btnUpdate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick="formmodified = 0;location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                    <div style="padding-bottom:20px">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+

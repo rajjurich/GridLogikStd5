@@ -1,0 +1,15 @@
+D:\Devang Project\Grid_Logik_Std_5\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.dll
+D:\Devang Project\Grid_Logik_Std_5\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.pdb
+D:\Devang Project\Grid_Logik_Std_5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\Devang Project\Grid_Logik_Std_5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.dll
+D:\Devang Project\Grid_Logik_Std_5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.pdb
+D:\Devang Project\GridLogik_STD5_NEW\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.dll
+D:\Devang Project\GridLogik_STD5_NEW\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.pdb
+D:\Devang Project\GridLogik_STD5_NEW\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\Devang Project\GridLogik_STD5_NEW\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.dll
+D:\Devang Project\GridLogik_STD5_NEW\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\bin\Debug\CMS.Framework.Common.pdb
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.csprojResolveAssemblyReference.cache
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.dll
+D:\sachin data\GridLogik_Std5\CMS.Framework.Common\obj\Debug\CMS.Framework.Common.pdb

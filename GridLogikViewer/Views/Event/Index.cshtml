@@ -1,0 +1,380 @@
+﻿@model IEnumerable<GridLogikViewer.APIModels.HTAlarm>
+@{
+    ViewBag.Title = "MeterLog";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+    var lstEvents = new SelectList(
+        new List<SelectListItem>
+        {
+            new SelectListItem {Text = "Alarm Log", Value = "1"},
+            new SelectListItem {Text = "Meter Log", Value = "2"},
+            new SelectListItem {Text = "Niu Log", Value = "3"},
+        }, "Value", "Text");
+    
+}
+<script>
+    
+    var apiMethod = "";
+    
+    $(document).ready(function () {
+        $("#FromDate,#ToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0'
+        }).datepicker("setDate", new Date());
+        
+        $("#EventId").change(function () {
+            if ($("#EventId").val() == "1") {
+                apiMethod = "AlarmLogAPI/filter";
+                ExportMethod = "ExportAlarm";
+            }
+            if ($("#EventId").val() == "2") {
+                apiMethod = "MeterLogAPI/meterfilter";
+                ExportMethod = "ExportMeter";
+            }
+            if ($("#EventId").val() == "3") {
+                apiMethod = "MeterLogAPI/NiuLogAPIFilter";
+                ExportMethod = "ExportNiu";
+            }
+        });
+    });
+    function FillMeter() {
+        var metergroup = $('#metergroup').val();
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        var dataJSON = { "groupid": metergroup };
+        $.ajax({
+            url: BaseAddress + 'MeterLogAPI/meter',
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "JSON",
+            data: JSON.stringify(dataJSON),
+            success: function (response, status, jqXHR) {
+
+                $("#meterFilter").html("");
+                $("#meterFilter").append($('<option></option>').val(null).html("All"));
+                $.each(response, function (i, MeterGroup) {
+
+                    $("#meterFilter").append(
+                        $('<option></option>').val(response[i].ID).html(response[i].MeterName));
+                });
+                if (box) box.remove();
+            }, error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                if (box) box.remove();
+            }
+        });
+    }
+    function filter() {
+        var fltrFromDate = $("#FromDate").val();
+        var fltrToDate = $("#ToDate").val();
+        var type = $('input:radio[name=Status]:checked').val()
+        var AllChecked = type == "1" ? "ALL" : "Offline";
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        var dataJSON = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type, "AllChecked": AllChecked, "ismanualack": 0 };
+        var str = "";
+        var tableStr = "";
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        if ($("#EventId").val() == "1") {
+            $.ajax({
+                url: BaseAddress + '' + apiMethod,
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify(dataJSON),
+                success: function (response, status, jqXHR) {
+                    //$("#filterdata").html("");
+                    $("#filterDataGrid").html("");
+                    $.each(response, function (i, MeterGroup) {
+                        str = str + "<tr><td class='text-center'> " + response[i].ID + "</td> <td class='text-center'> " + response[i].alarmname + "  </td> <td class='text-center'>" + response[i].alarmmessage + " </td> <td class='text-center'>" + response[i].metername + " </td><td class='text-center'>" + response[i].starttime + " </td><td class='text-center'>" + response[i].endtime + " </td></tr>"
+                    });
+                    tableStr = "";
+                    tableStr = "<table class='table table-bordered table-striped' id='lsttable'><thead><tr><th class='text-center'>ID</th><th class='text-center'>Alarm Name</th><th class='text-center'>Alarm Message</th><th class='text-center'>Meter Name</th><th class='text-center'>Start Time</th><th class='text-center'>End Time</th></tr></thead><tbody id='filterdata'>" + str + "</tbody></table>";
+                    var table = $('#lsttable').dataTable();
+
+                    //table.fnClearTable();
+                    //table.fnDestroy();
+                    //$("#filterdata").html(tableStr);
+                    $("#filterDataGrid").html(tableStr);
+                    $("#tblForExport").show();
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "scrollX": true
+                        });
+
+                    if (box) box.remove();
+                    count = $("#Export to Excel").html();
+                }, error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    if (box) box.remove();
+                }
+            });
+        }
+        if ($("#EventId").val() == "2") {
+        $.ajax({
+            url: BaseAddress + '' + apiMethod,
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "JSON",
+            data: JSON.stringify(dataJSON),
+            success: function (response, status, jqXHR) {
+                //$("#filterdata").html("");
+                $("#filterDataGrid").html("");
+                $.each(response, function (i, MeterGroup) {
+                    str = str + "<tr><td class='text-center'> " + response[i].alarmid + "</td> <td class='text-center'> " + response[i].metername + "  </td> <td class='text-center'>" + response[i].location + " </td> <td class='text-center'>" + response[i].starttimelog + " </td><td class='text-center'>" + response[i].stoptimelog + " </td></tr>"
+                });
+                tableStr = "";
+                tableStr = "<table class='table table-bordered table-striped' id='lsttable'><thead><tr><th class='text-center'>Id</th><th class='text-center'>Meter Name</th><th class='text-center'>Location</th><th class='text-center'>Start Time</th><th class='text-center'>Stop Time</th></tr></thead><tbody id='filterdata'>" + str + "</tbody></table>";
+                var table = $('#lsttable').dataTable();
+                //table.fnClearTable();
+                //table.fnDestroy();
+                //$("#filterdata").html(tableStr);
+                $("#filterDataGrid").html(tableStr);
+                $("#tblForExport").show();
+                $("#lsttable").dataTable(
+                    {
+                        pageLength: 10,
+                        "scrollX": true
+                    });
+
+                if (box) box.remove();
+                count = $("#Export to Excel").html();
+            }, error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                if (box) box.remove();
+            }
+        });
+        }
+        if ($("#EventId").val() == "3") {
+            $.ajax({
+                url: BaseAddress + 'MeterLogAPI/NiuLogAPIFilter',
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+                dataType: "JSON",
+                data: JSON.stringify(dataJSON),
+                success: function (response, status, jqXHR) {
+                    var str = "";
+                    response.forEach(function (response) {
+                        str += "<tr>" +
+                              "<td class='text-center'>" + response.alarmid + "</td>" +
+                              "<td class='text-center'>" + response.converterip + "</td>" +
+                              "<td class='text-center'>" + response.starttimelog + "</td>" +
+                               "<td class='text-center'>" + response.stoptimelog + "</td>" +
+
+                              "</tr>";
+
+                    });
+                    tableStr = "";
+                    tableStr = "<table class='table table-bordered table-striped' id='lsttable'><thead><tr><th class='test-center'>Converter Id</th><th class='test-center'>Converter Ip</th><th class='test-center'>Start Time</th><th class='test-center'>Stop Time</th></tr></thead><tbody id='filterdata'>" + str + "</tbody></table>";
+                    if ($.fn.dataTable.isDataTable('#lsttable')) {
+                        var table = $('#lsttable').dataTable();
+
+                        //table.fnClearTable();
+                        //table.fnDestroy();
+                        // $("#filterdata").html(str);
+                        $("#filterDataGrid").html(tableStr);
+                        $("#tblForExport").show();
+                        count = $("#exportexcel").html();
+                        $("#lsttable").dataTable(
+                            {
+                                pageLength: 10,
+                                "scrollX": true
+                            });
+                    }
+                    else {
+                        var s = "";
+                        //$("#filterdata").html(str);
+                        $("#filterDataGrid").html(tableStr);
+                        $("#tblForExport").show();
+                        $("#lsttable").dataTable(
+                            {
+                                pageLength: 10,
+                                "scrollX": true
+                            });
+                    }
+                    if (box) box.remove();
+                    count = $("#exportexcel").html();
+                }, error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                    if (box) box.remove();
+                }
+            });
+        }
+    }
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Logs</a></li>
+                        <li class="active">Index</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-body">
+                                    <div class="row mb5">
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <label style="text-align:right" class="col-md-4"><strong>Event</strong></label>
+                                                <div class="col-md-8">
+                                                    @Html.DropDownList("ddlListEvent", lstEvents, "Select Event", new { @id = "EventId", @class = "form-control" })
+                                                </div>
+                                                </div>
+                                            </div>
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <div class="col-md-4 text-right">
+                                                    <label><strong> From Date	 </strong></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBox("Day", string.Empty, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <div class="col-md-4 text-right">
+                                                    <label><strong> To Date	 </strong></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBox("Day", string.Empty, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <div class="col-md-6 text-left">
+                                                    <label> Status</label>&nbsp;@Html.RadioButton("Status", "1", true, new { @ID = "Statused", @name = "Status" }) Active&nbsp;&nbsp;
+
+                                                    @Html.RadioButton("Status", "0", new { @ID = "Status", @name = "Status" })History&nbsp;&nbsp;
+                                                </div>
+                                                <div class="col-md-4 text-left">
+                                                    <input type="button" value="Filter" class="btn btn-warning" id="btnRefresh" onclick="filter()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb5">
+                                        <div class="col-md-12">
+                                            <hr />
+
+                                            <div class="table-responsive ls-table" id="filterDataGrid">
+                                                @*@if (EventNum == 2)
+                                                {
+                                                <table class="table table-bordered table-striped" id="lsttable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Id</th>
+                                                            <th class="text-center">Meter Name</th>
+                                                            <th class="text-center">Location</th>
+                                                            <th class="text-center">Start Time</th>
+                                                            <th class="text-center">Stop Time</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="filterdata">
+                                                        @foreach (var item in Model)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-center">
+
+                                                                    @Html.DisplayFor(modelItem => item.alarmid)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.metername)
+                                                                </td>
+
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.location)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.starttimelog)
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    @Html.DisplayFor(modelItem => item.stoptimelog)
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                    }
+                                                    @if (EventNum == 3)
+                                                    {
+                                                           <table class="table table-bordered table-striped" id="lsttable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="test-center">Converter Id</th>
+                                                            <th class="test-center">Converter Ip</th>
+                                                            <th class="test-center">Start Time</th>
+                                                            <th class="test-center">Stop Time</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="filterdata">
+                                                        @foreach (var item in Model)
+                                                        {
+                                                        <tr>
+                                                            <td class="test-center">
+                                                                @Html.DisplayFor(modelItem => item.alarmid)
+                                                            </td>
+                                                            <td class="test-center">
+                                                                @Html.DisplayFor(modelItem => item.converterip)
+                                                            </td>
+                                                            <td class="test-center">
+                                                                @Html.DisplayFor(modelItem => item.starttimelog)
+                                                            </td>
+                                                            <td class="test-center">
+                                                                @Html.DisplayFor(modelItem => item.stoptimelog)
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                    }*@
+                                            </div>
+                                            <div id="tblForExport" style="display:none"><br /><button type="button" class="btn btn-success btn-sm" id="export"><i class="fa fa-file-excel-o"></i> Export to Excel</button><div class="clearfix"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script>
+    var count;
+$('#export').click(function () {
+    var tblRowCount = $('#lsttable tr').length;
+    var fltrFromDate = $("#FromDate").val();
+    var fltrToDate = $("#ToDate").val();
+    var type = $('input:radio[name=Status]:checked').val()
+    var obj = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type };
+    if (tblRowCount > 2) {
+        if ($("#EventId").val() == "1")
+            window.location.href = "@Url.Action("ExportAlarm", "Event")?Page=data&fltrFromDate=" + fltrFromDate + "&fltrToDate=" + fltrToDate + "&onoff=" + type;
+        if ($("#EventId").val() == "2")
+            window.location.href = "@Url.Action("ExportMeter", "Event")?Page=data&fltrFromDate=" + fltrFromDate + "&fltrToDate=" + fltrToDate + "&onoff=" + type;
+        if ($("#EventId").val() == "3")
+            window.location.href = "@Url.Action("ExportNiu", "Event")?Page=data&fltrFromDate=" + fltrFromDate + "&fltrToDate=" + fltrToDate + "&onoff=" + type;
+    }
+    else {
+        alert('No Records Found for Excel Generation', '', false, 'E');
+        return false;
+    }
+});
+$(window).load(function () {
+    $("#lsttable").dataTable(
+        {
+            pageLength: 10
+        });
+})
+</script>

@@ -1,0 +1,26 @@
+INSERT INTO PH_TASK
+(
+tk_name,
+tk_description,
+tk_type,
+TK_DBS,
+tk_execute,
+tk_start_time,
+tk_stop_time,
+tk_frequency,
+tk_group,
+tk_enable
+)
+VALUES
+(
+"Delete_miss_block_data",
+"Delete_miss_block_data",
+"TASK",
+"etools_dev",   
+"execute procedure delete_missblockdata()",
+"00:18:00",
+null,
+"0 10:00:00",
+"USER",
+"T"
+)

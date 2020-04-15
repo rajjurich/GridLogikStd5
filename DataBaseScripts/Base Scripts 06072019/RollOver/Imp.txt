@@ -1,0 +1,181 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbloadimport', '500M', '8K');
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbloadimport', '30', '10');
+
+
+DROP ROW TYPE rtImpConsumption RESTRICT;
+create row type rtImpConsumption
+(
+tstamp datetime year to fraction(5),	
+BlockNo varchar(100),
+kwh_imp float,
+kvah_imp float ,
+kvarh_lag_imp float,
+kvarh_lead_imp float,
+cum_kwh float,
+cum_kvah float ,
+cum_kvarh_lag float,
+cum_kvarh_lead float,
+rollover_kwh float,
+rollover_kvah float ,
+rollover_kvarh_lag float,
+rollover_kvarh_lead float,
+missFlag int
+);
+
+drop table if exists tsLoadsurveyImport;
+create table etools_dev.tsLoadsurveyImport
+(METERID int8 NOT NULL,
+series timeseries(rtImpConsumption),
+primary key(METERID)) in dbloadimport;
+
+execute procedure TSContainerDestroy('tsconLoadsurveyImport');
+execute procedure tscontainercreate('tsconLoadsurveyImport','dbloadimport','rtImpConsumption',1024,1024);
+
+execute procedure ifx_allow_newline('t');
+drop table if exists etools_dev.LoadsurveyImport;
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadsurveyImport',
+'tsLoadsurveyImport','calendar(cal_15min),
+container(tsconLoadsurveyImport),irregular');
+
+
+create row type "informix".rtloadimpsconsumptions 
+	(
+	tstamp datetime year to fraction(5),
+	kwh_imp float,
+	kvah_imp float,
+	kvarh_lag_imp float,
+	kvarh_lead_imp float,
+	cum_kwh float,
+	cum_kvah float,
+	cum_kvarh_lag float,
+	cum_kvarh_lead float
+	);
+
+create table "etools_dev".impconsumption_blocks 
+  (
+    meterid int8 not null ,
+    tstamp datetime year to fraction(5),
+    kwh_imp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    cum_kwh float,
+    cum_kvah float,
+    cum_kvarh_lag float,
+    cum_kvarh_lead float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadsurveyImport',
+    tsfirstcolidx='1',
+    tscolcnt='9',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadimpsconsumptions',
+    tsexpression='apply&l&d$kwh_imp&c$kvah_imp&c$kvarh_lag_imp&c$kvarh_lead_imp&c$cum_kwh - tsprevious&l$cum_kwh&r&c  $cum_kvah - tsprevious&l$cum_kvah&r&c$cum_kvarh_lag - tsprevious&l$cum_kvarh_lag&r&c$cum_kvarh_lead - tsprevious&l$cum_kvarh_lead&r&d&c aggregateby&l&dfirst&l$kwh_imp&r&cfirst&l$kvah_imp&r&cfirst&l$kvarh_lag_imp&r&cfirst&l$kvarh_lead_imp&r&c first&l$cum_kwh&r&cfirst&l$cum_kvah&r&cfirst&l$cum_kvarh_lag&r&cfirst&l$cum_kvarh_lead&r&d&c &dcal_15min&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lrtloadImpsConsumptions&r&r',
+    tsprimarykey='1' 
+  );
+      
+create view "etools_dev".evt_conimp_blockwise (meterid,ts,kwh_imp,kvah_imp,kvarh_lag_imp,kvarh_lead_imp,cum_kwh,cum_kvah,cum_kvarh_lag,cum_kvarh_lead) as 
+  select x0.meterid ,x0.tstamp ,x0.kwh_imp ,x0.kvah_imp ,x0.kvarh_lag_imp 
+    ,x0.kvarh_lead_imp ,x0.cum_kwh ,x0.cum_kvah ,x0.cum_kvarh_lag 
+    ,x0.cum_kvarh_lead from "etools_dev".impconsumption_blocks 
+    x0 ;
+
+
+create table "etools_dev".consumptionimpdaywise 
+  (
+    meterid int8 not null ,
+    tstamp datetime year to fraction(5),
+    kwh_imp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    cum_kwh float,
+    cum_kvah float,
+    cum_kvarh_lag float,
+    cum_kvarh_lead float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadsurveyImport',
+    tsfirstcolidx='1',
+    tscolcnt='9',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadimpsconsumptions',
+    tsexpression='apply&l&d$kwh_imp&c$kvah_imp&c$kvarh_lag_imp&c$kvarh_lead_imp&c$cum_kwh - tsprevious&l$cum_kwh&r&c  $cum_kvah - tsprevious&l$cum_kvah&r&c$cum_kvarh_lag - tsprevious&l$cum_kvarh_lag&r&c$cum_kvarh_lead - tsprevious&l$cum_kvarh_lead&r&d&c aggregateby&l&dmin&l$kwh_imp&r&cmin&l$kvah_imp&r&cmin&l$kvarh_lag_imp&r&cmin&l$kvarh_lead_imp&r&c min&l$cum_kwh&r&cmin&l$cum_kvah&r&cmin&l$cum_kvarh_lag&r&cmin&l$cum_kvarh_lead&r&d&c &dcal_1day&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lrtloadImpsConsumptions&r&r',
+    tsprimarykey='1' 
+  );
+                    
+create view "etools_dev".evt_conimp_daywise (meterid,ts,kwh_imp,kvah_imp,kvarh_lag_imp,kvarh_lead_imp,cum_kwh,cum_kvah,cum_kvarh_lag,cum_kvarh_lead) as 
+  select x0.meterid ,x0.tstamp ,x0.kwh_imp ,x0.kvah_imp ,x0.kvarh_lag_imp 
+    ,x0.kvarh_lead_imp ,x0.cum_kwh ,x0.cum_kvah ,x0.cum_kvarh_lag 
+    ,x0.cum_kvarh_lead from "etools_dev".consumptionimpdaywise 
+    x0 ;                                                     
+        
+
+
+create table "etools_dev".consumptionimphourwise 
+  (
+    meterid int8 not null ,
+    tstamp datetime year to fraction(5),
+    kwh_imp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    cum_kwh float,
+    cum_kvah float,
+    cum_kvarh_lag float,
+    cum_kvarh_lead float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadsurveyImport',
+    tsfirstcolidx='1',
+    tscolcnt='9',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadimpsconsumptions',
+    tsexpression='apply&l&d$kwh_imp&c$kvah_imp&c$kvarh_lag_imp&c$kvarh_lead_imp&c$cum_kwh - tsprevious&l$cum_kwh&r&c  $cum_kvah - tsprevious&l$cum_kvah&r&c$cum_kvarh_lag - tsprevious&l$cum_kvarh_lag&r&c$cum_kvarh_lead - tsprevious&l$cum_kvarh_lead&r&d&c aggregateby&l&dmin&l$kwh_imp&r&cmin&l$kvah_imp&r&cmin&l$kvarh_lag_imp&r&cmin&l$kvarh_lead_imp&r&c min&l$cum_kwh&r&cmin&l$cum_kvah&r&cmin&l$cum_kvarh_lag&r&cmin&l$cum_kvarh_lead&r&d&c &dcal_1hour&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lrtloadImpsConsumptions&r&r',
+    tsprimarykey='1' 
+  );
+ 
+                                                        
+create view "etools_dev".evt_conimp_hourwise (meterid,ts,kwh_imp,kvah_imp,kvarh_lag_imp,kvarh_lead_imp,cum_kwh,cum_kvah,cum_kvarh_lag,cum_kvarh_lead) as 
+  select x0.meterid ,x0.tstamp ,x0.kwh_imp ,x0.kvah_imp ,x0.kvarh_lag_imp 
+    ,x0.kvarh_lead_imp ,x0.cum_kwh ,x0.cum_kvah ,x0.cum_kvarh_lag 
+    ,x0.cum_kvarh_lead from "etools_dev".consumptionimphourwise 
+    x0 ;                                                     
+        
+     
+
+create table "etools_dev".consumptionimpmonthwise
+  (
+    meterid int8 not null ,
+    tstamp datetime year to fraction(5),
+    kwh_imp float,
+    kvah_imp float,
+    kvarh_lag_imp float,
+    kvarh_lead_imp float,
+    cum_kwh float,
+    cum_kvah float,
+    cum_kvarh_lag float,
+    cum_kvarh_lead float
+  ) using ts_vtam
+  (
+    basetabname='tsLoadsurveyImport',
+    tsfirstcolidx='1',
+    tscolcnt='9',
+    tsscanmode='0',
+    tscolname='series',
+    tselemtype='rtloadimpsconsumptions',
+    tsexpression='apply&l&d$kwh_imp&c$kvah_imp&c$kvarh_lag_imp&c$kvarh_lead_imp&c$cum_kwh - tsprevious&l$cum_kwh&r&c  $cum_kvah - tsprevious&l$cum_kvah&r&c$cum_kvarh_lag - tsprevious&l$cum_kvarh_lag&r&c$cum_kvarh_lead - tsprevious&l$cum_kvarh_lead&r&d&c aggregateby&l&dmin&l$kwh_imp&r&cmin&l$kvah_imp&r&cmin&l$kvarh_lag_imp&r&cmin&l$kvarh_lead_imp&r&c min&l$cum_kwh&r&cmin&l$cum_kvah&r&cmin&l$cum_kvarh_lag&r&cmin&l$cum_kvarh_lead&r&d&c &dcal_1month&d&c series&c0&c$ts_begin_time&c$ts_end_time&r::timeseries&lrtloadImpsConsumptions&r&r',
+    tsprimarykey='1' 
+  );
+                                        
+create view "etools_dev".evt_conimp_monthwise (meterid,ts,kwh_imp,kvah_imp,kvarh_lag_imp,kvarh_lead_imp,cum_kwh,cum_kvah,cum_kvarh_lag,cum_kvarh_lead) as 
+  select x0.meterid ,x0.tstamp ,x0.kwh_imp ,x0.kvah_imp ,x0.kvarh_lag_imp 
+    ,x0.kvarh_lead_imp ,x0.cum_kwh ,x0.cum_kvah ,x0.cum_kvarh_lag 
+    ,x0.cum_kvarh_lead from "etools_dev".consumptionimpmonthwise 
+    x0 ;                                                     
+         
+                            

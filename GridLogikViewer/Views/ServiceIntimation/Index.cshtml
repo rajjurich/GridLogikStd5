@@ -1,0 +1,213 @@
+﻿@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+@*<script src="~/Scripts/jquery.jmHighlight.js"></script>*@
+<script>
+    var box;
+
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                    }
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+            }
+        });
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "serviceintimationapi",
+            dataType: "json",//type of data to be received
+            success: function (svsint, status, jqXHR) {
+                var str = "";
+                debugger;
+                if (svsint.Data.result != undefined) {
+                    svsint.Data.result.forEach(function (result) {
+                        var svsFrmDt = moment(result.fromdate, $("#DatabaseDateformat").val());
+                        var frmDt = $.datepicker.formatDate($("#Dateformat").val(), new Date(svsFrmDt))
+
+                        var svsToDt = moment(result.todate, $("#DatabaseDateformat").val());
+                        var toDt = $.datepicker.formatDate($("#Dateformat").val(), new Date(svsToDt))
+
+                        var flagprc = result.flagprocess;
+                        var status = "";
+                        var Action = "";
+                        if (flagprc == 0) {
+                            status = "Ready to Process";
+                            Action = "";
+                        }
+                        else if (flagprc == 1) {
+                            status = "In process";
+                            Action = "";
+                        }
+                        else if (flagprc == 2) {
+                            status = "Processed successfully";
+                            Action = "<a href='#' onclick='DeleteRecord(" + result.id + ")' class='btn btn-xs btn-danger'><i class='fa fa-trash-o'></i> Delete</a>";
+                        }
+                        else if (flagprc == 3) {
+                            status = "Processes with erros";
+                            Action = "<a href='#' onclick='DeleteRecord(" + result.id + ")' class='btn btn-xs btn-danger'><i class='fa fa-trash-o'></i> Delete</a>";
+                        }
+                        else if (flagprc == 6) {
+                            status = "Record Deletion In process";
+                            Action = "";
+                        }
+                        str += "<tr>" +
+                            "<td class='text-center'>" + frmDt + "</td>" +
+                            "<td class='text-center'>" + toDt + "</td>" +
+                            "<td class='text-center'>" + (result.consumercatid == null ? "" : result.consumercatid) + "</td>" +
+                            //"<td>" + (result.flagprocess == 1 ? "Processed" : "Not Processed") + "</td>" +
+                            "<td class='text-center'>" + status + "</td>" +
+                            "<td class='text-center'>" + Action + "</td>" +
+                            "</tr>";
+                    });
+                }
+                if (svsint.Data.e == "E") {
+                    if (svsint.Data.d.length > 0)
+                        alert(svsint.Data.d);
+
+                }
+                $("#data").html(str);
+                $("#lsttable").dataTable(
+                    {
+                        pageLength: 10,
+                        "aoColumns": [
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    { "bSortable": false, "width": "144px" }
+                        ]
+                    });
+                Highlight();
+                if (box) {
+                    if ('@ViewBag.CreateAccess' == "False") {
+                        $("#btnCreate").hide();
+                    }
+                    if ('@ViewBag.EditAccess' == "False") {
+                        $(".btnEdit").hide();
+                    }
+                    if ('@ViewBag.DeleteAccess' == "False") {
+                        $(".btnDelete").hide();
+                    }
+                    box.remove();
+                }
+            },
+            error: function (xhr, status, error) {
+                //  alert(error);
+                if (box) box.remove();
+            }
+        });
+    });
+    function deleterecord() {
+        var id = document.getElementById("hdnId").value;
+        $.ajax({
+            type: "DELETE",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "serviceintimationapi/" + id,
+            dataType: "json",//type of data to be received
+            success: function (response) {
+
+                if (response.Data.e == "S") {
+                    alert(response.Data.d, '@Url.Action("Index", "serviceintimation")', false, response.Data.e);
+                }
+                else if (response.Data.e == "M") {
+                    alert(response.Data.d, '', false, response.Data.e);
+                }
+                else if (response.Data.e == "E") {
+                    alert(response.Data.d, '', false, response.Data.e);
+                }
+
+            },
+            error: function (xhr, status, error) {
+
+                alert(xhr.responseText);
+            }
+        });
+        e.preventDefault();
+    }
+    function DeleteRecord(id) {
+        document.getElementById("hdnId").value = id;
+        var msg = confirm(DeleteMessage);
+        if (msg == false) {
+            return false;
+        }
+        else if (msg == true) {
+            document.getElementById("hdnId").value = id;
+            deleterecord();
+        }
+    }
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Service Intimation</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li class="active">Service Intimation</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                            @Html.ActionLink(" Create New", "create", "serviceintimation", null, new { @id = "btnCreate", @class = "fa fa-plus-circle btn btn-success pull-right btn-sm text-white btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <input id="Dateformat" type="hidden" />
+                                            <input id="ServerDateformat" type="hidden" />
+                                            <input id="hdnId" type="hidden" />
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">From Date</th>
+                                                    <th class="text-center">To Date</th>
+                                                    <th class="text-center">Consumer Category</th>
+                                                    <th class="text-center">Status</th>
+                                                    <th class="text-center">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

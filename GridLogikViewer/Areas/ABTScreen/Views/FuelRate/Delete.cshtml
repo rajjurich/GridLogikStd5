@@ -1,0 +1,128 @@
+﻿@model GridLogikViewer.Areas.ABTScreen.Models.FuelRate
+
+@{
+    ViewBag.Title = "";
+}
+
+<div class="row">
+    <div class="col-lg-10">
+        <h2>Fuel Rate</h2>
+    </div>
+    <div class="col-lg-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back to List</a>
+    </div>
+</div>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box"><h3>Delete</h3></div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+            </div>
+        </div>
+        <div class="panel-body">
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.Id)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.app_from, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.app_from, new { @id = "FromDate" })
+                            @Html.ValidationMessageFor(model => model.app_from)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Rate, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Rate)
+                            @Html.ValidationMessageFor(model => model.Rate)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="button" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <span>
+                        @Html.Raw(ViewBag.ErrorMessage)
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".panel-body").find('input').attr("disabled", true);
+            //IsDeleteMeterModel();
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm(DeleteMessage);
+            });
+        });
+
+        function deleterecord() {
+            var fuelRateModel = {
+                "app_from": $("#FromDate").val(),
+                "Rate": $("#Rate").val(),
+                "isdeleted": 0
+            };
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                type: "POST",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: '@Url.Action("Delete", "FuelRate")',//"/FuelRate/Delete/" + id,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(fuelRateModel),//data to be send
+                success: function (response) {
+
+                    if (response.e == "S") {
+                        if (response.d.length > 0)
+                            alert(response.d, '@Url.Action("Index", "FuelRate")', false, response.e);
+                        //  window.location.href = '@Url.Action("Index", "FuelRate")';
+                    }
+                    else if (response.e == "M") {
+                        if (response.d.length > 0) {
+                            alert(response.d, '', false, response.e);
+                            $("#btnDelete").attr("disabled", true);
+                        }
+                    }
+                    else if (response.e == "E") {
+                        if (response.d.length > 0)
+                            alert(response.d, '', false, response.e);
+                    }
+
+                },
+                error: function (xhr, status, error) {
+
+                    alert(xhr.responseText);
+                }
+            });
+        }
+
+    </script>
+}

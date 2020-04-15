@@ -1,0 +1,224 @@
+﻿@*@model IEnumerable<GridLogikViewer.APIModels.MstConsumerCategoryTariff>*@
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="~/Scripts/jquery.dataTables.js"></script>
+<script src="~/Scripts/dataTables.bootstrap.js"></script>
+
+<script src="~/Scripts/moment.js"></script>
+<script>
+
+    $(document).ready(function () {
+        //alert('loading');
+        //removejscssfile("jquery.stickyheader.js", "js");
+        //removejscssfile("jquery.ba-throttle-debounce.min.js", "js");
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(data[i].prmvalue);
+                        }
+                    }
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        ShowMessage("Error", response.Data.d);
+                    //alert(dateformat.Data.d);
+                }
+            }
+        });
+
+        //var startdateDB = moment($("#startdate").val(), $("#DatabaseDateformat").val());
+        //var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+        //$("#startdate").val(startdate);
+
+
+        //var enddateDB = moment($("#enddate").val(), $("#DatabaseDateformat").val());
+        //var enddate = $.datepicker.formatDate($("#Dateformat").val(), new Date(enddateDB))
+        //$("#enddate").val(enddate);
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "Consumercategorytariffapi",
+            dataType: "json",//type of data to be received
+            async: false,
+            success: function (tariff, status, jqXHR) {
+                var str = "";
+
+                if (tariff.length > 0) {
+                    tariff.forEach(function (result) {
+                        //var DBcsmrdob = moment(result.cctfromdate, $("#DatabaseDateformat").val());
+                        //var DOBDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcsmrdob))
+                        str += "<tr>" +
+                            "<td>" + result.cctcategoryid + "</td>" +
+                            "<td>" + result.ccttariffid + "</td>" +
+                          //  "<td>" + DOBDate + "</td>" +
+                            //"<td>" + (result.trfschemename == null ? "" : result.trfschemename) + "</td>" +
+                            //"<td style='text-align:center'><a href='/tariff/Edit/" + result.trfrecid + "' class='editor_edit' style='color:blue'>Edit</a> / <a href='/tariff/Delete/" + result.trfrecid + "' class='editor_remove' style='color:blue'>Delete</a></td>" +
+                            "<td style='text-align:center'><a href='@Url.Action("Edit", "metertariff")/" + result.cctrecid + "' class='btn btn-xs btn-warning fa fa-pencil-square-o'> Edit</a> &nbsp; <a href='@Url.Action("Delete", "metertariff")/" + result.cctrecid + "' class='btn btn-xs btn-danger fa fa-trash-o'> Delete</a></td>" +
+                            "</tr>";
+                    });
+                }
+                //if (tariff.Data.e == "E") {
+                //    if (tariff.Data.d.length > 0)
+                //        alert(tariff.Data.d);
+
+                //}
+                $("#data").html(str);
+                $("#table1").dataTable(
+                         {
+                             pageLength: 10,
+                             "aoColumns": [
+                                         null,
+                                         null,
+                                         { "bSortable": false, "searchable": false, "width": "144px" }
+                             ]
+                         });
+
+                //if (box) box.remove();
+            },
+            error: function (xhr, status, error) {
+                //  alert(error);
+                //if (box) box.remove();
+            }
+        });
+
+
+
+    })
+
+
+    //document.onreadystatechange = function(){
+    //    if (document.readyState === 'complete') {
+    //        var i = 0;
+    //        var TableData = new Array();
+
+    //        $('#table1 tr').not(':first').each(function (row, tr) {
+    //            if (row != 0) {
+    //                TableData[i] = {
+    //                    "startdate": $(tr).find('td:eq(3)').text()
+    //                    , "enddate": $(tr).find('td:eq(4)').text()
+    //                }
+
+    //                i++;
+    //            }
+
+    //        });
+
+    //        if (TableData.length > 0) {
+    //            for (var i = 0; i <= TableData.length; i++) {
+    //                //$('#table1 tr:nth-child(' + i + ') td:nth-child(4)').html('foo');
+    //            }
+    //        }
+    //    }
+    //}
+
+
+
+    function Delete(id) {
+
+        var msg = confirm('Are you sure you want to delete this record ?');
+        if (msg == false) {
+            return false;
+        }
+        else {
+
+            $.ajax({
+
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+
+                url: '@Url.Action("Delete", "MeterTariff")',//  "/MeterTariff/Delete/" + id,
+                //data: "{ID : "+id+"}",
+                dataType: "json",
+                success: function (menus, status, jqXHR) {
+                    alert(menus.Message);
+                    window.location.href = '@Url.Action("Index")';
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+
+                }
+            });
+        }
+    }
+</script>
+<style>
+    td, th {
+        text-align: center;
+    }
+</style>
+<input type="hidden" id="Dateformat" name="Dateformat">
+<input type="hidden" id="DatabaseDateformat" name="DatabaseDateformat">
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Consumer Category Tariff</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @Html.ActionLink(" Create New", "create", "MeterTariff", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="table1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        Consumer Category ID
+                                                    </th>
+                                                    <th>
+                                                        Tariff ID
+                                                    </th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

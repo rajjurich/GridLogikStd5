@@ -1,0 +1,340 @@
+﻿@model GridLogikViewer.APIModels.MstConsumerCategoryTariff
+
+@{
+    ViewBag.Title = "Edit";
+}
+<script src="~/Scripts/moment.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        var globalboolFlag = null;
+        $("#btnUpdate").click(function (e) {
+
+            var msg = confirm(DeleteMessage);
+
+        });
+
+        $('#check').change(function () {
+
+            if ($('#check').is(":checked")) {
+                $("#RevisedFDate").css("display", "");
+                globalboolFlag = true;
+
+            }
+            else {
+                $("#RevisedFDate").css("display", "none");
+                globalboolFlag = false;
+
+            }
+
+        });
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            //url: "http://localhost:8487/EToolsAPI/api/prmglobal",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                            //$('#cmrrelationshipstartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$("#cmrrelationshipenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$('#cmrservicestartdate').datepicker("options", "dateFormat", data[i].prmvalue);
+                            //$("#cmrserviceenddate").datepicker("options", "dateFormat", data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(data[i].prmvalue);
+                        }
+                    }
+
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d);
+                }
+            }
+        });
+
+        //Set textbox as datepicker
+        $(function () {
+            $('#txtFromDate').datepicker({
+                dateFormat: $("#Dateformat").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+        $(function () {
+            $('#cctfromdate').datepicker({
+                dateFormat: $("#Dateformat").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+
+        //var startdateDB = moment($("#startdate").val(), $("#DatabaseDateformat").val());
+        //var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+        //$("#startdate").val(startdate);
+
+
+        //var enddateDB = moment($("#enddate").val(), $("#DatabaseDateformat").val());
+        //var enddate = $.datepicker.formatDate($("#Dateformat").val(), new Date(enddateDB))
+        //$("#enddate").val(enddate);
+
+
+        //$.ajax({
+        //    type: "GET",
+        //    contentType: "application/json;charset=utf-8",
+        //    url: "http://localhost:8487/EToolsAPI/api/Tariff",
+        //    //url: BaseAddress + "tariff",
+        //    dataType: "json",
+        //    success: function (tariffs, status, jqXHR) {
+        //        var str = "";
+        //        if (tariffs.Data.result != undefined) {
+        //            var data = tariffs.Data.result;
+        //            str = "<option value='select'>Select</option>";
+        //            for (var i in data) {
+        //                str += "<option value=" + data[i].trfid + ">" + data[i].trfschemename + "</option>";
+        //            }
+        //        }
+        //        else if (tariffs.Data.e == "E") {
+        //            if (tariffs.Data.d.length > 0)
+        //                alert(tariffs.Data.d);
+        //        }
+
+        //        $("#tarifid").html(str);
+        //        //$(".tariffclass").selectpicker();
+        //    }
+        //});
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "ConsumerCategory",
+            async: false,
+            //url: BaseAddress + "tariff",
+            dataType: "json",
+            success: function (tariffs, status, jqXHR) {
+                var str = "";
+                if (tariffs.Data.result != undefined) {
+                    var data = tariffs.Data.result;
+                    str = "<option value='select'>Select</option>";
+                    for (var i in data) {
+                        str += "<option value=" + data[i].ccatid + ">" + data[i].ccatdescription + "</option>";
+                    }
+                }
+                else if (tariffs.Data.e == "E") {
+                    if (tariffs.Data.d.length > 0)
+                        alert(tariffs.Data.d);
+                }
+
+                $("#cctcategoryid").html(str);
+                //$(".tariffclass").selectpicker();
+            }
+        });
+
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "Tariff",
+            async: false,
+            //url: BaseAddress + "tariff",
+            dataType: "json",
+            success: function (tariffs, status, jqXHR) {
+                var str = "";
+                if (tariffs.Data.result != undefined) {
+                    var data = tariffs.Data.result;
+                    str = "<option value='select'>Select</option>";
+                    for (var i in data) {
+                        str += "<option value=" + data[i].trfid + ">" + data[i].trfschemename + "</option>";
+                    }
+                }
+                else if (tariffs.Data.e == "E") {
+                    if (tariffs.Data.d.length > 0)
+                        alert(tariffs.Data.d);
+                }
+
+                $("#ccttariffid").html(str);
+                //$(".tariffclass").selectpicker();
+            }
+        });
+
+
+        var id =@this.ViewContext.RouteData.Values["id"]
+
+
+             $.ajax({
+                 type: "GET",
+                 contentType: "application/json;charset=utf-8",//type of data to be send
+                 url: BaseAddress + "ConsumerCategoryTariffAPI/" + id,
+                 dataType: "json",//type of data to be received
+                 async: false,
+                 success: function (tariff) {
+                     if (tariff.cctrecid == null) {
+                         if (tariff.Data.d.length > 0)
+                             alert(tariff.Data.d);
+                     }
+                     else {
+                         $("#cctrecid").val(tariff.cctrecid);
+                         $("#cctcategoryid").val(tariff.cctcategoryid);
+                         $("#ccttariffid").val(tariff.ccttariffid);
+                         $("#PreviousFromdate").val(tariff.cctfromdate);
+                         $("#txtFromDate").val(tariff.cctfromdate);
+
+                         var startdateDB = moment($("#txtFromDate").val(), $("#DatabaseDateformat").val());
+                         var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                         $("#txtFromDate").val(startdate);
+
+
+                         //$("#znutilityid").val(tariff.Data.result.trfutilityid);
+
+                         //$("#trftouslotid").val(tariff.Data.result.trftouslotid);
+
+
+                     }
+
+                 },
+                 error: function (xhr, status, error) {
+                     alert(error);
+                 }
+             });
+
+    });
+
+    function deleterecord() {
+        var RecordID = $("#cctrecid").val();
+
+        var msg = confirm(DeleteMessage);
+        //if (msg == false) {
+        //    return false;
+        //}
+        //else {
+
+            $.ajax({
+
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+
+                url:'@Url.Action("Delete", "MeterTariff")',// "/MeterTariff/Delete/" + RecordID,
+                //data: "{ID : "+id+"}",
+                dataType: "json",
+                success: function (menus, status, jqXHR) {
+                    alert(menus.Message);
+                    window.location.href = '@Url.Action("Index")';
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+
+                }
+            });
+        //}
+    }
+</script>
+<section>
+
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Consumer Category Tariff</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i> <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <div class="form-horizontal">
+
+                                            @Html.ValidationSummary(true)
+                                            @Html.HiddenFor(model => model.cctrecid)
+                                            <input id="Dateformat" type="hidden" name="Dateformat" />
+                                            <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+                                            <input type="hidden" id="DatabaseDateformat">
+                                            <div>
+                                                <div class="form-group col-md-6">
+
+                                                    <label>Consumer Category</label>
+                                                    @Html.DropDownListFor(model => model.cctcategoryid, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @style = "width:28%", @disabled = "disabled" })
+
+                                                </div>
+
+                                                <div class="form-group col-md-6">
+                                                    <label>Tariff</label>
+                                                    @Html.DropDownListFor(Tariff => Tariff.ccttariffid, Enumerable.Empty<SelectListItem>(), new { @class = "form-control", @disabled = "disabled" })
+                                                </div>
+
+
+
+                                                <div class="form-group" style="display:none;">
+                                                    <label class="control-label col-md-2">From Date</label>
+                                                    <div class="col-md-10">
+                                                        <input type="text" id="txtFromDate" disabled />
+                                                        <input type="hidden" id="PreviousFromdate" />
+
+                                                        <div class="checkbox checkbox-info">
+                                                            <input id="check" class="styled" type="checkbox" disabled>
+                                                            <label for="checkbox4">
+                                                                Power Source Changed
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-6" id="RevisedFDate" style="display:none;">
+                                                    <label>Changed From Date</label>
+                                                    @Html.EditorFor(model => model.cctfromdate)
+                                                    @Html.ValidationMessageFor(model => model.cctfromdate)
+                                                </div>
+
+                                                <div class="panel-footer col-md-12 text-center">
+                                                    <button type="button" class="btn btn-danger" id="btnUpdate" onclick="return Delete();"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                                </div>
+                                            </div>
+                                            @*</div>*@
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

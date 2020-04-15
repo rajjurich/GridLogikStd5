@@ -1,0 +1,329 @@
+﻿@model GridLogikViewer.APIModels.GroupConfiguration
+
+@{
+    ViewBag.Title = "Update Meter Group";
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">
+                        Meter Groups
+                    </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Meter Groups</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm("", "", FormMethod.Post, new { id = "editGrpConfig" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.HiddenFor(model => model.Id)
+                                        @Html.HiddenFor(model => model.SelectedMeterID)
+                                        @Html.HiddenFor(model => model.SelectedParameterID)
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-horizontal">
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.GroupName, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-3">
+                                                    @Html.TextBoxFor(model => model.GroupName, new { @class = "form-control", @maxlength = "50" })
+                                                    @Html.ValidationMessageFor(model => model.GroupName, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Select One/Multiple Meter</strong></div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-8">
+                                                                    @Html.DropDownListFor(model => model.Meter, (IEnumerable<SelectListItem>)ViewBag.Id, new { @id = "ddlmeter", @class = "form-control", @multiple = "multiple" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-sm-2 col-sm-2 col-xs-12">
+                                                    <div class="text-center">
+                                                        <div class="row multi-btn">
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftrightmeter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                                                <button type="button" id="shiftrightallmeter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                                                <button type="button" id="shiftleftmeter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-left"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                                                <button type="button" id="shiftleftallmeter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-left"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <label><strong>Selected Meters</strong> <span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9">
+                                                                    @Html.DropDownListFor(model => model.multiplemeterID, (IEnumerable<SelectListItem>)ViewBag.SelectedMeters, new { @id = "ddlmeterselect", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                                                    @Html.ValidationMessageFor(model => model.MeterName, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <div><strong>Select One/Multiple Parameter</strong></div>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label text-info" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9 bg-white">
+                                                                    @Html.DropDownListFor(model => model.Meter, (IEnumerable<SelectListItem>)ViewBag.InstanceParameterID, new { @id = "ddlparameter", @class = "form-control", @multiple = "multiple" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2 col-sm-2 col-sm-2 col-xs-12">
+                                                    <div class="text-center">
+                                                        <div class="row multi-btn">
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftrightparameter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftrightallparameter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-right"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftleftparameter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-left"></span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-lg-12  mb5">
+                                                                <button type="button" id="shiftleftallparameter" class="btn btn-danger">
+                                                                    <span class="fa fa-angle-double-left"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+                                                    <div class="panel panel-light-blue">
+                                                        <div class="panel-heading">
+                                                            <label><strong>Selected Meters</strong> <span class="text-danger">*</span></label>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                <label class="col-md-3 control-label" for="multiple-select">Multiple select</label>
+                                                                <div class="col-md-9">
+                                                                    @Html.DropDownListFor(model => model.InstanceParameterID, (IEnumerable<SelectListItem>)ViewBag.SelectedParameter, new { @id = "ddlparameterselect", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                                                    @Html.ValidationMessageFor(model => model.InstanceParameterID, null, new { @class = "validation-redcolor" })
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="reset" class="btn btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+<script>
+    var box;
+    $(document).ready(function () {
+        new confirmexitmsg('form');
+        $("#btnCreate").click(function () {
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            //  if ($("#editGrpConfig").valid()) {
+            //var metersSelected = $("#ddlmeterselect").val();
+            var metersSelected = [];
+
+            $("#ddlmeterselect option").each(function (i, obj) {
+                metersSelected.push($(obj).val());
+            });
+
+
+            if ($("#ddlmeterselect option").length = 0) {
+                metersSelected = null;
+            }
+
+            //if (metersSelected == 'Select') {
+            //    metersSelected = null;
+            //}
+
+            var parametersSelected = [];
+            $("#ddlparameterselect option").each(function (i, obj) {
+                parametersSelected.push($(obj).val());
+            });
+
+            if (parametersSelected == 'Select') {
+                parametersSelected = null;
+            }
+
+
+            var id = $("#Id").val()
+            var model = {
+                Id: id,
+                GroupName: $("#GroupName").val(),
+                multiplemeterID: metersSelected,
+                InstanceParameterID: parametersSelected
+            };
+            var count = $("#ddlmeterselect :selected").length;;
+            if (count > 600) {
+                alert('Please Select less than 600 meter for group creation', '', false, 'E');
+                if (box) box.remove();
+                return false;
+            }
+
+
+
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "GroupConfigAPI/" + id,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(model),//data to be send
+                async: false,
+                success: function (response) {
+                    if (response.Data.e == "S") {
+                        if (response.Data.d.length > 0)
+                            alert(response.Data.d, '@Url.Action("index", "GroupConfig")', true, response.Data.e);
+                    }
+                    else if (response.Data.e == "M") {
+                        if (response.Data.d.length > 0)
+                            // alert(response.Data.d);
+                            alert(response.Data.d, '@Url.Action("index", "GroupConfig")', false, response.Data.e);
+                        IsExist = "y";
+                        //window.location.href = "/tariff/create";
+
+                    }
+                    else if (response.Data.e == "E") {
+                        if (response.Data.d.length > 0)
+                            //    alert(response.Data.d);
+                            alert(response.Data.d, '', false, response.Data.e);
+                    }
+
+                    //window.location.href = "/tariff/create";
+
+                },
+                error: function (xhr, status, error) {
+
+                    alert(xhr.responseText);
+                }
+            });
+            //}
+            //else
+            //    box.remove();
+        });
+        $("#btnReset").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.reload();
+        });
+        $("#ddlmeterselect option").prop("selected", true);
+        $("#ddlparameterselect option").prop("selected", true);
+        $("#shiftrightmeter").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+            //console.log('TH');
+            //console.log($("#ddlmeterselect").valid());
+        })
+
+        $("#shiftleftmeter").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftrightallmeter").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallmeter").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+        $(".btn-default").click(function () { $("#ddlmeterselect option").prop("selected", true); })
+
+        $("#shiftrightparameter").click(function () {
+            $('#ddlparameter option:selected').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftparameter").click(function () {
+            $('#ddlparameterselect option:selected').appendTo("#ddlparameter")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftrightallparameter").click(function () {
+            $('#ddlparameter option').appendTo("#ddlparameterselect")
+            $("#ddlparameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallparameter").click(function () {
+            $('#ddlparameterselect option').appendTo("#ddlparameter")
+        })
+
+        $(".btn-default").click(function () { $("#ddlparameterselect option").prop("selected", true); })
+    })
+
+
+</script>

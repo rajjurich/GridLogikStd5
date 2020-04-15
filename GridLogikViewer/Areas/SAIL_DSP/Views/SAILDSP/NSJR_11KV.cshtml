@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+    .bgimg {
+        background-image: url('../Content/images/SLD1.png');
+    }
+</style>
+<div class="col-lg-12">
+
+    <div class="form-group col-md-4" style="border:0px solid #f00;">
+        <h2></h2>
+
+    </div>
+
+</div>
+<br />
+@*background-image: url(/Content/images/SLD1.png); background-size: 100px 100px*@
+@*kunal new abt*@
+<div class="row">
+    <div class="col-lg-12" style="border: 0px solid #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @*<div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">SLD One<!--<b style="font-size:16px;">Energy</b>--></div>*@
+
+            </div>
+            <div style=" height:700px;width:1070px;   border: 0px solid #000; background-image: url(/Content/images/SLD1.png);">
+
+                <label id="1" style="position: absolute; top: 130px; left: 300px; width: 100%; font-size: 17px; color: white">VLL-</label>
+                <label id="vll1" style="position: absolute; top: 130px; left: 350px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="2" style="position: absolute; top: 160px; left: 300px; width: 100%; font-size: 17px; color: white">IR-</label>
+                <label id="ir1" style="position: absolute; top: 160px; left: 350px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="3" style="position: absolute; top: 190px; left: 300px; width: 100%;font-size:14px;color:white">IY-</label>
+                <label id="iy1" style="position: absolute; top: 190px; left: 350px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="4" style="position: absolute; top: 220px; left: 300px; width: 100%; font-size: 16px; color: white">IB-</label>
+                <label id="ib1" style="position: absolute; top: 220px; left: 350px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="5" style="position: absolute; top: 250px; left: 300px; width: 100%; font-size: 16px; color: white">PF-</label>
+                <label id="pf1" style="position: absolute; top: 250px; left: 350px; width: 100%; font-size: 17px; color: white"></label>
+
+
+
+                <label id="1" style="position: absolute; top: 130px; left: 850px; width: 100%; font-size: 17px; color: white">VLL-</label>
+                <label id="vll2" style="position: absolute; top: 130px; left: 900px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="2" style="position: absolute; top: 160px; left: 850px; width: 100%; font-size: 17px; color: white">IR-</label>
+                <label id="ir2" style="position: absolute; top: 160px; left: 900px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="3" style="position: absolute; top: 190px; left: 850px; width: 100%;font-size:14px;color:white">IY-</label>
+                <label id="iy2" style="position: absolute; top: 190px; left: 900px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="4" style="position: absolute; top: 220px; left: 850px; width: 100%; font-size: 16px; color: white">IB-</label>
+                <label id="ib2" style="position: absolute; top: 220px; left: 900px; width: 100%; font-size: 17px; color: white"></label>
+                <label id="5" style="position: absolute; top: 250px; left: 850px; width: 100%; font-size: 16px; color: white">PF-</label>
+                <label id="pf2" style="position: absolute; top: 250px; left: 900px; width: 100%; font-size: 17px; color: white"></label>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "kw";
+    var MeterString = "1,2";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        ABTMeterDetails();
+    });
+
+    setInterval(ABTMeterDetails, 1000);
+
+    function ABTMeterDetails() {
+
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                debugger
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+
+                    jsonObj.forEach(function (responseobj) {
+                        debugger
+
+                        if (responseobj.meterid == 1) {
+
+
+                            // $("#1").html(valueText.toFixed(2).toString());
+                            $("#vll1").html(responseobj.vll.toFixed(2).toString());
+                            $("#ir1").html(responseobj.ir.toFixed(2).toString());
+                            $("#iy1").html(responseobj.iy.toFixed(2).toString());
+                            $("#ib1").html(responseobj.ib.toFixed(2).toString());
+                            $("#pf1").html(responseobj.pf.toFixed(2).toString());
+
+                        }
+                        else if (responseobj.meterid == 2) {
+
+
+                            $("#vll2").html(responseobj.vll.toFixed(2).toString());
+                            $("#ir2").html(responseobj.ir.toFixed(2).toString());
+                            $("#iy2").html(responseobj.iy.toFixed(2).toString());
+                            $("#ib2").html(responseobj.ib.toFixed(2).toString());
+                            $("#pf2").html(responseobj.pf.toFixed(2).toString());
+
+                        }
+
+                    });
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

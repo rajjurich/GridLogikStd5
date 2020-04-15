@@ -1,0 +1,291 @@
+﻿@model IEnumerable<GridLogik.ViewModels.HTAlarm>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<script>
+
+    $(document).ready(function () {
+
+        $("#FromDate,#ToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0'
+
+        }).datepicker("setDate", new Date());
+
+
+
+    });
+
+
+    function FillMeter() {
+        var metergroup = $('#metergroup').val();
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        var dataJSON = { "groupid": metergroup };
+        $.ajax({
+            url: BaseAddress + 'MeterLog/meter',
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "JSON",
+            data: JSON.stringify(dataJSON),
+            success: function (response, status, jqXHR) {
+
+                $("#meterFilter").html("");
+                $("#meterFilter").append($('<option></option>').val(null).html("All"));
+                $.each(response, function (i, MeterGroup) {
+
+                    $("#meterFilter").append(
+                        $('<option></option>').val(response[i].ID).html(response[i].MeterName));
+                });
+                if (box) box.remove();
+            }, error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                if (box) box.remove();
+            }
+        });
+    }
+
+
+    function filter() {
+        var fltrFromDate = $("#FromDate").val();
+        var fltrToDate = $("#ToDate").val();
+        var type = $('input:radio[name=Status]:checked').val()
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        var dataJSON = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type };
+
+        var str = "";
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        $.ajax({
+            url: BaseAddress + 'MeterLog/meterfilter',
+            type: "POST",
+            contentType: "application/json;charset=utf-8",
+            dataType: "JSON",
+            data: JSON.stringify(dataJSON),
+            success: function (response, status, jqXHR) {
+                $("#filterdata").html("");
+
+                $.each(response, function (i, MeterGroup) {
+                    str = str + "<tr><td> " + response[i].alarmid + "</td> <td> " + response[i].metername + "  </td> <td>" + response[i].location + " </td> <td>" + response[i].starttimelog + " </td><td>" + response[i].stoptimelog + " </td></tr>"
+
+
+                });
+
+                ///   debugger;
+                var table = $('#lsttable').dataTable();
+
+                table.fnClearTable();
+                table.fnDestroy();
+                $("#filterdata").html(str);
+
+                $("#lsttable").dataTable(
+                    {
+                        pageLength: 10,
+                        "scrollX": true
+                    });
+
+                if (box) box.remove();
+                count = $("#Export to Excel").html();
+            }, error: function (xhr, status, error) {
+                alert(xhr.responseText);
+                if (box) box.remove();
+            }
+        });
+    }
+</script>
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">
+                            Alarm Log
+                        </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Logs</a></li>
+                        <li class="active">Meter Log</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                @*<div class="panel-heading">
+                                        <span class="pull-left">
+                                            <strong>
+                                                Meter Log
+                                            </strong>
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </div>*@
+                                <div class="panel-body">
+                                    <div class="row mb5">
+                                        <div class="col-md-4">
+                                            <div class="row mt20">
+                                                <div class="col-md-4 text-right">
+                                                    <label><strong> From Date	 </strong></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBox("Day", string.Empty, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <div class="col-md-4 text-right">
+                                                    <label><strong> To Date	 </strong></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    @Html.TextBox("Day", string.Empty, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="row mt20">
+                                                <div class="col-md-6 text-left">
+                                                    <label> Status</label>&nbsp;@Html.RadioButton("Status", "1", true, new { @ID = "Statused", @name = "Status" }) Active&nbsp;&nbsp;
+
+                                                    @Html.RadioButton("Status", "0", new { @ID = "Status", @name = "Status" })History&nbsp;&nbsp;
+                                                </div>
+                                                <div class="col-md-4 text-left">
+                                                    <input type="button" value="Filter" class="btn btn-warning" id="btnRefresh" onclick="filter()" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row mb5">
+                                        <div class="col-md-12">
+                                            <hr />
+
+                                            <div class="table-responsive ls-table">
+                                                <table class="table table-bordered table-striped" id="lsttable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">Id</th>
+
+                                                            @*<th>Meter ID</th>*@
+                                                            <th class="text-center">Meter Name</th>
+                                                            <th class="text-center">Location</th>
+                                                            <th class="text-center">Start Time</th>
+                                                            <th class="text-center">Stop Time</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="filterdata">
+                                                        @foreach (var item in Model)
+                                                        {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.alarmid)
+                                                            </td>
+                                                            @*<td>
+                                                                    @Html.DisplayFor(modelItem => item.meterid)
+                                                                </td>*@
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.metername)
+                                                            </td>
+
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.location)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.starttimelog)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.stoptimelog)
+                                                            </td>
+                                                        </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <br />
+                                                <button type="button" class="btn btn-success btn-sm" id="export"><i class="fa fa-file-excel-o"></i> Export to Excel</button><div class="clearfix"></div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script src="~/Scripts/jquery.table2excel.js"></script>
+
+<script>
+    var count;
+    $('#export').click(function () {
+        //window.location.href = "/MeterLog/Export/" + $("#FromDate").val().replace("/", "-").replace("/", "-") + "/" + $("#ToDate").val().replace("/", "-").replace("/", "-") + "/" + $('input:radio[name=Status]:checked').val();
+        var tblRowCount = $('#lsttable tr').length;
+        var fltrFromDate = $("#FromDate").val();
+        var fltrToDate = $("#ToDate").val();
+        //console.log($("#FromDate").val());
+        //console.log($("#ToDate").val());
+        var type = $('input:radio[name=Status]:checked').val()
+        var obj = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type };
+        if (tblRowCount > 2) {
+            window.location.href = "@Url.Action("Export", "MeterLog")?Page=data&fltrFromDate=" + fltrFromDate + "&fltrToDate=" + fltrToDate + "&onoff=" + type;
+        }
+        else {
+            alert('No Records Found for Excel Generation', '', false, 'E');
+            return false;
+        }
+        //@*var fltrFromDate = $("#FromDate").val();
+            var fltrToDate = $("#ToDate").val();
+            var type = $('input:radio[name=Status]:checked').val()
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var dataJSON = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type };
+            var str = "";
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                url: '@Url.Action("Export", "MeterLog")',
+                type: 'GET',
+                dataType: 'html',
+                contentType: 'application/json; charset=utf-8',
+                data: { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate, "onoff": type }
+            })
+            if (box) box.remove();*@
+
+        // { FromDate: $("#FromDate").val(), ToDate: $("#ToDate").val(), onoff: $('input:radio[name=Status]:checked').val() }
+        //count = $("#exportexcel").html();
+        //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //var currentdate = new Date()
+        //var day = currentdate.getDate()
+        //var month = currentdate.getMonth() + 1
+        //var year = currentdate.getFullYear()
+        //var d = day + "-" + month + "-" + year;
+        //$(count).table2excel({
+        //    exclude: ".noExl",
+        //    name: "Meter Log",
+        //    filename: "Meterlog" + d,
+        //    fileext: ".xls",
+        //    exclude_img: true,
+        //    exclude_links: true,
+        //    exclude_inputs: true
+        //});
+        //if (box) box.remove();
+    });
+    $(window).load(function () {
+        $("#lsttable").dataTable(
+                       {
+                           pageLength: 10
+                       });
+    })
+</script>

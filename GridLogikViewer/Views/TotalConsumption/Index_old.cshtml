@@ -1,0 +1,456 @@
+﻿@{
+    ViewBag.Title = "Index";
+    <style>
+        .form-control {
+            padding: 6px 10px !important;
+        }
+
+        .ErrorMessage {
+            color: red !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            align-items: center !important;
+            margin-left: 30% !important;
+        }
+    </style>
+    @*<link href="~/Content/css/style-stickyheader.css" rel="stylesheet" />*@
+}
+@section scripts
+{
+
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                    $("#DatabaseDateformat").val(data[i].prmvalue);
+                                }
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                               // $("#ServerDatabaseDateformat").val('dd/MM/yy');
+                                $("#ServerDatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            var DateFormat = $("#DatabaseDateformat").val();
+            $("#txtFrmDate").datepicker({
+                dateFormat: $("#DatabaseDateformat").val(),
+                maxDate: "-1D",
+                changeMonth: true,
+                changeYear: true
+            });
+            $("#txtToDate").datepicker({
+                dateFormat: $("#DatabaseDateformat").val(),
+                maxDate: "-1D",
+                changeMonth: true,
+                changeYear: true
+            });
+            $('#txtToDate').datepicker('setDate', '-1D');
+            $('#txtFrmDate').datepicker('setDate', '-1D');
+            HideGrid();
+            CompanyDropdown();
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            //Get Dateformat and Set it to datepickers
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "prmglobal",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (dateformat, status, jqXHR) {
+            //        var str = "";
+            //        if (dateformat.Data.result != undefined) {
+            //            var data = dateformat.Data.result;
+            //            for (var i in data) {
+            //                if (data[i].prmunit == "DateField") {
+            //                    $("#Dateformat").val(data[i].prmvalue);
+            //                }
+            //                else if (data[i].prmunit == "ServerDate") {
+            //                    $("#ServerDateformat").val(data[i].prmvalue);
+            //                }
+            //            }
+
+            //        }
+            //        else if (dateformat.Data.e == "E") {
+            //            if (dateformat.Data.d.length > 0)
+            //                alert(dateformat.Data.d);
+            //        }
+            //    }
+            //});
+
+            //$("#FromDate").datepicker({
+            //    dateFormat: $("#Dateformat").val(),
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+            //$("#ToDate").datepicker({
+            //    dateFormat: $("#Dateformat").val(),
+            //    changeMonth: true,
+            //    changeYear: true
+            //});
+
+            $('#btnExport').click(function () {
+                //var ToDate = $("#ToDate").val();
+                //var FromDate = $("#FromDate").val();
+                //var format = $("#Dateformat").val().toUpperCase();
+                //var meterid = $("#ddlMeters").val();
+
+
+
+                if ($("#ddlCompany").val() == "0") {
+                    //ErrDisplay('Please Select Utility', 'ddlCompany');
+                    alert('Please Select Utility', '', false, "M");
+                    // alert('Please Select Company');
+                    return false;
+                }
+                if ($("#ddlMeterGroup").val() == "0") {
+                    //  ErrDisplay('Please Select Meter Group', 'ddlMeterGroup');
+                    alert('Please Select Meter Group', '', false, "M");
+                    return false;
+                }
+                if ($("#txtFrmDate").val() == "") {
+                    //ErrDisplay('Please Select From Date', 'txtFrmDate');
+                    alert('Please Select From Date', '', false, "M");
+                    return false;
+                }
+                if ($("#txtToDate").val() == "") {
+                    // ErrDisplay('Please Select To Date', 'txtToDate');
+                    alert('Please Select To Date', '', false, "M");
+                    return false;
+                }
+                var frmdate = GetFinaldate($('#txtFrmDate').val(), $("#DatabaseDateformat").val(), $("#ServerDatabaseDateformat").val());
+                var todate = GetFinaldate($('#txtToDate').val(), $("#DatabaseDateformat").val(), $("#ServerDatabaseDateformat").val());
+
+                var inputparam = $("#ddlMeterGroup").val() + "," + frmdate + "," + todate;
+
+
+                document.getElementById('InputString').value = inputparam;
+
+                window.location.href = '/TotalConsumption/ExportToExcel?InputString=' + inputparam;
+            });
+        });
+
+        function GetMeters(GroupID) {
+
+            var url1 = "/RealTimeTrendData/MetersByGroupID/";
+
+            $.ajax({
+                url: '@Url.Action("MetersByGroupID","RealTimeTrendData")',
+                data: { id: GroupID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "";
+                    var markup = "<option value=''>Select Meters</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                    }
+                    $("#ddlMeters").html(markup).show();
+                },
+                error: function (reponse) {
+                    //  alert("error : " + reponse);
+                }
+            });
+        }
+
+        function GetMeterGroups(UtilityID) {
+
+            $.ajax({
+                url: '@Url.Action("MetersGroupsByUtilityID", "TotalConsumption")',
+                data: { id: UtilityID },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "";
+                    var markup = "<option value=''>Select Meter Group</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+
+                    }
+                    $("#MeterGroup").html(markup).show();
+                },
+                error: function (reponse) {
+                    //  alert("error : " + reponse);
+                }
+            });
+        }
+
+        function CompanyDropdown() {
+            // var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/",
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        str += "<select id='ddlCompany' onchange='onChangeCompany()' class='form-control'>";
+                        str += "<option value=0>Utility Name</option>";
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+
+                            for (var i in data) {
+                                if (data[i].utilname != undefined && data[i].utilname !="" && data[i].utilid != undefined && data[i].utilid !="") {
+                                    str += "<option value=" + data[i].utilid + ">" + data[i].utilname + "</option>";
+                                }
+                            }
+
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                    str += "</select>";
+                    $("#divUtility").html(str);
+                }
+            });
+        }
+        function onChangeCompany() {
+            HideGrid();
+            var CompValue = $('#ddlCompany').val();
+            var str = "";
+            try {
+                $("#ddllMgrp").empty();
+            } catch (ex) {
+            }
+            if (CompValue == 0) {
+                str += "<select id='ddlMeterGroup' onchange='HideGrid()' class='form-control'>";
+                str += "<option value=0>Meter Group</option>";
+                str += "</select>";
+                $("#ddllMgrp").html(str);
+            } else {
+                MeterDropdown(CompValue);
+                return false;
+            }
+
+        }
+        function MeterDropdown(CompanyID) {
+            //  var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/" + CompanyID,
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+                            str += "<select id='ddlMeterGroup' onchange='HideGrid()' class='form-control'>";
+                            str += "<option value=0>Meter Group</option>";
+                            for (var i in data) {
+                                if (data[i].groupname != undefined && data[i].groupname != "" && data[i].id != undefined && data[i].id != "") {
+                                    str += "<option value=" + data[i].id + ">" + data[i].groupname + "</option>";
+                                }
+                            }
+                            str += "</select>";
+                        } else {
+                            str += "<select id='ddlMeterGroup' onchange='HideGrid()' class='form-control'>";
+                            str += "<option value=0>Meter Group</option>";
+                            str += "</select>";
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                    $("#ddllMgrp").html(str);
+                    if (box) box.remove();
+                }
+            });
+        }
+        function dateCal() {
+            HideGrid();
+            var FrmDt = $('#txtFrmDate').val();
+            var ToDt = $('#txtToDate').val();
+            if (FrmDt != null && FrmDt != "" && ToDt != null && ToDt != "") {
+                var convFrm = new Date(ConvertMMDDYYYY(FrmDt));
+                var convTo = new Date(ConvertMMDDYYYY(ToDt));
+                var perDay = 24 * 60 * 60 * 1000;
+                var Cmp = (convTo.valueOf() - convFrm.valueOf()) / perDay;
+                if (Cmp < 0) {
+                    $('#txtFrmDate').val('');
+                    alert('From date cannot be greater than To date', '', false, "M");
+                    return false;
+                }
+                else {
+
+                }
+            }
+        }
+        function HideGrid() {
+            try {
+                document.getElementById("lblError").style.display = "none";
+                $("#txtFrmDate").css('background-color', 'white');
+                $('#txtToDate').css('background-color', 'white');
+                $('#ddlMeterGroup').css('background-color', 'white');
+                $('#ddlCompany').css('background-color', 'white');
+            } catch (ex) {
+            }
+
+        }
+        function ConvertMMDDYYYY(date) {
+            var dateFormat = $("#DatabaseDateformat").val();
+            var DateArr;
+            if (date.indexOf("/") > 0) {
+                while (date.indexOf("/") > 0) {
+                    date = date.replace("/", "-");
+                    dateFormat = dateFormat.replace("/", "-");
+                }
+            }
+            if (dateFormat.toUpperCase() == "DD-MM-YY" || dateFormat.toUpperCase() == "DD-MM-YYYY") {
+                DateArr = date.split('-');
+                return DateArr[2] + "-" + DateArr[1] + "-" + DateArr[0];
+            } else if (dateFormat.toUpperCase() == "MM-DD-YY" || dateFormat.toUpperCase() == "MM-DD-YYYY") {
+                DateArr = date.split('-');
+                return DateArr[2] + "-" + DateArr[0] + "-" + DateArr[1];
+            } else if (dateFormat.toUpperCase() == "YY-MM-DD" || dateFormat.toUpperCase() == "YYYY-MM-DD") {
+                DateArr = date.split('-');
+                return DateArr[0] + "-" + DateArr[1] + "-" + DateArr[2];
+            }
+        }
+        function ErrDisplay(value, ctrl) {
+
+            // $("[id$=' lbltxt']").html('Your Value')
+            //  $('#lblError').removeClass('checked');
+            $("#lblError").html(value);
+            $('#lblError').addClass('ErrorMessage');
+            $("#lblError").css("display", "block");
+            if (ctrl != '' || ctrl != "") {
+                var id = "#" + ctrl;
+                $(id).css('background-color', 'Red');
+            }
+        }
+    </script>
+}
+<h2>Total Consumption</h2>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default" style="height: 150px">
+            @*<div class="panel-heading">
+            <div class=" dashboard-panel-body-box">
+                Invoice Generation
+            </div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols">
+                <a href="charts-flot.html#" class="btn-setting" data-toggle="modal" data-target="#ModalTable01">
+                    <i class="fa fa-eye"></i>
+                </a><a href="charts-flot.html#" class="btn-minimize">
+                    <i class="fa fa-chevron-up"></i>
+                </a><a href="charts-flot.html#" class="btn-close">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>*@
+            <div>
+                <label id="lblError"></label>
+            </div>
+            <br>
+            @Html.Hidden("ServerDatabaseDateformat", "mm/dd/yy")
+            @Html.Hidden("DatabaseDateformat", "dd/mm/yy")
+            <div class="form-group col-sm-2">
+                <label for="ccmonth" style="margin-left:0px !important">
+                    Utility <span class="validation-redcolor">*</span>
+                </label>
+                <div id='divUtility'></div>
+            </div>
+            <div class="form-group col-sm-2">
+                <label for="ccyear" style="margin-left:0px !important">
+                    Meter Group <span class="validation-redcolor">*</span>
+                </label>
+                <div id='ddllMgrp'>
+                    <select id='ddlMeterGroup' class='form-control'>
+                        <option value='0'>Meter Group</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-3" style="border-left: 1px solid #ccc;">
+                <div class="col-md-9" style="border: 0px solid #f00;">
+                    <label class="col-md-12 control-label" style="border: 0px solid #000; padding: 0px;
+                                        margin: 5px 0px;" for="select">
+                        From  Date <span class="validation-redcolor">*</span>
+                    </label>
+                    <div id="dtFrmDate">
+                        <input id="txtFrmDate" class="form-control" onchange="return dateCal();" type="text" readonly />
+                    </div>
+                    <style>
+                        label {
+                            margin-left: 20px;
+                        }
+
+                        #datepicker1 {
+                            width: 150px;
+                        }
+
+                            #datepicker1 > span:hover {
+                                cursor: pointer;
+                            }
+                    </style>
+                </div>
+            </div>
+            <div class="form-group col-md-3" style="border-left: 1px solid #ccc; border-right: 1px solid #ccc;">
+                <div class="col-md-9" style="border: 0px solid #f00;">
+                    <label class="col-md-12 control-label" style="border: 0px solid #000; padding: 0px;
+                                        margin: 5px 0px;" for="select">
+                        To  Date <span class="validation-redcolor">*</span>
+                    </label>
+                    <div id="dtToDate">
+                        <input id="txtToDate" class="form-control" type="text" onchange="return dateCal();" readonly />
+                    </div>
+                    <style>
+                        label {
+                            margin-left: 20px;
+                        }
+
+                        #datepicker2 {
+                            width: 150px;
+                        }
+
+                            #datepicker2 > span:hover {
+                                cursor: pointer;
+                            }
+                    </style>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                <div class="form-group has-feedback col-sm-12">
+                    <label for="cvv">
+                        &nbsp;
+                    </label>
+                    <div>
+                        @Html.Hidden("InputString")
+                        <input type="button" id="btnExport" class="btn btn-success" style="font-weight:bold; margin-top:5px;" value="Export to Excel" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,80 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbopcdata', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbopcdata', '30', '10');
+
+create table etools_dev.OPC_ClientTAG
+(      
+	tagid serial8 not null,        
+        TAG_Name varchar(150),
+        CalType  varchar(25),       
+	primary key (tagid)
+) IN dbopcdata;
+
+
+create table etools_dev.opcinstancedata
+(      
+	id serial8 not null,    
+        tagid int8 not null ,
+        TAG_Name varchar(150), 
+        tstamp datetime year to fraction(5),                
+        tagvalue float,	      
+	primary key (id)
+) IN dbopcdata extent size 32 next size 32 lock mode row;
+
+DROP ROW TYPE rtopcdatalog RESTRICT;
+create row type "etools_dev".rtopcdatalog
+	(
+         tstamp datetime year to fraction(5),
+         TAG_Name lvarchar(50),		
+         tagvalue float	
+	);
+
+drop table tsopcdatalogs;
+create table etools_dev.tsopcdatalogs
+  (
+    tagid int8 not null ,
+    series timeseries(rtopcdatalog),
+    primary key (tagid) 
+  ) in dbopcdata extent size 32 next size 32 lock mode row;
+
+execute procedure TSContainerDestroy('tsconopcdatalogs'); 
+
+execute procedure tscontainercreate('tsconopcdatalogs','dbopcdata','rtopcdatalog',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',65, 75, 'dbopcdata', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.opcInstanceDataLogs',
+'etools_dev.tsopcdatalogs',
+'calendar(cal_1sec),
+container(tsconopcdatalogs),irregular');
+
+-------------------------------------------------------------------15 minutes block--
+
+create row type etools_dev.rtopcloadsurveylogs(
+tstamp datetime year to fraction(5),
+timestampID int,
+BlockNo int,
+tagvalue float
+ );
+
+create table etools_dev.tsopcloadsurveylogs
+  (
+    tagid int8 not null ,
+    series timeseries(rtopcloadsurveylogs),
+    primary key (tagid) 
+  ) in dbopcdata extent size 64 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconopcloadsurvey','dbopcdata','rtopcloadsurveylogs',1024,1024);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.opcLoadSurveyLogs',
+'etools_dev.tsopcloadsurveylogs','calendar(cal_15min),
+container(tsconopcloadsurvey),irregular');
+
+
+SELECT M.ID as meterid,Cl.IpAddress,m.blockwisedata as BlkData,l.id as modelid, M.caltype as caltype , ld.txnIP as txnIP  FROM metermodel l join Meters M on  l.id=m.modelid INNER JOIN communicationdetaillink CD ON CD.MeterId = M.ID   INNER JOIN communicationdetails CL on cd.converterid=CL.id    INNER JOIN txnLoadblocks ld on ld.txnbparam = CD.MeterId where    (l.isdeleted=0 or l.isdeleted is null) and CD.active=1 and CL.isdeleted=0 and m.isactive=1 and m.isdeleted=0
+union all 
+select 7000+tagid as meterid,'' as IpAddress,0 as BlkData, '1' as modelid, (case when caltype='MAX' then 1 else 2 end) as caltype, od.txnIP as txnIP from OPC_ClientTAG INNER JOIN txnLoadblocks od on od.txnbparam = 7000+tagid 
+
+SELECT M.ID as meterid,Cl.IpAddress,m.blockwisedata as BlkData,l.id as modelid, M.caltype as caltype , ld.txnIP   FROM metermodel l join Meters M on  l.id=m.modelid INNER JOIN communicationdetaillink CD ON CD.MeterId = M.ID   INNER JOIN communicationdetails CL on cd.converterid=CL.id    INNER JOIN txnLoadblocks ld on ld.txnbparam = CD.MeterId where    (l.isdeleted=0 or l.isdeleted is null) and CD.active=1 and CL.isdeleted=0 and m.isactive=1 and m.isdeleted=0 union all select 7000+tagid as meterid,'' as IpAddress,0 as BlkData, -1 as modelid, (case when caltype='MAX' then 1 else 2 end) as caltype, od.txnIP from OPC_ClientTAG INNER JOIN txnLoadblocks od on od.txnbparam = 7000+tagid ;
+

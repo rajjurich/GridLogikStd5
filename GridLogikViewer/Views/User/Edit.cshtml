@@ -1,0 +1,403 @@
+@model GridLogik.ViewModels.MstUser
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+
+}
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            //  $("#usremployeeid").attr("disabled", true);
+            $('.select2').select2({ closeOnSelect: false });
+
+            @*$.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal/GetIdentifiersOnModule/Locationfilter",
+                dataType: "json",
+                success: function (gender, status, jqXHR) {
+                    var str;// = "<option value=''>Select</option>";
+                    if (gender.Data.result != undefined) {
+                        var data = gender.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].prmvalue + ">" + data[i].prmidentifier + "</option>";
+                        }
+                    }
+
+                    $("#ddlLocation").append(str);
+                    //console.log($('#drpstageid :selected').text());
+                }
+
+            });
+
+
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "MeterGroupAPI",
+                dataType: "json",
+                success: function (res, status, jqXHR) {
+                    var str;// = "<option value=''>Select</option>";
+                    if (res != undefined) {
+                        var data = res;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].Id + ">" + data[i].GroupName + "</option>";
+                        }
+                    }
+
+                    $("#ddlGroup").append(str);
+                    //console.log($('#drpstageid :selected').text());
+                }
+
+            });
+
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json",
+                url: BaseAddress + "userlocationapi/" + id,
+                success: function (data) {
+                    $('#ddlLocation').val(data.Data.result);
+                    $('#ddlLocation').trigger('change');
+                },
+                error: function (jqXHR) {
+                    debugger;
+                }
+            });
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json",
+                url: BaseAddress + "usergroupapi/" + id,
+                success: function (data) {
+                    $('#ddlGroup').val(data.Data.result);
+                    $('#ddlGroup').trigger('change');
+                },
+                error: function (jqXHR) {
+                    debugger;
+                }
+            });*@
+
+            $("#btnReset").click(function (e) {
+                $(".select2").val(null).trigger('change');
+                //formmodified = 0;
+                //location.reload(true);
+            });
+
+            $("#usremployeeid").change(function () {
+                FillEmployeeBasedData();
+            });
+
+            //new confirmexitmsg('form');
+            //Fill drop down for role
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "role",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (roles, status, jqXHR) {
+
+            //        var str = "";
+            //        if (roles.Data.result != undefined) {
+            //            var data = roles.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].rolid + ">" + data[i].rolname + "</option>";
+            //            }
+            //        }
+            //        else if (roles.Data.e == "E") {
+            //            if (roles.Data.d.length > 0)
+            //                alert(roles.Data.d);
+            //        }
+            //        $("#usrroleid").html(str);
+            //        $(".usrroleidclass").selectpicker();
+            //    }
+            //});
+
+            //Fill drop down for employeeid
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "employee",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (employees, status, jqXHR) {
+
+            //        var str = "";
+            //        if (employees.Data.result != undefined) {
+            //            var data = employees.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].empid + ">" + (data[i].empfirstname + " " + data[i].emplastname) + "</option>";
+            //            }
+            //        }
+            //        else if (employees.Data.e == "E") {
+            //            if (employees.Data.d.length > 0)
+            //                alert(employees.Data.d);
+            //        }
+            //        $("#usremployeeid").html(str);
+            //        $(".usremployeeidclass").selectpicker();
+            //    }
+            //});
+
+            //Get Data for id and assign it to controls
+            var id =@this.ViewContext.RouteData.Values["id"]
+            //$.ajax({
+            //    url: BaseAddress + "employee/" + $("#usremployeeid").val(),
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (response) {
+            //        debugger;
+            //        //$("#usrrecid").val(response.Data.result.usrrecid);
+            //        //$("#usrid").val(response.Data.result.usrid);
+            //        //$("#usrpassword").val(response.Data.result.usrpassword);
+            //        //$("#usrRepassword").val(response.Data.result.usrpassword);
+            //        $("#usrfirstname").val(response.empfirstname);
+            //        $("#usrmiddlename").val(response.empmiddlename);
+            //        $("#usrlastname").val(response.emplastname);
+            //        $("#usremailid").val(response.empemailid);
+            //        $("#usrphoneno1").val(response.empphoneno1);
+            //        $("#usrphoneno2").val(response.empphoneno2);
+            //        //$("#usrcreatedbyuserid").val(response.Data.result.usrcreatedbyuserid);
+            //        //$("#usrcreationdate").val(response.Data.result.usrcreationdate);
+            //        //response.Data.result.usrisactive == 1 ? $('#UserStatus').prop('checked', false) : $('#UserStatus').prop('checked', true);
+            //        //$(".usrroleidclass").selectpicker('val', response.Data.result.usrroleid);
+            //        //$(".usremployeeidclass").selectpicker('val', response.Data.result.usremployeeid);
+
+
+            //        //if (response.Data.result.usrrecid == null) {
+            //        //    if (response.Data.result.d.length > 0)
+            //        //        alert(response.Data.result.d);
+            //        //}
+            //        //else {
+                     
+            //        //}
+            //    },
+            //    error: function (xhr) {
+            //        alert(xhr.responseText);
+            //    }
+            //});
+
+            //Update User Details
+            @*$("#btnUpdate").click(function (e) {
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                formmodified = 0;
+                if ($('form').valid()) {
+                    formmodified = 0;
+                    var active = $("#UserStatus").prop("checked") == true ? 0 : 1
+                    var mstUser = {
+                        "usrrecid": $("#usrrecid").val(),
+                        "usrid": $("#usrid").val(),
+                        "usrpassword": $("#usrpassword").val(),
+                        "usrRepassword": $("#usrRepassword").val(),
+                        "usrroleid": $("#usrroleid").val(),
+                        "usremployeeid": $("#usremployeeid").val(),
+                        "usrisactive": active,
+                        "usrfirstname": $("#usrfirstname").val(),
+                        "usrmiddlename": $('#usrmiddlename').val(),
+                        "usrlastname": $("#usrlastname").val(),
+                        "usremailid": $("#usremailid").val(),
+                        "usrphoneno1": $("#usrphoneno1").val(),
+                        "usrcreatedbyuserid": $("#usrcreatedbyuserid").val(),
+                        "usrcreationdate": $("#usrcreationdate").val(),
+                        "usrphoneno2": $("#usrphoneno2").val(),
+                        "usrisdeleted": 0
+                    };
+                    var userwithlocation = {
+                        mstuser: mstUser,
+                        location: $("#ddlLocation").val(),
+                        group: $("#ddlGroup").val()
+                    }
+                    var id =@this.ViewContext.RouteData.Values["id"]
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "user/" + id,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(userwithlocation),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '@Url.Action("Index", "User")', false, response.Data.e);
+                                //  window.location.href = '@Url.Action("Index", "User")';
+
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, response.Data.e);
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, response.Data.e);
+                            }
+                            if (box) box.remove();
+                        },
+                        error: function (xhr, status, error) {
+                            if (box) box.remove();
+                            //   alert(xhr.responseText);
+                        }
+                    });
+                }
+                else {
+                    if (box) box.remove();
+                }
+
+                e.preventDefault();
+            });*@
+        });
+
+        function FillEmployeeBasedData() {
+            //Get Data for id and assign it to controls
+            var id = $("#usremployeeid").val();
+            $.ajax({
+                url: BaseAddress + "employee/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (response) {
+
+                    $("#usrfirstname").val(response.empfirstname);
+                    $("#usrmiddlename").val(response.empmiddlename);
+                    $("#usrlastname").val(response.emplastname);
+                    $("#usremailid").val(response.empemailid);
+                    $("#usrphoneno1").val(response.empphoneno1);
+                    $("#usrphoneno2").val(response.empphoneno2);
+
+                },
+                error: function (xhr) {
+                    // alert(xhr.responseText);
+                }
+            });
+
+        }
+    </script>
+
+}
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">User Master</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group">
+                                            @Html.HiddenFor(model => model.usrrecid)
+                                            @Html.HiddenFor(model => model.usrcreatedbyuserid)
+                                            @Html.HiddenFor(model => model.usrcreationdate)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrid, null, "")
+                                            @Html.TextBoxFor(model => model.usrid, new { @class = "form-control alpha", @maxlength = "10" })
+                                            @Html.ValidationMessageFor(model => model.usrid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrroleid, null, "")
+                                            @Html.DropDownListFor(model => model.usrroleid, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select", new { @class = "usrroleidclass form-control" })
+                                            @Html.ValidationMessageFor(model => model.usrroleid, null, new { @class = "validation-redcolor" })
+                                        </div>                                      
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrpassword, null, "")
+                                            @Html.PasswordFor(model => model.usrpassword, new { @class = "form-control", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.usrpassword, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrRepassword, null, "")
+                                            @Html.PasswordFor(model => model.usrRepassword, new { @class = "form-control", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.usrRepassword, null, new { @class = "validation-redcolor", @style = "white-space:nowrap;" })
+                                        </div>
+                                      
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usremployeeid, null, "")
+                                            @*@Html.DropDownListFor(model => Model.usremployeeid, ((IEnumerable<SelectListItem>)ViewBag.Employees).ToList().Select(m => new SelectListItem { Value = m.Value, Text = m.Text, Selected = m.Value == Model.usremployeeid ? true : false }), "Select", new { @class = " usremployeeidclass form-control", @data_live_search = "true", @data_live_search_style = "contains" })*@
+                                            @Html.DropDownListFor(model => model.usremployeeid, (IEnumerable<SelectListItem>)ViewBag.Employees, "Select", new { @class = "usremployeeidclass form-control", @data_live_search = "true", @data_live_search_style = "contains" })
+                                            @Html.ValidationMessageFor(model => model.usremployeeid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        
+                                        <div class="clearfix"></div>
+                                        <hr class="hr_solid" />
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrfirstname, new { @readonly = true, @class = "form-control", placeholder = "First Name" })
+                                            @Html.ValidationMessageFor(model => model.usrfirstname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrmiddlename, new { @readonly = true, @class = "form-control", placeholder = "Middle Name" })
+                                            @Html.ValidationMessageFor(model => model.usrmiddlename, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrlastname, new { @readonly = true, @class = "form-control", placeholder = "Last Name" })
+                                            @Html.ValidationMessageFor(model => model.usrlastname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrphoneno1, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrphoneno1, new { @readonly = true, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usrphoneno1, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrphoneno2, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrphoneno2, new { @readonly = true, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usrphoneno2, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usremailid, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usremailid, new { @readonly = true, @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usremailid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            <label for="UserStatus">Disable?</label>
+                                            @Html.CheckBoxFor(model => model.isactive)
+                                            @*@Html.CheckBox("UserStatus", false)*@
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnUpdate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-sm btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

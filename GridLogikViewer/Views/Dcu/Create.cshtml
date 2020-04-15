@@ -1,0 +1,154 @@
+﻿@model GridLogikViewer.Models.MstDcu
+
+@{
+    ViewBag.Title = "Add DCU";
+}
+
+@section scripts
+{
+    @*<script src="~/Scripts/CustomValidation/CustomValidation.js"></script*@>
+    <script>
+        $(document).ready(function () {
+
+            $("#btnCreate").click(function (e) {
+                if ($('form').valid()) {
+                    var mstDcu = {
+                        "dcuid": $("#dcuid").val(),
+                        "dcucomid": $("#dcucomid").val(),
+                        "dcupanid": $("#dcupanid").val(),
+                        "dcumetercommode": $("#dcumetercommode").val(),
+                        "dcumdascommode": $("#dcumdascommode").val(),
+                        "dcumetercomprotocol": $("#dcumetercomprotocol").val(),
+                        "dcumdascomprotocol": $("#dcumdascomprotocol").val(),
+                        "dcuoperatingchannel": $('#dcuoperatingchannel').val(),
+                        "dcuinstallarea": $("#dcuinstallarea").val(),
+                        "dcuisdeleted": false
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost/GridLogikViewerWebAPI/api/dcu",
+                        url: BaseAddress + "dcu",
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstDcu),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                $('#btnReset').click();
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+            });
+        });
+
+    </script>
+
+}
+
+<h2>Create DCU</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcuid)
+                @Html.ValidationMessageFor(model => model.dcuid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcucomid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcucomid, new { @Value = "0" })
+                @Html.ValidationMessageFor(model => model.dcucomid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcupanid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcupanid, new { @Value = "0" })
+                @Html.ValidationMessageFor(model => model.dcupanid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumetercommode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcumetercommode)
+                @Html.ValidationMessageFor(model => model.dcumetercommode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumdascommode, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcumdascommode)
+                @Html.ValidationMessageFor(model => model.dcumdascommode)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumetercomprotocol, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcumetercomprotocol)
+                @Html.ValidationMessageFor(model => model.dcumetercomprotocol)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcumdascomprotocol, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcumdascomprotocol)
+                @Html.ValidationMessageFor(model => model.dcumdascomprotocol)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuoperatingchannel, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dcuoperatingchannel, new { @Value = "0" })
+                @Html.ValidationMessageFor(model => model.dcuoperatingchannel)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dcuinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dcuinstallarea)
+                @Html.ValidationMessageFor(model => model.dcuinstallarea)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" id="btnCreate" />
+                <input type="reset" value="Reset" class="btn btn-default" id="btnReset" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

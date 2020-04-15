@@ -1,0 +1,119 @@
+﻿@model IEnumerable<GridLogik.ViewModels.MeterStatus>
+
+@{
+    ViewBag.Title = "Index";
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#lsttable").DataTable({
+                pageLength: 10,
+                scrollX: true,
+                columns: [
+
+           { render: function (data, type, row, meta) { return data } },
+           { render: function (data, type, row, meta) { return data } },
+                { render: function (data, type, row, meta) { return data } },
+           { render: function (data, type, row, meta) { return data } },
+           { render: function (data, type, row, meta) { return data } },
+           {
+               render: function (data, type, row, meta) {
+                   return type === 'yes' ?
+                     "<img src='../Content/images/icon_img/Green.png'  style='padding-right:5px'>" :
+                     "<img src='../Content/images/icon_img/Red.png'  style='padding-right:5px'>";
+               }
+           },
+                ]
+            });
+
+        });
+
+    </script>
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Dashboard</a></li>
+                        <li class="active">Meter Status</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="table-responsive ls-table">
+                                        <div>
+
+                                            <table class="table table-bordered table-striped" id="lsttable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.METERID)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.Meter_Name)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.IpAddress)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.Port)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.ModBusID)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.Status)
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.METERID)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Meter_Name)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.IpAddress)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Port)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.ModBusID)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.Status)
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

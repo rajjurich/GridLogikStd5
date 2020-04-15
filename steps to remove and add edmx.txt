@@ -1,0 +1,22 @@
+in DOMAIN Layer only
+
+remove reference
+
+EntityFramework
+EntityFramework.SqlServer
+IBM.Data.DB2.EntityFramework
+
+delete ETools.edmx
+
+remove connection string etools_devEntities from domain's app.config
+
+remove package reference 
+EntityFramework, EntityFramework.IBM.DB2 from domain's packages.config
+
+do not build project
+
+add ETools.edmx with entityframework5 in Entities folder
+then run following command in package manager console with default project as Domain
+Install-Package EntityFramework.IBM.DB2 -Version 6.0.7
+make lazyloading false
+now build project you should not get any error

@@ -1,0 +1,354 @@
+﻿@model GridLogikViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+
+
+
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2></h2>
+        @Html.HiddenFor(m => m.METERID)
+        <input type="hidden" id="hdnMeterList" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">COOLING TOWER STG-1</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    @*<tr style="background:#0f0f0f !important; color:#FFF;">
+
+                                                <th  style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+                        align:center; ">FEEDERS</th>
+                                                <th colspan="3" style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold;
+
+                        text-align:center; ">KW</th>
+
+                                            </tr>*@
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">FEEDERS</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">kW</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">MWh</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Iavg</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Vry</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Vyb</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Vbr</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Kvrah-Lg</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">Kvarh-Ld</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-
+
+align:center; ">PF</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr id="1">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">STG1_630KVA_FUELOIL_TR1</th>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkw"></label></td>
+                        <td style=" color: #00FFFF; padding: 0px;"><label id="1_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitIavg"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitvry"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitvyb"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitvbr"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkvarhlag"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkvarhlead"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitpf"></label></td>
+                    </tr>
+                    <tr id="2">
+                        <th style=" background:#0f0f0f !important;color:#f7943c;padding:0px;" scope="row">STG1_2000KVA_CT_TR1</th>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkw"></label></td>
+                        <td style=" color: #00FFFF; padding: 0px;"><label id="2_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitIavg"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitvry"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitvyb"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitvbr"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkvarhlag"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkvarhlead"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitpf"></label></td>
+                    </tr>
+                    <tr id="3">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;"
+                            scope="row">STG1_2000KVA_CT_TR2</th>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkw"></label></td>
+                        <td style=" color: #00FFFF; padding: 0px;"><label id="3_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitIavg"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitvry"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitvyb"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitvbr"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkvarhlag"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkvarhlead"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitpf"></label></td>
+
+                    </tr>
+                    <tr id="4">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;"
+                            scope="row">STG1_630KVA_FUELOIL_TR2</th>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkw"></label></td>
+                        <td style=" color: #00FFFF; padding: 0px;"><label id="4_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitIavg"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitvry"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitvyb"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitvbr"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkvarhlag"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkvarhlead"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitpf"></label></td>
+
+                    </tr>
+
+                    </tr>
+                    
+                    </tr>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="divParent">
+            @*<div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCHP">Gen 1   </button>
+            </div>*@
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;"
+                        id="btnFeeders">
+                   MAIN SCREEN
+                </button>
+            </div>
+            @*<div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;"
+                        id="btnBoiler">
+                    BOILER AUX
+                </button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;"
+                        id="btnTurbine">
+                    TURBINE AUX
+                </button>
+            </div>
+           
+
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnOther">Common Aux</button>
+            </div>*@
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    debugger;
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var MeterString ="199,200,201,202";
+    var MeterIdList = {
+        "MeterString": MeterString
+    };
+
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+$("#btnBoiler").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("BOILERAUXILIARIES", "RRVUNL")';
+        });
+        $("#btnTurbine").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("TURBINEAUX", "RRVUNL")';
+        });
+        $("#btnOther").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("OTHERAUX", "RRVUNL")';
+        });
+        $("#btnCHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("CHPArea", "RRVUNL")';
+        });
+        @*$("#btnAHP").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("AHP", "RRVUNL")';
+        });*@
+        $("#btnFeeders").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen2", "RRVUNL")';
+        });
+        ABTMeterDetails();
+    });
+
+
+
+
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "RRVUNL")';
+    });*@
+    setInterval(ABTMeterDetails, 1000);
+    function ABTMeterDetails() {
+        debugger
+        $.ajax({
+            //type: "GET",
+            //contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+            //dataType: "json",//type of data to be received
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var TotalUnit1kw = 0;
+                var TotalUnit2kw = 0;
+                var TotalStationkw = 0;
+                var TotalUnit1apc = 0;
+                var TotalUnit2apc = 0;
+                var TotalStationapc = 0;
+                var jsonObj = response.Data.result;
+                 if (jsonObj != undefined && jsonObj.length > 0) {
+                 debugger
+                  jsonObj.forEach(function (responseobj) {
+                        debugger
+ if (responseobj.meterid == 199) {
+
+                            $('#1_unitkw').html(responseobj.kw.toFixed(2).toString());
+                            $('#1_unitkwh').html(responseobj.kwh_exp.toFixed(3).toString());
+                            $('#1_unitIavg').html(responseobj.i.toFixed(2).toString());
+                            $('#1_unitvry').html(responseobj.vry.toFixed(2).toString());
+                            $('#1_unitvyb').html(responseobj.vyb.toFixed(2).toString());
+                            $('#1_unitvbr').html(responseobj.vbr.toFixed(2).toString());
+                            $('#1_unitkvarhlag').html(responseobj.kvarh_lag_exp.toFixed(2).toString());
+                            $('#1_unitkvarhlead').html(responseobj.kvarh_lead_exp.toFixed(2).toString());
+                            $('#1_unitpf').html(responseobj.pf.toFixed(2).toString());
+ 		       }
+ if (responseobj.meterid == 200) {
+
+
+                            $('#2_unitkw ').html(responseobj.kw.toFixed(2).toString());
+                            $('#2_unitkwh').html(responseobj.kwh_exp.toFixed(3).toString());
+                            $('#2_unitIavg').html(responseobj.i.toFixed(2).toString());
+                            $('#2_unitvry').html(responseobj.vry.toFixed(2).toString());
+                            $('#2_unitvyb').html(responseobj.vyb.toFixed(2).toString());
+                            $('#2_unitvbr').html(responseobj.vbr.toFixed(2).toString());
+                            $('#2_unitkvarhlag').html(responseobj.kvarh_lag_exp.toFixed(2).toString());
+                            $('#2_unitkvarhlead').html(responseobj.kvarh_lead_exp.toFixed(2).toString());
+                            $('#2_unitpf').html(responseobj.pf.toFixed(2).toString());
+ 			                        }
+if (responseobj.meterid == 201) {
+
+
+                            $('#3_unitkw ').html(responseobj.kw.toFixed(2).toString());
+                            $('#3_unitkwh').html(responseobj.kwh_exp.toFixed(3).toString());
+                            $('#3_unitIavg').html(responseobj.i.toFixed(2).toString());
+                            $('#3_unitvry').html(responseobj.vry.toFixed(2).toString());
+                            $('#3_unitvyb').html(responseobj.vyb.toFixed(2).toString());
+                            $('#3_unitvbr').html(responseobj.vbr.toFixed(2).toString());
+                            $('#3_unitkvarhlag').html(responseobj.kvarh_lag_exp.toFixed(2).toString());
+                            $('#3_unitkvarhlead').html(responseobj.kvarh_lead_exp.toFixed(2).toString());
+                            $('#3_unitpf').html(responseobj.pf.toFixed(2).toString());
+ 			 }
+if (responseobj.meterid == 202) {
+
+
+                            $('#4_unitkw ').html(responseobj.kw.toFixed(2).toString());
+                            $('#4_unitkwh').html(responseobj.kwh_exp.toFixed(3).toString());
+                           $('#4_unitIavg').html(responseobj.i.toFixed(2).toString());
+                            $('#4_unitvry').html(responseobj.vry.toFixed(2).toString());
+                            $('#4_unitvyb').html(responseobj.vyb.toFixed(2).toString());
+                            $('#4_unitvbr').html(responseobj.vbr.toFixed(2).toString());
+                            $('#4_unitkvarhlag').html(responseobj.kvarh_lag_exp.toFixed(2).toString());
+                            $('#4_unitkvarhlead').html(responseobj.kvarh_lead_exp.toFixed(2).toString());
+                            $('#4_unitpf').html(responseobj.pf.toFixed(2).toString());
+
+                           }
+                    });
+
+
+
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>            

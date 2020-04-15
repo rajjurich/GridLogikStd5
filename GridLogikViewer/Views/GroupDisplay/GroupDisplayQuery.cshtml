@@ -1,0 +1,612 @@
+﻿@model GridLogikViewer.ViewModel.GroupDisplayViewModel
+
+@{
+    ViewBag.Title = "";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-light-blue">
+                <div class="panel-heading p5">
+                    <div class=" dashboard-panel-body-box">Query Data</div>
+                </div>
+                <label id="lblgroupname" style="display:none;">@Model.GroupName</label>
+                <label id="lblfromdate" style="display:none;">@Model.FromDate</label>
+                @if (Model.flag != true)
+                {
+                    <div id="exportDataGrp" class="panel-body">
+                        <div class="table-responsive ls-table">
+                            <table class="table table-bordered table-striped" id="tableQueryData">
+                                <thead>
+                                    <tr>
+
+                                        @foreach (var column in ViewBag.groupdisplayquerydata)
+                                        {
+                                            foreach (var item in column.Table.Columns)
+                                            {
+                                                <th>
+                                                    @item.Caption.ToUpper().ToString()
+                                                </th>
+                                            }
+                                            break;
+
+                                        }
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var column in ViewBag.groupdisplayquerydata)
+                                    {
+                                        <tr>
+                                            @foreach (var item in column.ItemArray)
+                                            {
+                                                <td>
+                                                    @item.ToString()
+                                                </td>
+                                            }
+                                        </tr>
+                                    }
+
+
+                                </tbody>
+                            </table>
+
+
+                            <div class="colorstrip">
+                                @Html.Label("Sum :")
+                                @Html.Label("Sum", new { id = "SumGrp" })
+                                @Html.Label("Avg :")
+                                @Html.Label("Avg", new { id = "averageGrp" })
+                                @Html.Label("Min :")
+                                @Html.Label("Min", new { id = "MinimumGrp" })
+                                @Html.Label("Max :")
+                                @Html.Label("Max", new { id = "MaximumGrp" })
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        No records to display!!!
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+<div id="chart_dialog">
+    <div id="chart_containerGrp" style="width:100%; clear:both; max-width:1247px;"></div>
+</div>
+@using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export1" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <button class="btn btn-success btn-sm" id="btnExportGrp" type="button"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+    <button class="btn btn-info btn-sm" type="button" id="graphGrp"><i class="fa fa-bar-chart-o"></i> Graph</button>
+}
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+</style>
+<script src="~/Scripts/jquery.table2excel.js"></script>
+<script type="text/javascript">
+    var exportContentGrp = $('div[id$=exportDataGrp]').html();
+    $(document).ready(function () {
+        var currentdate = new Date()
+        var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+        var dataText = "";
+        $("#btnExportGrp").on("click", function () {
+            window.location.href = envisageURL + "/GroupDisplay/Export";
+        });
+        dataText = $("#exportDataGrp").html();
+        $("#tableQueryData").dataTable(
+                      {
+                          pageLength: 10,
+                          scrollX: true
+                      });
+        //$("#chart_dialogGrp").dialog({
+        //    autoOpen: false,
+        //    resizable: false,
+        //    height: 650,
+        //    width: '85%',
+        //    show: { effect: 'drop', direction: "up" },
+        //    modal: true,
+        //    draggable: true,
+        //    open: function (event, ui) {
+        //    },
+        //});
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 650,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+
+            },
+        });
+        //new code multiple graph
+        var valueArrGrp = [];
+        var dateArrGrp = [];
+        var columnHeaderGrp = [];
+        var indexGrp = [];
+        var sortedDataGrp = [];
+        $(document).mousedown(function () {
+            $("#tableQueryData td").removeClass("highlighted");
+            $("#averageGrp").text('Avg');
+            $('#MaximumGrp').text('Max');
+            $('#MinimumGrp').text('Min');
+            $("#SumGrp").text('Sum');
+            seriesArrGrp = [];
+            valueArrGrp = [];
+            dateArrGrp = [];
+            columnHeaderGrp = [];
+            indexGrp = [];
+        });
+        var isMouseDownGrp = false, isHighlightedGrp;
+        var aGrp = 0;
+        var currentGrp = 0;
+        var previousGrp = 0;
+        var counterGrp = 1;
+        $(document).on('mousedown', '#tableQueryData td', function () {
+            $("#tableQueryData td").removeClass("highlighted");
+            isMouseDownGrp = true;
+            if (currentIndexGrp != 0)
+                $(this).addClass("highlighted");
+            if (currentIndexGrp != 0) {
+                if (!isNaN(Number($(this).text()))) {
+                    indexGrp.push($(this).index());
+                    //var data = { name: $(this).index(), data: valueArr }
+                    sortedDataGrp[$(this).index()] = valueArrGrp;
+                    aGrp = Number(aGrp) + Number($(this).text());
+                    $('#MinimumGrp,#MaximumGrp,#SumGrp,#averageGrp').text(aGrp);
+                    var $thGrp = $(this).closest('table').find('th').eq($(this).index());
+                    columnHeaderGrp.push($thGrp[0].textContent.trim());
+                    valueArrGrp.push($thGrp[0].textContent.trim() + '.' + Number($(this).text()));
+                    var dateGrp = $(this).closest("tr").find("td:nth-child(1)").text()
+                    dateArrGrp.push(dateGrp);
+                }
+            }
+            isHighlightedGrp = $(this).hasClass("highlighted");
+            return false; // prevent text selection
+        }).on('mouseover', '#tableQueryData td', function () {
+            currentIndexGrp = $(this).index();
+            if (isMouseDownGrp) {
+                if (!$(this).hasClass("highlighted") && currentIndexGrp != 0) {
+
+                    if (!isNaN(Number($(this).text()))) {
+                        if ($.inArray($(this).index(), indexGrp) != 0) {
+                            indexGrp.push($(this).index());
+                        }
+                        var date1Grp = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArrGrp.push(date1Grp);
+
+                        sortedDataGrp[$(this).index()] = valueArrGrp;
+                        aGrp = Number(aGrp) + Number($(this).text());
+                        var $thGrp = $(this).closest('table').find('th').eq($(this).index());
+                        columnHeaderGrp.push($thGrp[0].textContent.trim());
+                        valueArrGrp.push($thGrp[0].textContent.trim() + '.' + Number($(this).text()));
+                        if (Number($('#MinimumGrp').text()) < Number($(this).text())) {
+                            if (Number($('#MaximumGrp').text()) < Number($(this).text())) {
+                                $('#MaximumGrp').text(Number($(this).text()));
+                            }
+                        }
+                        else {
+                            $('#MinimumGrp').text(Number($(this).text()));
+                        }
+                    }
+                    else {
+                        valueArrGrp.push(Number(0));
+                        var date1Grp = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArrGrp.push(date1Grp);
+                    }
+                    counterGrp = counterGrp + 1;
+                    //alert(counter);
+                    $("#SumGrp").text(Number(aGrp).toFixed(2));
+                    $("#averageGrp").text((aGrp / counterGrp).toFixed(2));
+                }
+                if (currentIndexGrp != 0)
+                    $(this).toggleClass("highlighted", isHighlightedGrp);
+            }
+        });
+
+        $(document)
+          .mouseup(function () {
+              isMouseDownGrp = false;
+              aGrp = 0;
+              counterGrp = 1;
+              indexGrp = [];
+          });
+        //end new code
+
+        $('#tableQueryData thead th').each(function (index) {
+            $(this).click(function () {
+                SelectColumnGrp(index, 'tableQueryData');
+            });
+        });
+        //new code grp click
+        var seriesArrGrp = [];
+        $("#graphGrp").mousedown(function () {
+            var valuesGrpArrs = [];
+            var SelcolGrpDates = [];
+            var columnGrpList = [];
+            var SelcolumnGrpList = [];
+            var tblname = "#tableQueryData";
+            var TableRow = $('table' + tblname).find('tbody').find('tr');
+            $(tblname + ' thead th').each(function (index) {
+                columnGrpList.push($(this).text().trim());
+            });
+            for (var i = 0; i < TableRow.length; i++) {
+                var Tdcount = 0;
+                for (var j = 0; j < TableRow[i].cells.length; j++) {
+                    var subtd = TableRow[i].cells[j].className;
+                    if (subtd.includes("highlighted")) {
+                        var colName = columnGrpList[j];
+                        SelcolumnGrpList.push(colName);
+                        var Vl = TableRow[i].cells[j].innerText;
+                        valuesGrpArrs.push(colName + "$" + Vl);
+                        if (Tdcount == 0) {
+                            var dat = TableRow[i].cells[0].innerText;
+                            SelcolGrpDates.push(dat);
+                        }
+                        Tdcount++;
+                    }
+                }
+            }
+            var values = [];
+            var addedHeaders = [];
+            $.each(valuesGrpArrs, function (key, value) {
+                if (value != 0) {
+                    var dataArray = value.split("$");
+                    var seriesOptions2 = [];
+                    seriesOptions2.push(dataArray[dataArray.length - 1]);
+                    if (values.length > 0) {
+                        $.each(values, function (key1, value1) {
+                            if ((values[key1].name != dataArray[0]) && ($.inArray(dataArray[0], addedHeaders) == -1)) {
+                                var series = { name: dataArray[0], data: seriesOptions2 }
+                                values.push(series);
+                                addedHeaders.push(dataArray[0]);
+                            }
+                            else if (values[key1].name == dataArray[0]) {
+                                values[key1].data.push(dataArray[dataArray.length - 1]);
+                            }
+                        });
+                    }
+                    else {
+                        var series = { name: dataArray[0], data: seriesOptions2 }
+                        values.push(series);
+                    }
+                }
+            });
+
+            addedHeaders = [];
+            var uniquecolumnHeader = SelcolumnGrpList.filter(function (itm, i, SelcolumnGrpList) {
+                return i == SelcolumnGrpList.indexOf(itm);
+            });
+            var sortedCol = $(tblname).dataTable().fnSettings().aaSorting[0][0];
+            var sortedDir = $(tblname).dataTable().fnSettings().aaSorting[0][1];
+            var str = $(tblname).dataTable().fnSettings().aoColumns[sortedCol].sTitle;
+            if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                SelcolGrpDates = SelcolGrpDates.reverse();//change for date desc
+            }
+
+            if (uniquecolumnHeader.length > 0) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                for (var ser = 0; ser < uniquecolumnHeader.length; ser++) {
+                    var seriesOptions2 = values[ser].data.map(Number);    ////convert String Array into Number Array
+                    if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                        seriesOptions2 = seriesOptions2.reverse();  //change for date desc
+                    }
+                    var dataArr = [];
+                    for (var hdr = 0; hdr < seriesOptions2.length; hdr++) {
+                        var dts = ConvertYYYYMMDDHHmmss(SelcolGrpDates[hdr]);
+                        var data = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), seriesOptions2[hdr]];
+                        dataArr.push(data);
+                    }
+                    var series = { name: uniquecolumnHeader[ser], data: dataArr }; //Create Series Array with name and data property
+                    seriesArrGrp.push(series);
+                }
+                var GroupName = $('#lblgroupname').text();
+                var FromDate = $('#lblfromdate').text();
+                lineChart(SelcolGrpDates, seriesArrGrp, GroupName, FromDate);
+                seriesArrGrp = [];
+                valueArrGrp = [];
+                dateArrGrp = [];
+                index = [];
+                valuesGrpArrs = [];
+                SelcolGrpDates = [];
+                columnGrpList = [];
+                SelcolumnGrpList = [];
+                $("#chart_dialog").dialog('open');
+                if (box) box.remove();
+            }
+            else {
+                alert("Please select atleast one value", '', false, 'E')
+            }
+        });
+        //end new code
+    });
+
+    function SelectColumnGrp(index, tableId) {
+
+        var columnText = 'You selected:\n\n';
+        var columnSelector = '#' + tableId + ' tbody > tr > td:nth-child(' + (index + 1) + ')';
+        var cells = $(columnSelector);
+
+        // clear existing selections
+        if (window.getSelection) { // all browsers, except IE before version 9
+            window.getSelection().removeAllRanges();
+        }
+
+
+        if (document.createRange) {
+            cells.each(function (i, cell) {
+                var rangeObj = document.createRange();
+                rangeObj.selectNodeContents(cell);
+                window.getSelection().addRange(rangeObj);
+                columnText = columnText + '\n' + rangeObj.toString();
+            });
+
+
+        }
+        else { // Internet Explorer before version 9
+            cells.each(function (i, cell) {
+                var rangeObj = document.body.createTextRange();
+                rangeObj.moveToElementText(cell);
+                rangeObj.select();
+                columnText = columnText + '\n' + rangeObj.toString();
+            });
+        }
+
+        alert(columnText, '', false, 'S')
+    }
+   function lineChart(dateArr, seriesArr, GroupName, FromDate, ToDate) {
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_container',
+                spacingLeft: 0,
+                marginRight: 190,
+                height: 550,
+                spacingBottom: 3,
+                events: {
+                    load: function () {
+                        $(window).resize();
+                    }
+                }
+            },
+            title: {
+                text: '.',
+                style: {
+                    color: '#FFFFFF'
+                },
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'value'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: seriesArr
+        }, function (chart) { // on complete
+
+            chart.renderer.text('<b>Group Name</b>', 100, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(GroupName, 200, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>From Date</b>', 450, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(FromDate, 540, 20)
+       .css({})
+     .add();
+            chart.renderer.text('<b>To Date</b>', 700, 20)
+          .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+        .add();
+            chart.renderer.text(ToDate, 780, 20)
+       .css({})
+     .add();
+
+        });
+
+    }
+    function lineChartGrp(dateArrGrp, seriesArrGrp) {
+
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_containerGrp',
+                spacingLeft: 0,
+                marginRight: 190,
+                height: 550,
+                spacingBottom: 3,
+                events: {
+                    load: function () {
+                        $(window).resize();
+                    }
+                }
+
+            },
+            title: {
+                text: '.',
+                style: {
+                    color: '#FFFFFF'
+                },
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'value'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: seriesArrGrp
+        }, function (chart) { // on complete
+
+            chart.renderer.text('<b>Group Name</b>', 100, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(GroupName, 200, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>From Date</b>', 450, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(FromDate, 540, 20)
+       .css({})
+     .add();
+
+
+        });
+
+        }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                $("#DateField").val(data[i].prmvalue);
+                            }
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDate").val(data[i].prmvalue);
+                        }
+                    }
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E')
+                }
+            }
+        });
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true
+        });
+        $("#txtToDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true
+        });
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 650,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+
+            },
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+    $("#updateDetail4").click(function () {
+        $("#queryList").attr("disabled", false);
+    });
+
+</script>
+

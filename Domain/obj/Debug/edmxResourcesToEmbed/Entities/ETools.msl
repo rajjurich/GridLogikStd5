@@ -1,0 +1,1906 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="etools_devModelStoreContainer" CdmEntityContainer="etools_devEntities">
+    <EntitySetMapping Name="actiontypes">
+      <EntityTypeMapping TypeName="etools_devModel.actiontype">
+        <MappingFragment StoreEntitySet="actiontype">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="alarmid" ColumnName="alarmid" />
+          <ScalarProperty Name="alarmtype" ColumnName="alarmtype" />
+          <ScalarProperty Name="mobileno" ColumnName="mobileno" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarmconditions">
+      <EntityTypeMapping TypeName="etools_devModel.alarmcondition">
+        <MappingFragment StoreEntitySet="alarmcondition">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="parameter" ColumnName="parameter" />
+          <ScalarProperty Name="operator" ColumnName="operator" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="alarmid" ColumnName="alarmid" />
+          <ScalarProperty Name="conditions" ColumnName="conditions" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarmhistories">
+      <EntityTypeMapping TypeName="etools_devModel.alarmhistory">
+        <MappingFragment StoreEntitySet="alarmhistory">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="alarmid" ColumnName="alarmid" />
+          <ScalarProperty Name="starttime" ColumnName="starttime" />
+          <ScalarProperty Name="endtime" ColumnName="endtime" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="alarms">
+      <EntityTypeMapping TypeName="etools_devModel.alarm">
+        <MappingFragment StoreEntitySet="alarms">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="alarmname" ColumnName="alarmname" />
+          <ScalarProperty Name="message" ColumnName="message" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="backupscheduledetails">
+      <EntityTypeMapping TypeName="etools_devModel.backupscheduledetail">
+        <MappingFragment StoreEntitySet="backupscheduledetails">
+          <ScalarProperty Name="srid" ColumnName="srid" />
+          <ScalarProperty Name="level" ColumnName="level" />
+          <ScalarProperty Name="frqtype" ColumnName="frqtype" />
+          <ScalarProperty Name="startdate" ColumnName="startdate" />
+          <ScalarProperty Name="triggertime" ColumnName="triggertime" />
+          <ScalarProperty Name="weekdayname" ColumnName="weekdayname" />
+          <ScalarProperty Name="monthname" ColumnName="monthname" />
+          <ScalarProperty Name="dayofmonth" ColumnName="dayofmonth" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="rptflag" ColumnName="rptflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="blockaddressdetails">
+      <EntityTypeMapping TypeName="etools_devModel.blockaddressdetail">
+        <MappingFragment StoreEntitySet="blockaddressdetails">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modelid" ColumnName="modelid" />
+          <ScalarProperty Name="blockrangeid" ColumnName="blockrangeid" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="parametername" ColumnName="parametername" />
+          <ScalarProperty Name="datatype" ColumnName="datatype" />
+          <ScalarProperty Name="loadservicemapping" ColumnName="loadservicemapping" />
+          <ScalarProperty Name="multiplicationfactor" ColumnName="multiplicationfactor" />
+          <ScalarProperty Name="tablename" ColumnName="tablename" />
+          <ScalarProperty Name="grouptype" ColumnName="grouptype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="blockranges">
+      <EntityTypeMapping TypeName="etools_devModel.blockranx">
+        <MappingFragment StoreEntitySet="blockranges">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modelid" ColumnName="modelid" />
+          <ScalarProperty Name="blocktype" ColumnName="blocktype" />
+          <ScalarProperty Name="currentblockaddress" ColumnName="currentblockaddress" />
+          <ScalarProperty Name="previousblockaddress" ColumnName="previousblockaddress" />
+          <ScalarProperty Name="isincremental" ColumnName="isincremental" />
+          <ScalarProperty Name="noofregisters" ColumnName="noofregisters" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="clientfoldermaps">
+      <EntityTypeMapping TypeName="etools_devModel.clientfoldermap">
+        <MappingFragment StoreEntitySet="clientfoldermap">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="roleid" ColumnName="roleid" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="folderpath" ColumnName="folderpath" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="communicationdetaillinks">
+      <EntityTypeMapping TypeName="etools_devModel.communicationdetaillink">
+        <MappingFragment StoreEntitySet="communicationdetaillink">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="converterid" ColumnName="converterid" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="modbusid" ColumnName="modbusid" />
+          <ScalarProperty Name="active" ColumnName="active" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="communicationdetails">
+      <EntityTypeMapping TypeName="etools_devModel.communicationdetail">
+        <MappingFragment StoreEntitySet="communicationdetails">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="communicationtypeid" ColumnName="communicationtypeid" />
+          <ScalarProperty Name="ipaddress" ColumnName="ipaddress" />
+          <ScalarProperty Name="port" ColumnName="port" />
+          <ScalarProperty Name="baudrate" ColumnName="baudrate" />
+          <ScalarProperty Name="databits" ColumnName="databits" />
+          <ScalarProperty Name="parity" ColumnName="parity" />
+          <ScalarProperty Name="stopbits" ColumnName="stopbits" />
+          <ScalarProperty Name="convertordesc" ColumnName="convertordesc" />
+          <ScalarProperty Name="comport" ColumnName="comport" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="isemailalarm" ColumnName="isemailalarm" />
+          <ScalarProperty Name="ispopupalarm" ColumnName="ispopupalarm" />
+          <ScalarProperty Name="isalarmraised" ColumnName="isalarmraised" />
+          <ScalarProperty Name="issmsalarm" ColumnName="issmsalarm" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumers">
+      <EntityTypeMapping TypeName="etools_devModel.consumer">
+        <MappingFragment StoreEntitySet="consumer">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="masterid" ColumnName="masterid" />
+          <ScalarProperty Name="firstname" ColumnName="firstname" />
+          <ScalarProperty Name="middlename" ColumnName="middlename" />
+          <ScalarProperty Name="lastname" ColumnName="lastname" />
+          <ScalarProperty Name="billingunitid" ColumnName="billingunitid" />
+          <ScalarProperty Name="classid" ColumnName="classid" />
+          <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="maritalstatus" ColumnName="maritalstatus" />
+          <ScalarProperty Name="dob" ColumnName="dob" />
+          <ScalarProperty Name="address1" ColumnName="address1" />
+          <ScalarProperty Name="address2" ColumnName="address2" />
+          <ScalarProperty Name="city" ColumnName="city" />
+          <ScalarProperty Name="state" ColumnName="state" />
+          <ScalarProperty Name="country" ColumnName="country" />
+          <ScalarProperty Name="pincode" ColumnName="pincode" />
+          <ScalarProperty Name="landline" ColumnName="landline" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+          <ScalarProperty Name="emailid" ColumnName="emailid" />
+          <ScalarProperty Name="education" ColumnName="education" />
+          <ScalarProperty Name="incomerange" ColumnName="incomerange" />
+          <ScalarProperty Name="occupation" ColumnName="occupation" />
+          <ScalarProperty Name="companyname" ColumnName="companyname" />
+          <ScalarProperty Name="contactperson" ColumnName="contactperson" />
+          <ScalarProperty Name="incorporationdate" ColumnName="incorporationdate" />
+          <ScalarProperty Name="incorporationtype" ColumnName="incorporationtype" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumercategories">
+      <EntityTypeMapping TypeName="etools_devModel.consumercategory">
+        <MappingFragment StoreEntitySet="consumercategory">
+          <ScalarProperty Name="categoryrecid" ColumnName="categoryrecid" />
+          <ScalarProperty Name="categoryid" ColumnName="categoryid" />
+          <ScalarProperty Name="categorydescription" ColumnName="categorydescription" />
+          <ScalarProperty Name="categorytariffid" ColumnName="categorytariffid" />
+          <ScalarProperty Name="categoryisdeleted" ColumnName="categoryisdeleted" />
+          <ScalarProperty Name="categoryfixedstatus" ColumnName="categoryfixedstatus" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="contactdetails">
+      <EntityTypeMapping TypeName="etools_devModel.contactdetail">
+        <MappingFragment StoreEntitySet="contactdetails">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="emailaddress" ColumnName="emailaddress" />
+          <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="databaseversions">
+      <EntityTypeMapping TypeName="etools_devModel.databaseversion">
+        <MappingFragment StoreEntitySet="databaseversion">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dcsgs">
+      <EntityTypeMapping TypeName="etools_devModel.dcsg">
+        <MappingFragment StoreEntitySet="dcsg">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="blockno" ColumnName="blockno" />
+          <ScalarProperty Name="dcvalue" ColumnName="dcvalue" />
+          <ScalarProperty Name="sgvalue" ColumnName="sgvalue" />
+          <ScalarProperty Name="revision" ColumnName="revision" />
+          <ScalarProperty Name="timestampid" ColumnName="timestampid" />
+          <ScalarProperty Name="fuelcost" ColumnName="fuelcost" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="stageid" ColumnName="stageid" />
+          <ScalarProperty Name="upload_date" ColumnName="upload_date" />
+          <ScalarProperty Name="sgppa" ColumnName="sgppa" />
+          <ScalarProperty Name="sced" ColumnName="sced" />
+          <ScalarProperty Name="rras" ColumnName="rras" />
+          <ScalarProperty Name="agc" ColumnName="agc" />
+          <ScalarProperty Name="iex" ColumnName="iex" />
+          <ScalarProperty Name="urs" ColumnName="urs" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="emailconfigdetails">
+      <EntityTypeMapping TypeName="etools_devModel.emailconfigdetail">
+        <MappingFragment StoreEntitySet="emailconfigdetails">
+          <ScalarProperty Name="row_id" ColumnName="row_id" />
+          <ScalarProperty Name="emprecid" ColumnName="emprecid" />
+          <ScalarProperty Name="maildetails" ColumnName="maildetails" />
+          <ScalarProperty Name="sendflag" ColumnName="sendflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="emaildetails">
+      <EntityTypeMapping TypeName="etools_devModel.emaildetail">
+        <MappingFragment StoreEntitySet="emaildetails">
+          <ScalarProperty Name="recid" ColumnName="recid" />
+          <ScalarProperty Name="maillist" ColumnName="maillist" />
+          <ScalarProperty Name="filepath" ColumnName="filepath" />
+          <ScalarProperty Name="subject" ColumnName="subject" />
+          <ScalarProperty Name="mailbody" ColumnName="mailbody" />
+          <ScalarProperty Name="sendflag" ColumnName="sendflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="groupconfigurations">
+      <EntityTypeMapping TypeName="etools_devModel.groupconfiguration">
+        <MappingFragment StoreEntitySet="groupconfiguration">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="groupid" ColumnName="groupid" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="parameter" ColumnName="parameter" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="grouptemplatequeries">
+      <EntityTypeMapping TypeName="etools_devModel.grouptemplatequery">
+        <MappingFragment StoreEntitySet="grouptemplatequery">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="queryname" ColumnName="queryname" />
+          <ScalarProperty Name="queryscript" ColumnName="queryscript" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="htalarms">
+      <EntityTypeMapping TypeName="etools_devModel.htalarm">
+        <MappingFragment StoreEntitySet="htalarm">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="timestampid" ColumnName="timestampid" />
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="hostip" ColumnName="hostip" />
+          <ScalarProperty Name="alarmname" ColumnName="alarmname" />
+          <ScalarProperty Name="alarmmessage" ColumnName="alarmmessage" />
+          <ScalarProperty Name="starttime" ColumnName="starttime" />
+          <ScalarProperty Name="endtime" ColumnName="endtime" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="sms" ColumnName="sms" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="popup" ColumnName="popup" />
+          <ScalarProperty Name="alarmid" ColumnName="alarmid" />
+          <ScalarProperty Name="ismanualack" ColumnName="ismanualack" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="instancedatas">
+      <EntityTypeMapping TypeName="etools_devModel.instancedata">
+        <MappingFragment StoreEntitySet="instancedata">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="meter_name" ColumnName="meter_name" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="vrn" ColumnName="vrn" />
+          <ScalarProperty Name="vbn" ColumnName="vbn" />
+          <ScalarProperty Name="vyn" ColumnName="vyn" />
+          <ScalarProperty Name="vln" ColumnName="vln" />
+          <ScalarProperty Name="vry" ColumnName="vry" />
+          <ScalarProperty Name="vyb" ColumnName="vyb" />
+          <ScalarProperty Name="vbr" ColumnName="vbr" />
+          <ScalarProperty Name="vll" ColumnName="vll" />
+          <ScalarProperty Name="ir" ColumnName="ir" />
+          <ScalarProperty Name="iy" ColumnName="iy" />
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="i" ColumnName="i" />
+          <ScalarProperty Name="pf" ColumnName="pf" />
+          <ScalarProperty Name="kw" ColumnName="kw" />
+          <ScalarProperty Name="kvar" ColumnName="kvar" />
+          <ScalarProperty Name="kva" ColumnName="kva" />
+          <ScalarProperty Name="hz" ColumnName="hz" />
+          <ScalarProperty Name="pfr" ColumnName="pfr" />
+          <ScalarProperty Name="pfy" ColumnName="pfy" />
+          <ScalarProperty Name="pfb" ColumnName="pfb" />
+          <ScalarProperty Name="kwr" ColumnName="kwr" />
+          <ScalarProperty Name="kwy" ColumnName="kwy" />
+          <ScalarProperty Name="kwb" ColumnName="kwb" />
+          <ScalarProperty Name="kvarr" ColumnName="kvarr" />
+          <ScalarProperty Name="kvary" ColumnName="kvary" />
+          <ScalarProperty Name="kvarb" ColumnName="kvarb" />
+          <ScalarProperty Name="kva_r" ColumnName="kva_r" />
+          <ScalarProperty Name="kvay" ColumnName="kvay" />
+          <ScalarProperty Name="kvab" ColumnName="kvab" />
+          <ScalarProperty Name="kw_demand" ColumnName="kw_demand" />
+          <ScalarProperty Name="kvar_demand" ColumnName="kvar_demand" />
+          <ScalarProperty Name="kva_demand" ColumnName="kva_demand" />
+          <ScalarProperty Name="kw_max_demand" ColumnName="kw_max_demand" />
+          <ScalarProperty Name="kvar_max_demand" ColumnName="kvar_max_demand" />
+          <ScalarProperty Name="kva_max_demand" ColumnName="kva_max_demand" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_exp_103" ColumnName="kvarh_exp_103" />
+          <ScalarProperty Name="kvarh_exp_97" ColumnName="kvarh_exp_97" />
+          <ScalarProperty Name="kvarh_imp_103" ColumnName="kvarh_imp_103" />
+          <ScalarProperty Name="kvarh_imp_97" ColumnName="kvarh_imp_97" />
+          <ScalarProperty Name="day_kwh_exp" ColumnName="day_kwh_exp" />
+          <ScalarProperty Name="day_kwh_imp" ColumnName="day_kwh_imp" />
+          <ScalarProperty Name="cblk_kwh_exp" ColumnName="cblk_kwh_exp" />
+          <ScalarProperty Name="cblk_kwh_imp" ColumnName="cblk_kwh_imp" />
+          <ScalarProperty Name="cblk_kvarh_lag_imp" ColumnName="cblk_kvarh_lag_imp" />
+          <ScalarProperty Name="cblk_kvarh_lead_imp" ColumnName="cblk_kvarh_lead_imp" />
+          <ScalarProperty Name="cblk_kvarh_lag_exp" ColumnName="cblk_kvarh_lag_exp" />
+          <ScalarProperty Name="cblk_kvarh_lead_exp" ColumnName="cblk_kvarh_lead_exp" />
+          <ScalarProperty Name="cblk_avg_mw" ColumnName="cblk_avg_mw" />
+          <ScalarProperty Name="cblk_avg_hz" ColumnName="cblk_avg_hz" />
+          <ScalarProperty Name="lblk_timestampid" ColumnName="lblk_timestampid" />
+          <ScalarProperty Name="lblk_avg_mw" ColumnName="lblk_avg_mw" />
+          <ScalarProperty Name="lblk_avg_hz" ColumnName="lblk_avg_hz" />
+          <ScalarProperty Name="lblk_kwh_exp" ColumnName="lblk_kwh_exp" />
+          <ScalarProperty Name="lblk_kwh_imp" ColumnName="lblk_kwh_imp" />
+          <ScalarProperty Name="lblk_kvah_exp" ColumnName="lblk_kvah_exp" />
+          <ScalarProperty Name="lblk_kvah_imp" ColumnName="lblk_kvah_imp" />
+          <ScalarProperty Name="lblk_kvarh_lag_imp" ColumnName="lblk_kvarh_lag_imp" />
+          <ScalarProperty Name="lblk_kvarh_lead_imp" ColumnName="lblk_kvarh_lead_imp" />
+          <ScalarProperty Name="lblk_kvarh_lag_exp" ColumnName="lblk_kvarh_lag_exp" />
+          <ScalarProperty Name="lblk_kvarh_lead_exp" ColumnName="lblk_kvarh_lead_exp" />
+          <ScalarProperty Name="lblk_kvarh_exp_103" ColumnName="lblk_kvarh_exp_103" />
+          <ScalarProperty Name="lblk_kvarh_exp_97" ColumnName="lblk_kvarh_exp_97" />
+          <ScalarProperty Name="lblk_kvarh_imp_103" ColumnName="lblk_kvarh_imp_103" />
+          <ScalarProperty Name="lblk_kvarh_imp_97" ColumnName="lblk_kvarh_imp_97" />
+          <ScalarProperty Name="potime" ColumnName="potime" />
+          <ScalarProperty Name="lotime" ColumnName="lotime" />
+          <ScalarProperty Name="kwh_net" ColumnName="kwh_net" />
+          <ScalarProperty Name="temp" ColumnName="temp" />
+          <ScalarProperty Name="runhrimp" ColumnName="runhrimp" />
+          <ScalarProperty Name="runhrexp" ColumnName="runhrexp" />
+          <ScalarProperty Name="meter_tstamp" ColumnName="meter_tstamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ipwiseloggers">
+      <EntityTypeMapping TypeName="etools_devModel.ipwiselogger">
+        <MappingFragment StoreEntitySet="ipwiselogger">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ipaddress" ColumnName="ipaddress" />
+          <ScalarProperty Name="comport" ColumnName="comport" />
+          <ScalarProperty Name="portnumber" ColumnName="portnumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manualreports">
+      <EntityTypeMapping TypeName="etools_devModel.manualreport">
+        <MappingFragment StoreEntitySet="manualreports">
+          <ScalarProperty Name="reptmid" ColumnName="reptmid" />
+          <ScalarProperty Name="rlistid" ColumnName="rlistid" />
+          <ScalarProperty Name="requestdate" ColumnName="requestdate" />
+          <ScalarProperty Name="frmdate" ColumnName="frmdate" />
+          <ScalarProperty Name="frmtime" ColumnName="frmtime" />
+          <ScalarProperty Name="todate" ColumnName="todate" />
+          <ScalarProperty Name="totime" ColumnName="totime" />
+          <ScalarProperty Name="filepath" ColumnName="filepath" />
+          <ScalarProperty Name="isdownload" ColumnName="isdownload" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="manualrptlists">
+      <EntityTypeMapping TypeName="etools_devModel.manualrptlist">
+        <MappingFragment StoreEntitySet="manualrptlist">
+          <ScalarProperty Name="rlistid" ColumnName="rlistid" />
+          <ScalarProperty Name="reptname" ColumnName="reptname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="memorymap_addressdetails">
+      <EntityTypeMapping TypeName="etools_devModel.memorymap_addressdetails">
+        <MappingFragment StoreEntitySet="memorymap_addressdetails">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modelid" ColumnName="modelid" />
+          <ScalarProperty Name="rangeid" ColumnName="rangeid" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="parametername" ColumnName="parametername" />
+          <ScalarProperty Name="datatype" ColumnName="datatype" />
+          <ScalarProperty Name="instancedatamapping" ColumnName="instancedatamapping" />
+          <ScalarProperty Name="multiplicationfactor" ColumnName="multiplicationfactor" />
+          <ScalarProperty Name="bytecount" ColumnName="bytecount" />
+          <ScalarProperty Name="flag" ColumnName="flag" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="columntype" ColumnName="columntype" />
+          <ScalarProperty Name="formula" ColumnName="formula" />
+          <ScalarProperty Name="tablename" ColumnName="tablename" />
+          <ScalarProperty Name="grouptype" ColumnName="grouptype" />
+          <ScalarProperty Name="types" ColumnName="types" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="memorymap_range">
+      <EntityTypeMapping TypeName="etools_devModel.memorymap_range">
+        <MappingFragment StoreEntitySet="memorymap_range">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modelid" ColumnName="modelid" />
+          <ScalarProperty Name="startaddress" ColumnName="startaddress" />
+          <ScalarProperty Name="endaddress" ColumnName="endaddress" />
+          <ScalarProperty Name="countaddress" ColumnName="countaddress" />
+          <ScalarProperty Name="rangetype" ColumnName="rangetype" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="types" ColumnName="types" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="metergroups">
+      <EntityTypeMapping TypeName="etools_devModel.metergroup">
+        <MappingFragment StoreEntitySet="metergroups">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="groupname" ColumnName="groupname" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="metermodels">
+      <EntityTypeMapping TypeName="etools_devModel.metermodel">
+        <MappingFragment StoreEntitySet="metermodel">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modelname" ColumnName="modelname" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="rolloverlimit" ColumnName="rolloverlimit" />
+          <ScalarProperty Name="connecttime" ColumnName="connecttime" />
+          <ScalarProperty Name="senddonewait" ColumnName="senddonewait" />
+          <ScalarProperty Name="waitconsecutive" ColumnName="waitconsecutive" />
+          <ScalarProperty Name="onresponceerror" ColumnName="onresponceerror" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="meters">
+      <EntityTypeMapping TypeName="etools_devModel.meter">
+        <MappingFragment StoreEntitySet="meters">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="metername" ColumnName="metername" />
+          <ScalarProperty Name="metertypeid" ColumnName="metertypeid" />
+          <ScalarProperty Name="modelid" ColumnName="modelid" />
+          <ScalarProperty Name="ag" ColumnName="ag" />
+          <ScalarProperty Name="frequency" ColumnName="frequency" />
+          <ScalarProperty Name="phase" ColumnName="phase" />
+          <ScalarProperty Name="serialno" ColumnName="serialno" />
+          <ScalarProperty Name="meterno" ColumnName="meterno" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="ctprimary" ColumnName="ctprimary" />
+          <ScalarProperty Name="ctsecondary" ColumnName="ctsecondary" />
+          <ScalarProperty Name="blockwisedata" ColumnName="blockwisedata" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="location" ColumnName="location" />
+          <ScalarProperty Name="replacementremark" ColumnName="replacementremark" />
+          <ScalarProperty Name="replacedby" ColumnName="replacedby" />
+          <ScalarProperty Name="replacementdate" ColumnName="replacementdate" />
+          <ScalarProperty Name="rolloverlimit" ColumnName="rolloverlimit" />
+          <ScalarProperty Name="misemail" ColumnName="misemail" />
+          <ScalarProperty Name="mispopup" ColumnName="mispopup" />
+          <ScalarProperty Name="missms" ColumnName="missms" />
+          <ScalarProperty Name="parameter" ColumnName="parameter" />
+          <ScalarProperty Name="caltype" ColumnName="caltype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="metertypes">
+      <EntityTypeMapping TypeName="etools_devModel.metertype">
+        <MappingFragment StoreEntitySet="metertypes">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="metertypename" ColumnName="metertypename" />
+          <ScalarProperty Name="meterdescription" ColumnName="meterdescription" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstdivisions">
+      <EntityTypeMapping TypeName="etools_devModel.mstdivision">
+        <MappingFragment StoreEntitySet="mstdivision">
+          <ScalarProperty Name="divrecid" ColumnName="divrecid" />
+          <ScalarProperty Name="divid" ColumnName="divid" />
+          <ScalarProperty Name="divname" ColumnName="divname" />
+          <ScalarProperty Name="divdescription" ColumnName="divdescription" />
+          <ScalarProperty Name="divrgnid" ColumnName="divrgnid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstemployees">
+      <EntityTypeMapping TypeName="etools_devModel.mstemployee">
+        <MappingFragment StoreEntitySet="mstemployee">
+          <ScalarProperty Name="emprecid" ColumnName="emprecid" />
+          <ScalarProperty Name="empid" ColumnName="empid" />
+          <ScalarProperty Name="empfirstname" ColumnName="empfirstname" />
+          <ScalarProperty Name="empmiddlename" ColumnName="empmiddlename" />
+          <ScalarProperty Name="emplastname" ColumnName="emplastname" />
+          <ScalarProperty Name="empzoneid" ColumnName="empzoneid" />
+          <ScalarProperty Name="emprgnid" ColumnName="emprgnid" />
+          <ScalarProperty Name="empdivid" ColumnName="empdivid" />
+          <ScalarProperty Name="empsubstnid" ColumnName="empsubstnid" />
+          <ScalarProperty Name="empisactive" ColumnName="empisactive" />
+          <ScalarProperty Name="empemailid" ColumnName="empemailid" />
+          <ScalarProperty Name="empphoneno1" ColumnName="empphoneno1" />
+          <ScalarProperty Name="empphoneno2" ColumnName="empphoneno2" />
+          <ScalarProperty Name="empisdeleted" ColumnName="empisdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="msterrorlogs">
+      <EntityTypeMapping TypeName="etools_devModel.msterrorlog">
+        <MappingFragment StoreEntitySet="msterrorlog">
+          <ScalarProperty Name="errorid" ColumnName="errorid" />
+          <ScalarProperty Name="errordescription" ColumnName="errordescription" />
+          <ScalarProperty Name="errortrace" ColumnName="errortrace" />
+          <ScalarProperty Name="errormodule" ColumnName="errormodule" />
+          <ScalarProperty Name="errordate" ColumnName="errordate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstfeeders">
+      <EntityTypeMapping TypeName="etools_devModel.mstfeeder">
+        <MappingFragment StoreEntitySet="mstfeeder">
+          <ScalarProperty Name="fdrrecid" ColumnName="fdrrecid" />
+          <ScalarProperty Name="fdrid" ColumnName="fdrid" />
+          <ScalarProperty Name="fdrname" ColumnName="fdrname" />
+          <ScalarProperty Name="fdrdescription" ColumnName="fdrdescription" />
+          <ScalarProperty Name="fdrserialno" ColumnName="fdrserialno" />
+          <ScalarProperty Name="fdrratedvoltage" ColumnName="fdrratedvoltage" />
+          <ScalarProperty Name="fdrratedpower" ColumnName="fdrratedpower" />
+          <ScalarProperty Name="fdrconnectedload" ColumnName="fdrconnectedload" />
+          <ScalarProperty Name="fdrphase" ColumnName="fdrphase" />
+          <ScalarProperty Name="fdrmanufacturerid" ColumnName="fdrmanufacturerid" />
+          <ScalarProperty Name="fdrsubstnid" ColumnName="fdrsubstnid" />
+          <ScalarProperty Name="fdrinstallarea" ColumnName="fdrinstallarea" />
+          <ScalarProperty Name="fdrisdeleted" ColumnName="fdrisdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstholidays">
+      <EntityTypeMapping TypeName="etools_devModel.mstholiday">
+        <MappingFragment StoreEntitySet="mstholiday">
+          <ScalarProperty Name="holrecid" ColumnName="holrecid" />
+          <ScalarProperty Name="holid" ColumnName="holid" />
+          <ScalarProperty Name="holdescription" ColumnName="holdescription" />
+          <ScalarProperty Name="holdate" ColumnName="holdate" />
+          <ScalarProperty Name="hollegaldate" ColumnName="hollegaldate" />
+          <ScalarProperty Name="holisdeleted" ColumnName="holisdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstmenus">
+      <EntityTypeMapping TypeName="etools_devModel.mstmenu">
+        <MappingFragment StoreEntitySet="mstmenu">
+          <ScalarProperty Name="mnurecid" ColumnName="mnurecid" />
+          <ScalarProperty Name="mnuitemname" ColumnName="mnuitemname" />
+          <ScalarProperty Name="mnuitemposition" ColumnName="mnuitemposition" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="mnuisdeleted" ColumnName="mnuisdeleted" />
+          <ScalarProperty Name="mnutype" ColumnName="mnutype" />
+          <ScalarProperty Name="mnumodulid" ColumnName="mnumodulid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstmetergroupdetails">
+      <EntityTypeMapping TypeName="etools_devModel.mstmetergroupdetail">
+        <MappingFragment StoreEntitySet="mstmetergroupdetail">
+          <ScalarProperty Name="mid" ColumnName="mid" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="grpid" ColumnName="grpid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstmodules">
+      <EntityTypeMapping TypeName="etools_devModel.mstmodule">
+        <MappingFragment StoreEntitySet="mstmodule">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="modulename" ColumnName="modulename" />
+          <ScalarProperty Name="moduleposition" ColumnName="moduleposition" />
+          <ScalarProperty Name="link" ColumnName="link" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstregions">
+      <EntityTypeMapping TypeName="etools_devModel.mstregion">
+        <MappingFragment StoreEntitySet="mstregion">
+          <ScalarProperty Name="rgnrecid" ColumnName="rgnrecid" />
+          <ScalarProperty Name="rgnid" ColumnName="rgnid" />
+          <ScalarProperty Name="rgnname" ColumnName="rgnname" />
+          <ScalarProperty Name="rgndescription" ColumnName="rgndescription" />
+          <ScalarProperty Name="rgnznid" ColumnName="rgnznid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstroles">
+      <EntityTypeMapping TypeName="etools_devModel.mstrole">
+        <MappingFragment StoreEntitySet="mstrole">
+          <ScalarProperty Name="rolrecid" ColumnName="rolrecid" />
+          <ScalarProperty Name="rolname" ColumnName="rolname" />
+          <ScalarProperty Name="roldescription" ColumnName="roldescription" />
+          <ScalarProperty Name="rolisdeleted" ColumnName="rolisdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstrolemenuaccesses">
+      <EntityTypeMapping TypeName="etools_devModel.mstrolemenuaccess">
+        <MappingFragment StoreEntitySet="mstrolemenuaccess">
+          <ScalarProperty Name="rmarecid" ColumnName="rmarecid" />
+          <ScalarProperty Name="rmaroleid" ColumnName="rmaroleid" />
+          <ScalarProperty Name="rmamnuid" ColumnName="rmamnuid" />
+          <ScalarProperty Name="rmacreateaccess" ColumnName="rmacreateaccess" />
+          <ScalarProperty Name="rmareadaccess" ColumnName="rmareadaccess" />
+          <ScalarProperty Name="rmaupdateaccess" ColumnName="rmaupdateaccess" />
+          <ScalarProperty Name="rmadeleteaccess" ColumnName="rmadeleteaccess" />
+          <ScalarProperty Name="rmaisdeleted" ColumnName="rmaisdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstsubstations">
+      <EntityTypeMapping TypeName="etools_devModel.mstsubstation">
+        <MappingFragment StoreEntitySet="mstsubstation">
+          <ScalarProperty Name="ssrecid" ColumnName="ssrecid" />
+          <ScalarProperty Name="ssid" ColumnName="ssid" />
+          <ScalarProperty Name="ssname" ColumnName="ssname" />
+          <ScalarProperty Name="ssdescription" ColumnName="ssdescription" />
+          <ScalarProperty Name="ssdivid" ColumnName="ssdivid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstusers">
+      <EntityTypeMapping TypeName="etools_devModel.mstuser">
+        <MappingFragment StoreEntitySet="mstuser">
+          <ScalarProperty Name="usrrecid" ColumnName="usrrecid" />
+          <ScalarProperty Name="usrid" ColumnName="usrid" />
+          <ScalarProperty Name="usrpassword" ColumnName="usrpassword" />
+          <ScalarProperty Name="usrroleid" ColumnName="usrroleid" />
+          <ScalarProperty Name="usremployeeid" ColumnName="usremployeeid" />
+          <ScalarProperty Name="usrisactive" ColumnName="usrisactive" />
+          <ScalarProperty Name="usrcreationdate" ColumnName="usrcreationdate" />
+          <ScalarProperty Name="usrcreatedbyuserid" ColumnName="usrcreatedbyuserid" />
+          <ScalarProperty Name="usrfirstname" ColumnName="usrfirstname" />
+          <ScalarProperty Name="usrmiddlename" ColumnName="usrmiddlename" />
+          <ScalarProperty Name="usrlastname" ColumnName="usrlastname" />
+          <ScalarProperty Name="usremailid" ColumnName="usremailid" />
+          <ScalarProperty Name="usrphoneno1" ColumnName="usrphoneno1" />
+          <ScalarProperty Name="usrphoneno2" ColumnName="usrphoneno2" />
+          <ScalarProperty Name="usrisdeleted" ColumnName="usrisdeleted" />
+          <ScalarProperty Name="usrtype" ColumnName="usrtype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstutilities">
+      <EntityTypeMapping TypeName="etools_devModel.mstutility">
+        <MappingFragment StoreEntitySet="mstutility">
+          <ScalarProperty Name="utilrecid" ColumnName="utilrecid" />
+          <ScalarProperty Name="utilid" ColumnName="utilid" />
+          <ScalarProperty Name="utilname" ColumnName="utilname" />
+          <ScalarProperty Name="utiladdress1" ColumnName="utiladdress1" />
+          <ScalarProperty Name="utiladdress2" ColumnName="utiladdress2" />
+          <ScalarProperty Name="utiladdress3" ColumnName="utiladdress3" />
+          <ScalarProperty Name="utilpin" ColumnName="utilpin" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mstzones">
+      <EntityTypeMapping TypeName="etools_devModel.mstzone">
+        <MappingFragment StoreEntitySet="mstzone">
+          <ScalarProperty Name="znrecid" ColumnName="znrecid" />
+          <ScalarProperty Name="znid" ColumnName="znid" />
+          <ScalarProperty Name="znname" ColumnName="znname" />
+          <ScalarProperty Name="zndescription" ColumnName="zndescription" />
+          <ScalarProperty Name="znutilityid" ColumnName="znutilityid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opc_clienttag">
+      <EntityTypeMapping TypeName="etools_devModel.opc_clienttag">
+        <MappingFragment StoreEntitySet="opc_clienttag">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="tag_id" ColumnName="tag_id" />
+          <ScalarProperty Name="tag_name" ColumnName="tag_name" />
+          <ScalarProperty Name="caltype" ColumnName="caltype" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opc_metername">
+      <EntityTypeMapping TypeName="etools_devModel.opc_metername">
+        <MappingFragment StoreEntitySet="opc_metername">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="opc_shortname" ColumnName="opc_shortname" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="opc_server_tag">
+      <EntityTypeMapping TypeName="etools_devModel.opc_server_tag">
+        <MappingFragment StoreEntitySet="opc_server_tag">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="tagname" ColumnName="tagname" />
+          <ScalarProperty Name="datatype" ColumnName="datatype" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="parameter" ColumnName="parameter" />
+          <ScalarProperty Name="tablename" ColumnName="tablename" />
+          <ScalarProperty Name="query" ColumnName="query" />
+          <ScalarProperty Name="value" ColumnName="value" />
+          <ScalarProperty Name="istag" ColumnName="istag" />
+          <ScalarProperty Name="priority" ColumnName="priority" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="parametermfs">
+      <EntityTypeMapping TypeName="etools_devModel.parametermf">
+        <MappingFragment StoreEntitySet="parametermf">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="grouptype" ColumnName="grouptype" />
+          <ScalarProperty Name="multiplicationfactor" ColumnName="multiplicationfactor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="prmglobals">
+      <EntityTypeMapping TypeName="etools_devModel.prmglobal">
+        <MappingFragment StoreEntitySet="prmglobal">
+          <ScalarProperty Name="prmrecid" ColumnName="prmrecid" />
+          <ScalarProperty Name="prmmodule" ColumnName="prmmodule" />
+          <ScalarProperty Name="prmunit" ColumnName="prmunit" />
+          <ScalarProperty Name="prmidentifier" ColumnName="prmidentifier" />
+          <ScalarProperty Name="prmvalue" ColumnName="prmvalue" />
+          <ScalarProperty Name="rfu1" ColumnName="rfu1" />
+          <ScalarProperty Name="rfu2" ColumnName="rfu2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="querydetails">
+      <EntityTypeMapping TypeName="etools_devModel.querydetail">
+        <MappingFragment StoreEntitySet="querydetails">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="queryname" ColumnName="queryname" />
+          <ScalarProperty Name="property" ColumnName="property" />
+          <ScalarProperty Name="setvalue" ColumnName="setvalue" />
+          <ScalarProperty Name="script" ColumnName="script" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="reportscheduledetails">
+      <EntityTypeMapping TypeName="etools_devModel.reportscheduledetail">
+        <MappingFragment StoreEntitySet="reportscheduledetails">
+          <ScalarProperty Name="srid" ColumnName="srid" />
+          <ScalarProperty Name="reportname" ColumnName="reportname" />
+          <ScalarProperty Name="frqtype" ColumnName="frqtype" />
+          <ScalarProperty Name="startdate" ColumnName="startdate" />
+          <ScalarProperty Name="triggertime" ColumnName="triggertime" />
+          <ScalarProperty Name="weekdayname" ColumnName="weekdayname" />
+          <ScalarProperty Name="monthname" ColumnName="monthname" />
+          <ScalarProperty Name="dayofmonth" ColumnName="dayofmonth" />
+          <ScalarProperty Name="isactive" ColumnName="isactive" />
+          <ScalarProperty Name="rptflag" ColumnName="rptflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="rtalarms">
+      <EntityTypeMapping TypeName="etools_devModel.rtalarm">
+        <MappingFragment StoreEntitySet="rtalarm">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="alarmname" ColumnName="alarmname" />
+          <ScalarProperty Name="alarmmessage" ColumnName="alarmmessage" />
+          <ScalarProperty Name="fromtime" ColumnName="fromtime" />
+          <ScalarProperty Name="totime" ColumnName="totime" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="resetstatus" ColumnName="resetstatus" />
+          <ScalarProperty Name="alarmquery" ColumnName="alarmquery" />
+          <ScalarProperty Name="condition" ColumnName="condition" />
+          <ScalarProperty Name="alarmcommand" ColumnName="alarmcommand" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="sendsms" ColumnName="sendsms" />
+          <ScalarProperty Name="sendemail" ColumnName="sendemail" />
+          <ScalarProperty Name="givepopup" ColumnName="givepopup" />
+          <ScalarProperty Name="parameter" ColumnName="parameter" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="smsdetails">
+      <EntityTypeMapping TypeName="etools_devModel.smsdetail">
+        <MappingFragment StoreEntitySet="smsdetails">
+          <ScalarProperty Name="recid" ColumnName="recid" />
+          <ScalarProperty Name="phnno" ColumnName="phnno" />
+          <ScalarProperty Name="msgbody" ColumnName="msgbody" />
+          <ScalarProperty Name="sendflag" ColumnName="sendflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="stageconfigurations">
+      <EntityTypeMapping TypeName="etools_devModel.stageconfiguration">
+        <MappingFragment StoreEntitySet="stageconfiguration">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="stagename" ColumnName="stagename" />
+          <ScalarProperty Name="stagenmfrmupload" ColumnName="stagenmfrmupload" />
+          <ScalarProperty Name="generator" ColumnName="generator" />
+          <ScalarProperty Name="linemeter" ColumnName="linemeter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="standardalarms">
+      <EntityTypeMapping TypeName="etools_devModel.standardalarm">
+        <MappingFragment StoreEntitySet="standardalarm">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="maxvll" ColumnName="maxvll" />
+          <ScalarProperty Name="minvll" ColumnName="minvll" />
+          <ScalarProperty Name="maxamp" ColumnName="maxamp" />
+          <ScalarProperty Name="minamp" ColumnName="minamp" />
+          <ScalarProperty Name="maxkw" ColumnName="maxkw" />
+          <ScalarProperty Name="minkw" ColumnName="minkw" />
+          <ScalarProperty Name="maxkva" ColumnName="maxkva" />
+          <ScalarProperty Name="minkva" ColumnName="minkva" />
+          <ScalarProperty Name="maxhz" ColumnName="maxhz" />
+          <ScalarProperty Name="minhz" ColumnName="minhz" />
+          <ScalarProperty Name="maxpf" ColumnName="maxpf" />
+          <ScalarProperty Name="minpf" ColumnName="minpf" />
+          <ScalarProperty Name="connectload" ColumnName="connectload" />
+          <ScalarProperty Name="alarmmessages" ColumnName="alarmmessages" />
+          <ScalarProperty Name="starttime" ColumnName="starttime" />
+          <ScalarProperty Name="endtime" ColumnName="endtime" />
+          <ScalarProperty Name="status" ColumnName="status" />
+          <ScalarProperty Name="resetstatus" ColumnName="resetstatus" />
+          <ScalarProperty Name="duration" ColumnName="duration" />
+          <ScalarProperty Name="alarmcommand" ColumnName="alarmcommand" />
+          <ScalarProperty Name="sendsms" ColumnName="sendsms" />
+          <ScalarProperty Name="sendemail" ColumnName="sendemail" />
+          <ScalarProperty Name="givepopup" ColumnName="givepopup" />
+          <ScalarProperty Name="alarmname" ColumnName="alarmname" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tablewiseparameters">
+      <EntityTypeMapping TypeName="etools_devModel.tablewiseparameter">
+        <MappingFragment StoreEntitySet="tablewiseparameter">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="parametername" ColumnName="parametername" />
+          <ScalarProperty Name="tablename" ColumnName="tablename" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tsinstancedatalogs">
+      <EntityTypeMapping TypeName="etools_devModel.tsinstancedatalog">
+        <MappingFragment StoreEntitySet="tsinstancedatalogs">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tsloadsurveyexports">
+      <EntityTypeMapping TypeName="etools_devModel.tsloadsurveyexport">
+        <MappingFragment StoreEntitySet="tsloadsurveyexport">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tsloadsurveyimports">
+      <EntityTypeMapping TypeName="etools_devModel.tsloadsurveyimport">
+        <MappingFragment StoreEntitySet="tsloadsurveyimport">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tsloadsurveylogs">
+      <EntityTypeMapping TypeName="etools_devModel.tsloadsurveylog">
+        <MappingFragment StoreEntitySet="tsloadsurveylogs">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tspreviousblkmisses">
+      <EntityTypeMapping TypeName="etools_devModel.tspreviousblkmiss">
+        <MappingFragment StoreEntitySet="tspreviousblkmiss">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="txnloadblocks">
+      <EntityTypeMapping TypeName="etools_devModel.txnloadblock">
+        <MappingFragment StoreEntitySet="txnloadblocks">
+          <ScalarProperty Name="txnbid" ColumnName="txnbid" />
+          <ScalarProperty Name="txnbparam" ColumnName="txnbparam" />
+          <ScalarProperty Name="txnip" ColumnName="txnip" />
+          <ScalarProperty Name="txnblockdate" ColumnName="txnblockdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="uirates">
+      <EntityTypeMapping TypeName="etools_devModel.uirate">
+        <MappingFragment StoreEntitySet="uirate">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="frequency" ColumnName="frequency" />
+          <ScalarProperty Name="positive" ColumnName="positive" />
+          <ScalarProperty Name="negative" ColumnName="negative" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="revision" ColumnName="revision" />
+          <ScalarProperty Name="stageid" ColumnName="stageid" />
+          <ScalarProperty Name="isdeleted" ColumnName="isdeleted" />
+          <ScalarProperty Name="upload_date" ColumnName="upload_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionexpdaywises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionexpdaywise">
+        <MappingFragment StoreEntitySet="consumptionexpdaywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionexphourwises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionexphourwise">
+        <MappingFragment StoreEntitySet="consumptionexphourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionexpmonthwises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionexpmonthwise">
+        <MappingFragment StoreEntitySet="consumptionexpmonthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionimpdaywises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionimpdaywise">
+        <MappingFragment StoreEntitySet="consumptionimpdaywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionimphourwises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionimphourwise">
+        <MappingFragment StoreEntitySet="consumptionimphourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="consumptionimpmonthwises">
+      <EntityTypeMapping TypeName="etools_devModel.consumptionimpmonthwise">
+        <MappingFragment StoreEntitySet="consumptionimpmonthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="daywises">
+      <EntityTypeMapping TypeName="etools_devModel.daywise">
+        <MappingFragment StoreEntitySet="daywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kwh_import_current" ColumnName="kwh_import_current" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lag_imp_current" ColumnName="kvarh_lag_imp_current" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+          <ScalarProperty Name="kwh_export_current" ColumnName="kwh_export_current" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_30secdatalogs">
+      <EntityTypeMapping TypeName="etools_devModel.evt_30secdatalogs">
+        <MappingFragment StoreEntitySet="evt_30secdatalogs">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="t_vrn" ColumnName="t_vrn" />
+          <ScalarProperty Name="t_vbn" ColumnName="t_vbn" />
+          <ScalarProperty Name="t_vyn" ColumnName="t_vyn" />
+          <ScalarProperty Name="t_vln" ColumnName="t_vln" />
+          <ScalarProperty Name="t_vry" ColumnName="t_vry" />
+          <ScalarProperty Name="t_vyb" ColumnName="t_vyb" />
+          <ScalarProperty Name="t_vbr" ColumnName="t_vbr" />
+          <ScalarProperty Name="t_vll" ColumnName="t_vll" />
+          <ScalarProperty Name="t_ir" ColumnName="t_ir" />
+          <ScalarProperty Name="t_iy" ColumnName="t_iy" />
+          <ScalarProperty Name="t_ib" ColumnName="t_ib" />
+          <ScalarProperty Name="t_i" ColumnName="t_i" />
+          <ScalarProperty Name="t_pf" ColumnName="t_pf" />
+          <ScalarProperty Name="t_kw" ColumnName="t_kw" />
+          <ScalarProperty Name="t_kvar" ColumnName="t_kvar" />
+          <ScalarProperty Name="t_kva" ColumnName="t_kva" />
+          <ScalarProperty Name="t_hz" ColumnName="t_hz" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_absloadsurvey">
+      <EntityTypeMapping TypeName="etools_devModel.evt_absloadsurvey">
+        <MappingFragment StoreEntitySet="evt_absloadsurvey">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="a_pf" ColumnName="a_pf" />
+          <ScalarProperty Name="a_pfy" ColumnName="a_pfy" />
+          <ScalarProperty Name="a_pfr" ColumnName="a_pfr" />
+          <ScalarProperty Name="a_pfb" ColumnName="a_pfb" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_consumption">
+      <EntityTypeMapping TypeName="etools_devModel.evt_consumption">
+        <MappingFragment StoreEntitySet="evt_consumption">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_consumption_blocks">
+      <EntityTypeMapping TypeName="etools_devModel.evt_consumption_blocks">
+        <MappingFragment StoreEntitySet="evt_consumption_blocks">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_loadsurvey">
+      <EntityTypeMapping TypeName="etools_devModel.evt_loadsurvey">
+        <MappingFragment StoreEntitySet="evt_loadsurvey">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="vll" ColumnName="vll" />
+          <ScalarProperty Name="i" ColumnName="i" />
+          <ScalarProperty Name="kw" ColumnName="kw" />
+          <ScalarProperty Name="kvar" ColumnName="kvar" />
+          <ScalarProperty Name="kva" ColumnName="kva" />
+          <ScalarProperty Name="hz" ColumnName="hz" />
+          <ScalarProperty Name="vry" ColumnName="vry" />
+          <ScalarProperty Name="vyb" ColumnName="vyb" />
+          <ScalarProperty Name="vbr" ColumnName="vbr" />
+          <ScalarProperty Name="vrn" ColumnName="vrn" />
+          <ScalarProperty Name="vbn" ColumnName="vbn" />
+          <ScalarProperty Name="vyn" ColumnName="vyn" />
+          <ScalarProperty Name="vln" ColumnName="vln" />
+          <ScalarProperty Name="ir" ColumnName="ir" />
+          <ScalarProperty Name="iy" ColumnName="iy" />
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="kwr" ColumnName="kwr" />
+          <ScalarProperty Name="kwy" ColumnName="kwy" />
+          <ScalarProperty Name="kwb" ColumnName="kwb" />
+          <ScalarProperty Name="kva_r" ColumnName="kva_r" />
+          <ScalarProperty Name="kvay" ColumnName="kvay" />
+          <ScalarProperty Name="kvab" ColumnName="kvab" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_exp_103" ColumnName="kvarh_exp_103" />
+          <ScalarProperty Name="kvarh_exp_97" ColumnName="kvarh_exp_97" />
+          <ScalarProperty Name="kvarh_imp_103" ColumnName="kvarh_imp_103" />
+          <ScalarProperty Name="kvarh_imp_97" ColumnName="kvarh_imp_97" />
+          <ScalarProperty Name="day_kwh_exp" ColumnName="day_kwh_exp" />
+          <ScalarProperty Name="day_kwh_imp" ColumnName="day_kwh_imp" />
+          <ScalarProperty Name="cblk_kwh_exp" ColumnName="cblk_kwh_exp" />
+          <ScalarProperty Name="cblk_kwh_imp" ColumnName="cblk_kwh_imp" />
+          <ScalarProperty Name="kw_demand" ColumnName="kw_demand" />
+          <ScalarProperty Name="kva_demand" ColumnName="kva_demand" />
+          <ScalarProperty Name="kw_max_demand" ColumnName="kw_max_demand" />
+          <ScalarProperty Name="kva_max_demand" ColumnName="kva_max_demand" />
+          <ScalarProperty Name="cblk_avg_mw" ColumnName="cblk_avg_mw" />
+          <ScalarProperty Name="cblk_avg_hz" ColumnName="cblk_avg_hz" />
+          <ScalarProperty Name="potime" ColumnName="potime" />
+          <ScalarProperty Name="lotime" ColumnName="lotime" />
+          <ScalarProperty Name="runhrimp" ColumnName="runhrimp" />
+          <ScalarProperty Name="runhrexp" ColumnName="runhrexp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_loadsurvey_modify">
+      <EntityTypeMapping TypeName="etools_devModel.evt_loadsurvey_modify">
+        <MappingFragment StoreEntitySet="evt_loadsurvey_modify">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="vll" ColumnName="vll" />
+          <ScalarProperty Name="i" ColumnName="i" />
+          <ScalarProperty Name="kw" ColumnName="kw" />
+          <ScalarProperty Name="kvar" ColumnName="kvar" />
+          <ScalarProperty Name="kva" ColumnName="kva" />
+          <ScalarProperty Name="hz" ColumnName="hz" />
+          <ScalarProperty Name="vry" ColumnName="vry" />
+          <ScalarProperty Name="vyb" ColumnName="vyb" />
+          <ScalarProperty Name="vbr" ColumnName="vbr" />
+          <ScalarProperty Name="vrn" ColumnName="vrn" />
+          <ScalarProperty Name="vbn" ColumnName="vbn" />
+          <ScalarProperty Name="vyn" ColumnName="vyn" />
+          <ScalarProperty Name="vln" ColumnName="vln" />
+          <ScalarProperty Name="ir" ColumnName="ir" />
+          <ScalarProperty Name="iy" ColumnName="iy" />
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="kwr" ColumnName="kwr" />
+          <ScalarProperty Name="kwy" ColumnName="kwy" />
+          <ScalarProperty Name="kwb" ColumnName="kwb" />
+          <ScalarProperty Name="kva_r" ColumnName="kva_r" />
+          <ScalarProperty Name="kvay" ColumnName="kvay" />
+          <ScalarProperty Name="kvab" ColumnName="kvab" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_exp_103" ColumnName="kvarh_exp_103" />
+          <ScalarProperty Name="kvarh_exp_97" ColumnName="kvarh_exp_97" />
+          <ScalarProperty Name="kvarh_imp_103" ColumnName="kvarh_imp_103" />
+          <ScalarProperty Name="kvarh_imp_97" ColumnName="kvarh_imp_97" />
+          <ScalarProperty Name="day_kwh_exp" ColumnName="day_kwh_exp" />
+          <ScalarProperty Name="day_kwh_imp" ColumnName="day_kwh_imp" />
+          <ScalarProperty Name="cblk_kwh_exp" ColumnName="cblk_kwh_exp" />
+          <ScalarProperty Name="cblk_kwh_imp" ColumnName="cblk_kwh_imp" />
+          <ScalarProperty Name="kw_demand" ColumnName="kw_demand" />
+          <ScalarProperty Name="kva_demand" ColumnName="kva_demand" />
+          <ScalarProperty Name="kw_max_demand" ColumnName="kw_max_demand" />
+          <ScalarProperty Name="kva_max_demand" ColumnName="kva_max_demand" />
+          <ScalarProperty Name="cblk_avg_mw" ColumnName="cblk_avg_mw" />
+          <ScalarProperty Name="cblk_avg_hz" ColumnName="cblk_avg_hz" />
+          <ScalarProperty Name="potime" ColumnName="potime" />
+          <ScalarProperty Name="lotime" ColumnName="lotime" />
+          <ScalarProperty Name="runhrimp" ColumnName="runhrimp" />
+          <ScalarProperty Name="runhrexp" ColumnName="runhrexp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="expconsumption_blocks">
+      <EntityTypeMapping TypeName="etools_devModel.expconsumption_blocks">
+        <MappingFragment StoreEntitySet="expconsumption_blocks">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="hourwises">
+      <EntityTypeMapping TypeName="etools_devModel.hourwise">
+        <MappingFragment StoreEntitySet="hourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kwh_import_current" ColumnName="kwh_import_current" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lag_imp_current" ColumnName="kvarh_lag_imp_current" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+          <ScalarProperty Name="kwh_export_current" ColumnName="kwh_export_current" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="hourwisecurrents">
+      <EntityTypeMapping TypeName="etools_devModel.hourwisecurrent">
+        <MappingFragment StoreEntitySet="hourwisecurrent">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_i" ColumnName="avg_i" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="hourwisevoltages">
+      <EntityTypeMapping TypeName="etools_devModel.hourwisevoltage">
+        <MappingFragment StoreEntitySet="hourwisevoltage">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_vry" ColumnName="avg_vry" />
+          <ScalarProperty Name="avg_vyb" ColumnName="avg_vyb" />
+          <ScalarProperty Name="avg_vbr" ColumnName="avg_vbr" />
+          <ScalarProperty Name="avg_vln" ColumnName="avg_vln" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="impconsumption_blocks">
+      <EntityTypeMapping TypeName="etools_devModel.impconsumption_blocks">
+        <MappingFragment StoreEntitySet="impconsumption_blocks">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="instancedatalogs">
+      <EntityTypeMapping TypeName="etools_devModel.instancedatalog">
+        <MappingFragment StoreEntitySet="instancedatalogs">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="meter_name" ColumnName="meter_name" />
+          <ScalarProperty Name="vrn" ColumnName="vrn" />
+          <ScalarProperty Name="vbn" ColumnName="vbn" />
+          <ScalarProperty Name="vyn" ColumnName="vyn" />
+          <ScalarProperty Name="vln" ColumnName="vln" />
+          <ScalarProperty Name="vry" ColumnName="vry" />
+          <ScalarProperty Name="vyb" ColumnName="vyb" />
+          <ScalarProperty Name="vbr" ColumnName="vbr" />
+          <ScalarProperty Name="vll" ColumnName="vll" />
+          <ScalarProperty Name="ir" ColumnName="ir" />
+          <ScalarProperty Name="iy" ColumnName="iy" />
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="i" ColumnName="i" />
+          <ScalarProperty Name="pf" ColumnName="pf" />
+          <ScalarProperty Name="kw" ColumnName="kw" />
+          <ScalarProperty Name="kvar" ColumnName="kvar" />
+          <ScalarProperty Name="kva" ColumnName="kva" />
+          <ScalarProperty Name="hz" ColumnName="hz" />
+          <ScalarProperty Name="pfr" ColumnName="pfr" />
+          <ScalarProperty Name="pfy" ColumnName="pfy" />
+          <ScalarProperty Name="pfb" ColumnName="pfb" />
+          <ScalarProperty Name="kwr" ColumnName="kwr" />
+          <ScalarProperty Name="kwy" ColumnName="kwy" />
+          <ScalarProperty Name="kwb" ColumnName="kwb" />
+          <ScalarProperty Name="kvarr" ColumnName="kvarr" />
+          <ScalarProperty Name="kvary" ColumnName="kvary" />
+          <ScalarProperty Name="kvarb" ColumnName="kvarb" />
+          <ScalarProperty Name="kva_r" ColumnName="kva_r" />
+          <ScalarProperty Name="kvay" ColumnName="kvay" />
+          <ScalarProperty Name="kvab" ColumnName="kvab" />
+          <ScalarProperty Name="kw_demand" ColumnName="kw_demand" />
+          <ScalarProperty Name="kvar_demand" ColumnName="kvar_demand" />
+          <ScalarProperty Name="kva_demand" ColumnName="kva_demand" />
+          <ScalarProperty Name="kw_max_demand" ColumnName="kw_max_demand" />
+          <ScalarProperty Name="kvar_max_demand" ColumnName="kvar_max_demand" />
+          <ScalarProperty Name="kva_max_demand" ColumnName="kva_max_demand" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_exp_103" ColumnName="kvarh_exp_103" />
+          <ScalarProperty Name="kvarh_exp_97" ColumnName="kvarh_exp_97" />
+          <ScalarProperty Name="kvarh_imp_103" ColumnName="kvarh_imp_103" />
+          <ScalarProperty Name="kvarh_imp_97" ColumnName="kvarh_imp_97" />
+          <ScalarProperty Name="day_kwh_exp" ColumnName="day_kwh_exp" />
+          <ScalarProperty Name="day_kwh_imp" ColumnName="day_kwh_imp" />
+          <ScalarProperty Name="cblk_kwh_exp" ColumnName="cblk_kwh_exp" />
+          <ScalarProperty Name="cblk_kwh_imp" ColumnName="cblk_kwh_imp" />
+          <ScalarProperty Name="cblk_kvarh_lag_imp" ColumnName="cblk_kvarh_lag_imp" />
+          <ScalarProperty Name="cblk_kvarh_lead_imp" ColumnName="cblk_kvarh_lead_imp" />
+          <ScalarProperty Name="cblk_kvarh_lag_exp" ColumnName="cblk_kvarh_lag_exp" />
+          <ScalarProperty Name="cblk_kvarh_lead_exp" ColumnName="cblk_kvarh_lead_exp" />
+          <ScalarProperty Name="cblk_avg_mw" ColumnName="cblk_avg_mw" />
+          <ScalarProperty Name="cblk_avg_hz" ColumnName="cblk_avg_hz" />
+          <ScalarProperty Name="lblk_timestampid" ColumnName="lblk_timestampid" />
+          <ScalarProperty Name="lblk_avg_mw" ColumnName="lblk_avg_mw" />
+          <ScalarProperty Name="lblk_avg_hz" ColumnName="lblk_avg_hz" />
+          <ScalarProperty Name="lblk_kwh_exp" ColumnName="lblk_kwh_exp" />
+          <ScalarProperty Name="lblk_kwh_imp" ColumnName="lblk_kwh_imp" />
+          <ScalarProperty Name="lblk_kvah_exp" ColumnName="lblk_kvah_exp" />
+          <ScalarProperty Name="lblk_kvah_imp" ColumnName="lblk_kvah_imp" />
+          <ScalarProperty Name="lblk_kvarh_lag_imp" ColumnName="lblk_kvarh_lag_imp" />
+          <ScalarProperty Name="lblk_kvarh_lead_imp" ColumnName="lblk_kvarh_lead_imp" />
+          <ScalarProperty Name="lblk_kvarh_lag_exp" ColumnName="lblk_kvarh_lag_exp" />
+          <ScalarProperty Name="lblk_kvarh_lead_exp" ColumnName="lblk_kvarh_lead_exp" />
+          <ScalarProperty Name="lblk_kvarh_exp_103" ColumnName="lblk_kvarh_exp_103" />
+          <ScalarProperty Name="lblk_kvarh_exp_97" ColumnName="lblk_kvarh_exp_97" />
+          <ScalarProperty Name="lblk_kvarh_imp_103" ColumnName="lblk_kvarh_imp_103" />
+          <ScalarProperty Name="lblk_kvarh_imp_97" ColumnName="lblk_kvarh_imp_97" />
+          <ScalarProperty Name="potime" ColumnName="potime" />
+          <ScalarProperty Name="lotime" ColumnName="lotime" />
+          <ScalarProperty Name="kwh_net" ColumnName="kwh_net" />
+          <ScalarProperty Name="temp" ColumnName="temp" />
+          <ScalarProperty Name="runhrimp" ColumnName="runhrimp" />
+          <ScalarProperty Name="runhrexp" ColumnName="runhrexp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="kwh_exp_con_1">
+      <EntityTypeMapping TypeName="etools_devModel.kwh_exp_con_1">
+        <MappingFragment StoreEntitySet="kwh_exp_con_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="param" ColumnName="param" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="kwh_exp_read_1">
+      <EntityTypeMapping TypeName="etools_devModel.kwh_exp_read_1">
+        <MappingFragment StoreEntitySet="kwh_exp_read_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="param" ColumnName="param" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="kwh_imp_con_1">
+      <EntityTypeMapping TypeName="etools_devModel.kwh_imp_con_1">
+        <MappingFragment StoreEntitySet="kwh_imp_con_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="param" ColumnName="param" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="kwh_imp_read_1">
+      <EntityTypeMapping TypeName="etools_devModel.kwh_imp_read_1">
+        <MappingFragment StoreEntitySet="kwh_imp_read_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="param" ColumnName="param" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="loadprofiles">
+      <EntityTypeMapping TypeName="etools_devModel.loadprofile">
+        <MappingFragment StoreEntitySet="loadprofile">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kwh_import_current" ColumnName="kwh_import_current" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lag_imp_current" ColumnName="kvarh_lag_imp_current" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+          <ScalarProperty Name="kwh_export_current" ColumnName="kwh_export_current" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="loadsurveyexports">
+      <EntityTypeMapping TypeName="etools_devModel.loadsurveyexport">
+        <MappingFragment StoreEntitySet="loadsurveyexport">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="blockno" ColumnName="blockno" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+          <ScalarProperty Name="rollover_kwh" ColumnName="rollover_kwh" />
+          <ScalarProperty Name="rollover_kvah" ColumnName="rollover_kvah" />
+          <ScalarProperty Name="rollover_kvarh_lag" ColumnName="rollover_kvarh_lag" />
+          <ScalarProperty Name="rollover_kvarh_lead" ColumnName="rollover_kvarh_lead" />
+          <ScalarProperty Name="missflag" ColumnName="missflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="loadsurveyimports">
+      <EntityTypeMapping TypeName="etools_devModel.loadsurveyimport">
+        <MappingFragment StoreEntitySet="loadsurveyimport">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="blockno" ColumnName="blockno" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+          <ScalarProperty Name="rollover_kwh" ColumnName="rollover_kwh" />
+          <ScalarProperty Name="rollover_kvah" ColumnName="rollover_kvah" />
+          <ScalarProperty Name="rollover_kvarh_lag" ColumnName="rollover_kvarh_lag" />
+          <ScalarProperty Name="rollover_kvarh_lead" ColumnName="rollover_kvarh_lead" />
+          <ScalarProperty Name="missflag" ColumnName="missflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="loadsurveylogs">
+      <EntityTypeMapping TypeName="etools_devModel.loadsurveylog">
+        <MappingFragment StoreEntitySet="loadsurveylogs">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="timestampid" ColumnName="timestampid" />
+          <ScalarProperty Name="blockno" ColumnName="blockno" />
+          <ScalarProperty Name="vll" ColumnName="vll" />
+          <ScalarProperty Name="i" ColumnName="i" />
+          <ScalarProperty Name="pf" ColumnName="pf" />
+          <ScalarProperty Name="pfy" ColumnName="pfy" />
+          <ScalarProperty Name="pfr" ColumnName="pfr" />
+          <ScalarProperty Name="pfb" ColumnName="pfb" />
+          <ScalarProperty Name="kw" ColumnName="kw" />
+          <ScalarProperty Name="kvar" ColumnName="kvar" />
+          <ScalarProperty Name="kva" ColumnName="kva" />
+          <ScalarProperty Name="hz" ColumnName="hz" />
+          <ScalarProperty Name="vry" ColumnName="vry" />
+          <ScalarProperty Name="vyb" ColumnName="vyb" />
+          <ScalarProperty Name="vbr" ColumnName="vbr" />
+          <ScalarProperty Name="vrn" ColumnName="vrn" />
+          <ScalarProperty Name="vbn" ColumnName="vbn" />
+          <ScalarProperty Name="vyn" ColumnName="vyn" />
+          <ScalarProperty Name="vln" ColumnName="vln" />
+          <ScalarProperty Name="ir" ColumnName="ir" />
+          <ScalarProperty Name="iy" ColumnName="iy" />
+          <ScalarProperty Name="ib" ColumnName="ib" />
+          <ScalarProperty Name="kwr" ColumnName="kwr" />
+          <ScalarProperty Name="kwy" ColumnName="kwy" />
+          <ScalarProperty Name="kwb" ColumnName="kwb" />
+          <ScalarProperty Name="kva_r" ColumnName="kva_r" />
+          <ScalarProperty Name="kvay" ColumnName="kvay" />
+          <ScalarProperty Name="kvab" ColumnName="kvab" />
+          <ScalarProperty Name="kw_demand" ColumnName="kw_demand" />
+          <ScalarProperty Name="kva_demand" ColumnName="kva_demand" />
+          <ScalarProperty Name="kw_max_demand" ColumnName="kw_max_demand" />
+          <ScalarProperty Name="kva_max_demand" ColumnName="kva_max_demand" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_exp_103" ColumnName="kvarh_exp_103" />
+          <ScalarProperty Name="kvarh_exp_97" ColumnName="kvarh_exp_97" />
+          <ScalarProperty Name="kvarh_imp_103" ColumnName="kvarh_imp_103" />
+          <ScalarProperty Name="kvarh_imp_97" ColumnName="kvarh_imp_97" />
+          <ScalarProperty Name="day_kwh_exp" ColumnName="day_kwh_exp" />
+          <ScalarProperty Name="day_kwh_imp" ColumnName="day_kwh_imp" />
+          <ScalarProperty Name="cblk_kwh_exp" ColumnName="cblk_kwh_exp" />
+          <ScalarProperty Name="cblk_kwh_imp" ColumnName="cblk_kwh_imp" />
+          <ScalarProperty Name="avg_hz" ColumnName="avg_hz" />
+          <ScalarProperty Name="avg_mw" ColumnName="avg_mw" />
+          <ScalarProperty Name="pot" ColumnName="pot" />
+          <ScalarProperty Name="runhr" ColumnName="runhr" />
+          <ScalarProperty Name="runhrimp" ColumnName="runhrimp" />
+          <ScalarProperty Name="runhrexp" ColumnName="runhrexp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="monthwises">
+      <EntityTypeMapping TypeName="etools_devModel.monthwise">
+        <MappingFragment StoreEntitySet="monthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kwh_import_current" ColumnName="kwh_import_current" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lag_imp_current" ColumnName="kvarh_lag_imp_current" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+          <ScalarProperty Name="kwh_export_current" ColumnName="kwh_export_current" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="mquery_consumption">
+      <EntityTypeMapping TypeName="etools_devModel.mquery_consumption">
+        <MappingFragment StoreEntitySet="mquery_consumption">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="previousblkmisses">
+      <EntityTypeMapping TypeName="etools_devModel.previousblkmiss">
+        <MappingFragment StoreEntitySet="previousblkmiss">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="timestampid" ColumnName="timestampid" />
+          <ScalarProperty Name="blockno" ColumnName="blockno" />
+          <ScalarProperty Name="ispending" ColumnName="ispending" />
+          <ScalarProperty Name="issend" ColumnName="issend" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conexp_blockwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conexp_blockwise">
+        <MappingFragment StoreEntitySet="evt_conexp_blockwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conexp_daywise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conexp_daywise">
+        <MappingFragment StoreEntitySet="evt_conexp_daywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conexp_hourwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conexp_hourwise">
+        <MappingFragment StoreEntitySet="evt_conexp_hourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conexp_monthwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conexp_monthwise">
+        <MappingFragment StoreEntitySet="evt_conexp_monthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conimp_blockwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conimp_blockwise">
+        <MappingFragment StoreEntitySet="evt_conimp_blockwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conimp_daywise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conimp_daywise">
+        <MappingFragment StoreEntitySet="evt_conimp_daywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conimp_hourwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conimp_hourwise">
+        <MappingFragment StoreEntitySet="evt_conimp_hourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_conimp_monthwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_conimp_monthwise">
+        <MappingFragment StoreEntitySet="evt_conimp_monthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+          <ScalarProperty Name="cum_kwh" ColumnName="cum_kwh" />
+          <ScalarProperty Name="cum_kvah" ColumnName="cum_kvah" />
+          <ScalarProperty Name="cum_kvarh_lag" ColumnName="cum_kvarh_lag" />
+          <ScalarProperty Name="cum_kvarh_lead" ColumnName="cum_kvarh_lead" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_daywise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_daywise">
+        <MappingFragment StoreEntitySet="evt_daywise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_hourwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_hourwise">
+        <MappingFragment StoreEntitySet="evt_hourwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_hourwisecurrent">
+      <EntityTypeMapping TypeName="etools_devModel.evt_hourwisecurrent">
+        <MappingFragment StoreEntitySet="evt_hourwisecurrent">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_i" ColumnName="avg_i" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_hourwisevoltage">
+      <EntityTypeMapping TypeName="etools_devModel.evt_hourwisevoltage">
+        <MappingFragment StoreEntitySet="evt_hourwisevoltage">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_vry" ColumnName="avg_vry" />
+          <ScalarProperty Name="avg_vyb" ColumnName="avg_vyb" />
+          <ScalarProperty Name="avg_vbr" ColumnName="avg_vbr" />
+          <ScalarProperty Name="avg_vln" ColumnName="avg_vln" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_kwh_exp_con_1">
+      <EntityTypeMapping TypeName="etools_devModel.evt_kwh_exp_con_1">
+        <MappingFragment StoreEntitySet="evt_kwh_exp_con_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_kwh_exp_read_1">
+      <EntityTypeMapping TypeName="etools_devModel.evt_kwh_exp_read_1">
+        <MappingFragment StoreEntitySet="evt_kwh_exp_read_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_kwh_imp_con_1">
+      <EntityTypeMapping TypeName="etools_devModel.evt_kwh_imp_con_1">
+        <MappingFragment StoreEntitySet="evt_kwh_imp_con_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_kwh_imp_read_1">
+      <EntityTypeMapping TypeName="etools_devModel.evt_kwh_imp_read_1">
+        <MappingFragment StoreEntitySet="evt_kwh_imp_read_1">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_monthwise">
+      <EntityTypeMapping TypeName="etools_devModel.evt_monthwise">
+        <MappingFragment StoreEntitySet="evt_monthwise">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="ts" ColumnName="ts" />
+          <ScalarProperty Name="avg_vrn" ColumnName="avg_vrn" />
+          <ScalarProperty Name="avg_vbn" ColumnName="avg_vbn" />
+          <ScalarProperty Name="avg_vyn" ColumnName="avg_vyn" />
+          <ScalarProperty Name="avg_ir" ColumnName="avg_ir" />
+          <ScalarProperty Name="avg_iy" ColumnName="avg_iy" />
+          <ScalarProperty Name="avg_ib" ColumnName="avg_ib" />
+          <ScalarProperty Name="avg_kw" ColumnName="avg_kw" />
+          <ScalarProperty Name="avg_kvar" ColumnName="avg_kvar" />
+          <ScalarProperty Name="avg_kva" ColumnName="avg_kva" />
+          <ScalarProperty Name="avg_pf" ColumnName="avg_pf" />
+          <ScalarProperty Name="kwh_import" ColumnName="kwh_import" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kwh_export" ColumnName="kwh_export" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="evt_mquery_consumption_b">
+      <EntityTypeMapping TypeName="etools_devModel.evt_mquery_consumption_b">
+        <MappingFragment StoreEntitySet="evt_mquery_consumption_b">
+          <ScalarProperty Name="meterid" ColumnName="meterid" />
+          <ScalarProperty Name="tstamp" ColumnName="tstamp" />
+          <ScalarProperty Name="kwh_exp" ColumnName="kwh_exp" />
+          <ScalarProperty Name="kwh_imp" ColumnName="kwh_imp" />
+          <ScalarProperty Name="kvah_exp" ColumnName="kvah_exp" />
+          <ScalarProperty Name="kvah_imp" ColumnName="kvah_imp" />
+          <ScalarProperty Name="kvarh_lag_exp" ColumnName="kvarh_lag_exp" />
+          <ScalarProperty Name="kvarh_lag_imp" ColumnName="kvarh_lag_imp" />
+          <ScalarProperty Name="kvarh_lead_exp" ColumnName="kvarh_lead_exp" />
+          <ScalarProperty Name="kvarh_lead_imp" ColumnName="kvarh_lead_imp" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

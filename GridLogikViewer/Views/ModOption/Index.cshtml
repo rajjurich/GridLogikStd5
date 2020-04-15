@@ -1,0 +1,258 @@
+﻿@{
+    ViewBag.Title = "Mod Cost Limit";
+}
+@section scripts
+{
+
+    <script>
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "ModOptionAPI/GetMODoption",
+                //dataType: "json",
+                success: function (response, status, jqXHR) {
+                    var str = "<option value=''>Select</option>";
+
+                    if (response != null && response.length > 0) {
+                        for (var i in response) {
+                            str += "<option value=" + response[i].id + ">" + response[i].metername + "</option>";
+                        }
+                    }
+                    $("#ddlmodopt").append(str);
+                }
+            });
+            var stageid = $('#ddlmodopt :selected').val();
+            var selectedtext = $('#ddlmodopt :selected').text();
+
+
+
+            $("#ddlmodopt").change(function () {
+                var stageid = $('option:selected', this).val();
+                var selectedtext = $('#ddlmodopt :selected').text();
+
+                $('#ddlmodopt :selected').val();
+                $('#ddlmodopt :selected').text();
+
+                if (selectedtext != 'Select') {
+                    GetData(stageid);
+                } else {
+                    if ($.fn.dataTable.isDataTable('#lsttable')) {
+                        var table = $('#lsttable').dataTable();
+
+                        table.fnClearTable();
+                        table.fnDestroy();
+                        $("#data").empty();
+                    } else {
+                        $("#data").empty();
+                    }
+                }
+            });
+
+            function GetData(stageid) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+
+                    url: BaseAddress + "ModOptionAPI/GetMODoptionData/" + stageid,
+                    dataType: "json",//type of data to be received
+                    success: function (rates, status, jqXHR) {
+                        var str = "";
+                        var status = "";
+                        if (rates.Data.result != undefined) {
+                            rates.Data.result.forEach(function (response) {
+                                var flagprc = response.mstatus;
+                                var Error = "-";
+                                if (flagprc == 0) {
+                                    status = "Ready to Process";
+                                }
+                                else if (flagprc == 1) {
+                                    status = "In process";
+                                }
+                                else if (flagprc == 2) {
+                                    status = "Processed successfully";
+                                }
+                                else if (flagprc == 3) {
+                                    status = "Processes with erros";
+                                    Error = response.errordescription
+                                    if (Error == null)
+                                        Error = "-";
+
+                                }
+                                str += "<tr>" +
+                                      "<td>" + ((response.mfname == null) ? " " : response.mfname) + "</td>" +
+                                    "<td>" + ((response.mshrtname == null) ? " " : response.mshrtname) + "</td>" +
+                                     "<td>" + status + "</td>" +
+                                     "<td>" + Error + "</td>" +
+                                      "</tr>";
+
+                            });
+                        }
+                        if (rates.Data.e == "E") {
+                            if (rates.Data.d.length > 0)
+                                alert(rates.Data.d);
+
+                        }
+                        if ($.fn.dataTable.isDataTable('#lsttable')) {
+                            var table = $('#lsttable').dataTable();
+
+                            table.fnClearTable();
+                            table.fnDestroy();
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                                {
+                                    pageLength: 10,
+                                    "aoColumns": [
+                                                null,
+                                                null,
+                                                null,
+                                               null
+                                    ]
+                                });
+
+                            // Highlight();
+                        }
+                        else {
+                            var s = "";
+                            $("#data").html(str);
+
+                            $("#lsttable").dataTable(
+                               {
+                                   pageLength: 10,
+                                   "aoColumns": [
+                                               null,
+                                               null,
+                                               null,
+                                               null
+                                   ]
+                               });
+
+                            // Highlight();
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+            }
+            $("#btnSubmit").click(function () {
+                if ($('#ddlmodopt :selected').val() == "" || $('#ddlmodopt :selected').val() == null) {
+                    alert('Please Select Mod Option', '', false, 'E');
+                    return false;
+                }
+
+                var mstmetermodel = {
+                    "id": $("#ddlmodopt").val(),
+                    "metername": $('#ddlmodopt :selected').text()
+                };
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "ModOptionAPI",
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(mstmetermodel),//data to be send
+                    success: function (responses) {
+                        var response = responses.Data;
+                        if (response.e == "S") {
+                            if (response.d.length > 0)
+                                alert(response.d, '@Url.Action("Index", "ModOption")', true, response.e);
+                        }
+                        else if (response.e == "M") {
+                            if (response.d.length > 0)
+                                alert(response.d, '', false, response.e);
+                        }
+                        else if (response.e == "E") {
+                            if (response.d.length > 0)
+                                alert(response.d, '', false, response.e);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+            });
+        });
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Run Merit Order</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <span class="pull-left">
+                                        <strong>
+                                            Run Merit Order
+                                        </strong>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <div id="uploadtable" class="row mb5">
+
+                                        <div class="col-md-3">
+                                            <div class="row mt20">
+                                                <div class="col-md-5">
+                                                    Mod Option
+                                                </div>
+                                                <div class="col-md-7">
+                                                    <select id="ddlmodopt" name="ddlmodopt" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <div class="row mt20">
+                                                <div class="col-md-12">
+                                                    <input type="submit" name="Process" value="Process" id="btnSubmit" class="btn btn-success" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                                <div class="clear"></div>
+                                                <hr />
+                                    <table id="lsttable" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">Option Name</th>
+                                                <th class="text-center">Short Name</th>
+                                                <th class="text-center">Status</th>
+                                                <th class="text-center">Error Description</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="data"></tbody>
+
+                                    </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+

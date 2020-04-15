@@ -1,0 +1,237 @@
+﻿@model GridLogikViewer.Models.MstFeeder
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script src="~/Scripts/CustomValidation/CustomValidation.js"></script>
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            //Fill sub station
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "substation",
+                dataType: "json",
+                async: false,
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        var data = substation.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].ssid + ">" + data[i].ssname + "</option>";
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+
+                    $("#fdrsubstnid").html(str);
+                    $(".fdrsubstnidclass").selectpicker();
+                }
+            });
+
+            //Assign Values
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "feeder/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                success: function (response) {
+                    if (response.Data.result.fdrrecid == null) {
+                        alert(response.Data.d);
+                    }
+                    else {
+                        $("#fdrrecid").val(response.Data.result.fdrrecid);
+                        $("#fdrid").val(response.Data.result.fdrid);
+                        $("#fdrname").val(response.Data.result.fdrname);
+                        $("#fdrdescription").val(response.Data.result.fdrdescription);
+                        $("#fdrserialno").val(response.Data.result.fdrserialno);
+                        $("#fdrratedvoltage").val(response.Data.result.fdrratedvoltage);
+                        $("#fdrratedpower").val(response.Data.result.fdrratedpower);
+                        $("#fdrconnectedload").val(response.Data.result.fdrconnectedload);
+                        $("#fdrphase").val(response.Data.result.fdrphase);
+                        $("#fdrmanufacturerid").val(response.Data.result.fdrmanufacturerid);
+                        $("#fdrsubstnid").selectpicker('val', response.Data.result.fdrsubstnid);
+                        $("#fdrinstallarea").val(response.Data.result.fdrinstallarea);
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            $("#btnUpdate").click(function (e) {
+                if ($('form').valid()) {
+                    formmodified = 0;
+                    var mstFeeder = {
+                        "fdrrecid": $("#fdrrecid").val(),
+                        "fdrid": $("#fdrid").val(),
+                        "fdrname": $("#fdrname").val(),
+                        "fdrdescription": $("#fdrdescription").val(),
+                        "fdrserialno": $("#fdrserialno").val(),
+                        "fdrratedvoltage": $("#fdrratedvoltage").val(),
+                        "fdrratedpower": $("#fdrratedpower").val(),
+                        "fdrconnectedload": $("#fdrconnectedload").val(),
+                        "fdrphase": $("#fdrphase").val(),
+                        "fdrmanufacturerid": $("#fdrmanufacturerid").val(),
+                        "fdrsubstnid": $("#fdrsubstnid").val(),
+                        "fdrinstallarea": $("#fdrinstallarea").val(),
+                        "fdrisdeleted": false
+                    };
+                    var RecordID = $("#fdrrecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "feeder/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstFeeder),//data to be send
+                        success: function (response) {
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                window.location.href = '@Url.Action("Index", "Feeder")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+            if (box) box.remove();
+        });
+    </script>
+}
+
+<h2>Edit Feeder</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.HiddenFor(model => model.fdrrecid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrid)
+                @Html.ValidationMessageFor(model => model.fdrid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrname)
+                @Html.ValidationMessageFor(model => model.fdrname)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrdescription)
+                @Html.ValidationMessageFor(model => model.fdrdescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrserialno, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrserialno)
+                @Html.ValidationMessageFor(model => model.fdrserialno)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrratedvoltage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrratedvoltage)
+                @Html.ValidationMessageFor(model => model.fdrratedvoltage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrratedpower, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrratedpower)
+                @Html.ValidationMessageFor(model => model.fdrratedpower)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrconnectedload, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrconnectedload)
+                @Html.ValidationMessageFor(model => model.fdrconnectedload)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrphase, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrphase)
+                @Html.ValidationMessageFor(model => model.fdrphase)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrmanufacturerid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrmanufacturerid)
+                @Html.ValidationMessageFor(model => model.fdrmanufacturerid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrsubstnid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.fdrsubstnid, Enumerable.Empty<SelectListItem>(), new { @class = "fdrsubstnidclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Sub Station" })
+                @Html.ValidationMessageFor(model => model.fdrsubstnid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fdrinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fdrinstallarea)
+                @Html.ValidationMessageFor(model => model.fdrinstallarea)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnUpdate" type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EToolsViewer.Models.mstmodcostdata>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p style="text-align:right;">
+    <div style="text-align:right">
+        @Html.ActionLink("Create New",  "Create", "GUParameters",null, new { @id = "btnCreate", @class = "btn btn-success" }
+    )
+    </div>
+</p>
+
+<div>
+    <table id="lsttable">
+        <thead>
+            <tr>
+                <th width="5%" style="text-align:center">Meter Name</th>
+                <th width="5%" style="text-align:center">Fixed Cost</th>
+                <th width="5%" style="text-align:center">Liner Cost</th>
+                <th width="5%" style="text-align:center">Quadrant cost</th>
+                <th width="10%" style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody id="data">
+            @foreach (var item in Model) {
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.mgenid)</td>
+                    <td>@Html.DisplayFor(modelItem => item.mfixct)</td>
+                    <td>@Html.DisplayFor(modelItem => item.mlnct)</td>
+                    <td>@Html.DisplayFor(modelItem => item.mqdct)</td>
+                    <td style='text-align:center'>@Html.ActionLink("Edit", "Edit", new { id = item.mrecid }, new { @class = "editor_edit label label-info btnEdit" })  &nbsp; @Html.ActionLink("Delete", "Delete", new { id = item.mrecid }, new { @class = "editor_remove label label-danger btnDelete" })</td>
+
+                </tr>
+            }
+    </tbody>
+</table>
+</div>

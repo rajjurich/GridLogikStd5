@@ -1,0 +1,86 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbharmonicthd', '1024M', '4K');
+ 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes','dbharmonicthd', '30', '10');
+
+DROP TABLE IF EXISTS etools_dev.Harmonicthd;
+create table etools_dev.Harmonicthd
+(
+id SERIAL8 NOT NULL,
+METERID int8 NOT NULL,
+Meter_Name varchar(45),
+tstamp DATETIME YEAR TO FRACTION(5),
+thdv1 float,
+thdv2 float,
+thdv3 float,
+thdcur1 float,
+thdcur2 float,
+thdcur3 float,
+PRIMARY KEY (id)) IN dbharmonicthd;
+
+
+DROP ROW TYPE if exists rtHarmonicthd RESTRICT;
+create row type rtHarmonicthd
+(
+tstamp datetime year to fraction(5),
+Meter_Name varchar(45),
+BlockNo varchar(100),
+thdv1 float,
+thdv2 float,
+thdv3 float,
+thdcur1 float,
+thdcur2 float,
+thdcur3 float
+);
+
+drop table if exists tsHarmonicthdLogs;
+create table tsHarmonicthdLogs
+(METERID int8 NOT NULL,
+series timeseries(rtHarmonicthd),
+primary key(METERID)) in dbharmonicthd;
+
+execute procedure tscontainercreate('tsconHarmonicthdLogs','dbharmonicthd','rtHarmonicthd',1024,1024);
+
+drop table if exists etools_dev.HarmonicthdLogs;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.HarmonicthdLogs',
+'etools_dev.tsHarmonicthdLogs',
+'calendar(cal_1sec),
+container(tsconHarmonicthdLogs),irregular');
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists etools_dev.Harmonicthdblocks;
+
+execute procedure TSCreateVirtualTab
+('etools_dev.Harmonicthdblocks',
+'tsHarmonicthdLogs','calendar(cal_15min),
+container(tsconHarmonicthdLogs),irregular');
+
+
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdv1_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdv1_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdv1)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdv1_read_3;
+create view etools_dev.evt_thdv1_read_3
+(
+meterid,
+tstamp,
+thdv1
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdv1
+from
+thdv1_read_3;
+

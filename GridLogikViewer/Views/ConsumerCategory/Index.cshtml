@@ -1,0 +1,138 @@
+﻿@model IEnumerable<GridLogik.ViewModels.ConsumerCategory>
+@{
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            // box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            @*$.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/consumercategory",
+                url: BaseAddress + "consumercategory",
+                dataType: "json",
+                success: function (consumercategories, status, jqXHR) {
+                    var str = "";
+                    if (consumercategories.Data.result != undefined) {
+                        consumercategories.Data.result.forEach(function (response) {
+                            debugger;
+                            str += "<tr>" +
+                                "<td class='text-center'>" + response.ccatid + "</td>" +
+                                "<td class='text-center'>" + response.ccatdescription + "</td>" +
+                                "<td class='text-center'>" + (response.cfixedstatus == 1 ? "Yes" : "No") + "</td>" +
+                                "<td style='text-align:center;'><a href='@Url.Action("Edit", "ConsumerCategory")/" + response.ccatrecid + "' class='btn btn-xs btn-warning fa fa-pencil-square-o'> Edit</a> &nbsp; <a href='@Url.Action("Delete", "ConsumerCategory")/" + response.ccatrecid + "' class='btn btn-xs btn-danger fa fa-trash-o'> Delete</a></td>" +
+                                "</tr>";
+                        });
+                    }
+
+
+
+
+                    if (consumercategories.Data.e == "E") {
+                        if (consumercategories.Data.d.length > 0)
+                            alert(consumercategories.Data.d);
+
+                    }
+                    $("#data").html(str);
+                   
+                    //if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    //if (box) box.remove();
+                }
+            });*@
+
+
+            $("#lsttable").dataTable(
+                       {
+                           pageLength: 10,
+                           "aoColumns": [
+                                       null,
+                                       null,
+                                       null,
+                                       { "bSortable": false, "searchable": false, "width": "144px" }
+                           ]
+                       });
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+        });
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Consumer Category</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+
+                                        @*<div class="clearfix"></div>
+                                            <hr />
+                                            <br />*@
+                                        @Html.ActionLink(" Create New", "create", "ConsumerCategory", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Consumer Category Code</th>
+                                                    <th class="text-center">Consumer Category Description</th>
+                                                    <th class="text-center">Fixed Charge Applicable</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data">
+                                                @foreach (var response in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">@response.categoryid</td>
+                                                        <td class="text-center">@response.categorydescription</td>
+                                                        <td class="text-center">@response.categoryfixedstatus</td>
+                                                        <td class="text-center" style="width:144px">
+                                                            @Html.ActionLink(" Edit", "Edit", new { id = response.categoryrecid }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                            @Html.ActionLink(" Delete", "Delete", new { id = response.categoryrecid }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,339 @@
+﻿@model GridLogik.ViewModels.Meter
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+            $("#btnReset").click(function (e) {
+                formmodified = 0;
+                location.reload(true);
+            });
+
+            @*$("#btnUpdate").click(function (e) {
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                debugger;
+                if ($('form').valid({})) {
+
+                    var row = [];
+                    var rows;
+
+                    $("#Scaling tr").each(function (i) {
+
+                        rows = { grouptype: $(this).find('td:eq(0)').html(), multiplicationfactor: $(this).find("td:eq(1) input").val() };
+
+                        row.push(rows)
+                    });
+                    var txtrolloverlimit = 1;
+                    if ($("#rolloverlimit").val() != "" || $("#rolloverlimit").val() != null) {
+
+                        txtrolloverlimit = $("#rolloverlimit").val();
+                    }
+                    formmodified = 0;
+
+                    var locationbyid = "";
+
+
+                    if ($("#Location").val() == "" || $("#Location").val() == null) {
+                        locationbyid = $("#LocationDp").val();
+                    }
+                    else {
+                        locationbyid = $("#Location").val();
+                    }
+                    var mstData = {
+                        "MeterName": $("#MeterName").val(),
+                        "MeterTypeID": $("#MeterTypeID").val(),
+                        "ModelID": $("#ModelID").val(),
+                        "parameter": $("#parameter").val(),
+                        "Location": locationbyid,//$("#Location").val(),
+                        "caltype": $("#caltype").val(),
+                        "SerialNo": $("#SerialNo").val(),
+                        "MeterNo": $("#MeterNo").val(),
+                        "Phase": $("#Phase").val(),
+                        "ctprimary": $("#ctprimary").val(),
+                        "ctsecondary": $("#ctsecondary").val(),
+                        "ag": 0,
+                        "frequency": 0,
+                        "isdeleted": 0,
+                        "blockwisedata": $("#StatusChecked").is(":checked"),
+                        "isactive": $("#ActiveChecked").is(":checked"),
+                        "rolloverlimit": txtrolloverlimit,
+                        "misemail": $("#EmailChecked").is(":checked"),
+                        "mispopup": $("#PopChecked").is(":checked"),
+                        "missms": $("#SmsChecked").is(":checked"),
+                        "replacementremark": $("#replacementremark").val(),
+                        "replacedby": $("#tagforsubmeter").prop("checked") ? $("#parentcmrmeterid").val() : 0,
+                        "parametermf": row
+                    };
+                    var id =@this.ViewContext.RouteData.Values["id"]
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: '@Url.Action("Edit", "Meter")',// + id,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstData),//data to be send
+                        success: function (response) {
+
+                            if (response.e == "S") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '@Url.Action("Index", "Meter")', true, response.e);
+                                // alert(response.d, '', true, response.e);
+
+                            }
+                            else if (response.e == "M") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '', false, response.e);
+                            }
+                            else if (response.e == "E") {
+                                if (response.d.length > 0)
+                                    alert(response.d, '', false, response.e);
+                            }
+                            if (box) box.remove();
+
+                        },
+                        error: function (xhr, status, error) {
+                            if (box) box.remove();
+                            // alert(xhr.responseText);
+                        }
+                    });
+
+                }
+                else { if (box) box.remove(); }
+                e.preventDefault();
+
+
+            });*@
+
+            replacementcheck();
+            $('#tagforsubmeter').change(function () {
+                replacementcheck();
+            });
+            $("#parentcmrmeterid option:contains('" + $('#MeterName').val() + "')").remove();
+
+        });
+        var id =@this.ViewContext.RouteData.Values["id"]
+        function ParentMeterChange() {
+
+            var pMeter = $("#parentcmrmeterid").val();
+            var Meter = id;
+            if (Meter == pMeter) {
+                alert('The Value of New Meter and Value of Old Meter Should not be Same.', '', false, "M");
+                $("#parentcmrmeterid").val('');
+                return false;
+            }
+            return true;
+        }
+        function replacementcheck() {
+            if ($('#tagforsubmeter').is(":checked")) {
+                $('#parentcmrmeterid').prop("disabled", false);
+                $('#replacementremark').prop("disabled", false);
+            }
+            else {
+                $('#parentcmrmeterid').prop("disabled", true);
+                $('#replacementremark').prop("disabled", true);
+            }
+        }
+    </script>
+
+}
+
+<style>
+    .chkbox {
+        margin-top: 20px;
+        position: relative;
+        border: 1px solid #f00;
+    }
+</style>
+
+<section>
+    <div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Meter</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading"> <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong> </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.ID)
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterName, null, "")
+                                            @Html.TextBoxFor(model => model.MeterName, new { @class = "form-control alphanumspacecolon", @maxlength = "30" })
+                                            @Html.ValidationMessageFor(model => model.MeterName, null, new { @class = "validation-redcolor " })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterNo, null, "")
+                                            @Html.TextBoxFor(model => model.MeterNo, new { @class = "form-control alpha", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.MeterNo, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.SerialNo, null, "")
+                                            @Html.TextBoxFor(model => model.SerialNo, new { @class = "form-control alpha", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.SerialNo, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.Phase, null, "")
+                                            @Html.DropDownListFor(model => model.Phase, (IEnumerable<SelectListItem>)ViewBag.Phases, "Select Phase", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.Phase, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.MeterTypeID, null, "")
+                                            @Html.DropDownListFor(model => model.MeterTypeID, (IEnumerable<SelectListItem>)ViewBag.FillMeterTypes, "Select Meter Type", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.MeterTypeID, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.ModelID, null, "")
+                                            @Html.DropDownListFor(model => model.ModelID, (IEnumerable<SelectListItem>)ViewBag.FillMeterModels, "Select model", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.ModelID, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.ModelID, "CT Ratio", "")
+                                            <div class="row">
+                                                <div class="col-md-5 pr0">
+                                                    @Html.TextBoxFor(model => model.ctprimary, new { @maxlength = "5", @class = "form-control number" })
+
+                                                    @Html.ValidationMessageFor(model => model.ctprimary, null, new { @class = "validation-redcolor" })
+
+                                                </div>
+                                                <div class="col-md-2 text-center lh33">
+                                                    :
+                                                </div>
+                                                <div class="col-md-5 pl0">
+                                                    @Html.TextBoxFor(model => model.ctsecondary, new { @maxlength = "2", @class = "form-control number" })
+
+
+                                                    @Html.ValidationMessageFor(model => model.ctsecondary, null, new { @class = "validation-redcolor" })
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.Location, null, "")
+                                            
+                                            @if (ViewBag.LocFill == null)
+                                            {
+                                                @Html.TextBoxFor(model => model.Location, new { @class = "form-control alphanumspacecolon", @maxlength = "15" })
+                                                @Html.ValidationMessageFor(model => model.Location, null, new { @class = "validation-redcolor" })
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownListFor(model => model.Location, (IEnumerable<SelectListItem>)ViewBag.LocFill, "Select Location", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Location, null, new { @class = "validation-redcolor" })
+                                            }
+
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.parameter, new { @class = "" })
+                                            @Html.DropDownListFor(model => model.parameter, (IEnumerable<SelectListItem>)ViewBag.ConsumptionTypes, "Select parameter", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.parameter)
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.caltype, new { @class = "" })
+                                            @Html.DropDownListFor(model => model.caltype, (IEnumerable<SelectListItem>)ViewBag.ServiceCalculationFlag, "Select Flag", new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.caltype)
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <div class="row">
+                                                <label class="control-label col-md-2">Blockwise Data Available</label>
+                                                @Html.CheckBoxFor(model => model.StatusChecked, new { @class = "" })
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                @Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+                                                @Html.LabelFor(model => model.isactive, null, "")
+                                                @Html.CheckBoxFor(model => model.ActiveChecked, new { @class = "" })
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                @Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+
+                                                <label class="">Email Alarm</label>
+                                                @Html.CheckBoxFor(model => model.EmailChecked, new { @class = "" })
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@ &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                <label class="">SMS Alarm</label>
+                                                @Html.CheckBoxFor(model => model.SmsChecked, new { @class = "" }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                @*@Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })*@
+                                                <label class="">Popup Alarm</label>
+                                                @Html.CheckBoxFor(model => model.PopChecked, new { @class = "" }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                                @*@Html.ValidationMessageFor(model => model.blockwisedata, null, new { @class = "validation-redcolor" })*@
+                                                <hr />
+                                                <label class="">Replace?</label>
+                                                @Html.CheckBoxFor(model => model.tagforsubmeter, new { }) &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;
+                                                @*@Html.Label("Yes", new { @Style = "margin:0px; padding:0px;" })*@
+                                            </div>
+                                        </div>
+                                        @*<div class="form-group col-md-3">
+                                                @Html.LabelFor(model => model.parentcmrmeterid, null, "")
+                                                @Html.DropDownListFor(model => model.parentcmrmeterid, (IEnumerable<SelectListItem>)ViewBag.NewMeterID, "Select New Meter", new { @onchange = "ParentMeterChange();", @class = "form-control", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Parent Meter" })
+                                                @Html.ValidationMessageFor(model => model.parentcmrmeterid)
+                                            </div>*@
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.replacementremark, null, "")
+                                            @Html.TextBoxFor(model => model.replacementremark, new { @class = "form-control", @maxlength = "15" })
+                                            @Html.ValidationMessageFor(model => model.replacementremark, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <table id="Scaling" class="table table-bordered table-striped">
+                                            @{int i = 0;}
+                                            @foreach (var item in Model.parametermfs)
+                                            {
+                                                <tr>
+                                                    
+                                                    <td>@item.grouptype</td>
+                                                    <td>
+                                                        @Html.HiddenFor(model => model.parametermfs[i].id)
+                                                        @Html.HiddenFor(model => model.parametermfs[i].meterid)
+                                                        @Html.HiddenFor(model => model.parametermfs[i].grouptype)
+                                                        
+                                                        @Html.TextBoxFor(model => model.parametermfs[i].multiplicationfactor, new { @class = "form-control", @maxlength = "15" })
+                                                        @*<input type="text" value="@item.multiplicationfactor" />*@
+                                                    </td>
+                                                </tr>
+                                                
+                                                    i++;
+                                                
+                                            }
+                                        </table>
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-success" id="btnUpdate"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-sm btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@Scripts.Render("~/bundles/jqueryval")

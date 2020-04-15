@@ -1,0 +1,73 @@
+create row type etools_dev.rtloadsurveylogs 
+	(
+	tstamp datetime year to fraction(5),
+	timestampid integer,
+	blockno integer,
+	vll float,
+	i float,
+	pf float,
+	pfy float,
+	pfr float,
+	pfb float,
+	kw float,
+	kvar float,
+	kva float,
+	hz float,
+	vry float,
+	vyb float,
+	vbr float,
+	vrn float,
+	vbn float,
+	vyn float,
+	vln float,
+	ir float,
+	iy float,
+	ib float,
+	kwr float,
+	kwy float,
+	kwb float,
+	kva_r float,
+	kvay float,
+	kvab float,
+	kw_demand float,
+	kva_demand float,
+	kw_max_demand float,
+	kva_max_demand float,
+	kwh_exp float,
+	kwh_imp float,
+	kvah_exp float,
+	kvah_imp float,
+	kvarh_lag_imp float,
+	kvarh_lead_imp float,
+	kvarh_lag_exp float,
+	kvarh_lead_exp float,
+	kvarh_exp_103 float,
+	kvarh_exp_97 float,
+	kvarh_imp_103 float,
+	kvarh_imp_97 float,
+	day_kwh_exp float,
+	day_kwh_imp float,
+	cblk_kwh_exp float,
+	cblk_kwh_imp float,
+	avg_hz float,
+	avg_mw float,
+	pot float,
+	runhr float,
+	runhrimp float,
+	runhrexp float
+	);
+
+create table etools_dev.tsloadsurveylogs
+  (
+    meterid int8 not null ,
+    series timeseries(rtloadsurveylogs),
+    primary key (meterid) 
+  ) in dbloadsurvey extent size 64 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconloadsurveylogs','dbloadsurvey','rtloadsurveylogs',1024,1024);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveyLogs',
+'etools_dev.tsloadsurveylogs','calendar(cal_15min),
+container(tsconloadsurveylogs),irregular');

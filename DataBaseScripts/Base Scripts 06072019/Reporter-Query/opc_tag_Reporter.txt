@@ -1,0 +1,252 @@
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','opc_tag_read','opc_tag-evt_opc_tag_read','','');
+
+
+execute procedure ifx_allow_newline('t');
+
+drop table if exists opc_tag_read_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.opc_tag_read_1','tsopcloadsurveylogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_opc_tag_read_1;
+create view etools_dev.evt_opc_tag_read_1
+(
+meterid,
+tstamp,
+opc_tag
+)
+as
+select 
+tagid meterid,
+tstamp,
+nvl(param,0) opc_tag
+from
+opc_tag_read_1;
+
+-------------------------------------------------------------------No Roll over -----------
+drop table if exists opc_tag_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.opc_tag_read_2','tsopcloadsurveylogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_opc_tag_read_2;
+create view etools_dev.evt_opc_tag_read_2
+(
+meterid,
+tstamp,
+opc_tag
+)
+as
+select 
+tagid meterid,
+tstamp,
+nvl(param,0) opc_tag
+from
+opc_tag_read_2;
+
+---------------------------------------------------------------------------
+
+drop table if exists kwh_exp_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_read_2;
+create view etools_dev.evt_kwh_exp_read_2
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_read_2;
+
+
+
+drop table if exists kwh_exp_con_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_con_2','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("max($tagvalue)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_con_2;
+create view etools_dev.evt_kwh_exp_con_2
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_con_2;
+
+
+drop table if exists kwh_exp_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_read_3;
+create view etools_dev.evt_kwh_exp_read_3
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_read_3;
+
+
+
+
+drop table if exists kwh_exp_con_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_con_3','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($tagvalue)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_con_3;
+create view etools_dev.evt_kwh_exp_con_3
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_con_3;
+
+
+drop table if exists kwh_exp_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_read_5;
+create view etools_dev.evt_kwh_exp_read_5
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_read_5;
+
+
+
+
+drop table if exists kwh_exp_con_5;
+execute procedure TSCreateExpressionVirtualTab ('etools_dev.kwh_exp_con_5','tsLoadSurveyLogs','apply("$param - tsprevious($param)", aggregateby("last($tagvalue)","cal_1day",series,0,$ts_begin_time,$ts_end_time)::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_con_5;
+create view etools_dev.evt_kwh_exp_con_5
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_con_5;
+
+
+
+drop table if exists kwh_exp_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("min($tagvalue)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_read_6;
+create view etools_dev.evt_kwh_exp_read_6
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_read_6;
+
+
+
+
+drop table if exists kwh_exp_con_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kwh_exp_con_6','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($tagvalue)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kwh_exp_con_6;
+create view etools_dev.evt_kwh_exp_con_6
+(
+meterid,
+tstamp,
+kwh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kwh_exp
+from
+kwh_exp_con_6;
+
+
+
+

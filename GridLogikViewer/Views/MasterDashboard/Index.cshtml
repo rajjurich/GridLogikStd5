@@ -1,0 +1,141 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    button {
+        width: 35%;
+        height: 180px;
+        display: inline-block;
+        font-family: Arial, "Helvetica", sans-serif;
+        font-family: Calibri;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-align: center;
+        text-shadow: 1px 1px 0px #07526e;
+        padding-top: 6px;
+        margin: 5px 8px;
+        /*left: 30px;*/
+        position: relative;
+        cursor: pointer;
+        border: none;
+        background: #1fab8f;
+        background-image: linear-gradient(bottom, rgb(14,137,182) 0%, rgb(22,179,236) 100%);
+        border-radius: 5px;
+        box-shadow: inset 0px 1px 0px #11715e, 0px 5px 0px 0px #07526e, 0px 10px 5px #999;
+        text-align: center;
+        font-size: 40px;
+    }
+
+    .button {
+        width: 35%;
+        height: 180px;
+        display: inline-block;
+        font-family: Arial, "Helvetica", sans-serif;
+        font-family: Calibri;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        text-decoration: none;
+        text-transform: uppercase;
+        text-align: center;
+        text-shadow: 1px 1px 0px #07526e;
+        padding-top: 6px;
+        margin: 5px 8px;
+        /*left: 30px;*/
+        position: relative;
+        cursor: pointer;
+        border: none;
+        background: #1fab8f;
+        background-image: linear-gradient(bottom, rgb(14,137,182) 0%, rgb(22,179,236) 100%);
+        border-radius: 5px;
+        box-shadow: inset 0px 1px 0px #11715e, 0px 5px 0px 0px #07526e, 0px 10px 5px #999;
+        text-align: center;
+        font-size: 40px;
+    }
+
+    button:active {
+        top: 3px;
+        box-shadow: inset 0px 1px 0px #2ab7ec, 0px 2px 0px 0px #07526e, 0px 5px 3px #999;
+    }
+
+    button:before {
+        font-family: Calibri;
+        line-height: 1em;
+        font-weight: normal;
+        color: #fff;
+        /*content:"\F020";*/
+        width: 85px;
+        height: 90px;
+        display: block;
+        position: absolute;
+        padding-top: 10px;
+        top: 10px;
+        text-shadow: 1px 1px 2px #07526e;
+    }
+
+    button:active:before {
+        top: 7px;
+        font-size: 50px;
+        text-shadow: 0px 3px 0px #07526e, 0px 5px 1px #07526e /*, 3px 0px 1px #07526e, 3px 3px 1px #07526e,
+     -2px 0px 1px #68cff2*/;
+    }
+</style>
+<script>
+    function FillMenuSubType(type) {
+        if (type != null && type != 0 && type != 4 && type != 5 && type != 6) {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: '@Url.Action("FillSubMenuType", "MasterDashboard")',
+                dataType: "json",//type of data to be received
+                data: { Type: type },//data to be send
+                success: function (response) {
+                    window.location.href = '@Url.Action("Index", "Dashboard")';
+                    return false;
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText, '', false, 'E')
+                }
+            });
+        }
+        else if (type == 4) {
+            window.open('https://apps.asset360.com/Asset360')
+            return false;
+        }
+        else if (type == 6) {
+            //window.open('https://apps.asset360.com/Asset360')
+            // window.open('https://google.com/')
+            window.location.href = '@Url.Action("CallBatch", "MasterDashboard")';
+            return false;
+        }
+        else if (type == 5) {
+            window.location.href = '@Url.Action("Index", "thermalSummary")';
+            return false;
+        }
+        return false;
+
+    }
+    //----->mstmenu
+    //0---common
+    //1---ABT
+    //2---EMS
+    //3---MOD
+    //4---PPC
+    //5---GCCS
+</script>
+<h2>Welcome to GridLogik</h2>
+<div style="margin:15px auto; text-align:center;">
+    <button onclick="FillMenuSubType(1)">ABT</button>
+    <button onclick="FillMenuSubType(2)">APC</button>
+    <div style="clear:both; margin:15px 0;"></div>
+    <button onclick="FillMenuSubType(3)">MOD</button>
+    <div class="button">
+        <h1 style="margin-bottom: -25px !important; margin-top: 10px !important; ">PPC</h1>
+        <button style="height: 80px !important; box-shadow: none !important; margin-top: 20px !important" onclick="FillMenuSubType(4)">Live</button><button style="height: 80px !important; box-shadow: none !important; margin-top: 20px !important" onclick="FillMenuSubType(6)">History</button>
+    </div>
+    <div style="clear:both; margin:15px 0;"></div>
+    <button style="width:600px;" onclick="FillMenuSubType(5)">GCCS</button>
+</div>

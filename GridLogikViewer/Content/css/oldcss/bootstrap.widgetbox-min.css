@@ -1,0 +1,254 @@
+/*@import "chosen.css";
+
+@import "select2.css";
+
+@import "jquery.cleditor.css";
+
+@import "jquery.noty.css";
+
+@import "noty_theme_default.css";
+
+@import "elfinder.min.css";
+
+@import "elfinder.theme.css";
+
+@import "jquery.gritter.css";
+
+@import "xcharts.min.css";
+
+@import "jquery.easy-pie-chart.css";
+
+@import "icheck/all.css";
+
+@import "bootstrap-editable.css";
+
+@import url(http://fonts.googleapis.com/css?family=Lato:300);
+
+@import url(http://fonts.googleapis.com/css?family=Lato:400);
+
+@import url(http://fonts.googleapis.com/css?family=Kaushan+Script);*/
+/*!
+* Author: Łukasz Holeczek
+* Template: cleverAdmin - Bootstrap Admin Template
+* Version: 1.0.0
+* Bootstrap version: 3.1.1
+* Prototyped with: http://brix.io
+* Copyright 2014 creativeLabs
+* www: http://bootstrapmaster.com
+* mail: lukasz@bootstrapmaster.com
+* You can buy this theme on WrapBootstrap: http://bootstrapmaster.com
+* You can find our other themes on: http://bootstrapmaster.com
+*/
+
+
+/* Main Colors
+=================================================================== */
+.blue {
+  color: #36a9e1;
+}
+.lightBlue {
+  color: #67c2ef;
+}
+.green {
+  color: #bdea74;
+}
+.darkGreen {
+  color: #78cd51;
+}
+.pink {
+  color: #e84c8a;
+}
+.orange {
+  color: #fa603d;
+}
+.lightOrange {
+  color: #fabb3d;
+}
+.red {
+  color: #ff5454;
+}
+.yellow {
+  color: #eae874;
+}
+.white {
+  color: white;
+}
+.backgroundColor.blue {
+  background: #36a9e1;
+}
+.backgroundColor.lightBlue {
+  background: #67c2ef;
+}
+.backgroundColor.green {
+  background: #bdea74;
+}
+.backgroundColor.darkGreen {
+  background: #78cd51;
+}
+.backgroundColor.pink {
+  background: #e84c8a;
+}
+.backgroundColor.orange {
+  background: #fa603d;
+}
+.backgroundColor.lightOrange {
+  background: #fabb3d;
+}
+.backgroundColor.red {
+  background: #ff5454;
+}
+.backgroundColor.yellow {
+  background: #eae874;
+}
+.backgroundColor.white {
+  background: white;
+}
+.backgroundColorTitle.blue .title {
+  background: #36a9e1;
+}
+.backgroundColorTitle.lightBlue .title {
+  background: #67c2ef;
+}
+.backgroundColorTitle.green .title {
+  background: #bdea74;
+}
+.backgroundColorTitle.darkGreen .title {
+  background: #78cd51;
+}
+.backgroundColorTitle.pink .title {
+  background: #e84c8a;
+}
+.backgroundColorTitle.orange .title {
+  background: #fa603d;
+}
+.backgroundColorTitle.lightOrange .title {
+  background: #fabb3d;
+}
+.backgroundColorTitle.red .title {
+  background: #ff5454;
+}
+.backgroundColorTitle.yellow .title {
+  background: #eae874;
+}
+.backgroundColorTitle.white .title {
+  background: white;
+}
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+
+
+/* Widget Stats
+=================================================================== */
+.jqstooltip {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+.smallstat {
+  background: white;
+  position: relative;
+  text-align: right;
+  margin-bottom: 30px;
+  height: 70px;
+  border: 1px solid #e1e6ef;
+}
+
+.smallstat .boxchart-overlay {
+  width: 100px;
+  height: 68px;
+  padding: 10px 0;
+  text-align: center;
+  
+  float: left;
+  overflow: hidden;
+
+}
+.smallstat .linechart-overlay.blue,
+.smallstat .boxchart-overlay.blue {
+  background: #36a9e1;
+}
+.smallstat .linechart-overlay.lightBlue,
+.smallstat .boxchart-overlay.lightBlue {
+  background: #67c2ef;
+}
+.smallstat .linechart-overlay.green,
+.smallstat .boxchart-overlay.green {
+  background: #bdea74;
+}
+.smallstat .linechart-overlay.darkGreen,
+.smallstat .boxchart-overlay.darkGreen {
+  background: #78cd51;
+}
+.smallstat .linechart-overlay.pink,
+.smallstat .boxchart-overlay.pink {
+  background: #e84c8a;
+}
+.smallstat .linechart-overlay.orange,
+.smallstat .boxchart-overlay.orange {
+  background: #fa603d;
+}
+.smallstat .linechart-overlay.lightOrange,
+.smallstat .boxchart-overlay.lightOrange {
+  background: #fabb3d;
+}
+.smallstat .linechart-overlay.red,
+.smallstat .boxchart-overlay.red {
+  background: #ff5454;
+}
+.smallstat .linechart-overlay.yellow,
+.smallstat .boxchart-overlay.yellow {
+  background: #eae874;
+}
+.smallstat .linechart-overlay.white,
+.smallstat .boxchart-overlay.white {
+  background: white;
+}
+
+
+.smallstat .value {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+.smallstat .value {
+  padding-top: 12px;
+  font-size: 30px;
+}
+
+
+.smallbox{
+  text-align: center;
+  display: block;
+  color: white;
+  width: 100px;
+  height: 68px;
+  font-size: 22px;
+  line-height: 68px;
+  float: left;
+  margin-right: 10px;
+
+}
+
+
+.title {
+  font-size: 30px;
+  color:#FFF;
+}
+@media (max-width: 479px) {
+  .col-xxs-12 {
+    width: 100%;
+  }
+  .panel {
+    overflow: hidden;
+  }
+}

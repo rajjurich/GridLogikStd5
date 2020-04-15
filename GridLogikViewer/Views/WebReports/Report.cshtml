@@ -1,0 +1,214 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    input[type=file] {
+        display: block !important;
+    }
+
+    #uploadtable tbody tr:nth-child(2n-1) {
+        background-color: #d4d4d4;
+        transition: all .125s ease-in-out;
+    }
+
+    #dynamicid {
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px;
+    }
+
+    td, th {
+        padding: 0 5px;
+    }
+</style>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Role</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li class="active">User Web report</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <table id="uploadtable">
+                                        <tr>
+                                            <td>Select Path</td>
+                                            <td>
+                                                <div id="divSelectPath">
+                                                    <select id="ddlSelectPath" name="ddlSelectPath" class="form-control" required></select>
+                                                </div>
+                                            </td>
+                                            <td>From Date</td>
+                                            <td>
+                                                <div id="dtFrmDate">
+                                                    <input id="txtFrmDate" name="txtFrmDate" class="form-control" type="text" readonly />
+                                                </div>
+                                            </td>
+                                            <td>To Date</td>
+                                            <td>
+                                                <div id="dtToDate">
+                                                    <input id="txtToDate" name="txtToDate" class="form-control" type="text" readonly />
+                                                </div>
+                                            </td>
+
+                                            <td width="25%" colspan="3" style="text-align:left;align-items:flex-start">
+                                                <input type="submit" name="Submit" value="Submit" id="btnSubmit" class="btn btn-success" />
+                                            </td>
+
+                                        </tr>
+                                    </table>
+                                    <strong class='text-danger collapse' id="requiredMsg" style="float: left;margin-bottom:20px">Path, From date or To date is not provided</strong>
+                                    <br />
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        <table id="lsttable" class="table table-bordered table-hover">
+
+                                            <thead>
+                                                <tr>
+                                                    <th width="15%" style="text-align:center;color:#fff">Sr. No</th>
+                                                    <th width="50%" style="text-align: center; color: #fff;">Files</th>
+                                                    <th width="50%" style="text-align: center; color: #fff;">Created Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div>
+
+    
+   
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        var RoleID = @Session["usrroleid"]
+
+
+
+        
+        fillSelectPath(RoleID);
+
+        var DateFormat = $("#Dateformat").val();
+        $("#txtFrmDate,#txtToDate").datepicker({
+            dateFormat: $("#Dateformat").val(),
+            // maxDate: "-0D",
+            changeMonth: true,
+            changeYear: true
+
+        }).datepicker("setDate", new Date());
+
+
+        function Downloadfunction() {
+
+
+            var RequestObject = new Object();
+            RequestObject.PathId = $("#ddlSelectPath").val();
+            RequestObject.FromDate = $("#txtFrmDate").val();
+            RequestObject.ToDate = $("#txtToDate").val();
+
+            $.ajax({
+                method: 'POST',
+                contentType: 'application/json',
+                url: BaseAddress + 'webreports/WebReportFiles',
+                data: JSON.stringify(RequestObject),
+                dataType: 'json',
+                async: false,
+                success: function (response) {
+                    debugger;
+                    var str = "";
+                    if (response.length > 0) {
+                        var i = 0;
+                        $.each(response, function (key, value) {
+
+                            str = str + "<tr>";
+                            str = str + "<td>" + (i + 1) + "</td>";
+                            str = str + "<td><a style='cursor:pointer' href='Download?id=" + $("#ddlSelectPath").val() + "&filename=" + value.FileName + "&fullfilename=" + value.FullFileName + "'>" + value.FileName + "</a></td>";
+                            str = str + "<td>" + new Date(value.CreationTime).toLocaleString() + " </td>";
+                            str = str + "</tr>";
+                            i = i + 1;
+                        })
+                    }
+                    else {
+                        str = "<tr><td colspan='3'>No files found</td></tr>";                        
+                    }
+                    $("#data").html(str);
+                    
+                },
+                error: function (jqXHR) {
+                    debugger;
+                }
+            });
+        }
+        $('#btnSubmit').on('click', function (event) {
+           
+            if (($('#txtFrmDate').val() == '' && $('#txtToDate').val() == '') || $('#ddlSelectPath').val() == '') {
+                //event.preventDefault();
+                //alert('Date is mandatory.');
+                //return false;
+                $('#requiredMsg').removeClass("collapse");
+                $("#data").html("");
+            }
+            else {
+                $('#requiredMsg').addClass("collapse");
+                Downloadfunction();
+            }
+        });
+
+
+        function fillSelectPath(roleid) {
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json",
+                url: BaseAddress + "WebReports/GetPathsByRole/" + roleid,
+                dataType: "json",
+                success: function (response) {
+                    var str = "<option value=''>Select</option>";
+                    var i = 0;
+                    response.forEach(function () {
+                        str += "<option value=" + response[i].id + ">" + response[i].folderpath + "</option>";
+                        i = i + 1;
+                    });
+
+                    //if (response.Data.result != undefined) {
+                    //    var data = response.Data.result;
+                    //    for (var i in data) {
+                    //        str += "<option value=" + data[i].prmvalue + ">" + data[i].prmidentifier + "</option>";
+                    //    }
+                    //}
+
+                    $("#ddlSelectPath").append(str);
+                    //console.log($('#drpstageid :selected').text());
+                }
+
+            });
+        }
+    });
+
+</script>
+<script type="text/javascript">
+
+</script>

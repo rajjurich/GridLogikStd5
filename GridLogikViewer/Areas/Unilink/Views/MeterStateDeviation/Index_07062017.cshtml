@@ -1,0 +1,230 @@
+﻿
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            url: BaseAddress + "MeterStateDeviationAPI",
+            type: "Get",
+            dataType: "json",
+            success: function (data) {
+                if (data == null) {
+                    alert('Data Not Found', '', false, "E");
+                }
+                else {
+                    var opt = "";
+                    for (var i = 0; i < data.length; i++) {
+                        opt += "<option value=" + data[i].stateid + ">" + data[i].state_name + "</option>";
+                    }
+                    $('#state').append(opt);
+                }
+            }
+        });
+
+        $.ajax({
+            url: BaseAddress + "MeterStateDeviationAPI/getmeter",
+            type: "Get",
+            dataType: "json",
+            success: function (data) {
+                if (data == null) {
+                    alert('Data Not Found', '', false, "E");
+                }
+                else {
+                    var opt = "";
+                    for (var i = 0; i < data.length; i++) {
+                        opt += "<option value=" + data[i].id + ">" + data[i].metername + "</option>";
+                    }
+                    $('#ddlmeter').append(opt);
+                }
+            }
+        });
+
+        $("#ddlmeterselect option").prop("selected", true);
+        $("#ddlparameterselect option").prop("selected", true);
+        $("#shiftrightmeter").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftmeter").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftrightallmeter").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallmeter").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+        $("#save").click(function () {
+            var stateid = $("#state").val();
+            var areaid = $("#area").val();
+            var metersSelected = [];
+            $("#ddlmeterselect option").each(function (i, obj) {
+                metersSelected.push($(obj).val());
+            });
+
+            if (stateid == null || stateid == "Select State" || stateid == "") {
+                alert('Please Select State', '', false, "E");
+            }
+            else if (areaid == null || areaid == "") {
+                alert('Please Enter Area Name', '', false, "E");
+            }
+            else if (metersSelected == null || metersSelected == "") {
+                alert('Please Select Meter', '', false, "E");
+            }
+            else {
+                var model = {
+                    'state_id': stateid,
+                    'area_id': areaid,
+                    'meters': metersSelected
+                };
+                $.ajax({
+                    url: BaseAddress + "MeterStateDeviationAPI/insertMeter",
+                    type: "POST",
+                    dataType: "json",
+                    data: model,
+                    success: function (data) {
+                        var success = data;
+                        if (success == 0) {
+                            alert('Record Insert SuccessFully', '@Url.Action("Index", "meterStateDeviation")', false, "S");                            
+                        }
+                        else if (success == 1) {
+                            alert('Error Occured While Inserting Record', '', false, "E");
+                        }
+                    }
+                });
+            }
+        });
+        $("#reset").click(function () {
+            window.location.href = '@Url.Action("Index", "meterStateDeviation")';
+        });
+        $("#back").click(function () {
+            window.location.href = '@Url.Action("area", "meterStateDeviation")';
+        });
+
+    });
+</script>
+        <h3>State Area Mapping</h3>
+<div class="panel panel-default">
+    <div class="panel-heading">
+
+        <div class=" dashboard-panel-body-box"><h3>Add</h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+        </div>
+    </div>
+    <br />
+    <button type="button" class="btn btn-success" id="back" style="float:right;width:100px; margin-right:20px;"><i class="fa fa-arrow-circle-left "></i>&nbsp;&nbsp;Back</button>
+    <br /><br /><br />
+    <div class="form-group col-md-5" style="border:0px solid #f00;">
+        <label class="col-md-4" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">State : </label>
+        <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+            <select id="state" name="ddlState" class="form-control">
+                <option value=''>Select State</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group col-md-5 col-md-offset-2" style="border:0px solid #f00;">
+        <label class="col-md-4" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Area Name : </label>
+        <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+            <input type="text" id="area" class="form-control">
+        </div>
+    </div>
+    <br /><br /><br /><br />
+
+    <div class="row">
+
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">Select One/Multiple Meter</div>
+
+                </div>
+                <div class="panel-body" style="background:#ccc;">
+
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="multiple-select">Multiple select</label>
+                        <div class="col-md-9">
+                            <select id="ddlmeter" class="form-control" multiple="multiple"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-2 col-sm-2 col-sm-2 col-xs-12">
+            <div class="panel panel-default" style="margin:0px; padding:10px 0px; text-align:center; background-color:transparent; border:0px">
+
+                <div class="row">
+                    <div class="col-lg-12" style="margin-bottom:5px;">
+                        <button type="button" id="shiftrightmeter" class="btn btn-danger style-btns singlearrowbutton_style">
+                            <span class="fa fa-angle-right" style="padding:2px;  font-size:20px;"></span>
+                        </button>
+                    </div>
+
+                    <div class="col-lg-12" style="margin-bottom:5px;">
+                        <button type="button" id="shiftrightallmeter" class="btn btn-danger style-btns doublearrowbutton_style">
+                            <span class="fa fa-angle-double-right" style="padding:0px; font-size:20px;"></span>
+                        </button>
+                    </div>
+
+
+                    <div class="col-lg-12" style="margin-bottom:5px;">
+                        <button type="button" id="shiftleftmeter" class="btn btn-danger style-btns singlearrowbutton_style">
+                            <span class="fa fa-angle-left" style="padding:2px;  font-size:20px;"></span>
+                        </button>
+                    </div>
+
+                    <div class="col-lg-12" style="margin-bottom:5px;">
+                        <button type="button" id="shiftleftallmeter" class="btn btn-danger style-btns doublearrowbutton_style">
+                            <span class="fa fa-angle-double-left" style="padding:0px; font-size:20px;"></span>
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class=" dashboard-panel-body-box">Selected Meter</div>
+                </div>
+                <div class="panel-body" style="background:#ccc;">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label" for="multiple-select">Multiple select</label>
+                        <div class="col-md-9">
+                            <select id="ddlmeterselect" class="form-control" multiple="multiple"></select>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <button type="button" class="btn btn-success" id="save"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+            <button type="reset" class="btn btn-danger" id="reset" onclick="location.reload(true)"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Reset</button>
+        </div>
+    </div>
+    <br />
+    <br />
+    </div>
+
+
+
+
+
+
+
+

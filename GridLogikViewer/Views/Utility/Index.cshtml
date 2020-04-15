@@ -1,0 +1,121 @@
+﻿@model IEnumerable<GridLogik.ViewModels.MstUtility>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false, "width": "144px" }
+                            ], "scrollX": true
+                        });
+
+
+    });
+</script>
+
+<section>
+<div id="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!--Top header start-->
+                <!--Top header end -->
+                <!--Top breadcrumb start -->
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-home"></i></a></li>
+                    <li><a href="#">Masters</a></li>
+                    <li class="active">Utility</li>
+                </ol>
+                <!--Top breadcrumb start -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+
+                            <div class="panel-body">
+                                <!--Table Wrapper Start-->
+                                <div class="table-responsive ls-table">
+                                    
+                                    @*<div class="clearfix"></div>
+                                    <hr />
+                                    <br />*@
+                                    @Html.ActionLink(" Create New", "create", "Utility", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="lsttable" class="table table-bordered table-striped">
+
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Code</th>
+                                                    <th class="text-center">Name</th>
+                                                    <th class="text-center">Address 1</th>
+                                                    <th class="text-center">Address 2</th>
+                                                    <th class="text-center">Address 3</th>
+                                                    <th class="text-center">Pin</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data">
+
+                                                @{
+                                                    foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utilid)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utilname)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utiladdress1)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utiladdress2)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utiladdress3)
+                                                            </td>
+                                                            <td class="text-center">
+                                                                @Html.DisplayFor(modelItem => item.utilpin)
+                                                            </td>
+
+                                                            <td class="text-center">
+
+                                                                @Html.ActionLink(" Edit", "Edit", new { id = item.utilrecid }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+
+                                                                @Html.ActionLink(" Delete", "Delete", new { id = item.utilrecid }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                            </td>
+                                                        </tr>
+                                                    }}
+                                            </tbody>
+
+                                        </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

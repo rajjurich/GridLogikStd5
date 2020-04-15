@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "Dcu";
+    
+}
+@section scripts
+{
+    <script>
+       
+        $(document).ready(function () {                        
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/Dcu/",
+                url: BaseAddress + "Dcu",
+                dataType: "json",
+                success: function (dcu, status, jqXHR) {
+                    var str = "";
+                    if (dcu.Data.result != undefined) {
+                        var data = dcu.Data.result
+                        for (var i in data) {
+                            str += "<tr>" +
+                                "<td>" + data[i].dcuid + "</td>" +
+                                "<td>" + data[i].dcucomid + "</td>" +
+                                "<td>" + data[i].dcupanid + "</td>" +
+                                "<td>" + data[i].dcumetercommode + "</td>" +
+                                "<td>" + data[i].dcumdascommode + "</td>" +
+                                "<td>" + data[i].dcumetercomprotocol + "</td>" +
+                                "<td style='text-align:center'><a href='/dcu/Edit/" + data[i].dcurecid + "' class='editor_edit'>Edit</a> /  <a href='/dcu/Delete/" + data[i].dcurecid + "' class='editor_remove'>Delete</a></td>" +
+                                "</tr>";
+                        }
+                    }
+
+                    if (dcu.Data.e == "E") {
+                        if (dcu.Data.d.length > 0)
+                            alert(dcu.Data.d);
+
+                    }
+
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false }
+                            ]
+                        });
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+
+    </script>
+
+}
+
+
+
+
+<h2>DCU List</h2>
+
+<p style="text-align:right;">
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="lsttable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th width="12%" style="text-align:center">DCU ID</th>
+            <th width="15%" style="text-align:center">ComID</th>
+            <th width="16%" style="text-align:center">PANID</th>
+            <th width="16%" style="text-align:center">Meter ComMode</th>
+            <th width="16%" style="text-align:center">MDAS ComMode</th>
+            <th width="16%" style="text-align:center">Meter ComProtocol</th>
+            <th width="9%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+</table>
+
+
+

@@ -1,0 +1,87 @@
+﻿@model GridLogik.ViewModels.GridLogikCalculation
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Menu</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">GridLogikCalculation </li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.id)
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.tagname, null, "")
+                                            @Html.TextBoxFor(model => model.tagname, new { @class = "form-control alphanumspace", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.tagname, null, new { @class = "validation-redcolor",disabled="" })
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            @Html.LabelFor(model => model.query, new { @class = "" })
+                                            @Html.TextAreaFor(model => model.query, new { @class = "form-control", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.query, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.istag, new { @class = "" })
+                                            @Html.CheckBoxFor(model => model.istag, new { @class = "", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.istag, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>                                            
+                                        </div>
+                                        <div>
+                                            <p id="msg" style="color:red">
+                                            </p>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+<script>
+        $(document).ready(function () {
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }         
+
+        })
+</script>
+

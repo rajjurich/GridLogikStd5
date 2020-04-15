@@ -1,0 +1,320 @@
+﻿@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+    <style type="text/css">
+        .open {
+            text-align: left !important;
+        }
+    </style>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/tabletojson.js"></script>
+
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script>
+        function BindRoleByID() {
+            var RecordID = $('#Roles').val();
+            var table = $('#lsttable').dataTable();
+            if (RecordID == "") {
+                table.fnClearTable();
+                table.fnDestroy();
+                return false;
+            }
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "rolemenuaccess/GetRoleMenuAccessByRole/" + RecordID,
+                dataType: "json",
+
+                success: function (roleMenuAccess, status, jqXHR) {
+                    var str = "";
+                  
+                    table.fnClearTable();
+                    table.fnDestroy();
+                    if (roleMenuAccess.length > 0) {
+                        $.each(roleMenuAccess, function (key, value) {
+                            str += "<tr>" +
+                            "<td style='display:none'>" + value.rmarecid + "</td>" +
+            				"<td style='display:none'>" + value.rmaroleid + "</td>" +
+               				"<td style='display:none'>" + value.rmamnuid + "</td>" +
+                            "<td style='text-align:center;'>" + value.mstmenu.mnuitemname + "</td>" +
+                            "<td style='text-align:center;'> <input id='chk_" + value.rmamnuid + "_Read'  type=checkbox " + (value.rmareadaccess == 1 ? 'checked' : '') + " /></td>" +
+                            "<td style='text-align:center;'> <input id='chk_" + value.rmamnuid + "_Create'  type=checkbox " + (value.rmacreateaccess == 1 ? 'checked' : '') + " /></td>" +
+                            "<td style='text-align:center;'> <input id='chk_" + value.rmamnuid + "_Update' type=checkbox  " + (value.rmaupdateaccess == 1 ? 'checked' : '') + " /></td>" +
+                            "<td style='text-align:center;'> <input id='chk_" + value.rmamnuid + "_Delete' type=checkbox  " + (value.rmadeleteaccess == 1 ? 'checked' : '') + " /></td>" +
+
+            				"</tr>";
+                        });
+                    }                
+
+
+                    if ($.fn.dataTable.isDataTable('#lsttable')) {
+                        //var table = $('#lsttable').dataTable();
+
+                        table.fnClearTable();
+                        table.fnDestroy();
+                        $("#data").html(str);
+
+                        $("#lsttable").dataTable(
+                            {
+                                pageLength: 10,
+                                "aoColumns": [
+                                            null,
+                                            null,
+                                            null,
+                                            null,
+                                            { "bSortable": false },
+                                             { "bSortable": false },
+                                              { "bSortable": false },
+                                             { "bSortable": false }
+                                ]
+                            });
+                        Highlight();
+                    }
+                    else {
+
+                        var s = "";
+                        $("#data").html(str);
+
+                        $("#lsttable").dataTable(
+                            {
+                                pageLength: 10,
+                                "aoColumns": [
+                                            null,
+                                            null,
+                                            null,
+                                            null,
+                                            { "bSortable": false },
+                                             { "bSortable": false },
+                                              { "bSortable": false },
+                                             { "bSortable": false }
+                                ]
+                            });
+                        Highlight();
+                    }
+                    // if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    // if (box) box.remove();
+                    table.fnClearTable();
+                    table.fnDestroy();
+                }
+
+            });
+
+
+            $(document).on('change', '[type=checkbox]', function () {
+                var chkObject = $(this);
+                var id = chkObject[0].id;
+                var IdArr = new Array();
+                if (id != null) {
+                    IdArr = id.split('_');
+                    var ReadChk = IdArr[0] + "_" + IdArr[1] + "_Read";
+                    var UpdateChk = IdArr[0] + "_" + IdArr[1] + "_Update";;
+                    var DeleteChk = IdArr[0] + "_" + IdArr[1] + "_Delete";;
+                    var CreateChk = IdArr[0] + "_" + IdArr[1] + "_Create";
+                    if (IdArr[2] == "Read") {
+                        if (!document.getElementById(ReadChk).checked) {
+                            document.getElementById(UpdateChk).checked = false;
+                            document.getElementById(DeleteChk).checked = false;
+                            document.getElementById(CreateChk).checked = false;
+                        } else {
+                            //document.getElementById(UpdateChk).checked = true;
+                            //document.getElementById(DeleteChk).checked = true;
+                            //document.getElementById(CreateChk).checked = true;
+                        }
+
+                    } else if (IdArr[2] == "Create" || IdArr[2] == "Update" || IdArr[2] == "Delete") {
+                        if (!document.getElementById(ReadChk).checked) {
+                            document.getElementById(ReadChk).checked = true;
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
+
+    <script>
+        // var box;
+        $(document).ready(function () {
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    //url: "http://localhost/GridLogikViewerWebAPI/api/role",
+            //    url: BaseAddress + "role",
+            //    dataType: "json",
+            //    success: function (roles, status, jqXHR) {
+            //        var str = "";
+            //        if (roles.length > 0) {
+            //            //str += "<option value=''>Select Role</option>";
+            //            $.each(roles, function (key, value) {
+            //                str += "<option value=" + value.rolrecid + ">" + value.rolname + "</option>";
+            //            });
+            //        }
+
+            //        //if (roles.Data.result != undefined) {
+            //        //    var data = roles.Data.result;
+            //        //    str += "<option value='0'>Select Role</option>";
+            //        //    for (var i in data) {
+            //        //        str += "<option value=" + data[i].rolid + ">" + data[i].rolname + "</option>";
+            //        //    }
+            //        //}
+            //        //else if (roles.Data.e == "E") {
+            //        //    if (roles.Data.d.length > 0)
+            //        //        alert(roles.Data.d, '', false, roles.Data.e);
+            //        //}
+
+            //        $("#Roles").html(str);
+            //        $(".roleclass").selectpicker();
+            //    }
+            //});
+
+            $("#btnCreate").click(function (e) {
+
+                var RecordID = $('#Roles').val();
+
+                if (RecordID == "") {
+                    //alert('Please Select Role');
+                    alert('Please Select Role', '', false, "M");
+                    return false;
+                }
+                var TableData = new Array();
+
+                var myTr = [];
+                $('#lsttable tr').each(function () {
+                    $(this).find('td').each(function () {
+                        myTr.push($(this).text());
+                    });
+
+                });
+
+
+                var TableData = new Array();
+
+                $('#lsttable tr').not(':first').each(function (row, tr) {
+
+                    TableData[row] = {
+                        "rmarecid": $(tr).find('td:eq(0)').text()
+                        , "rmaroleid": $(tr).find('td:eq(1)').text()
+                        , "rmamnuid": $(tr).find('td:eq(2)').text()
+                        , "rmareadaccess": $(tr).find('td:eq(4) input:first').is(':checked')
+                        , "rmacreateaccess": $(tr).find('td:eq(5) input:first').is(':checked')
+                        , "rmaupdateaccess": $(tr).find('td:eq(6) input:first').is(':checked')
+                        , "rmadeleteaccess": $(tr).find('td:eq(7) input:first').is(':checked')
+
+                    }
+                });
+                console.log(TableData);
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    //url: "http://localhost:8487/GridLogikViewerWebAPI/api/rolemenuaccess/" + RecordID,
+                    url: BaseAddress + "rolemenuaccess",
+                    //crossDomain: true,
+                    data: JSON.stringify(TableData),
+                    dataType: "json",//type of data to be received
+                    success: function (response) {
+                        debugger;
+                        $("#trgPopup").html("<button id='btn-success-trigger' type='button' class='btn btn-popup-success collapse' data-toggle='modal' data-target='#modal_message' data-dismiss='modal'><i class='fa fa-check'></i>&nbsp;</button>");
+                        $("#btn-success-trigger").trigger('click');
+                        $("#modal_message h3").text("Success");
+                        BindRoleByID();
+                        @*if (response.Data.e == "S") {
+                            if (box) box.remove();
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '@Url.Action("Index", "RoleMenuAccess")', true, response.Data.e);
+                            //window.location.href = '@Url.Action("Index", "RoleMenuAccess")';
+                        }
+                        else if (response.Data.e == "M") {
+                            if (box) box.remove();
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, response.Data.e);
+                        }
+                        else if (response.Data.e == "E") {
+                            if (box) box.remove();
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, response.Data.e);
+                        }*@
+                    },
+                    error: function (xhr, status, error) {
+                        debugger;
+                        if (box) box.remove();
+                        alert(xhr.responseText);
+                    }
+                });
+                if (box) box.remove();
+                //alert('this is just testing');
+            })
+
+        });
+    </script>
+}
+<div id="trgPopup">
+
+</div>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Role Menu Access</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Role Menu Access</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @*<div class="col-md-1 pull-right text-right pr0 btnCreateClass mb5"> </div>*@<span class="text-danger pull-left">* &nbsp;</span>
+                                        <div class="col-md-2 pull-right pl0 btnCreateClass mb5">
+                                            @Html.DropDownList("Roles", (IEnumerable<SelectListItem>)ViewBag.Roles, "Select", new { required = true, @class = "roleclass form-control", @data_live_search = "true", @data_live_search_style = "contains", @onchange = "BindRoleByID()" })
+
+                                        </div>
+                                        <button id="btnCreate" type="submit" class="btn btn-success  btn-sm pull-right btnCreateClass mb5"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                        @*<div class="clearfix"></div>
+                                            <hr />*@
+                                        <table id="lsttable" class="table table-bordered table-striped" style="margin-top:0px!important;">
+                                            <thead>
+                                                <tr>
+                                                    <th width="10%" style="text-align:center;display:none">Code</th>
+                                                    <th width="15%" style="text-align: center; display: none">Role Code</th>
+                                                    <th width="15%" style="text-align: center; display: none">Menu Code</th>
+                                                    <th class="text-center ">Menu Name</th>
+                                                    <th class="text-center ">Read</th>
+                                                    <th class="text-center ">Add</th>
+                                                    <th class="text-center ">Update</th>
+                                                    <th class="text-center ">
+                                                        Delete
+                                                    </th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody id="data"></tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

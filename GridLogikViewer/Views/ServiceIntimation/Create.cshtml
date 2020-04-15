@@ -1,0 +1,306 @@
+﻿@model GridLogikViewer.APIModels.txnserviceintimation
+@using GridLogikViewer.Extensions
+
+
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                    }
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+            }
+        });
+
+        $(function () {
+            $('#fromdate').datepicker({
+                dateFormat: $("#Dateformat").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+        $(function () {
+            $('#todate').datepicker({
+                dateFormat: $("#Dateformat").val(),
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "ConsumerCategory",
+            async: false,
+            //url: BaseAddress + "tariff",
+            dataType: "json",
+            success: function (tariffs, status, jqXHR) {
+                //debugger;
+                var str = "";
+                if (tariffs.Data.result != undefined) {
+                    var data = tariffs.Data.result;
+                    str = "<option value='select'>Select</option>";
+                    for (var i in data) {
+                        str += "<option value=" + data[i].ccatid + ">" + data[i].ccatdescription + "</option>";
+                    }
+                }
+                else if (tariffs.Data.e == "E") {
+                    if (tariffs.Data.d.length > 0)
+                        alert(tariffs.Data.d, '', false, 'E');
+                }
+
+                $("#consumercatid").html(str);
+                //$(".tariffclass").selectpicker();
+            }
+        });
+
+        $("#btnCreate").click(function () {
+            //;
+            if ($("#fromdate").val() == "" || $("#fromdate").val() == null) {
+                alert('Please Select From Date', '', false, 'E');
+                return false;
+            }
+            if ($("#todate").val() == "" || $("#todate").val() == null) {
+                alert('Please Select To Date', '', false, 'E');
+                return false;
+            }
+            if ($("#consumercatid :selected").val() == "select" || $("#consumercatid :selected").val() == "") {
+                alert('Please Select Consumer Category', '', false, 'E');
+                return false;
+            }
+            var pdfflag = $("#ddlPdf").val();
+            if (pdfflag == "select" || pdfflag == "") {
+                alert('Please Select Pdf Option', '', false, 'E');
+                return false;
+            }
+            var Fpdfflag = parseInt(pdfflag);
+            var msttou = {
+                "fromdate": GetFinaldate($("#fromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                "todate": GetFinaldate($("#todate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                "consumercatid": $("#consumercatid :selected").val(),
+                //"flagprocess": $("#flagprocessChecked").prop("checked")
+                //"flagprocess": $("#flagprocessChecked").prop("checked") == true ? 1 : 0
+                "flagprocess": 0,
+                "pdfflagprocess": Fpdfflag
+            };
+
+            //debugger;
+            $.ajax({
+
+                type: "POST",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "serviceintimationapi",
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(msttou),//data to be send
+                async: false,
+                success: function (response) {
+                    //debugger;
+                    if (response.Data.e == "S") {
+                        if (response.Data.d.length > 0)
+                            if (response.Data.d == 'Record saved successfully') {
+                                alert(response.Data.d, '@Url.Action("create", "serviceintimation")', true, response.Data.e);
+                            }
+
+                    }
+                    else if (response.Data.e == "M") {
+                        if (response.Data.d.length > 0)
+                            // alert(response.Data.d);
+                            if (response.Data.id == '13007') {
+                                alert("Record with same date already exists", '@Url.Action("create", "serviceintimation")', false, response.Data.e);
+                            }
+                            else if (response.Data.id == '13008') {
+                                var msg = confirm('Record with same date has been processed. Do you want to Reprocess ?')
+                            }
+
+                    }
+                    else if (response.Data.e == "E") {
+                        if (response.Data.d.length > 0)
+                            //    alert(response.Data.d);
+                            if (response.Data.id == '10001') {
+                                alert("Record with same date is in process", '', false, response.Data.e);
+                            }
+                            else {
+                                alert(response.Data.d, '', false, response.Data.e);
+                            }
+                    }
+
+                    @*if (response.cctcategoryid != undefined) {
+                            //if (response.Data.d.length > 0)
+                            alert('Record saved successfully', '@Url.Action("create", "MeterTariff")', true, 'S');
+
+                        }*@
+
+                    //window.location.href = '@Url.Action("Index", "MeterTariff")';
+
+                },
+                error: function (xhr, status, error) {
+                    //debugger;
+                    alert(xhr.responseText, '', false, 'E');
+                }
+            });
+
+
+        });
+    });
+
+    function deleterecord() {
+        var pdfflag = $("#ddlPdf").val();
+        if (pdfflag == "select" || pdfflag == "") {
+            alert('Please Select Pdf Option', '', false, 'E');
+            return false;
+        }
+        var Fpdfflag = parseInt(pdfflag);
+        var msttou = {
+            "fromdate": GetFinaldate($("#fromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+            "todate": GetFinaldate($("#todate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+            "consumercatid": $("#consumercatid :selected").val(),
+            //"flagprocess": $("#flagprocessChecked").prop("checked") == true ? 1 : 0
+            "flagprocess": 10,
+            "pdfflagprocess": Fpdfflag
+        };
+
+        $.ajax({
+
+            type: "POST",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "serviceintimationapi",
+            dataType: "json",//type of data to be received
+            data: JSON.stringify(msttou),//data to be send
+            async: false,
+            success: function (response) {
+                if (response.Data.e == "S") {
+                    if (response.Data.d.length > 0) {
+
+                        alert(response.Data.d, '@Url.Action("create", "serviceintimation")', true, response.Data.e);
+                    }
+
+                }
+                else if (response.Data.e == "M") {
+                    if (response.Data.d.length > 0)
+                        // alert(response.Data.d);
+                        alert(response.Data.d, '@Url.Action("create", "serviceintimation")', false, response.Data.e);
+                }
+                else if (response.Data.e == "E") {
+                    if (response.Data.d.length > 0)
+                        //    alert(response.Data.d);
+                        alert(response.Data.d, '', false, response.Data.e);
+                }
+
+            },
+            error: function (xhr, status, error) {
+                alert(xhr.responseText, '', false, 'E');
+            }
+        });
+    }
+</script>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Service Intimation</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Reports</a></li>
+                        <li class="active">Service Intimation</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading"> <i class="fa fa-plus-circle"></i> <strong>ADD</strong> </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <input id="Dateformat" type="hidden" />
+                                        <input id="ServerDateformat" type="hidden" />
+                                        <div class="form-group">
+                                            <div class=" col-md-3">
+                                                @Html.LabelForRequired(model => model.fromdate, null, "")
+                                                @Html.EditorFor(model => model.fromdate)
+                                                @Html.ValidationMessageFor(model => model.fromdate)
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                @Html.LabelForRequired(model => model.todate, null, "")
+                                                @Html.EditorFor(model => model.todate)
+                                                @Html.ValidationMessageFor(model => model.todate)
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <div class="col-md-3">
+                                                @Html.LabelForRequired(model => model.consumercatid, null, "")
+                                            </div>
+                                            <div class="col-md-4">
+                                                @Html.DropDownListFor(model => model.consumercatid, Enumerable.Empty<SelectListItem>(), new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.consumercatid)
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="" style="white-space:nowrap;">Pdf <span class="validation-redcolor">*</span></label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select class="form-control" id="ddlPdf">
+                                                    <option value="select">Select Pdf</option>
+                                                    <option value="0">With Out TOD PDF</option>
+                                                    <option value="1">With TOD PDF</option>
+                                                    <option value="2">No PDF</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group col-md-6" style="display:none">
+                                            @Html.LabelFor(model => model.flagprocess, new { @id = "Chkflagprocess", @class = "" })
+                                            @*@Html.EditorFor(model => model.flagprocess)*@
+                                            @Html.CheckBoxFor(model => model.flagprocessChecked)
+                                            @Html.ValidationMessageFor(model => model.flagprocess)
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick="formmodified=0; location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

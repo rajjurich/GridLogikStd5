@@ -1,0 +1,244 @@
+﻿@{
+    ViewBag.Title = "Index";
+    <style>
+        .form-control {
+            padding: 6px 10px !important;
+        }
+
+        .ErrorMessage {
+            color: red !important;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            align-items: center !important;
+            margin-left: 30% !important;
+        }
+    </style>
+    @*<link href="~/Content/css/style-stickyheader.css" rel="stylesheet" />*@
+}
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#ServerDatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+            HideGrid();
+            CategoryDropdown();
+        });
+    </script>
+    <script>
+
+        $(document).ready(function () {
+            $('#btnExport').click(function () {
+
+                if ($("#ddlCat").val() == "0") {
+                    alert('Please Select Category', '', false, "M");
+                    return false;
+                }
+                if ($("#ddlDate").val() == "0") {
+                    alert('Please Select Date', '', false, "M");
+                    return false;
+                }
+                var inputparam = $("#ddlCat").val() + "~" + $("#ddlDate").val();
+                document.getElementById('InputString').value = inputparam;
+                window.location.href = '/TotalConsumption/ExportToExcel?InputString=' + inputparam;
+            });
+        });
+        function CategoryDropdown() {
+            // var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/GetCategoryList/",
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        str += "<select id='ddlCat' onchange='onChangeCat()' class='form-control'>";
+                        str += "<option value=0>Select Category</option>";
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+
+                            for (var i in data) {
+                                if (data[i].CategoryName != undefined && data[i].CategoryName != "" && data[i].CategoryCode != undefined && data[i].CategoryCode != "") {
+                                    str += "<option value=" + data[i].CategoryCode + ">" + data[i].CategoryName + "</option>";
+                                }
+                            }
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                    str += "</select>";
+                    $("#divCategory").html(str);
+                }
+            });
+        }
+        function DateDetail() {
+            // var BaseAddress = "http://localhost:8487/EToolsAPI/api/";
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "InvoiceGenerationAPI/GetDateDetail/" + $("#ddlCat").val(),
+                dataType: "json",
+                success: function (substation, status, jqXHR) {
+
+                    var str = "";
+                    if (substation.Data.result != undefined) {
+                        str += "<select id='ddlDate' onchange='HideGrid()' class='form-control'>";
+                        str += "<option value=0>Select Date</option>";
+                        if (substation.Data.result.length > 0) {
+                            var data = substation.Data.result;
+
+                            for (var i in data) {
+                                if (data[i].ToDate != undefined && data[i].ToDate != "" && data[i].FromDate != undefined && data[i].FromDate != "") {
+
+                                    var frmDate = Date.parse(data[i].FromDate, $("#ServerDatabaseDateformat").val());
+                                    var ShowfrmDate = $.datepicker.formatDate($("#DatabaseDateformat").val(), new Date(frmDate));
+
+                                    var Todate = Date.parse(data[i].ToDate, $("#ServerDatabaseDateformat").val());
+                                    var ShowToDate = $.datepicker.formatDate($("#DatabaseDateformat").val(), new Date(Todate));
+
+                                    var Showdate = ShowfrmDate + " To " + ShowToDate;
+
+
+                                    str += "<option value=" + data[i].SID + ">" + Showdate + "</option>";
+                                }
+                            }
+                        }
+                    }
+                    else if (substation.Data.e == "E") {
+                        if (substation.Data.d.length > 0)
+                            alert(substation.Data.d);
+                    }
+                    str += "</select>";
+                    $("#divDate").html(str);
+                }
+            });
+        }
+        function onChangeCat() {
+            HideGrid();
+            var CompValue = $('#ddlCat').val();
+            var str = "";
+            try {
+                $("#ddlDate").empty();
+            } catch (ex) {
+            }
+            if (CompValue == 0) {
+                str += "<select id='ddlDate' onchange='HideGrid()' class='form-control'>";
+                str += "<option value=0>Select Date</option>";
+                str += "</select>";
+                $("#divDate").html(str);
+            } else {
+                DateDetail(CompValue);
+                return false;
+            }
+        }
+        function HideGrid() {
+            try {
+                document.getElementById("lblError").style.display = "none";
+                $('#ddlDate').css('background-color', 'white');
+                $('#ddlCat').css('background-color', 'white');
+            } catch (ex) {
+            }
+
+        }
+        function ErrDisplay(value, ctrl) {
+            $("#lblError").html(value);
+            $('#lblError').addClass('ErrorMessage');
+            $("#lblError").css("display", "block");
+            if (ctrl != '' || ctrl != "") {
+                var id = "#" + ctrl;
+                $(id).css('background-color', 'Red');
+            }
+        }
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">TOD Total Consumption</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <span class="pull-left">
+                                        <strong>
+                                            TOD Total Consumption
+                                        </strong>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body">
+                                                <div>
+                                                    <label id="lblError"></label>
+                                                </div>
+                                                <br>
+                                                @Html.Hidden("ServerDatabaseDateformat", "mm/dd/yy")
+                                                @Html.Hidden("DatabaseDateformat", "dd/mm/yy")
+                                                <div class="form-group col-md-4">
+                                                    <label for="ccmonth" class="col-md-4">
+                                                        Category <span class="validation-redcolor">*</span>
+                                                    </label>
+                                                    <div id='divCategory' class="col-md-8"></div>
+                                                </div>
+                                                <div class="form-group col-md-5">
+                                                    <label class="col-md-3">
+                                                        Date <span class="validation-redcolor">*</span>
+                                                    </label>
+                                                    <div id='divDate' class="col-md-8"></div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="form-group has-feedback col-sm-12">
+                                                        <div>
+                                                            @Html.Hidden("InputString")
+                                                            <button type="button" id="btnExport" class="fa fa-file-excel-o btn btn-success" value="Export to Excel"> Export to Excel</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

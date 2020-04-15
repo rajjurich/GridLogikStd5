@@ -1,0 +1,181 @@
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdv1_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdv1_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdv1)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdv1_read_3;
+create view etools_dev.evt_thdv1_read_3
+(
+meterid,
+tstamp,
+thdv1
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdv1
+from
+thdv1_read_3;
+
+
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdv2_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdv2_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdv2)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdv2_read_3;
+create view etools_dev.evt_thdv2_read_3
+(
+meterid,
+tstamp,
+thdv2
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdv2
+from
+thdv2_read_3;
+
+
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdv3_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdv3_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdv3)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdv3_read_3;
+create view etools_dev.evt_thdv3_read_3
+(
+meterid,
+tstamp,
+thdv3
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdv3
+from
+thdv3_read_3;
+
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdcur1_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdcur1_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdcur1)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdcur1_read_3;
+create view etools_dev.evt_thdcur1_read_3
+(
+meterid,
+tstamp,
+thdcur1
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdcur1
+from
+thdcur1_read_3;
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdcur2_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdcur2_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdcur2)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdcur2_read_3;
+create view etools_dev.evt_thdcur2_read_3
+(
+meterid,
+tstamp,
+thdcur2
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdcur2
+from
+thdcur2_read_3;
+
+
+
+
+execute procedure ifx_allow_newline('t');
+drop table if exists thdcur3_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.thdcur3_read_3','tsHarmonicthdLogs',
+'apply("$param", 
+aggregateby("first($thdcur2)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_thdcur3_read_3;
+create view etools_dev.evt_thdcur3_read_3
+(
+meterid,
+tstamp,
+thdcur3
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) thdcur3
+from
+thdcur3_read_3;
+
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdv1_read','thdv1-evt_thdv1_read_3','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdv2_read','thdv2-evt_thdv2_read_3','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdv3_read','thdv3-evt_thdv3_read_3','','');
+
+
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdcur1_read','thdcur1-evt_thdcur1_read_3','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdcur2_read','thdcur2-evt_thdcur2_read_3','','');
+
+insert into prmglobal(PRMMODULE,PRMUNIT,PRMIDENTIFIER,PRMVALUE,RFU1,RFU2)
+values('RepoterQueryList','Parameter','thdcur3_read','thdcur3-evt_thdcur3_read_3','','');
+
+

@@ -1,0 +1,309 @@
+﻿@model GridLogikViewer.ViewModel.TrendsDataViewModel
+
+<div id="dvData">
+    <table id="tableTrendData">
+        <thead>
+            <tr>
+                @foreach (var column in Model.InstanceDataColumn)
+                {
+                    <th class="tableth"> 
+                        @column.Name.ToString()
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.InstanceDataList)
+            {
+                <tr>
+                    <td>
+                        @Html.Label(item.Date.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vrn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vbn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vyn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vln.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vry.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vyb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vbr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Vll.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Ir.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Iy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Ib.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.I.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.PF.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kW.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAR.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVA.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.HZ.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.PFr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.PFb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVA_r.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kW_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAR_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVA_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kW_Max_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAR_Max_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVA_Max_Demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARh_Lag_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARh_Lag_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Lead_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Exp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Exp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Imp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Imp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Day_KWh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Day_KWh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_KWh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_KWh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_kVARh_Lag_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_kVARh_Lead_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_kVARh_Lag_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_kVARh_Lead_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Imp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.CBlk_Avg_Hz.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_TimestampID.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_Avg_MW.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.Lblk_Avg_Hz.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kWh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kWh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kVAh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kVAh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kVARh_Lag_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kVARh_Lead_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_kVARh_Lag_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Lead_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Exp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Exp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Imp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Imp_97.ToString())
+                    </td> 
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Imp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.LBlk_KVARh_Imp_97.ToString())
+                    </td>                                  
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Label("Sum :")
+    @Html.Label("Sum", new { id = "Sum" })
+    @Html.Label("Avg :")
+    @Html.Label("Avg", new { id = "average" })
+    @Html.Label("Min :")
+    @Html.Label("Min", new { id = "Minimum" })
+    @Html.Label("Max :")
+    @Html.Label("Max", new { id = "Maximum" })
+</div>
+<div>
+    @Html.Label("Row Count")
+    @Html.DisplayFor(model => model.RowCount)
+</div>
+<div id="chart_dialog">
+    <a href="javascript:printDiv('chart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+    <div id="chart_container" style="width:100%; clear:both; max-width:1176px;"></div>
+</div>
+
+    @Html.HiddenFor(x => x.Csv)
+    <button type="button" id="export"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+    <button type="button" id="graph"><i class="fa fa-bar-chart-o"></i> Graph</button>
+
+<style>
+  .highlighted {
+	background-color:#999;
+} 
+  .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+</style>
+<script src="~/Content/js/jquery.stickyheader.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#tableTrendData").dataTable(
+                       {
+                           pageLength: 10                          
+                       });
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 650,
+            width: '85%',
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $('#export').click(function () {
+            //$('#Csv').val($('#tableTrendData').table2CSV({ delivery: 'value' }));
+            //var form = $("#export").serialize();
+            var actionUrl = '@Url.Action("Export", "TrendsData")';
+            window.open("Export" );
+            //$('#Csv').val($('#tableTrendData').table2CSV({ delivery: 'value' }));
+        });
+
+     
+    });
+</script>

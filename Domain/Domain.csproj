@@ -1,0 +1,526 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{941E8E01-D869-42FB-8F31-CA95381CFCA6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CMSDateTime">
+      <HintPath>..\packages\CMSDateTime.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IBM.Data.DB2, Version=9.0.0.2, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=x86" />
+    <Reference Include="IBM.Data.DB2.EntityFramework, Version=10.5.5.6, Culture=neutral, PublicKeyToken=7c307b91aa13d208, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.IBM.DB2.6.0.7\lib\net40\IBM.Data.DB2.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\DatabaseHandler.cs" />
+    <Compile Include="Common\GetBlockInformation.cs" />
+    <Compile Include="Core\EntityRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\UnitOfWork.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Entities\actiontype.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\alarm.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\alarmcondition.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\alarmhistory.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\backupscheduledetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\blockaddressdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\blockranx.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\clientfoldermap.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\communicationdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\communicationdetaillink.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumer.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumercategory.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionexpdaywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionexphourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionexpmonthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionimpdaywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionimphourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\consumptionimpmonthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\contactdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\databaseversion.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\daywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\dcsg.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\emailconfigdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\emaildetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ETools.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETools.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ETools.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ETools.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ETools.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_30secdatalogs.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_absloadsurvey.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conexp_blockwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conexp_daywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conexp_hourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conexp_monthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conimp_blockwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conimp_daywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conimp_hourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_conimp_monthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_consumption.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_consumption_blocks.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_daywise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_hourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_hourwisecurrent.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_hourwisevoltage.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_kwh_exp_con_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_kwh_exp_read_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_kwh_imp_con_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_kwh_imp_read_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_loadsurvey.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_loadsurvey_modify.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_monthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\evt_mquery_consumption_b.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\expconsumption_blocks.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\groupconfiguration.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\grouptemplatequery.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\hourwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\hourwisecurrent.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\hourwisevoltage.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\htalarm.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\impconsumption_blocks.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\instancedata.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\instancedatalog.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\ipwiselogger.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\kwh_exp_con_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\kwh_exp_read_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\kwh_imp_con_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\kwh_imp_read_1.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\loadprofile.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\loadsurveyexport.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\loadsurveyimport.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\loadsurveylog.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\manualreport.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\manualrptlist.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\memorymap_addressdetails.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\memorymap_range.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\meter.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\metergroup.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\metermodel.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\metertype.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\monthwise.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mquery_consumption.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstdivision.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstemployee.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\msterrorlog.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstfeeder.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstholiday.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstmenu.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstmetergroupdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstmodule.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstregion.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstrole.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstrolemenuaccess.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstsubstation.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstuser.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstutility.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\mstzone.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\opc_clienttag.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\opc_metername.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\opc_server_tag.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\parametermf.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\previousblkmiss.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\prmglobal.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\querydetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\reportscheduledetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\rtalarm.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\smsdetail.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\stageconfiguration.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\standardalarm.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tablewiseparameter.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tsinstancedatalog.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tsloadsurveyexport.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tsloadsurveyimport.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tsloadsurveylog.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\tspreviousblkmiss.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\txnloadblock.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities\uirate.cs">
+      <DependentUpon>ETools.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extension\ClientFolderMap.cs" />
+    <Compile Include="Extension\HtAlarmext.cs" />
+    <Compile Include="Extension\opcservertag.cs" />
+    <Compile Include="Model\Consumption.cs" />
+    <Compile Include="Model\ConsumptionCompare.cs" />
+    <Compile Include="Model\DCSG.cs" />
+    <Compile Include="Model\FileInformation.cs" />
+    <Compile Include="Model\Load.cs" />
+    <Compile Include="Model\MeterList.cs" />
+    <Compile Include="Model\TblData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\ActionTypeService.cs" />
+    <Compile Include="Services\AlarmLogService.cs" />
+    <Compile Include="Services\ChangePasswordService.cs" />
+    <Compile Include="Services\CommunicationDetailLinkService.cs" />
+    <Compile Include="Services\CommunicationDetailService.cs" />
+    <Compile Include="Services\ConsumerCategoryService.cs" />
+    <Compile Include="Services\ConsumerService.cs" />
+    <Compile Include="Services\ConsumptionService.cs" />
+    <Compile Include="Services\DataDynamicService.cs" />
+    <Compile Include="Services\DCSGFuelStagedService.cs" />
+    <Compile Include="Services\EmployeeService.cs" />
+    <Compile Include="Services\ExceptionService.cs" />
+    <Compile Include="Services\HistoryService.cs" />
+    <Compile Include="Services\InstanceDataService.cs" />
+    <Compile Include="Services\LoadProfileService.cs" />
+    <Compile Include="Services\LoadSurveyService.cs" />
+    <Compile Include="Services\ManualReportListService.cs" />
+    <Compile Include="Services\MeterGroupDetailService.cs" />
+    <Compile Include="Services\MenuAccessService.cs" />
+    <Compile Include="Services\MenuService.cs" />
+    <Compile Include="Services\MeterGroupService.cs" />
+    <Compile Include="Services\MeterLogService.cs" />
+    <Compile Include="Services\MeterModelService.cs" />
+    <Compile Include="Services\MeterService.cs" />
+    <Compile Include="Services\MeterStatusService.cs" />
+    <Compile Include="Services\MeterTypeService.cs" />
+    <Compile Include="Services\ModuleService.cs" />
+    <Compile Include="Services\MstDivisionService.cs" />
+    <Compile Include="Services\MstRegionService.cs" />
+    <Compile Include="Services\MstSubstationService.cs" />
+    <Compile Include="Services\mstutilityservice.cs" />
+    <Compile Include="Services\MstzoneService.cs" />
+    <Compile Include="Services\OPCServerTagService.cs" />
+    <Compile Include="Services\OpcShortNameService.cs" />
+    <Compile Include="Services\ParameterMFService.cs" />
+    <Compile Include="Services\PrmGlobalService.cs" />
+    <Compile Include="Services\RealtimeAlarmService.cs" />
+    <Compile Include="Services\ReportManuallyService.cs" />
+    <Compile Include="Services\RoleMenuAccessService.cs" />
+    <Compile Include="Services\RoleService.cs" />
+    <Compile Include="Services\SchemaService.cs" />
+    <Compile Include="Services\StandardAlaramService.cs" />
+    <Compile Include="Services\TrendsDataService.cs" />
+    <Compile Include="Services\UirateService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\WebReportsService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="db2spcdb.bnd" />
+    <EntityDeploy Include="Entities\ETools.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ETools.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entities\ETools.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ETools.edmx</DependentUpon>
+      <LastGenOutput>ETools.Context.cs</LastGenOutput>
+    </None>
+    <None Include="Entities\ETools.edmx.diagram">
+      <DependentUpon>ETools.edmx</DependentUpon>
+    </None>
+    <None Include="Entities\ETools.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ETools.edmx</DependentUpon>
+      <LastGenOutput>ETools.cs</LastGenOutput>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CMS.Framework.Common\CMS.Framework.Common.csproj">
+      <Project>{cc9d777f-e02c-4c91-ae41-76512bf39fbd}</Project>
+      <Name>CMS.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GridLogik.ViewModels\GridLogik.ViewModels.csproj">
+      <Project>{0d150eb6-04c4-4a77-8146-17e1be3ab212}</Project>
+      <Name>GridLogik.ViewModels</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

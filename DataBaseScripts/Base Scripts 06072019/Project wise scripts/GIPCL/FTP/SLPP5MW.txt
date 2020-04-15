@@ -1,0 +1,45 @@
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbslpp5mw', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbslpp5mw', '30', '10');
+
+
+
+create row type "etools_dev".rtslpp5mw 
+(
+    tstamp	datetime year to fraction(5),
+meter_name	lvarchar(50),
+OG_Power_MW_11KV 	float,
+Total_Power_PCU_KW	float,
+GHI_W_m2_Horizontal	float,
+GTI_W_m2_Tilit	float,
+Mod_Temp_Deg_C	float,
+Amb_Temp_Deg_C	float,
+Wind_Speed	float,
+Wind_Direction	float,
+PCU_1_1_KW	float,
+PCU_1_2_KW	float,
+PCU_2_1_KW	float,
+PCU_2_2_KW	float,
+PCU_3_1_KW	float,
+PCU_3_2_KW	float,
+PCU_4_1_KW	float,
+PCU_4_2_KW	float,
+PCU_5_1_KW	float,
+PCU_5_2_KW	float
+);
+
+
+
+create table etools_dev.tsslpp5mw
+  (
+    meterid int8 not null ,
+    series timeseries(rtslpp5mw),
+    primary key (meterid) 
+  ) in dbslpp5mw extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwrtslpp5mw','dbslpp5mw','rtslpp5mw',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',60, 15, 'dbslpp5mw', 1, 16, 16);
+
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveyslpp5mw',
+'etools_dev.tsslpp5mw','calendar(cal_15min),
+container(tsconwrtslpp5mw),irregular');

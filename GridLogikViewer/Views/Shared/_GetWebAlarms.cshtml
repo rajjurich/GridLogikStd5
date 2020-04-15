@@ -1,0 +1,57 @@
+﻿<ul id="strlist" class="marquee col-md-12" style="margin-bottom:0;">
+
+</ul>
+
+
+<style type="text/css">
+
+    .marquee {
+        width: 100%;
+        overflow: visible;
+        /*border: 1px solid #ccc;*/
+        /*background: black;*/
+        /*color: rgb(202, 255, 195);*/
+    }
+
+    ul.marquee li {
+        display: inline-block;
+        padding-right:100px;
+        /*padding: 10px 20px;*/
+        /*font-size: 70px;*/
+    }
+    #strlist a {
+        color: red !important;
+    }
+</style>
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        var id = '@Session["usrrecid"].ToString()';
+        getwebalarms(id);        
+        setInterval(function () { getwebalarms(id); }, 600000);
+    });
+
+    function getwebalarms(id) {
+        
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "getwebalarms/" + id,
+            dataType: "json",
+            success: function (data) {
+		$("#strlist").empty();
+		var str="<li></li>";
+		$("#strlist").append(str);
+                for (var i in data) {
+                    str = "<li>" + data[i] + "</li>"
+                    $("#strlist").append(str);
+                    i = i + 1;
+                }
+
+            },
+            error: function (jqXHR) {
+
+            }
+        });
+    }
+</script>

@@ -1,0 +1,388 @@
+﻿@model GridLogikViewer.APIModels.InputData
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Add Real Time Data";
+}
+<div class="row">
+    <div class="col-lg-10">
+        <h2>Input Data</h2>
+    </div>
+    <div class="col-lg-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+        @*@Html.ActionLink("Back to List", "Index",null, new { @class = "btn btn-danger" })*@
+        <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back to List</a>
+    </div>
+</div>
+@using (Html.BeginForm("Save", "InputData", FormMethod.Post, new { id = "addRalTime" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    //kunal
+    @*@Html.Label("Parameter Name")<label class="validation-redcolor">*</label>*@
+    <div class="row">
+        <div class="col-lg-9" style="border: 0px solid #ff0; padding:0px;">
+            <div class="col-lg-5" style="border: 0px solid #f00;">
+                <div class="form-group">
+                    @Html.LabelForRequired(model => model.ParaName, null, "control-label")
+                    @Html.TextBoxFor(model => model.ParaName, new { @maxlength = "50" })
+                </div>
+            </div>
+            <div class="col-md-4" style="margin:5px 0px 0px 0px;">
+                @Html.ValidationMessageFor(model => model.ParaName, null, new { @class = "validation-redcolor" })
+            </div>
+        </div>
+    </div>
+    <div class="spaceing"></div>
+    <br>
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="col-lg-4" style="border:0px solid  #000;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Select One/Multiple Meter</div>
+                    </div>
+                    <div class="panel-body" style="background-color:#d1d1d1;">
+                        <div class="col-lg-5">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    <label class="control-label" for="multiple-select" style="padding:10px;">One/Multiple</label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.MeterID, (IEnumerable<SelectListItem>)ViewBag.MeterList, new { @id = "ddlmeter", @size = "7", @class = "form-control", @multiple = "multiple" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 ">
+                            <div class="panel-body" style="margin:0px ; padding:0px; position:relative; top:50px; left:-10px;">
+                                <button type="button" id="shiftright" class="btn btn-danger style-btns singlearrowbutton_style"> <span class="fa fa-angle-right"></span></button>
+                                <button type="button" id="shiftrightall" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-right"></span> </button>
+                                <button type="button" id="shiftleft" class="btn btn-danger style-btns  singlearrowbutton_style"> <span class="fa fa-angle-left"></span></button>
+                                <button type="button" id="shiftleftall" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-left"></span> </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 ">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    @*<label class=" control-label" for="multiple-select" style="padding:10px;">Selected  </label>*@
+                                    @Html.LabelForRequired(model => model.MultipleMeterId, null, "control-label input-data-multiselect")
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.MultipleMeterId, Enumerable.Empty<SelectListItem>(), new { @id = "ddlmeterselect", @size = "7", @class = "form-control", @multiple = "multiple", @width = "40%" })
+                                        @Html.ValidationMessageFor(model => model.MultipleMeterId)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" style="border:0px solid  #000;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Select One/Multiple Parameter</div>
+                    </div>
+                    <div class="panel-body" style="background-color:#d1d1d1;">
+                        <div class="col-lg-5">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    <label class="control-label" for="multiple-select" style="padding:10px;">One/Multiple</label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.ParameterId, (IEnumerable<SelectListItem>)ViewBag.ParameterList, new { @id = "ddlParameter", @size = "7", @class = "form-control", @multiple = "multiple" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 ">
+                            <div class="panel-body" style="margin:0px ; padding:0px; position:relative; top:50px; left:-10px;">
+                                <button type="button" id="shiftrightParameter" class="btn  btn-danger style-btns singlearrowbutton_style"> <span class="fa fa-angle-right"></span></button>
+                                <button type="button" id="shiftrightallParameter" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-right"></span> </button>
+                                <button type="button" id="shiftleftParameter" class="btn btn-danger style-btns n singlearrowbutton_style"> <span class="fa fa-angle-left"></span></button>
+                                <button type="button" id="shiftleftallParameter" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-left"></span> </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 ">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    @*<label class=" control-label" for="multiple-select" style="padding:10px;">Selected  </label>*@
+                                    @Html.LabelForRequired(model => model.MultipleParameterId, null, "control-label input-data-multiselect")
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.MultipleParameterId, Enumerable.Empty<SelectListItem>(), new { @id = "ddlParameterselect", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                        @Html.ValidationMessageFor(model => model.MultipleParameterId)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" style="border:0px solid  #000;">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Input Data</div>
+                        <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+                    </div>
+                    <div class="panel-body" style="background-color:#d1d1d1;">
+                        <div class="col-lg-5">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    <label class="control-label" for="multiple-select" style="padding:10px;">One/Multiple</label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.InputDataID, (IEnumerable<SelectListItem>)ViewBag.InputDataList, new { @id = "ddlInputData", @size = "7", @class = "form-control", @multiple = "multiple" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 ">
+                            <div class="panel-body" style="margin:0px ; padding:0px; position:relative; top:50px; left:-10px;">
+                                <button type="button" id="shiftrightInputData" class="btn  btn-danger style-btns singlearrowbutton_style"> <span class="fa fa-angle-right"></span></button>
+                                <button type="button" id="shiftrightallInputData" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-right"></span> </button>
+                                <button type="button" id="shiftleftInputData" class="btn btn-danger style-btns n singlearrowbutton_style"> <span class="fa fa-angle-left"></span></button>
+                                <button type="button" id="shiftleftallInputData" class="btn btn-danger style-btns  doubleearrowbutton_style"> <span class="fa fa-angle-double-left"></span> </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-5 ">
+                            <div class="panel-body" style="margin:0px; padding:0px;">
+                                <div class="form-group">
+                                    @*<label class=" control-label" for="multiple-select" style="padding:10px;">Selected  </label>*@
+                                    @Html.LabelForRequired(model => model.MultipleInputDataId, null, "control-label input-data-multiselect")
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.MultipleInputDataId, Enumerable.Empty<SelectListItem>(), new { @id = "ddlInputDataselect", @class = "form-control", @multiple = "multiple", @size = "7" })
+                                        @Html.ValidationMessageFor(model => model.MultipleInputDataId)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="col-lg-4 ">
+                <div class="col-lg-12"> </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-group">
+                    <button type="button" id="btnRefresh" class="btn btn-success col-lg-12"><i class="fa fa-refresh"></i> Click to Refresh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="divJoinConditions" class="row">
+        <div class="col-lg-12">
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Join Meter Data By Block</div>
+                    </div>
+                    <div class="panel-body" style="background-color:#d1d1d1; padding-bottom:20px;">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-7">
+                                    @Html.DropDownList("ddlJoin", Enumerable.Empty<SelectListItem>(), new { @id = "ddlJoinedMeter", @placeholder = ".col-md-8", @class = "form-control", })
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="InsertJoin" class="btn btn-md btn-flatorange style-btns">Insert</button>
+                                </div>
+                                <div>
+                                    <button type="button" id="InsertOpenBrace" class="btn btn-md btn-info style-btns col-md-2">(</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-7">
+                                    @Html.DropDownList("ddlOperator", (IEnumerable<SelectListItem>)ViewBag.OperatorList, new { @id = "ddlOperator", @class = "form-control", @placeholder = ".col-md-8" })
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="InsertOperator" class="btn btn-md btn-flatorange style-btns">Insert</button>
+                                </div>
+                                <div>
+                                    <button type="button" id="InsertCloseBrace" class="btn btn-md btn-info style-btns col-md-2">)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(model => model.ParameterValue, new { id = "parameterValue" })
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" id="InsertParameterValue" class="btn btn-md btn-flatorange style-btns">Insert</button>
+                                </div>
+                                <div>
+                                    <button type="button" id="clear" class="btn btn-md btn-info style-btns col-md-2">Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class=" dashboard-panel-body-box">Previous Block</div>
+                        <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+                    </div>
+                    <div class="panel-body" style="background-color:#d1d1d1;">
+                        <div class="panel-body ">
+                            <div class="form-group">
+                                @* <label class="col-md-3 control-label" for="textarea-input">Condition<label class="validation-redcolor">*</label></label>*@
+                                @Html.LabelForRequired(model => model.Condition, null, "control-label col-md-3")
+                                <div class="col-md-9">
+                                    @Html.TextAreaFor(model => model.Condition, new { @style = "resize: none;", id = "condition", @maxlength = "50", @rows = "7", @readonly = "readonly", @placeholder = "Content.." })
+                                    <br />
+                                    @Html.ValidationMessageFor(model => model.Condition, null, new { @class = "validation-redcolor" })
+                                    @* <textarea id="textarea-input" name="textarea-input" rows="7" class="form-control" placeholder="Content.."></textarea>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 ">
+            <div class="col-lg-3 ">
+                <div class="col-lg-12"> </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <button type="submit" id="saveRealTimeData" class="btn btn-success col-lg-12"><i class="fa fa-floppy-o"></i> Save</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <button type="button" id="btnBack" class="btn btn-twitter col-lg-12">Back</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="col-lg-12" style="border:0px solid #000;">
+                    <div class="form-group">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<script>
+    $(document).ready(function () {
+        new confirmexitmsg('form');
+        //meter
+        $("#shiftright").click(function () {
+            $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleft").click(function () {
+            $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+        })
+
+        $("#shiftrightall").click(function () {
+            $('#ddlmeter option').appendTo("#ddlmeterselect")
+            $("#ddlmeterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftall").click(function () {
+            $('#ddlmeterselect option').appendTo("#ddlmeter")
+        })
+
+        //paramter
+        $("#shiftrightParameter").click(function () {
+            $('#ddlParameter option:selected').appendTo("#ddlParameterselect")
+            $("#ddlParameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftParameter").click(function () {
+            $('#ddlParameterselect option:selected').appendTo("#ddlParameter")
+        })
+
+        $("#shiftrightallParameter").click(function () {
+            $('#ddlParameter option').appendTo("#ddlParameterselect")
+            $("#ddlParameterselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallParameter").click(function () {
+            $('#ddlParameterselect option').appendTo("#ddlParameter")
+        })
+
+        //inputdata
+        $("#shiftrightInputData").click(function () {
+            $('#ddlInputData option:selected').appendTo("#ddlInputDataselect")
+            $("#ddlInputDataselect option").prop("selected", true);
+        })
+
+        $("#shiftleftInputData").click(function () {
+            $('#ddlInputDataselect option:selected').appendTo("#ddlInputData")
+        })
+
+        $("#shiftrightallInputData").click(function () {
+            $('#ddlInputData option').appendTo("#ddlInputDataselect")
+            $("#ddlInputDataselect option").prop("selected", true);
+        })
+
+        $("#shiftleftallInputData").click(function () {
+            $('#ddlInputDataselect option').appendTo("#ddlInputData")
+        })
+        $(".btn-default").click(function () {
+            $("#ddlmeterselect option").prop("selected", true);
+            $("#ddlParameterselect option").prop("selected", true);
+            $("#ddlInputDataselect option").prop("selected", true);
+        })
+        //end
+
+        $('#btnRefresh').on("click", function () {
+            $('#ddlJoinedMeter').empty();
+            $('#ddlmeterselect > :selected').each(function () {
+                var meter = $(this).text();  // using text() here, because the
+                $('#ddlParameterselect > :selected').each(function () {
+                    var join = meter + "." + $(this).text();
+                    var newOption = "<option value='" + join + "'>" + join + "</option>";
+                    $("#ddlJoinedMeter").append(newOption);
+                });
+            });
+            $('#ddlInputDataselect > :selected').each(function () {
+                var meter = $(this).text() + ".ParameterValue";
+                var newOption = "<option value='" + meter + "'>" + meter + "</option>";
+                $("#ddlJoinedMeter").append(newOption);
+            });
+            $("#ddlmeterselect option").prop("selected", true);
+            $("#ddlParameterselect option").prop("selected", true);
+            $("#ddlInputDataselect option").prop("selected", true);
+        });
+
+        $("#InsertJoin").on("click", function () {
+            $("#condition").val($("#condition").val() + $("#ddlJoinedMeter").val());
+        });
+        $("#InsertOperator").on("click", function () {
+            $("#condition").val($("#condition").val() + $("#ddlOperator").val());
+        });
+        $("#InsertParameterValue").on("click", function () {
+            $("#condition").val($("#condition").val() + $("#parameterValue").val());
+        });
+        $("#InsertOpenBrace").on("click", function () {
+            $("#condition").val($("#condition").val() + "(");
+        });
+        $("#InsertCloseBrace").on("click", function () {
+            $("#condition").val($("#condition").val() + ")");
+        });
+        $("#clear").on("click", function () {
+            $("#condition").val("");
+        });
+
+        $("#btnBack").click(function () {
+            window.location.href = '@Url.Action("Index", "InputData")';
+        });
+    });
+</script>
+

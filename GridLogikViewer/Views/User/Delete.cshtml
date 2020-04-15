@@ -1,0 +1,308 @@
+﻿@model GridLogik.ViewModels.MstUser
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+}
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+
+            $("#UserStatus").attr("disabled", true);
+            $("#usrroleid").attr("disabled", true);
+            $("#usremployeeid").attr("disabled", true);
+
+            //Fill drop down for role
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "role",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (roles, status, jqXHR) {
+            //        var str = "";
+            //        if (roles.Data.result != undefined) {
+            //            var data = roles.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].rolid + ">" + data[i].rolname + "</option>";
+            //            }
+            //        }
+            //        else if (roles.Data.e == "E") {
+            //            if (roles.Data.d.length > 0)
+            //                alert(roles.Data.d);
+            //        }
+            //        $("#usrroleid").html(str);
+            //        $(".usrroleidclass").selectpicker();
+            //    }
+            //});
+
+            //Fill drop down for employeeid
+            //$.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",
+            //    url: BaseAddress + "employee",
+            //    dataType: "json",
+            //    async: false,
+            //    success: function (employees, status, jqXHR) {
+            //        var str = "";
+            //        if (employees.Data.result != undefined) {
+            //            var data = employees.Data.result;
+            //            for (var i in data) {
+            //                str += "<option value=" + data[i].empid + ">" + (data[i].empfirstname + " " + data[i].emplastname) + "</option>";
+            //            }
+            //        }
+            //        else if (employees.Data.e == "E") {
+            //            if (employees.Data.d.length > 0)
+            //                alert(employees.Data.d);
+            //        }
+            //        $("#usremployeeid").html(str);
+            //        $(".usremployeeidclass").selectpicker();
+            //    }
+            //});
+
+            //Get Data for id and assign it to controls
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "user/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (response) {
+
+                    $("#usrfirstname").val(response.empfirstname);
+                    $("#usrmiddlename").val(response.empmiddlename);
+                    $("#usrlastname").val(response.emplastname);
+                    $("#usremailid").val(response.empemailid);
+                    $("#usrphoneno1").val(response.empphoneno1);
+                    $("#usrphoneno2").val(response.empphoneno2);
+
+
+                    //if (response.Data.result.usrrecid == null) {
+                    //    if (response.Data.result.d.length > 0)
+                    //        alert(response.Data.result.d);
+                    //}
+                    //else {
+
+                    //    $("#usrrecid").val(response.Data.result.usrrecid);
+                    //    $("#usrid").val(response.Data.result.usrid);
+                    //    if ($("#usrid").val().toString().toUpperCase() == "ADMIN") {
+                    //        $("#btnDelete").attr("disabled", true);
+                    //    }
+                    //    $("#usrpassword").val(response.Data.result.usrpassword);
+                    //    $("#usrfirstname").val(response.Data.result.usrfirstname);
+                    //    $("#usrmiddlename").val(response.Data.result.usrmiddlename);
+                    //    $("#usrlastname").val(response.Data.result.usrlastname);
+                    //    $("#usremailid").val(response.Data.result.usremailid);
+                    //    $("#usrphoneno1").val(response.Data.result.usrphoneno1);
+                    //    $("#usrphoneno2").val(response.Data.result.usrphoneno2);
+                    //    $("#usrcreatedbyuserid").val(response.Data.result.usrcreatedbyuserid);
+                    //    $("#usrcreationdate").val(response.Data.result.usrcreationdate);
+                    //    $(".usrroleidclass").selectpicker('val', response.Data.result.usrroleid);
+                    //    $(".usremployeeidclass").selectpicker('val', response.Data.result.usremployeeid);
+                    //    response.Data.result.usrisactive == 1 ? $('#UserStatus').prop('checked', false) : $('#UserStatus').prop('checked', true);
+                    //}
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            //Update User Details
+            //$("#btnDelete").click(function (e) {
+
+            //    var msg = confirm(DeleteMessage);
+
+
+            //});
+        });
+
+        @*function deleterecord() {
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var active = $("#UserStatus").prop("checked") == true ? 0 : 1
+            var mstUser = {
+
+                "usrrecid": $("#usrrecid").val(),
+                "usrid": $("#usrid").val(),
+                "usrpassword": $("#usrpassword").val(),
+                "usrroleid": $("#usrroleid").val(),
+                "usremployeeid": $("#usremployeeid").val(),
+                "usrisactive": active,
+                "usrfirstname": $("#usrfirstname").val(),
+                "usrmiddlename": $('#usrmiddlename').val(),
+                "usrlastname": $("#usrlastname").val(),
+                "usremailid": $("#usremailid").val(),
+                "usrphoneno1": $("#usrphoneno1").val(),
+                "usrphoneno2": $("#usrphoneno2").val(),
+                "usrcreatedbyuserid": $("#usrcreatedbyuserid").val(),
+                "usrcreationdate": $("#usrcreationdate").val(),
+                "usrisdeleted": 1
+            };
+            var userwithlocation = {
+                mstuser: mstUser,
+                location: null,
+                group: null
+            }
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "user/" + id,
+                //crossDomain: true,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(userwithlocation),//data to be send
+                success: function (response) {
+
+                    if (response.Data.e == "S") {
+                        alert(response.Data.d, '@Url.Action("Index", "User")', false, response.Data.e);
+                        // window.location.href = '@Url.Action("Index", "User")';
+                    }
+                    else if (response.Data.e == "M") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+                    else if (response.Data.e == "E") {
+                        alert(response.Data.d, '', false, response.Data.e);
+                    }
+                    if (box) box.remove();
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                    // alert(xhr.responseText);
+                }
+            });
+            // }
+            e.preventDefault();
+        }*@
+
+    </script>
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">User Master</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        <div class="form-group">
+                                            @Html.HiddenFor(model => model.usrrecid)
+                                            @Html.HiddenFor(model => model.usrcreatedbyuserid)
+                                            @Html.HiddenFor(model => model.usrcreationdate)
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrid, null, "")
+                                            @Html.TextBoxFor(model => model.usrid, new { @class = "form-control alpha", @maxlength = "10", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.usrid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrroleid, null, "")
+                                            @Html.DropDownListFor(model => model.usrroleid, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select", new { @class = "usrroleidclass form-control", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.usrroleid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrpassword, null, "")
+                                            @Html.PasswordFor(model => model.usrpassword, new { @class = "form-control", @maxlength = "15", disabled = "disabled" })
+                                            @Html.ValidationMessageFor(model => model.usrpassword, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usremployeeid, null, "")
+                                            @Html.DropDownListFor(model => model.usremployeeid, (IEnumerable<SelectListItem>)ViewBag.Employees, "Select", new { @class = "usremployeeidclass form-control", @data_live_search = "true", @data_live_search_style = "contains" })
+                                            @Html.ValidationMessageFor(model => model.usremployeeid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <hr class="hr_solid" />
+
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrfirstname, new { disabled = "disabled", @class = "form-control", placeholder = "First Name" })
+                                            @Html.ValidationMessageFor(model => model.usrfirstname, null, new { @class = "validation-redcolor" })
+
+                                        </div>
+
+
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrmiddlename, new { disabled = "disabled", @class = "form-control", placeholder = "Middle Name" })
+                                            @Html.ValidationMessageFor(model => model.usrmiddlename, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+
+                                        <div class="form-group col-md-4">
+                                            @Html.Label(" ", new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrlastname, new { disabled = "disabled", @class = "form-control", placeholder = "Last Name" })
+                                            @Html.ValidationMessageFor(model => model.usrlastname, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrphoneno1, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrphoneno1, new { disabled = "disabled", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usrphoneno1, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usrphoneno2, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usrphoneno2, new { disabled = "disabled", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usrphoneno2, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.usremailid, new { @class = "" })
+                                            @Html.TextBoxFor(model => model.usremailid, new { disabled = "disabled", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.usremailid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="UserStatus">Disable?</label>
+                                    @Html.CheckBoxFor(model => model.isactive)
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+<script>
+
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+    });
+</script>

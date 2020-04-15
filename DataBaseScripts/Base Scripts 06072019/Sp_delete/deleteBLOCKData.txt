@@ -1,0 +1,14 @@
+drop procedure if exists delete_missblockdata();
+create procedure delete_missblockdata()
+define startdate datetime year to fraction(5); 
+
+select current::datetime year to fraction(5) -(MOD((extend(current::datetime minute to fraction(5), minute to minute )::lvarchar::integer),15)) units minute -(extend(current::datetime minute to fraction(5), second to second )::lvarchar::integer) units second into startdate from systables where tabid=1;
+
+let startdate=startdate::datetime year to fraction(5) - 3 units day;
+
+update tsPreviousBlkMiss
+set  series = DelRange(series,'2016-01-01 00:00:00'::
+datetime year to fraction(5),startdate::datetime 
+ year to fraction(5));
+
+end procedure;

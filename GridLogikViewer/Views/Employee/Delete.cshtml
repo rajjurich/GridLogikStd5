@@ -1,0 +1,117 @@
+@model GridLogik.ViewModels.MstEmployee
+
+@{
+    ViewBag.Title = "Welcome to GridLogikViewer";
+
+}
+@section scripts
+{
+
+
+
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Employee</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i> <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-group col-md-12">
+                                            @Html.HiddenFor(model => model.emprecid)
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    @Html.LabelFor(model => model.empid, null, "")
+                                                    @Html.TextBoxFor(model => model.empid, new { @class = "form-control", @readonly = true })
+                                                    @Html.ValidationMessageFor(model => model.empid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empfirstname, null, "")
+                                            @Html.TextBoxFor(model => model.empfirstname, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.empfirstname, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empmiddlename, null, "")
+                                            @Html.TextBoxFor(model => model.empmiddlename, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.empmiddlename, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.emplastname, null, "")
+                                            @Html.TextBoxFor(model => model.emplastname, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.emplastname, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="clearfix"></div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empemailid, null, "")
+                                            @Html.TextBoxFor(model => model.empemailid, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.empemailid, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empphoneno1, null, "")
+                                            @Html.TextBoxFor(model => model.empphoneno1, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.empphoneno1, null, new { @class = "validation-redcolor" })
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            @Html.LabelFor(model => model.empphoneno2, null, "")
+                                            @Html.TextBoxFor(model => model.empphoneno2, new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.empphoneno2, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="clearfix"></div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-sm btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+<script>
+    if ('@ViewBag.CreateAccess' == "False") {
+        $("#btnCreate").hide();
+    }
+    if ('@ViewBag.EditAccess' == "False") {
+        $(".btnEdit").hide();
+    }
+    if ('@ViewBag.DeleteAccess' == "False") {
+        $(".btnDelete").hide();
+    }
+
+</script>

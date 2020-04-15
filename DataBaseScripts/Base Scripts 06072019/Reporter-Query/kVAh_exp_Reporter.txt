@@ -1,0 +1,206 @@
+execute procedure ifx_allow_newline('t');
+
+drop table if exists kVAh_exp_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("max($kVAh_exp)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+
+drop view if exists evt_kVAh_exp_read_2;
+create view etools_dev.evt_kVAh_exp_read_2
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_read_2;
+
+
+
+
+drop table if exists kVAh_exp_con_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_con_2','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("max($kVAh_exp)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_con_2;
+create view etools_dev.evt_kVAh_exp_con_2
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_con_2;
+
+
+drop table if exists kVAh_exp_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("max($kVAh_exp)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_read_3;
+create view etools_dev.evt_kVAh_exp_read_3
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_read_3;
+
+
+
+
+drop table if exists kVAh_exp_con_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_con_3','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($kVAh_exp)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_con_3;
+create view etools_dev.evt_kVAh_exp_con_3
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_con_3;
+
+
+drop table if exists kVAh_exp_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("max($kVAh_exp)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_read_5;
+create view etools_dev.evt_kVAh_exp_read_5
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_read_5;
+
+
+
+
+drop table if exists kVAh_exp_con_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_con_5','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($kVAh_exp)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_con_5;
+create view etools_dev.evt_kVAh_exp_con_5
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_con_5;
+
+
+
+drop table if exists kVAh_exp_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("max($kVAh_exp)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_read_6;
+create view etools_dev.evt_kVAh_exp_read_6
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_read_6;
+
+
+
+
+drop table if exists kVAh_exp_con_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_exp_con_6','tsLoadSurveyLogs',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($kVAh_exp)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_exp_con_6;
+create view etools_dev.evt_kVAh_exp_con_6
+(
+meterid,
+tstamp,
+kVAh_exp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_exp
+from
+kVAh_exp_con_6;
+
+
+
+

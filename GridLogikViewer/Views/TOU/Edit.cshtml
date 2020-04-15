@@ -1,0 +1,599 @@
+﻿@model GridLogikViewer.Models.MstTOU
+@using GridLogikViewer.Extensions
+
+@{
+    ViewBag.Title = "Edit TOU";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $("#tblTS").css("display", "none");
+            $("#toumaxslots").prop("disabled", "disabled");
+
+            new confirmexitmsg('form');
+
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            //$.when($.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",//type of data to be send
+            //    url: BaseAddress + "consumercategory",
+            //    dataType: "json"
+            //})).then($.ajax({
+            //    type: "GET",
+            //    contentType: "application/json;charset=utf-8",//type of data to be send
+            //    url: BaseAddress + "tou/" + id,
+            //    dataType: "json"
+            //}));
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "consumercategory",
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (data) {
+
+                    var items = [];
+                    //items.push("<option>Select</option>");
+
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.ccatid + ">" + result.ccatdescription + "</option>");
+                        });
+                    }
+
+                    $("#touconsumercatid").html(items.join(' '));
+                    $(".consumercatclass").selectpicker();
+
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                    //if (box) box.remove();
+                }
+            });
+
+
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+
+
+                //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tou/" + id,
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (tou) {
+
+                    if (tou.Data.result.tourecid == null) {
+                        if (tou.Data.d.length > 0)
+                            alert(tou.Data.d, '', false, "M");
+                    }
+                    else {
+                        $("#tourecid").val(tou.Data.result.tourecid);
+                        $("#touid").val(tou.Data.result.touid);
+                        $("#toumaxslots").val(tou.Data.result.toumaxslots);
+                        $("#touconsumercatid").val(tou.Data.result.touconsumercatid);
+                        $("#toudescription").val(tou.Data.result.toudescription);
+                        $(".consumercatclass").selectpicker('val', tou.Data.result.touconsumercatid);
+                    }
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    //if (box) box.remove();
+                }
+            });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "touslot/GetTOUSlotByTouId/" + $("#touid").val(),
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (touslot) {
+
+                    var str = "";
+                    var i = 1;
+                    if (touslot.Data.result != undefined) {
+                        touslot.Data.result.forEach(function (response) {
+
+                            str += "<tr>" +
+                            //"<td><input type='text' id='tstouid" + i + "'' value='" + response.tstouid + "' disabled='true' > <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+            				"<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled=true class='form-control'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                            "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "' class='form-control time' placeholder='HH:mm' maxlength='5'> </td>" +
+                            "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "' class='form-control time'  placeholder='HH:mm' maxlength='5'> </td>" +
+                            "<td><input type='text' id='tsmaxdemandlimit" + i + "' value='" + response.tsmaxdemandlimit + "' class='form-control number' placeholder='0' maxlength='5'> </td>" +
+            				"</tr>"
+
+                            i = i + 1;
+                        });
+                    }
+
+                    if (str != "") {
+                        $("#tblTS").css("display", "");
+                        $("#tblTouSlot").html(str);
+                    }
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    // alert(error);
+                    // if (box) box.remove();
+                }
+            });
+
+
+        });
+
+        function ValidateTOUSlot() {
+            var strErrMsg = "";
+            var IsValid = true;
+
+            var regex1 = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g
+            $("input[id^='tsslotstart']").each(function () {
+
+                if ($(this).val() == "") {
+                    $(this).addClass("input-validation-error");
+                    strErrMsg += "<span class='field-validation-error'>Please enter Slot Start Time</span><br>"
+                    //alert("Please enter Slot Start Time");
+                    IsValid = false;
+                    return IsValid;
+                }
+                else {
+
+                    var regex = new RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g);
+                    //var regex = new RegExp(/(^([0-9]|[0-1][0-9]|[2][0-3]):([0-5][0-9])$)|(^([0-9]|[1][0-9]|[2][0-3])$)/g);
+                    IsValid = regex.test($(this).val());
+
+                    if (IsValid == false) {
+                        $(this).addClass("input-validation-error");
+                        strErrMsg += "<span class='field-validation-error'>Please enter Slot Start Time in hh:mm 24 hr format only</span><br>"
+                    }
+                    return IsValid;
+
+                }
+            });
+
+
+            $("input[id^='tsslotend']").each(function () {
+
+                if ($(this).val() == "") {
+                    $(this).addClass("input-validation-error");
+                    strErrMsg += "<span class='field-validation-error'>Please enter Slot End Time</span><br>"
+                    //alert("Please enter Slot Start Time");
+                    IsValid = false;
+                    return IsValid;
+                }
+                else {
+                    var regex = new RegExp(/^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/g);
+                    //var regex = new RegExp(/(^([0-9]|[0-1][0-9]|[2][0-3]):([0-5][0-9])$)|(^([0-9]|[1][0-9]|[2][0-3])$)/g);
+                    IsValid = regex.test($(this).val());
+                    if (IsValid == false) {
+                        $(this).addClass("input-validation-error");
+                        strErrMsg += "<span class='field-validation-error' style='color:red'>Please enter Slot End Time in hh:mm 24 hr format only</span><br>"
+                    }
+                    return IsValid;
+
+                }
+            });
+
+            $("input[id^='tsmaxdemandlimit']").each(function () {
+
+                if ($(this).val() == "") {
+                    $(this).addClass("input-validation-error");
+                    strErrMsg += "<span class='field-validation-error' style='color:red'>Please enter maximum demand limit</span><br>"
+                    //alert("Please enter Slot Start Time");
+                    IsValid = false;
+                    return IsValid;
+                }
+                else {
+                    var regex = new RegExp(/^(?:[1-9]\d*|0)?(?:\.*\d*)?$/g);
+                    IsValid = regex.test($(this).val());
+
+                    if (IsValid == false) {
+                        $(this).addClass("input-validation-error");
+                        strErrMsg += "<span class='field-validation-error' style='color:red'>Please enter maximum demand limit in digits only</span><br>"
+                    }
+                    return IsValid;
+                }
+            });
+
+            if (strErrMsg != "") {
+                IsValid = false;
+                $("#divErr").html(strErrMsg);
+            }
+
+            return IsValid;
+            // return true;
+        }
+
+        function CTime() {
+
+            var strErrMsg = "";
+            var IsValid = true;
+
+            $('#tblTS tr').not(':first').each(function (row, tr) {
+
+
+                var start_time = $(tr).find('td:eq(1) input:first').val();
+                //end time
+                var end_time = $(tr).find('td:eq(2) input:first').val();
+
+                //convert both time into timestamp
+                var stt = new Date("June 10, 1989 " + start_time);
+                stt = stt.getTime();
+
+                var endt = new Date("June 10, 1989 " + end_time);
+                endt = endt.getTime();
+
+                if (stt > endt) {
+                    IsValid = false;
+                    strErrMsg += "<span class='field-validation-error'>Slot Start Time must be less than End Time</span><br>"
+
+                    return IsValid;
+                }
+
+                return IsValid;
+
+            });
+
+            if (strErrMsg != "") {
+                IsValid = false;
+                var div = document.getElementById('divErr');
+                div.innerHTML = div.innerHTML + strErrMsg;
+            }
+
+            if (IsValid == true) {
+                $("#divErr").html('');
+            }
+
+            return IsValid;
+        }
+
+        function ValidateTimeRange() {
+
+            var Data = new Array();
+            var strErrMsgStartTime = "";
+            var strErrMsgEndTime = "";
+            var IsValid = true;
+            $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                Data[row] = {
+                    //"tstouid": $(tr).find('td:eq(0) input:first').val()
+                    "tstouid": $("#touid").val()
+                    , "tsslotno": $(tr).find('td:eq(0) input:first').val()
+                    , "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                    , "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                    , "tsmaxdemandlimit": $(tr).find('td:eq(3) input:first').val()
+                }
+
+            });
+
+            for (var i = 0; i < Data.length; i++) {
+                var start_time = Data[i].tsslotstart;
+                var end_time = Data[i].tsslotend;
+                var slot_no = Data[i].tsslotno;
+
+                var stt = new Date("June 10, 1989 " + start_time);
+                stt = stt.getTime();
+
+                var endt = new Date("June 10, 1989 " + end_time);
+                endt = endt.getTime();
+
+                for (var j = 0; j < Data.length; j++) {
+                    if (slot_no != Data[j].tsslotno) {
+                        var starttime = Data[j].tsslotstart;
+                        var endtime = Data[j].tsslotend;
+                        //var slot_no = Data[i].tsslotno;
+
+                        var sttime = new Date("June 10, 1989 " + starttime);
+                        sttime = sttime.getTime();
+
+                        var endtime = new Date("June 10, 1989 " + endtime);
+                        endtime = endtime.getTime();
+
+                        if (stt > sttime && stt < endtime) {
+                            IsValid = false;
+                            if (strErrMsgStartTime == "") {
+                                strErrMsgStartTime += "<span class='field-validation-error'>Slot Start Time must not overlap other Start and End Time</span><br>";
+                            }
+                            //return IsValid;
+                        }
+                        else {
+                            IsValid = true;
+                        }
+
+                        if (endt > sttime && endt < endtime) {
+                            IsValid = false;
+                            if (strErrMsgEndTime == "") {
+                                strErrMsgEndTime += "<span class='field-validation-error'>Slot End Time must not overlap other Start and End Time</span><br>";
+                            }
+                            //return IsValid;
+                        }
+                        else {
+                            IsValid = true;
+                        }
+                    }
+                }
+            }
+
+
+            if (strErrMsgStartTime != "" || strErrMsgEndTime != "") {
+
+                IsValid = false;
+                var div = document.getElementById('divErr');
+                div.innerHTML = div.innerHTML + strErrMsgStartTime + strErrMsgEndTime;
+            }
+
+            if (IsValid == true) {
+                $("#divErr").html('');
+            }
+
+            return IsValid;
+        }
+
+        $(document).ready(function () {
+            $("#btnUpdate").click(function (e) {
+
+                //$('form').data('validator', null);
+                //$.validator.unobtrusive.parse($('form'));
+
+                var IsTouComplete = "";
+                var IsTouValidated = ValidateTOUSlot();
+                if (IsTouValidated == true) {
+                    IsTouValidated = CTime();
+                }
+                if (IsTouValidated == true) {
+                    IsTouValidated = ValidateTimeRange();
+                }
+
+
+                if ($('form').valid() && IsTouValidated == true) {
+                    formmodified = 0;
+
+                    var msttou = {
+                        "touid": $("#touid").val(),
+                        "touconsumercatid": $("#touconsumercatid").val(),
+                        "toumaxslots": $("#toumaxslots").val(),
+                        "touisdeleted": 0,
+                        "toudescription": $("#toudescription").val()
+                    };
+
+                    var RecordID = $("#tourecid").val();
+
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "tou/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(msttou),//data to be send
+                        async: false,
+                        success: function (response) {
+
+                            if (response.Data.e == "S") {
+                                //alert(response.Data.d);
+                                IsTouComplete = "y";
+                                //window.location.href = '@Url.Action("Index", "Tou")';
+                            }
+                            else if (response.Data.e == "M") {
+                                // alert(response.Data.d);
+                                alert(response.Data.d, '', false, "M");
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d, '', false, response.Data.e);
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+                    if (IsTouComplete != "") {
+                        var TOUSlotData = new Array();
+
+                        $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                            TOUSlotData[row] = {
+                                "tstouid": $("#touid").val()
+                                , "tsrecid": $(tr).find('td:eq(0) input:last').val()
+                                , "tsslotno": $(tr).find('td:eq(0) input:first').val()
+                                , "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                                , "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                                , "tsmaxdemandlimit": $(tr).find('td:eq(3) input:first').val()
+                                , "tsisdeleted": 0
+                            }
+
+                        });
+                    }
+
+
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "touslot",
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(TOUSlotData),//data to be send
+                        async: false,
+                        success: function (response) {
+
+                            if (response.Data.e == "S") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '@Url.Action("Index", "TOU")', false, 'S');
+
+                                //$('#btnReset').click();
+                                //window.location.href = '@Url.Action("Index", "TOU")';
+                                //window.location.href = '@Url.Action("Index", "Tou")';
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    //alert(response.Data.d);
+                                    alert(response.Data.d, '', false, 'M');
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    //alert(response.Data.d);
+                                    alert(response.Data.d, '', false, 'E');
+                            }
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+
+                }
+
+
+                e.preventDefault();
+
+            });
+        });
+
+    </script>
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">TOD</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="row" style="display:none">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.HiddenFor(model => model.tourecid)
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label" for="touconsumercatid" style="white-space:nowrap">Consumer Category <span class="validation-redcolor">*</span></label>
+                                                    <div class="col-md-3">
+                                                        @Html.DropDownList("touconsumercatid", Enumerable.Empty<SelectListItem>(), new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.touid, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.touid, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.touid, new { disabled = "disabled", @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.touid, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.toumaxslots, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.toumaxslots, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.toumaxslots, new { @class = "form-control number" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.ValidationMessageFor(model => model.toumaxslots)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.toudescription, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.toudescription, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.toudescription, new { @class = "form-control", @maxlength = "25" })
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        @Html.ValidationMessageFor(model => model.toudescription)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <table border="1" id="tblTS" style="text-align:center" class="table table-bordered table-hover table-sortable">
+                                                        <thead>
+                                                            <tr>
+                                                                @*<th>TS Code</th>*@
+                                                                <th style="color:white">TS Slot No</th>
+                                                                <th style="color:white">TS Slot Start  (24 Hrs Format)</th>
+                                                                <th style="color:white">TS Slot End  (24 Hrs Format)</th>
+                                                                <th style="color:white">TS Max Demand Limit</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblTouSlot"></tbody>
+                                                    </table>
+                                                </div>
+
+                                                <div class="col-md-10" id="divErr" style="border-color:red">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-success" id="btnUpdate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                        </div>
+                                    }
+                                    <div style="padding-bottom:20px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

@@ -1,0 +1,99 @@
+
+EXECUTE FUNCTION ADMIN ('create dbspace FROM STORAGEPOOL','dbcharanka75mw', '1024M', '16'); 
+EXECUTE FUNCTION ADMIN ('modify space sp_sizes', 'dbcharanka75mw', '30', '10');
+
+create row type "etools_dev".rtcharanka75mw 
+(
+  tstamp	datetime year to fraction(5)	,
+meter_name	lvarchar(50)	,
+TimeSpan	float	,
+SOLAR_RAD_H_Out	float	,
+SOLAR_RAD_T_Out	float	,
+SOLAR_RAD_H_2_Out	float	,
+SOLAR_ENERGY_Out	float	,
+SOLAR_ENERGYT_Out	float	,
+SOLAR_ENERGYH2_Out	float	,
+MOD_TEMP_Out	float	,
+AMB_TEMP_Out	float	,
+WIND_VEL_Out	float	,
+PGEN1_Out	float	,
+TGEN1_Out	float	,
+PCUA_1_KWAC_Out float,
+PCUB_1_KWAC_Out float,
+PCUC_1_KWAC_Out float,
+PCUD_1_KWAC_Out float,
+PCUA_2_KWAC_Out float,
+PCUB_2_KWAC_Out float,
+PCUC_2_KWAC_Out float,
+PCUD_2_KWAC_Out float,
+PCUA_3_KWAC_Out float,
+PCUB_3_KWAC_Out float,
+PCUC_3_KWAC_Out float,
+PCUD_3_KWAC_Out float,
+PCUA_4_KWAC_Out float,
+PCUB_4_KWAC_Out float,
+PCUC_4_KWAC_Out float,
+PCUD_4_KWAC_Out float,
+PCUA_5_KWAC_Out float,
+PCUB_5_KWAC_Out float,
+PCUC_5_KWAC_Out float,
+PCUD_5_KWAC_Out float,
+PCUA_6_KWAC_Out float,
+PCUB_6_KWAC_Out float,
+PCUC_6_KWAC_Out float,
+PCUD_6_KWAC_Out float,
+PCUA_7_KWAC_Out float,
+PCUB_7_KWAC_Out float,
+PCUC_7_KWAC_Out float,
+PCUD_7_KWAC_Out float,
+PCUA_8_KWAC_Out float,
+PCUB_8_KWAC_Out float,
+PCUC_8_KWAC_Out float,
+PCUD_8_KWAC_Out float,
+PCUA_9_KWAC_Out float,
+PCUB_9_KWAC_Out float,
+PCUC_9_KWAC_Out float,
+PCUD_9_KWAC_Out float,
+PCUA_10_KWAC_Out float,
+PCUB_10_KWAC_Out float,
+PCUC_10_KWAC_Out float,
+PCUD_10_KWAC_Out float,
+PCUA_11_KWAC_Out float,
+PCUB_11_KWAC_Out float,
+PCUC_11_KWAC_Out float,
+PCUD_11_KWAC_Out float,
+PCUA_12_KWAC_Out float,
+PCUB_12_KWAC_Out float,
+PCUC_12_KWAC_Out float,
+PCUD_12_KWAC_Out float,
+PCUA_13_KWAC_Out float,
+PCUB_13_KWAC_Out float,
+PCUC_13_KWAC_Out float,
+PCUD_13_KWAC_Out float,
+PCUA_14_KWAC_Out float,
+PCUB_14_KWAC_Out float,
+PCUC_14_KWAC_Out float,
+PCUD_14_KWAC_Out float,
+PCUA_15_KWAC_Out float,
+PCUB_15_KWAC_Out float,
+PCUC_15_KWAC_Out float,
+PCUD_15_KWAC_Out float
+);
+
+
+
+create table etools_dev.tscharanka75mw
+  (
+    meterid int8 not null ,
+    series timeseries(rtcharanka75mw),
+    primary key (meterid) 
+  ) in dbcharanka75mw extent size 32 next size 32 lock mode row;
+
+execute procedure tscontainercreate('tsconwrtcharanka75mw','dbcharanka75mw','rtcharanka75mw',1024,1024,'2015-01-01 00:00:00.00000'::datetime year to fraction(5), 'day',365, 15, 'dbharmonicib', 1, 16, 16);
+
+drop table LoadSurveycharanka75mw;
+execute procedure ifx_allow_newline('t');
+execute procedure TSCreateVirtualTab
+('etools_dev.LoadSurveycharanka75mw',
+'etools_dev.tscharanka75mw','calendar(cal_1min),
+container(tsconwrtcharanka75mw),irregular');

@@ -1,0 +1,163 @@
+@model  GridLogik.ViewModels.MstRole
+
+@{
+    ViewBag.Title = "Edit Role";
+    }
+@section scripts
+{
+
+    @*<script>
+        $(document).ready(function () {
+
+            new confirmexitmsg('form');
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+                $.ajax({
+                    //url: "http://localhost:8487/EnvisageWebAPI/api/role/" + id,
+                    url: BaseAddress + "role/" + id,
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    dataType: "json",//type of data to be received
+                    success: function (response) {
+                        if (response.Data.result.rolrecid == null) {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d);
+                        }
+                        else {
+                            $("#rolrecid").val(response.Data.result.rolrecid);
+                            $("#rolid").val(response.Data.result.rolid);
+                            $("#rolname").val(response.Data.result.rolname);
+                            $("#roldescription").val(response.Data.result.roldescription);
+
+                        }
+                    },
+                    error: function (xhr) {
+                        alert(xhr.responseText);
+                    }
+                });
+
+            $("#btnUpdate").click(function (e) {
+
+                if ($('form').valid()) {
+
+                    formmodified = 0;
+
+                    var mstrole = {
+                        "rolid": $("#rolid").val(),
+                        "rolname": $("#rolname").val(),
+                        "roldescription": $("#roldescription").val(),
+                        "rolisdeleted": 0
+                    };
+                    var RecordID = $("#rolrecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        //url: "http://localhost:8487/EnvisageWebAPI/api/role/" + RecordID,
+                        url: BaseAddress + "role/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstrole),//data to be send
+                        success: function (response) {
+
+                            if (response.Data.e == "S") {
+
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '@Url.Action("Index", "Role")', false, response.Data.e);
+                                //  window.location.href = '@Url.Action("Index", "Role")';
+                            }
+                            else if (response.Data.e == "M") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, response.Data.e);
+                            }
+                            else if (response.Data.e == "E") {
+                                if (response.Data.d.length > 0)
+                                    alert(response.Data.d, '', false, response.Data.e);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+        });
+
+    </script>*@
+
+
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Role</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Role</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        <div class="form-group">
+                                            @Html.HiddenFor(model => model.rolrecid)
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.rolid, null, "")
+                                            @Html.TextBoxFor(model => model.rolid, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.rolid, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-3">
+                                            @Html.LabelFor(model => model.rolname, null, "")
+                                            @Html.TextBoxFor(model => model.rolname, new { @class = "form-control alpha", @maxlength = "15" })
+                                            @*@Html.EditorFor(model => model.rolname)*@
+                                            @Html.ValidationMessageFor(model => model.rolname, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.roldescription, null, "")
+                                            @Html.TextBoxFor(model => model.roldescription, new { @class = "form-control alphanumspace" })
+                                            @*@Html.EditorFor(model => model.roldescription)*@
+                                            @Html.ValidationMessageFor(model => model.roldescription, null, new { @class = "validation-redcolor" })
+                                        </div>
+
+                                        <div class="clearfix"></div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button id="btnUpdate" type="submit" class="btn btn-sm btn-success"><i class="fa fa-save"></i>&nbsp;&nbsp;Save</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

@@ -1,0 +1,130 @@
+﻿@model IEnumerable<GridLogik.ViewModels.MeterGroup>
+
+@{
+    ViewBag.Title = "Meter Groups";
+}
+@{var counter = 1;}
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Meter Groups</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Meter Groups</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @*<button class="btn btn-success pull-right btn-sm"> Create New</button>*@
+                                        @Html.ActionLink(" Create New", "create", "GroupConfig", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        @*<div class="clearfix"></div>
+                                        <hr />*@
+                                        <table id="lsttable" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+                                                        Sr. No.
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Group Name
+                                                    </th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @counter
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.GroupName)
+                                                        </td>
+                                                        <td class="text-center">
+                                                             @Html.ActionLink(" Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-xs btn-warning text-white fa fa-pencil-square-o" })
+                                                             @Html.ActionLink(" Delete", "Delete", new { id = item.Id }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger" })
+                                                        </td>
+                                                    </tr>
+                                                    counter++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        var box;
+        $(document).ready(function () {
+            if ('@ViewBag.CreateAccess' == "False") {
+                $("#btnCreate").hide();
+            }
+            if ('@ViewBag.EditAccess' == "False") {
+                $(".btnEdit").hide();
+            }
+            if ('@ViewBag.DeleteAccess' == "False") {
+                $(".btnDelete").hide();
+            }
+            if ('@TempData["Success"]' != "") {
+                alert('@TempData["Success"]', '', false, 'S')
+            }
+            $("a").click(function () {
+                //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            });
+            $("#lsttable").dataTable(
+                               {
+                                   pageLength: 10,
+                                   "aoColumns": [
+                                               null,
+                                               null,
+                                               {
+                                                   bSearchable: false,
+                                                   "bSortable": false,
+                                                   "width": "144px"
+                                               }
+                                   ]
+                               });
+        });
+
+
+    </script>

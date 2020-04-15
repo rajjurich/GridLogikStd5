@@ -1,0 +1,77 @@
+﻿@model GridLogik.ViewModels.ClientFolderMap
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Report</a></li>
+                        <li class="active">Web Report Path</li>
+                    </ol>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.id);
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.roleid, null, "")
+                                            @Html.DropDownListFor(model => model.roleid, (IEnumerable<SelectListItem>)ViewBag.Roles, "Select", new { @class = "form-control", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.roleid)
+
+                                        </div>
+
+                                        <div class="form-group col-md-6">
+                                            @Html.LabelFor(model => model.folderpath, null, "")
+                                            @Html.TextBoxFor(model => model.folderpath, new { @class = "form-control commonformele_textarea_style", @readonly = true })
+                                            @Html.ValidationMessageFor(model => model.folderpath)
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="submit" class="btn btn-danger btnDelete" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+    });
+</script>

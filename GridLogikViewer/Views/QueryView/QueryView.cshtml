@@ -1,0 +1,649 @@
+﻿@model GridLogik.ViewModels.QueryViewModel
+
+<style>
+    .dataTables_scroll {
+        overflow-x: scroll;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+
+    .highcharts-container {
+        width: 100% !important;
+    }
+
+    .dataTables_wrapper .dataTables_length {
+        float: right !important;
+    }
+</style>
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">History Data</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Query View</a></li>
+                        <li class="active">Query View Data</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")' style="margin-left:4px;"><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="pull-right">
+                                @using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export1" }))
+                                {
+                                    @Html.HiddenFor(x => x.Csv)
+
+                                    <button type="button" id="btnExport" class="btn btn-success btn-sm"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                                    <button type="button" class="btn btn-info btn-sm" id="graph"><i class="fa fa-bar-chart-o"></i> Graph</button>
+                                }
+                            </div>
+                            <!--Table Wrapper Start-->
+
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue" style="padding:0px;">
+                                <div>
+                                    <div class="col-md-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+                                        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Query Name</label>&nbsp;&nbsp;
+                                        <label id="lblmetergroup"> @Html.DisplayFor(model => model.TableName)</label>
+                                    </div>
+
+                                    <div class="col-md-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+                                        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Query</label>&nbsp;&nbsp;
+                                        <label>
+                                            @foreach (var item in Model.Columns)
+                                            {
+                                                @Html.Display(item)
+                                                //not working
+                                            }
+                                        </label>
+
+                                    </div>
+
+                                    <div class="col-md-3" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+                                        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">From date</label>&nbsp;&nbsp;&nbsp;
+                                        <label id="lblfromdate">@Html.DisplayFor(model => model.FromTime)</label>
+                                    </div>
+                                    <div class="col-md-3" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+                                        <label for="ccyear" style="border:0px solid #f00; margin:5px 0px;">To date</label>&nbsp;&nbsp;&nbsp;
+                                        <label id="lbltodate">@Html.DisplayFor(model => model.ToTime)</label>
+                                    </div>
+
+                                </div>
+
+
+                                <div id="dvData">
+
+                                    @if (ViewBag.HistoryData != null)
+                                    {
+                                        <div class="panel-body" id="exportDataHistory">
+                                            <table class="table table-bordered table-striped dataTable" id="tablehistorydata">
+                                                <thead>
+                                                    <tr>
+                                                        @{
+                                        var i = 0;
+                                                        }
+                                                        @foreach (var column in ViewBag.HistoryData)
+                                                        {
+                                                            foreach (var item in column.Table.Columns)
+                                                            {
+                                                                i++;
+                                                                <th class="tableth column-selector">
+                                                                    @item.Caption.ToUpper().ToString()
+                                                                    <input type="checkbox" class="collapse">
+                                                                </th>
+                                                            }
+                                                            break;
+                                                        }
+                                                        @if (i == 0)
+                                                        {
+                                                            <th></th>
+                                                        }
+
+                                                    </tr>
+                                                    @*<tr class="column-selector">
+                                                            @foreach (var column in ViewBag.HistoryData)
+                                                            {
+                                                                foreach (var item in column.Table.Columns)
+                                                                {
+                                                                    <th><input type="checkbox"></th>
+                                                                }
+                                                                break;
+                                                            }
+                                                        </tr>*@
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var column in ViewBag.HistoryData)
+                                                    {
+                                                        <tr>
+                                                            @foreach (var item in column.ItemArray)
+                                                            {
+                                                                <td>
+                                                                    @item.ToString()
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    }
+
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="colorstrip">
+                                            @Html.Label("Sum :")
+                                            @Html.Label("Sum", new { id = "Sum" })
+                                            <span>&nbsp;&nbsp;&nbsp;</span>
+                                            @Html.Label("Avg :")
+                                            @Html.Label("Avg", new { id = "average" })
+                                            <span>&nbsp;&nbsp;&nbsp;</span>
+                                            @Html.Label("Min :")
+                                            @Html.Label("Min", new { id = "Minimum" })
+                                            <span>&nbsp;&nbsp;&nbsp;</span>
+                                            @Html.Label("Max :")
+                                            @Html.Label("Max", new { id = "Maximum" })
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div>No data to display</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<div id="chart_dialog">
+    <a href="javascript:printDiv('chart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+    <div id="chart_container" style="width:100%; clear:both; max-width:1247px;"></div>
+</div>
+
+
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    div.dt-buttons {
+        position: relative;
+        float: left;
+        /*bottom: -823px;
+                        left: 211px;*/
+    }
+
+    .dt-buttons .buttons-pdf {
+        color: #fff;
+        background-color: #d2322d !important;
+        background-image: none !important;
+        border-color: #ac2925;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 13px;
+        line-height: 1.35;
+        border-radius: 2px;
+        margin-left: 4px;
+    }
+</style>
+<link href="~/Content/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="~/Content/css/buttons.dataTables.css" rel="stylesheet" />
+<script src="~/Scripts/jquery.table2excel.js"></script>
+@*<link href="~/Content/css/jqx.base.css" rel="stylesheet" />*@
+@*<script src="~/Scripts/jqxcore.js"></script>
+    <script src="~/Scripts/jqxbuttons.js"></script>
+    <script src="~/Scripts/jqxlistbox.js"></script>
+    <script src="~/Scripts/jqxscrollbar.js"></script>
+    <script src="~/Scripts/jqxdragdrop.js"></script>*@
+@*<script src="~/Scripts/jquery.dataTables.js"></script>*@
+@*<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
+<script src="~/Scripts/Datatablejs/jquery.dataTables.min.js"></script>
+@*<script src="~/Scripts/dataTables.colReorder.js"></script>*@
+<script src="~/Scripts/dataTables.buttons.js"></script>
+<script src="~/Scripts/pdfmake.js"></script>
+<script src="~/Scripts/vfs_fonts.js"></script>
+<script src="~/Scripts/buttons.html5.js"></script>
+
+<script type="text/javascript">
+    var exportContentHistory = $('div[id$=exportDataHistory]').html();
+    $(document).ready(function () {
+
+        var currentdate = new Date()
+
+        //var d = day + "-" + month + "-" + year;
+        var localdate = currentdate.getDate() + '' + (currentdate.getMonth() + 1) + '' + currentdate.getFullYear() + '_ ' + currentdate.getHours() + '' + currentdate.getMinutes();
+        var dataText = "";
+        $("#btnExport").on("click", function () {
+            window.location.href = envisageURL + "/QueryView/Export";
+        });
+        dataText = $("#exportDataHistory").html();
+
+
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+        $('body #tablehistorydata thead th').mousedown(function (event) {
+            switch (event.which) {
+                case 1:
+                    //console.log('Left Mouse button pressed.');
+                    break;
+                case 2:
+                    //console.log('Middle Mouse button pressed.');
+                    break;
+                case 3:
+                    var x = $(this).index();
+                    if (x > 0) {
+
+
+                        var chk = $('input[type="checkbox"]', this)[0];
+                        if (chk.checked == true) {
+                            chk.checked = false;
+                        } else {
+                            chk.checked = true;
+                        }
+
+                        var t = $(this).closest('table');
+                        //var h = $('#tablehistorydata thead th input[type="checkbox"]');
+                        var h = $('thead th input[type="checkbox"]', t)
+                        $.each(h, function (key, value) {
+                            chk = value;
+
+                            var index = key + 1;
+                            var rowindex = 1;
+                            if (index > 1) {
+
+                                var colIdx = $(this).closest('th').index();
+                                //var chk = $('input[type="checkbox"]', this)[0];
+                                if (chk.checked == true) {
+
+                                    var x = $('#tablehistorydata tr').eq(rowindex).find('td').eq(index - 1);
+                                    $('#tablehistorydata tr').eq(rowindex).find('td').eq(index - 1).trigger('mousedown');
+                                    $("#tablehistorydata  tr td:nth-child(" + index + ")").each(function (i, obj) {
+                                        //console.log($(obj).text());
+                                        $(obj).trigger('mouseover');
+                                    });
+                                }
+                                else {
+                                    $("#tablehistorydata  tr td:nth-child(" + index + ")").each(function (i, obj) {
+                                        //console.log($(obj).text());
+                                        $(obj).removeClass("highlighted");
+                                        //$(obj).trigger('mousedown');
+                                    });
+                                }
+
+                            }
+                        });
+
+
+                        return false; // prevent text selection
+                        break;
+                    }
+                default:
+                    //console.log('You have a strange Mouse!');
+            }
+        });
+
+        $("#tablehistorydata").dataTable(
+                      {
+
+                          dom: 'lBfrtip',
+                          "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                          buttons: [{
+                              extend: 'pdfHtml5',
+                              orientation: 'landscape',
+                              pageSize: 'LEGAL',
+                              text: 'Export to PDF',
+                              title: 'QueryViewData'
+                          }],
+                          pageLength: 10,
+                          "scrollX": true,
+                          select: true
+
+                      });
+
+
+        $('.dt-buttons').insertAfter('#graph');
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 650,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+
+            },
+        });
+        //new code start
+        var valueArr = [];
+        var index = [];
+        var sortedData = [];
+        $(document).mousedown(function () {
+            $("#tablehistorydata td").removeClass("highlighted");
+            $('.dataTable thead th input[type="checkbox"]')
+            var x = $('.dataTable thead th input[type="checkbox"]');
+            $.each(x, function (key, value) {
+
+                value.checked = false;
+            });
+
+            $("#average").text('Avg');
+            $('#Maximum').text('Max');
+            $('#Minimum').text('Min');
+            $("#Sum").text('Sum');
+            seriesArr = [];
+            valueArr = [];
+            index = [];
+        });
+        var isMouseDown = false, isHighlighted;
+        var a = 0;
+        var current = 0;
+        var previous = 0;
+        var counter = 1;
+
+        $(document).on('mousedown', '#tablehistorydata td', function () {
+
+            //$("#tablehistorydata td").removeClass("highlighted");
+            currentIndex = $(this).index();
+            isMouseDown = true;
+            if (currentIndex != 0)
+                $(this).addClass("highlighted");
+            if (currentIndex != 0) {
+                if (!isNaN(Number($(this).text()))) {
+                    index.push($(this).index());
+                    //var data = { name: $(this).index(), data: valueArr }
+                    sortedData[$(this).index()] = valueArr;
+                    a = Number(a) + Number($(this).text());
+                    $('#Minimum,#Maximum,#Sum,#average').text(a);
+                    var $th = $(this).closest('table').find('th').eq($(this).index());
+                    valueArr.push($th[0].textContent.trim() + '$' + Number($(this).text()));
+                }
+            }
+            isHighlighted = $(this).hasClass("highlighted");
+            return false;
+        })
+        .on('mouseover', '#tablehistorydata td', function () {
+            currentIndex = $(this).index();
+            if (isMouseDown) {
+
+                if (!$(this).hasClass("highlighted") && currentIndex != 0) {
+
+                    if (!isNaN(Number($(this).text()))) {
+                        if ($.inArray($(this).index(), index) != 0) {
+                            index.push($(this).index());
+                        }
+                        sortedData[$(this).index()] = valueArr;
+                        a = Number(a) + Number($(this).text());
+                        var $th = $(this).closest('table').find('th').eq($(this).index());
+                        valueArr.push($th[0].textContent.trim() + '$' + Number($(this).text()));
+
+                        if (Number($('#Minimum').text()) < Number($(this).text())) {
+                            if (Number($('#Maximum').text()) < Number($(this).text())) {
+                                $('#Maximum').text(Number($(this).text()));
+                            }
+                        }
+                        else {
+                            $('#Minimum').text(Number($(this).text()));
+                        }
+                    }
+                    else {
+                        valueArr.push(Number(0));
+                    }
+                    counter = counter + 1;
+                    $("#Sum").text(Number(a).toFixed(2));
+                    $("#average").text((a / counter).toFixed(2));
+                }
+                if (currentIndex != 0)
+                    $(this).toggleClass("highlighted", isHighlighted);
+            }
+        });
+
+        $(document)
+          .mouseup(function () {
+              isMouseDown = false;
+              a = 0;
+              counter = 1;
+              index = [];
+          });
+        //new code end
+
+        $('#tablehistorydata thead th').each(function (index) {
+            $(this).click(function () {
+                SelectColumn(index, 'tablehistorydata');
+            });
+        });
+
+        var seriesArr = [];
+        var addedHeaders = [];
+        $("#graph").mousedown(function () {
+            var valuesArrs = [];
+            var SelcolDates = [];
+            var columnList = [];
+            var SelcolumnList = [];
+            var TableRow = $('table#tablehistorydata').find('tbody').find('tr');
+            $('#tablehistorydata thead th').each(function (index) {
+                columnList.push($(this).text().trim());
+            });
+            for (var i = 0; i < TableRow.length; i++) {
+                var Tdcount = 0;
+                for (var j = 0; j < TableRow[i].cells.length; j++) {
+                    var subtd = TableRow[i].cells[j].className;
+                    if (subtd.includes("highlighted")) {
+                        var colName = columnList[j];
+                        SelcolumnList.push(colName);
+                        var Vl = TableRow[i].cells[j].innerText;
+                        valuesArrs.push(colName + "$" + Vl);
+                        if (Tdcount == 0) {
+                            var dat = TableRow[i].cells[0].innerText;
+                            SelcolDates.push(dat);
+                        }
+                        Tdcount++;
+                    }
+                }
+            }
+            var values = [];
+            $.each(valuesArrs, function (key, value) {
+                if (value != 0) {
+                    var dataArray = value.split("$");
+                    var seriesOptions2 = [];
+                    seriesOptions2.push(dataArray[dataArray.length - 1]);
+                    if (values.length > 0) {
+                        $.each(values, function (key1, value1) {
+                            if ((values[key1].name != dataArray[0]) && ($.inArray(dataArray[0], addedHeaders) == -1)) {
+                                var series = { name: dataArray[0], data: seriesOptions2 }
+                                values.push(series);
+                                addedHeaders.push(dataArray[0]);
+                            }
+                            else if (values[key1].name == dataArray[0]) {
+                                values[key1].data.push(dataArray[dataArray.length - 1]);
+                            }
+                        });
+                    }
+                    else {
+                        var series = { name: dataArray[0], data: seriesOptions2 }
+                        values.push(series);
+                    }
+                }
+            });
+
+            addedHeaders = [];
+            var uniquecolumnHeader = SelcolumnList.filter(function (itm, i, SelcolumnList) {
+                return i == SelcolumnList.indexOf(itm);
+            });
+
+            var sortedCol = $('table#tablehistorydata').dataTable().fnSettings().aaSorting[0][0];
+            var sortedDir = $('table#tablehistorydata').dataTable().fnSettings().aaSorting[0][1];
+            var str = $('table#tablehistorydata').dataTable().fnSettings().aoColumns[sortedCol].sTitle;
+            if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                SelcolDates = SelcolDates.reverse();//change for date desc
+            }
+
+
+            if (uniquecolumnHeader.length > 0) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                for (var ser = 0; ser < uniquecolumnHeader.length; ser++) {
+                    var seriesOptions2 = values[ser].data.map(Number);    ////convert String Array into Number Array
+                    if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                        seriesOptions2 = seriesOptions2.reverse();  //change for date desc
+                    }
+                    var dataArr = [];
+                    for (var hdr = 0; hdr < seriesOptions2.length; hdr++) {
+                        var dts = ConvertYYYYMMDDHHmmss(SelcolDates[hdr]);
+                        var data = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), seriesOptions2[hdr]];
+                        dataArr.push(data);
+                    }
+                    var series = { name: uniquecolumnHeader[ser], data: dataArr }; //Create Series Array with name and data property
+                    seriesArr.push(series);
+                }
+                var groupname = $('#lblmetergroup').text();
+                var query = $('#lblqueryname').text();
+                var fromdate = $('#lblfromdate').text();
+                var todate = $('#lbltodate').text();
+                lineChart(SelcolDates, seriesArr, groupname, query, fromdate, todate);
+
+
+                seriesArr = [];
+                valueArr = [];
+                index = [];
+                valuesArrs = [];
+                SelcolDates = [];
+                columnList = [];
+                SelcolumnList = [];
+                $("#chart_dialog").dialog('open');
+                if (box) box.remove();
+            }
+            else {
+                // alert("Please select atleast one value", '', false, 'E')
+            }
+        });
+
+    });
+    function lineChart(dateArr, seriesArr, groupname, query, fromdate, todate) {
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_container',
+                spacingLeft: 0,
+                marginRight: 190,
+                height: 550,
+                spacingBottom: 3,
+                events: {
+                    load: function () {
+                        $(window).resize();
+                    }
+                }
+            },
+            title: {
+                text: '.',
+                style: {
+                    color: '#FFFFFF'
+
+                },
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: 20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                //min: Number($('#Minimum').text()),
+                //max: Number($('#Maximum').text()),
+                //              tickInterval: 20,
+
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ' value'
+            },
+            //legend: {
+            //    layout: 'vertical',
+            //    align: 'right',
+            //    horizontalAlign: 'middle',
+            //    borderWidth: 0
+            //},
+            series: seriesArr
+        }, function (chart) { // on complete
+
+            chart.renderer.text('<b>Meter Name</b>', 10, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(groupname, 120, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>From Date</b>', 300, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(fromdate, 400, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>To Date</b>', 570, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(todate, 650, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>Query</b>', 830, 20)
+        .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+      .add();
+            chart.renderer.text(query, 900, 20)
+       .css({})
+     .add();
+
+        });
+
+    }
+</script>
+

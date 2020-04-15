@@ -1,0 +1,355 @@
+﻿@model GridLogikViewer.ViewModel.GroupViewInstance
+@using GridLogikViewer.Extensions
+
+@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+<script src="~/Content/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $(function () {
+            $('#groupList').multiselect({
+                includeSelectAllOption: true,
+
+                onDropdownHide: function (event) {
+                    FillMeter(jQuery('#availablePositions').val());
+                }
+            });
+
+
+            $('#meterList').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    FillParameter(jQuery('#availablePositions').val());
+                }
+            });
+
+
+            $('#parameterList').multiselect({
+                includeSelectAllOption: true,
+                onDropdownHide: function (event) {
+                    FillTable(jQuery('#availablePositions').val());
+                }
+
+            });
+
+
+            function FillParameter() {
+
+                var grpId1 = "";
+                var selected = $("#meterList option:selected");
+                selected.each(function () {
+                    if (grpId1 == '')
+                        grpId1 += $(this).val();
+                    else
+                        grpId1 += "^" + $(this).val();
+                });
+
+                var ParameterList = "";
+                if (grpId1 != '') {
+
+                    var columns = ["vrn", "vbn", "vyn", "vln", "vry", "vyb", "vbr", "vll", "ir", "iy", "ib", "i", "pf", "kw", "kvar", "kva", "hz", "pfr", "pfy", "pfb",
+                        "kwr", "kwy", "kwb", "kvarr", "kvary", "kvarb", "kva_r", "kvay", "kvab", "kw_demand", "kvar_demand", "kva_demand", "kw_max_demand", "kvar_max_demand",
+                        "kva_max_demand", "kwh_exp", "kwh_imp", "kwh_imp_raw", "kvah_exp", "kvah_imp", "kvarh_lag_imp", "kvarh_lead_imp", "kvarh_lag_exp", "kvarh_lead_exp",
+                        "kvarh_exp_103", "kvarh_exp_97", "kvarh_imp_103", "kvarh_imp_97", "day_kwh_exp", "day_kwh_imp", "cblk_kwh_exp", "cblk_kwh_imp", "cblk_kvarh_lag_imp",
+                        "cblk_kvarh_lead_imp", "cblk_kvarh_lag_exp", "cblk_kvarh_lead_exp", "cblk_avg_mw", "cblk_avg_hz", "lblk_timestampid", "lblk_avg_mw", "lblk_avg_hz", "lblk_kwh_exp",
+                        "lblk_kwh_imp", "lblk_kvah_exp", "lblk_kvah_imp", "lblk_kvarh_lag_imp", "lblk_kvarh_lead_imp", "lblk_kvarh_lag_exp", "lblk_kvarh_lead_exp", "lblk_kvarh_exp_103",
+                        "lblk_kvarh_exp_97", "lblk_kvarh_imp_103", "lblk_kvarh_imp_97", "potime", "lotime", "kwh_netfloat"];
+
+                    for (var x = 0; x < columns.length; x++) {
+                        ParameterList += "<option value=" + columns[x] + ">" + columns[x] + "</option>";
+                    }
+                }
+                else {
+
+                    alert("Please select atleast one Meter", '', false, 'E')
+                    //return;
+                }
+
+                $("#parameterList").html(ParameterList).show();
+                $("#parameterList").multiselect('rebuild');
+
+            }
+        });
+
+        function FillTable() {
+
+
+            $('#instancebody').empty();
+            $('#instanceHead').empty();
+
+            var selectedMeter = $("#meterList option:selected");
+            var SelectParameter = $("#parameterList option:selected");
+            var html;
+            var htmlhead = "";
+
+            SelectParameter.each(function () {
+                htmlhead += "<th>" + $(this).text() + " </th>"
+            });
+
+            selectedMeter.each(function () {
+                var Count = $(this).val();
+
+                html += "<tr id=" + $(this).val() + ">"
+                    + "<td class='text-center'>" + $(this).text() + "</td>"
+
+                SelectParameter.each(function () {
+                    html += "<td id=" + $(this).text() + Count + "> " + "0.00" + " </td>"
+
+                });
+                + "</tr>"
+            });
+
+            $('#instanceHead').append("<tr><th class='text-center'>Meter Name</th>" + htmlhead + "</tr>");
+            $('#instancebody').append(html);
+
+
+            //  ABTMeterDetails();
+            setInterval(ABTMeterDetails, 6000);
+
+        }
+
+
+        function FillMeter() {
+
+            var selected = $("#groupList option:selected");
+            var grpId = "";
+            selected.each(function () {
+                if (grpId == '')
+                    grpId += $(this).val();
+                else
+                    grpId += "^" + $(this).val();
+            });
+
+            if (grpId == '') {
+                $('#meterList').html('');
+                $("#meterList").multiselect('rebuild');
+
+                $("#parameterList").html('');
+                $("#parameterList").multiselect('rebuild');
+
+                alert("Please select atleast one group", '', false, 'E')
+                return;
+            }
+            else {
+
+                $.ajax({
+                    url: '@Url.Action("MetersBymultipleGroupID", "GroupView")',
+                    data: { id: grpId },
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+
+                        var markup = "";
+                        //var markup = "<option value=''>Select Meters</option>";
+                        for (var x = 0; x < data.length; x++) {
+                            markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                        }
+                        $("#meterList").html(markup).show();
+                        $("#meterList").multiselect('rebuild');
+
+                        if ('@Model.MeterId' != '0') {
+                            $("#meterList").val(@Model.MeterId);
+
+
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (reponse) {
+                        if (box) box.remove();
+                    }
+                });
+            }
+        }
+
+
+        function ABTMeterDetails() {
+
+            var selected = $("#meterList option:selected");
+            var MeterIdList = "";
+            selected.each(function () {
+                if (MeterIdList == '')
+                    MeterIdList += $(this).val();
+                else
+                    MeterIdList += "," + $(this).val();
+            });
+
+            var MeterIdList = {
+                "MeterString": MeterIdList
+
+            };
+
+            var selected = $("#parameterList option:selected");
+            //  var ParamTableList = "";
+
+            $.ajax({
+
+                type: "POST",
+                url: BaseAddress + "GetAllInstanceData/",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(MeterIdList),
+                dataType: "json",
+
+                success: function (response, status, jqXHR) {
+
+                    var jsonObj = response.Data.result;
+                    var G1Status = false;
+                    if (jsonObj != undefined && jsonObj.length > 0) {
+
+                        //KV=vll/1000, MW=kw/1000
+                        jsonObj.forEach(function (responseobj) {
+                            debugger;
+
+                            selected.each(function () {
+                                $('#' + $(this).text() + responseobj.meterid).html((responseobj.vrn).toFixed(3));
+
+                            });
+
+                            //$('#mw' + responseobj.meterid).html((responseobj.kw / 1000).toFixed(3));
+                            //$('#vrn' + responseobj.meterid).html(responseobj.vrn.toFixed(2));
+                            //$("#i1").html(((responseobj.ir + responseobj.iy + responseobj.ib).toFixed(2) / 3).toFixed(2));
+                            //$("#pf1").html(responseobj.pf);
+                            //$("#hz1").html(responseobj.hz);
+                            //$("#mn1").html(responseobj.meter_name);
+
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+        }
+
+    });
+</script>
+
+
+
+<style>
+    .table-bordered thead tr th, .table-bordered tfoot tr th {
+        color: #fff;
+    }
+
+    .content-header {
+        margin-bottom: 0;
+        padding-left: 13px;
+        border-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .content-container {
+        padding: 10px 15px 10px 15px;
+    }
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .btn-group, .btn-group-vertical, .btn {
+        width: 100% !important;
+    }
+</style>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">
+                            Meter View
+                        </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Logs</a></li>
+                        <li class="active">Group View</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="clearfix"></div>
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class=" dashboard-panel-body-box">Query Selection</div>
+
+                                </div>
+
+                                <div class="panel-body">
+
+                                    <div id="dvSelectionFilters">
+                                        <div class="col-md-12" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                            <div class="row">
+                                                <div class="form-group col-md-4" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                    @Html.LabelForRequired(model => model.GroupId, null, "col-md-5 control-label")
+                                                    <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                        @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), new { @id = "groupList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                                        @Html.ValidationMessageFor(model => Model.GroupId, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                    @Html.LabelForRequired(model => model.MeterId, null, "col-md-5 control-label")
+                                                    <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                        @Html.DropDownListFor(model => Model.MeterId, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), new { @id = "meterList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                                        @Html.ValidationMessageFor(model => Model.MeterId, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-md-3" style="border:0px solid #000; padding:0px; margin:0px 10px;">
+                                                    @Html.LabelForRequired(model => model.parameterlist, null, "col-md-5 control-label")
+                                                    <div class="col-md-7" style="border:0px solid #000; padding:0px; margin:0px 0px;">
+                                                        @Html.DropDownListFor(model => Model.parameterlist, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), new { @id = "parameterList", @class = "form-control", @size = "1", @multiple = "multiple" })
+                                                        @Html.ValidationMessageFor(model => Model.parameterlist, null, new { @class = "validation-redcolor" })
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            @*//new control starts here*@
+
+                                        </div>
+                                        @*end*@
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading p5">
+                                    <div class="dashboard-panel-body-box">
+                                        <span class="pull-left"> Instance Data </span> <span class="panel-actions  dashboard-panel-body-boxcontrols pull-right" style="text-align:right">
+                                            <a href="javascript:void(0)" class="btn-minimize" onclick="upperDipper('chart','o');"><i class="fa fa-chevron-down"></i></a>
+                                            <a href="javascript:void(0)" class="btn-close" onclick="upperDipper('chart', 'c');"><i class="fa fa-times"></i></a>
+                                         </span>
+                                        <span class="clearfix"></span>
+                                    </div>
+                                </div>
+                                <div class="table table-bordered table-striped dataTable no-footer" id="chart_type">
+                                    <table id="Instancedata">
+                                        <thead id="instanceHead"></thead>
+                                        <tbody id="instancebody"></tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

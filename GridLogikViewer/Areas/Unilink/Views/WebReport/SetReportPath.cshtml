@@ -1,0 +1,172 @@
+﻿@{
+    ViewBag.Title = "SetReportPath";
+}
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+            //FillUser();
+            $("#btnSave").click(function (e) {
+                //if ($("#ddlUser").val() == "0") {
+                //    alert('Please Select User', '', false, "M");
+                //    return false;
+                //}
+                if ($("#ddlStateArea").val() == "0") {
+                    alert('Please select State Area', '', false, "M");
+                        return false;
+                    }
+                if ($("#txtUsername").val() == "" || $("#txtUsername").val() == null) {
+                    alert('Please Enter Username', '', false, "M");
+                    return false;
+                }
+                if ($("#txtpath").val() == "" || $("#txtpath").val() == null) {
+                    alert('Please Enter Path', '', false, "M");
+                    return false;
+                }
+                var PathData = {
+                    "statearea": $("#ddlStateArea").val(),
+                    //"userid": $("#ddlUser").val(),
+                    //"username": $("#ddlUser option:selected").text(),
+                    "username": $("#txtUsername").val(),
+                    "folderpath": $("#txtpath").val(),
+                };
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",   //type of data to be send
+                    url: BaseAddress + "UnilinkWebReportAPI/InsertSetPath",
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(PathData),//data to be send
+                    success: function (response) {
+                        if (response == 0) {
+                            alert("Data Insert Successfully", '@Url.Action("SetReportPath", "WebReport")', true, 'S');
+                        }
+                        else if (response == 2) {
+                            //alert("Path Already exists.", '', true, 'S');
+                            alert("Path Already exists.", '', false, "M");
+                            return false;
+                        }
+                        else if (response == 1 || response == 3) {
+                            alert("Error Occur During Data Insertion...!", '', false, "M");
+                            return false;
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                        // alert(xhr.responseText);
+                    }
+                });
+            });
+
+            $.ajax({
+                type: "GET",
+                async: false,
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "UnilinkSummaryAPI/GetArea/" + 0,
+                dataType: "json",
+                success: function (Area, status, jqXHR) {
+                    var str;
+                    if (Area != null) {
+                        if (Area.length > 0) {
+                            for (var i in Area) {
+                                str += "<option value=" + Area[i].recid + ">" + Area[i].area_name + "</option>";
+                            }
+                        }
+                    }
+                    $("#ddlStateArea").html(str);
+                }
+
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        //function FillUser() {
+        //    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //    $.ajax({
+        //        type: "GET",
+        //        contentType: "application/json;charset=utf-8",
+        //        url: BaseAddress + "UnilinkWebReportAPI/GetUserList",
+        //        dataType: "json",
+        //        success: function (substation, status, jqXHR) {
+        //            var str = "";
+        //            $("#ddlUser").empty();
+        //            if (substation != undefined && substation != null && substation.length > 0) {
+
+        //                var data = substation;
+        //                str += "<option value='0'>Select User</option>";
+        //                for (var i in data) {
+        //                    if (data[i].usrrecid != undefined && data[i].usrrecid != "" && data[i].usrid != undefined && data[i].usrid != "") {
+        //                        str += "<option value='" + data[i].usrrecid.toString() + "'>" + data[i].usrid + "</option>";
+        //                    }
+        //                }
+        //                str += "</select>";
+        //            }
+        //            else {
+        //                str += "<option value='0'>Select User</option>";
+        //            }
+        //            $("#ddlUser").append(str);
+        //            if (box) box.remove();
+        //        }
+        //    });
+        //}
+    </script>
+}
+<div class="row">
+    <div class="col-lg-10">
+        <h2>Web Report Path</h2>
+    </div>
+    <div class="col-lg-2" style="border:0px solid #f00; text-align:right; margin:10px 0px; padding:0px 20px 0px 0px;">
+       <a href='Index' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back to List</a>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box"><h3>Add</h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+
+        </div>
+    </div>
+
+    <div class="form-horizontal">
+        <br />
+        @*<div class="form-group">
+            <label class="control-label col-md-2" style="white-space:nowrap;"><span class='validation-redcolor'>*</span>User</label>
+            <div class="col-md-3">
+                <select id="ddlUser" name="User" class="form-control">
+                    <option value='0'>Select User</option>
+                </select>
+            </div>
+        </div>*@
+        <div class="form-group">
+            <label class="control-label col-md-2" style="white-space:nowrap;"><span class='validation-redcolor'>*</span>StateArea</label>
+            <div class="col-md-3">
+                <select id="ddlStateArea" name="StateArea" class="form-control">
+                    <option value='0'>Select StateArea</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" style="white-space:nowrap;"><span class='validation-redcolor'>*</span>Username</label>
+            <div class="col-md-3">
+                <input id="txtUsername" name="txtUsername" type="text" value="" maxlength="250" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" style="white-space:nowrap;"><span class='validation-redcolor'>*</span>Path</label>
+            <div class="col-md-3">
+                <input id="txtpath" name="txtpath" type="text" value="" maxlength="250" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="btn btn-success" id="btnSave"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                <button type="reset" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Reset</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,104 @@
+﻿@model GridLogik.ViewModels.MstZoneModel
+
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Edit";
+}
+
+
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Zone</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-horizontal">
+                                            @Html.ValidationSummary(true)
+                                            <div class="form-group col-md-6">
+                                                @Html.HiddenFor(model => model.znrecid)
+                                                @Html.LabelForRequired(model => model.znutilityid, null, "control-label col-md-2")
+                                                <div class="col-md-8">
+
+                                                    @Html.DropDownListFor(model => model.znutilityid, (IEnumerable<SelectListItem>)ViewBag.Utilities, "Select Utilities"
+                          , new { @class = "form-control",disabled="disabled", required = true, title = "Please Provide Utilities" })
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.znutilityid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelForRequired(model => model.znid, null, "control-label col-md-2")
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.znid, new { @class = "form-control alpha", disabled = "disabled", @maxlength = "10" })
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.znid, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelForRequired(model => model.znname, null, "control-label col-md-2")
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.znname, new { @class = "form-control alphaspace", disabled = "disabled", @maxlength = "15" })
+
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.znname, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @Html.LabelForRequired(model => model.zndescription, null, "control-label col-md-2")
+                                                <div class="col-md-8">
+                                                    @Html.TextBoxFor(model => model.zndescription, new { @class = "form-control", disabled = "disabled", @maxlength = "30" })
+
+                                                </div>
+                                                <div class="">
+                                                    @Html.ValidationMessageFor(model => model.zndescription, null, new { @class = "validation-redcolor" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="panel-footer col-md-12 text-center">
+                                                <button type="submit" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Delete</button>
+                                                
+                                            </div>
+                                            <div>
+                                                <p id="msg" style="color:red">
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+

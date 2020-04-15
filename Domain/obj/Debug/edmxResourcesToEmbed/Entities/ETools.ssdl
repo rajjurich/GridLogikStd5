@@ -1,0 +1,3320 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="etools_devModel.Store" Provider="IBM.Data.DB2" ProviderManifestToken="IDS/NT64, 12.10.8000, 295300, 0" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="actiontype">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alarmid" Type="int8" Nullable="false" />
+    <Property Name="alarmtype" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="mobileno" Type="lvarchar" MaxLength="1000" Unicode="false" />
+    <Property Name="message" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="emailaddress" Type="lvarchar" MaxLength="1000" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="alarmcondition">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="parameter" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="operator" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="value" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="alarmid" Type="int8" />
+    <Property Name="conditions" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="alarmhistory">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alarmid" Type="int8" Nullable="false" />
+    <Property Name="starttime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="endtime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="alarms">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="alarmname" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="message" Type="nvarchar" MaxLength="150" Unicode="true" />
+    <Property Name="status" Type="int" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'interval' is currently not supported so the column 'interval' in table 'etools_dev                                                                                                                      .etools_dev.backupscheduledetails' was excluded.-->
+  <EntityType Name="backupscheduledetails">
+    <Key>
+      <PropertyRef Name="srid" />
+    </Key>
+    <Property Name="srid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="level" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="frqtype" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="startdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="triggertime" Type="varchar" MaxLength="10" Unicode="false" />
+    <Property Name="weekdayname" Type="varchar" MaxLength="3" Unicode="false" />
+    <Property Name="monthname" Type="varchar" MaxLength="3" Unicode="false" />
+    <Property Name="dayofmonth" Type="int8" />
+    <Property Name="isactive" Type="smallint" />
+    <Property Name="rptflag" Type="smallint" />
+  </EntityType>
+  <EntityType Name="blockaddressdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelid" Type="int8" Nullable="false" />
+    <Property Name="blockrangeid" Type="int8" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="parametername" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="datatype" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="loadservicemapping" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="float" />
+    <Property Name="tablename" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="grouptype" Type="varchar" MaxLength="30" Unicode="false" />
+  </EntityType>
+  <EntityType Name="blockranges">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelid" Type="int8" Nullable="false" />
+    <Property Name="blocktype" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="currentblockaddress" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="previousblockaddress" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="isincremental" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="noofregisters" Type="varchar" MaxLength="45" Unicode="false" />
+  </EntityType>
+  <EntityType Name="clientfoldermap">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="roleid" Type="int" />
+    <Property Name="username" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="folderpath" Type="varchar" MaxLength="250" Unicode="false" />
+  </EntityType>
+  <EntityType Name="communicationdetaillink">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="converterid" Type="int8" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="modbusid" Type="int8" />
+    <Property Name="active" Type="smallint" />
+  </EntityType>
+  <EntityType Name="communicationdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="communicationtypeid" Type="int8" Nullable="false" />
+    <Property Name="ipaddress" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="port" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="baudrate" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="databits" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="parity" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="stopbits" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="convertordesc" Type="lvarchar" MaxLength="299" Unicode="false" />
+    <Property Name="comport" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="isactive" Type="smallint" />
+    <Property Name="isemailalarm" Type="smallint" />
+    <Property Name="ispopupalarm" Type="smallint" />
+    <Property Name="isalarmraised" Type="smallint" />
+    <Property Name="issmsalarm" Type="smallint" />
+  </EntityType>
+  <EntityType Name="consumer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="masterid" Type="varchar" MaxLength="30" Unicode="false" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="middlename" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="lastname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="billingunitid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="classid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="categoryid" Type="int8" Nullable="false" />
+    <Property Name="userid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="gender" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="maritalstatus" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="dob" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="address1" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="address2" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="city" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="state" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="country" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="pincode" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="landline" Type="varchar" MaxLength="25" Unicode="false" />
+    <Property Name="mobile" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="emailid" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="education" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="incomerange" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="occupation" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="companyname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="contactperson" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="incorporationdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="incorporationtype" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="type" Type="varchar" MaxLength="15" Unicode="false" />
+  </EntityType>
+  <EntityType Name="consumercategory">
+    <Key>
+      <PropertyRef Name="categoryrecid" />
+    </Key>
+    <Property Name="categoryrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="categoryid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="categorydescription" Type="varchar" MaxLength="100" Unicode="false" Nullable="false" />
+    <Property Name="categorytariffid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="categoryisdeleted" Type="smallint" />
+    <Property Name="categoryfixedstatus" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionexpdaywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionexpdaywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionexphourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionexphourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionexpmonthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionexpmonthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionimpdaywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionimpdaywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionimphourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionimphourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.consumptionimpmonthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="consumptionimpmonthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <EntityType Name="contactdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="emailaddress" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="phonenumber" Type="int8" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="databaseversion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="float" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.daywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kwh_import_current" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lag_imp_current" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+    <Property Name="kwh_export_current" Type="float" />
+  </EntityType>
+  <EntityType Name="dcsg">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="blockno" Type="int8" />
+    <Property Name="dcvalue" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="sgvalue" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="revision" Type="int" />
+    <Property Name="timestampid" Type="int8" />
+    <Property Name="fuelcost" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="stageid" Type="int8" />
+    <Property Name="upload_date" Type="datetime year to fraction(5)" Precision="5" Nullable="false" />
+    <Property Name="sgppa" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="sced" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="rras" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="agc" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="iex" Type="decimal" Precision="18" Scale="8" Nullable="false" />
+    <Property Name="urs" Type="decimal" Precision="18" Scale="8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="emailconfigdetails">
+    <Key>
+      <PropertyRef Name="row_id" />
+    </Key>
+    <Property Name="row_id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="emprecid" Type="varchar" MaxLength="4" Unicode="false" />
+    <Property Name="maildetails" Type="varchar" MaxLength="4" Unicode="false" />
+    <Property Name="sendflag" Type="int" />
+  </EntityType>
+  <EntityType Name="emaildetails">
+    <Key>
+      <PropertyRef Name="recid" />
+    </Key>
+    <Property Name="recid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="maillist" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="filepath" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="subject" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="mailbody" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="sendflag" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_30secdatalogs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_30secdatalogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="t_vrn" Type="float" />
+    <Property Name="t_vbn" Type="float" />
+    <Property Name="t_vyn" Type="float" />
+    <Property Name="t_vln" Type="float" />
+    <Property Name="t_vry" Type="float" />
+    <Property Name="t_vyb" Type="float" />
+    <Property Name="t_vbr" Type="float" />
+    <Property Name="t_vll" Type="float" />
+    <Property Name="t_ir" Type="float" />
+    <Property Name="t_iy" Type="float" />
+    <Property Name="t_ib" Type="float" />
+    <Property Name="t_i" Type="float" />
+    <Property Name="t_pf" Type="float" />
+    <Property Name="t_kw" Type="float" />
+    <Property Name="t_kvar" Type="float" />
+    <Property Name="t_kva" Type="float" />
+    <Property Name="t_hz" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_absloadsurvey' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_absloadsurvey">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="a_pf" Type="float" />
+    <Property Name="a_pfy" Type="float" />
+    <Property Name="a_pfr" Type="float" />
+    <Property Name="a_pfb" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_consumption' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_consumption">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_import" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_consumption_blocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_consumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_loadsurvey' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_loadsurvey">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="vll" Type="float" />
+    <Property Name="i" Type="float" />
+    <Property Name="kw" Type="float" />
+    <Property Name="kvar" Type="float" />
+    <Property Name="kva" Type="float" />
+    <Property Name="hz" Type="float" />
+    <Property Name="vry" Type="float" />
+    <Property Name="vyb" Type="float" />
+    <Property Name="vbr" Type="float" />
+    <Property Name="vrn" Type="float" />
+    <Property Name="vbn" Type="float" />
+    <Property Name="vyn" Type="float" />
+    <Property Name="vln" Type="float" />
+    <Property Name="ir" Type="float" />
+    <Property Name="iy" Type="float" />
+    <Property Name="ib" Type="float" />
+    <Property Name="kwr" Type="float" />
+    <Property Name="kwy" Type="float" />
+    <Property Name="kwb" Type="float" />
+    <Property Name="kva_r" Type="float" />
+    <Property Name="kvay" Type="float" />
+    <Property Name="kvab" Type="float" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_exp_103" Type="float" />
+    <Property Name="kvarh_exp_97" Type="float" />
+    <Property Name="kvarh_imp_103" Type="float" />
+    <Property Name="kvarh_imp_97" Type="float" />
+    <Property Name="day_kwh_exp" Type="float" />
+    <Property Name="day_kwh_imp" Type="float" />
+    <Property Name="cblk_kwh_exp" Type="float" />
+    <Property Name="cblk_kwh_imp" Type="float" />
+    <Property Name="kw_demand" Type="float" />
+    <Property Name="kva_demand" Type="float" />
+    <Property Name="kw_max_demand" Type="float" />
+    <Property Name="kva_max_demand" Type="float" />
+    <Property Name="cblk_avg_mw" Type="float" />
+    <Property Name="cblk_avg_hz" Type="float" />
+    <Property Name="potime" Type="float" />
+    <Property Name="lotime" Type="float" />
+    <Property Name="runhrimp" Type="float" />
+    <Property Name="runhrexp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_loadsurvey_modify' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_loadsurvey_modify">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="vll" Type="float" />
+    <Property Name="i" Type="float" />
+    <Property Name="kw" Type="float" />
+    <Property Name="kvar" Type="float" />
+    <Property Name="kva" Type="float" />
+    <Property Name="hz" Type="float" />
+    <Property Name="vry" Type="float" />
+    <Property Name="vyb" Type="float" />
+    <Property Name="vbr" Type="float" />
+    <Property Name="vrn" Type="float" />
+    <Property Name="vbn" Type="float" />
+    <Property Name="vyn" Type="float" />
+    <Property Name="vln" Type="float" />
+    <Property Name="ir" Type="float" />
+    <Property Name="iy" Type="float" />
+    <Property Name="ib" Type="float" />
+    <Property Name="kwr" Type="float" />
+    <Property Name="kwy" Type="float" />
+    <Property Name="kwb" Type="float" />
+    <Property Name="kva_r" Type="float" />
+    <Property Name="kvay" Type="float" />
+    <Property Name="kvab" Type="float" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_exp_103" Type="float" />
+    <Property Name="kvarh_exp_97" Type="float" />
+    <Property Name="kvarh_imp_103" Type="float" />
+    <Property Name="kvarh_imp_97" Type="float" />
+    <Property Name="day_kwh_exp" Type="float" />
+    <Property Name="day_kwh_imp" Type="float" />
+    <Property Name="cblk_kwh_exp" Type="float" />
+    <Property Name="cblk_kwh_imp" Type="float" />
+    <Property Name="kw_demand" Type="float" />
+    <Property Name="kva_demand" Type="float" />
+    <Property Name="kw_max_demand" Type="float" />
+    <Property Name="kva_max_demand" Type="float" />
+    <Property Name="cblk_avg_mw" Type="float" />
+    <Property Name="cblk_avg_hz" Type="float" />
+    <Property Name="potime" Type="float" />
+    <Property Name="lotime" Type="float" />
+    <Property Name="runhrimp" Type="float" />
+    <Property Name="runhrexp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.expconsumption_blocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="expconsumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <EntityType Name="groupconfiguration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="groupid" Type="int8" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="parameter" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="grouptemplatequery">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="queryname" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="queryscript" Type="lvarchar" MaxLength="10000" Unicode="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.hourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kwh_import_current" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lag_imp_current" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+    <Property Name="kwh_export_current" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.hourwisecurrent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="hourwisecurrent">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_i" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.hourwisevoltage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="hourwisevoltage">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_vry" Type="float" />
+    <Property Name="avg_vyb" Type="float" />
+    <Property Name="avg_vbr" Type="float" />
+    <Property Name="avg_vln" Type="float" />
+  </EntityType>
+  <EntityType Name="htalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="timestampid" Type="int8" />
+    <Property Name="type" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="isactive" Type="smallint" />
+    <Property Name="hostip" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="alarmname" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="alarmmessage" Type="lvarchar" MaxLength="500" Unicode="false" />
+    <Property Name="starttime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="endtime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="duration" Type="int" />
+    <Property Name="sms" Type="smallint" />
+    <Property Name="email" Type="smallint" />
+    <Property Name="popup" Type="smallint" />
+    <Property Name="alarmid" Type="int8" />
+    <Property Name="ismanualack" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.impconsumption_blocks' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="impconsumption_blocks">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <EntityType Name="instancedata">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="meter_name" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="vrn" Type="float" />
+    <Property Name="vbn" Type="float" />
+    <Property Name="vyn" Type="float" />
+    <Property Name="vln" Type="float" />
+    <Property Name="vry" Type="float" />
+    <Property Name="vyb" Type="float" />
+    <Property Name="vbr" Type="float" />
+    <Property Name="vll" Type="float" />
+    <Property Name="ir" Type="float" />
+    <Property Name="iy" Type="float" />
+    <Property Name="ib" Type="float" />
+    <Property Name="i" Type="float" />
+    <Property Name="pf" Type="float" />
+    <Property Name="kw" Type="float" />
+    <Property Name="kvar" Type="float" />
+    <Property Name="kva" Type="float" />
+    <Property Name="hz" Type="float" />
+    <Property Name="pfr" Type="float" />
+    <Property Name="pfy" Type="float" />
+    <Property Name="pfb" Type="float" />
+    <Property Name="kwr" Type="float" />
+    <Property Name="kwy" Type="float" />
+    <Property Name="kwb" Type="float" />
+    <Property Name="kvarr" Type="float" />
+    <Property Name="kvary" Type="float" />
+    <Property Name="kvarb" Type="float" />
+    <Property Name="kva_r" Type="float" />
+    <Property Name="kvay" Type="float" />
+    <Property Name="kvab" Type="float" />
+    <Property Name="kw_demand" Type="float" />
+    <Property Name="kvar_demand" Type="float" />
+    <Property Name="kva_demand" Type="float" />
+    <Property Name="kw_max_demand" Type="float" />
+    <Property Name="kvar_max_demand" Type="float" />
+    <Property Name="kva_max_demand" Type="float" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_exp_103" Type="float" />
+    <Property Name="kvarh_exp_97" Type="float" />
+    <Property Name="kvarh_imp_103" Type="float" />
+    <Property Name="kvarh_imp_97" Type="float" />
+    <Property Name="day_kwh_exp" Type="float" />
+    <Property Name="day_kwh_imp" Type="float" />
+    <Property Name="cblk_kwh_exp" Type="float" />
+    <Property Name="cblk_kwh_imp" Type="float" />
+    <Property Name="cblk_kvarh_lag_imp" Type="float" />
+    <Property Name="cblk_kvarh_lead_imp" Type="float" />
+    <Property Name="cblk_kvarh_lag_exp" Type="float" />
+    <Property Name="cblk_kvarh_lead_exp" Type="float" />
+    <Property Name="cblk_avg_mw" Type="float" />
+    <Property Name="cblk_avg_hz" Type="float" />
+    <Property Name="lblk_timestampid" Type="float" />
+    <Property Name="lblk_avg_mw" Type="float" />
+    <Property Name="lblk_avg_hz" Type="float" />
+    <Property Name="lblk_kwh_exp" Type="float" />
+    <Property Name="lblk_kwh_imp" Type="float" />
+    <Property Name="lblk_kvah_exp" Type="float" />
+    <Property Name="lblk_kvah_imp" Type="float" />
+    <Property Name="lblk_kvarh_lag_imp" Type="float" />
+    <Property Name="lblk_kvarh_lead_imp" Type="float" />
+    <Property Name="lblk_kvarh_lag_exp" Type="float" />
+    <Property Name="lblk_kvarh_lead_exp" Type="float" />
+    <Property Name="lblk_kvarh_exp_103" Type="float" />
+    <Property Name="lblk_kvarh_exp_97" Type="float" />
+    <Property Name="lblk_kvarh_imp_103" Type="float" />
+    <Property Name="lblk_kvarh_imp_97" Type="float" />
+    <Property Name="potime" Type="float" />
+    <Property Name="lotime" Type="float" />
+    <Property Name="kwh_net" Type="float" />
+    <Property Name="temp" Type="int" />
+    <Property Name="runhrimp" Type="float" />
+    <Property Name="runhrexp" Type="float" />
+    <Property Name="meter_tstamp" Type="datetime year to fraction(5)" Precision="5" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.instancedatalogs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="instancedatalogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="meter_name" Type="lvarchar" MaxLength="50" Unicode="false" />
+    <Property Name="vrn" Type="float" />
+    <Property Name="vbn" Type="float" />
+    <Property Name="vyn" Type="float" />
+    <Property Name="vln" Type="float" />
+    <Property Name="vry" Type="float" />
+    <Property Name="vyb" Type="float" />
+    <Property Name="vbr" Type="float" />
+    <Property Name="vll" Type="float" />
+    <Property Name="ir" Type="float" />
+    <Property Name="iy" Type="float" />
+    <Property Name="ib" Type="float" />
+    <Property Name="i" Type="float" />
+    <Property Name="pf" Type="float" />
+    <Property Name="kw" Type="float" />
+    <Property Name="kvar" Type="float" />
+    <Property Name="kva" Type="float" />
+    <Property Name="hz" Type="float" />
+    <Property Name="pfr" Type="float" />
+    <Property Name="pfy" Type="float" />
+    <Property Name="pfb" Type="float" />
+    <Property Name="kwr" Type="float" />
+    <Property Name="kwy" Type="float" />
+    <Property Name="kwb" Type="float" />
+    <Property Name="kvarr" Type="float" />
+    <Property Name="kvary" Type="float" />
+    <Property Name="kvarb" Type="float" />
+    <Property Name="kva_r" Type="float" />
+    <Property Name="kvay" Type="float" />
+    <Property Name="kvab" Type="float" />
+    <Property Name="kw_demand" Type="float" />
+    <Property Name="kvar_demand" Type="float" />
+    <Property Name="kva_demand" Type="float" />
+    <Property Name="kw_max_demand" Type="float" />
+    <Property Name="kvar_max_demand" Type="float" />
+    <Property Name="kva_max_demand" Type="float" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_exp_103" Type="float" />
+    <Property Name="kvarh_exp_97" Type="float" />
+    <Property Name="kvarh_imp_103" Type="float" />
+    <Property Name="kvarh_imp_97" Type="float" />
+    <Property Name="day_kwh_exp" Type="float" />
+    <Property Name="day_kwh_imp" Type="float" />
+    <Property Name="cblk_kwh_exp" Type="float" />
+    <Property Name="cblk_kwh_imp" Type="float" />
+    <Property Name="cblk_kvarh_lag_imp" Type="float" />
+    <Property Name="cblk_kvarh_lead_imp" Type="float" />
+    <Property Name="cblk_kvarh_lag_exp" Type="float" />
+    <Property Name="cblk_kvarh_lead_exp" Type="float" />
+    <Property Name="cblk_avg_mw" Type="float" />
+    <Property Name="cblk_avg_hz" Type="float" />
+    <Property Name="lblk_timestampid" Type="float" />
+    <Property Name="lblk_avg_mw" Type="float" />
+    <Property Name="lblk_avg_hz" Type="float" />
+    <Property Name="lblk_kwh_exp" Type="float" />
+    <Property Name="lblk_kwh_imp" Type="float" />
+    <Property Name="lblk_kvah_exp" Type="float" />
+    <Property Name="lblk_kvah_imp" Type="float" />
+    <Property Name="lblk_kvarh_lag_imp" Type="float" />
+    <Property Name="lblk_kvarh_lead_imp" Type="float" />
+    <Property Name="lblk_kvarh_lag_exp" Type="float" />
+    <Property Name="lblk_kvarh_lead_exp" Type="float" />
+    <Property Name="lblk_kvarh_exp_103" Type="float" />
+    <Property Name="lblk_kvarh_exp_97" Type="float" />
+    <Property Name="lblk_kvarh_imp_103" Type="float" />
+    <Property Name="lblk_kvarh_imp_97" Type="float" />
+    <Property Name="potime" Type="float" />
+    <Property Name="lotime" Type="float" />
+    <Property Name="kwh_net" Type="float" />
+    <Property Name="temp" Type="int" />
+    <Property Name="runhrimp" Type="float" />
+    <Property Name="runhrexp" Type="float" />
+  </EntityType>
+  <EntityType Name="ipwiselogger">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="ipaddress" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="comport" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="portnumber" Type="varchar" MaxLength="30" Unicode="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.kwh_exp_con_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="kwh_exp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="param" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.kwh_exp_read_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="kwh_exp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="param" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.kwh_imp_con_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="kwh_imp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="param" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.kwh_imp_read_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="kwh_imp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="param" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.loadprofile' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="loadprofile">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kwh_import_current" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lag_imp_current" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+    <Property Name="kwh_export_current" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.loadsurveyexport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="loadsurveyexport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="blockno" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+    <Property Name="rollover_kwh" Type="float" />
+    <Property Name="rollover_kvah" Type="float" />
+    <Property Name="rollover_kvarh_lag" Type="float" />
+    <Property Name="rollover_kvarh_lead" Type="float" />
+    <Property Name="missflag" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.loadsurveyimport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="loadsurveyimport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="blockno" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+    <Property Name="rollover_kwh" Type="float" />
+    <Property Name="rollover_kvah" Type="float" />
+    <Property Name="rollover_kvarh_lag" Type="float" />
+    <Property Name="rollover_kvarh_lead" Type="float" />
+    <Property Name="missflag" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.loadsurveylogs' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="loadsurveylogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="timestampid" Type="int" />
+    <Property Name="blockno" Type="int" />
+    <Property Name="vll" Type="float" />
+    <Property Name="i" Type="float" />
+    <Property Name="pf" Type="float" />
+    <Property Name="pfy" Type="float" />
+    <Property Name="pfr" Type="float" />
+    <Property Name="pfb" Type="float" />
+    <Property Name="kw" Type="float" />
+    <Property Name="kvar" Type="float" />
+    <Property Name="kva" Type="float" />
+    <Property Name="hz" Type="float" />
+    <Property Name="vry" Type="float" />
+    <Property Name="vyb" Type="float" />
+    <Property Name="vbr" Type="float" />
+    <Property Name="vrn" Type="float" />
+    <Property Name="vbn" Type="float" />
+    <Property Name="vyn" Type="float" />
+    <Property Name="vln" Type="float" />
+    <Property Name="ir" Type="float" />
+    <Property Name="iy" Type="float" />
+    <Property Name="ib" Type="float" />
+    <Property Name="kwr" Type="float" />
+    <Property Name="kwy" Type="float" />
+    <Property Name="kwb" Type="float" />
+    <Property Name="kva_r" Type="float" />
+    <Property Name="kvay" Type="float" />
+    <Property Name="kvab" Type="float" />
+    <Property Name="kw_demand" Type="float" />
+    <Property Name="kva_demand" Type="float" />
+    <Property Name="kw_max_demand" Type="float" />
+    <Property Name="kva_max_demand" Type="float" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_exp_103" Type="float" />
+    <Property Name="kvarh_exp_97" Type="float" />
+    <Property Name="kvarh_imp_103" Type="float" />
+    <Property Name="kvarh_imp_97" Type="float" />
+    <Property Name="day_kwh_exp" Type="float" />
+    <Property Name="day_kwh_imp" Type="float" />
+    <Property Name="cblk_kwh_exp" Type="float" />
+    <Property Name="cblk_kwh_imp" Type="float" />
+    <Property Name="avg_hz" Type="float" />
+    <Property Name="avg_mw" Type="float" />
+    <Property Name="pot" Type="float" />
+    <Property Name="runhr" Type="float" />
+    <Property Name="runhrimp" Type="float" />
+    <Property Name="runhrexp" Type="float" />
+  </EntityType>
+  <EntityType Name="manualreports">
+    <Key>
+      <PropertyRef Name="reptmid" />
+    </Key>
+    <Property Name="reptmid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="rlistid" Type="int8" Nullable="false" />
+    <Property Name="requestdate" Type="datetime year to fraction(5)" Precision="5" Nullable="false" />
+    <Property Name="frmdate" Type="datetime year to fraction(5)" Precision="5" Nullable="false" />
+    <Property Name="frmtime" Type="varchar" MaxLength="8" Unicode="false" Nullable="false" />
+    <Property Name="todate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="totime" Type="varchar" MaxLength="8" Unicode="false" Nullable="false" />
+    <Property Name="filepath" Type="varchar" MaxLength="250" Unicode="false" />
+    <Property Name="isdownload" Type="int" />
+  </EntityType>
+  <EntityType Name="manualrptlist">
+    <Key>
+      <PropertyRef Name="rlistid" />
+    </Key>
+    <Property Name="rlistid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reptname" Type="varchar" MaxLength="250" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="memorymap_addressdetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelid" Type="int8" Nullable="false" />
+    <Property Name="rangeid" Type="int8" Nullable="false" />
+    <Property Name="address" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="parametername" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="datatype" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="instancedatamapping" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="float" />
+    <Property Name="bytecount" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="flag" Type="smallint" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="columntype" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="formula" Type="varchar" MaxLength="200" Unicode="false" />
+    <Property Name="tablename" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="grouptype" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="types" Type="varchar" MaxLength="30" Unicode="false" />
+  </EntityType>
+  <EntityType Name="memorymap_range">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelid" Type="int8" Nullable="false" />
+    <Property Name="startaddress" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="endaddress" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="countaddress" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="rangetype" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="types" Type="varchar" MaxLength="30" Unicode="false" />
+  </EntityType>
+  <EntityType Name="metergroups">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="groupname" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="metermodel">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modelname" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="description" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="rolloverlimit" Type="int8" />
+    <Property Name="connecttime" Type="smallint" />
+    <Property Name="senddonewait" Type="smallint" />
+    <Property Name="waitconsecutive" Type="smallint" />
+    <Property Name="onresponceerror" Type="smallint" />
+  </EntityType>
+  <EntityType Name="meters">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="metername" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="metertypeid" Type="int8" Nullable="false" />
+    <Property Name="modelid" Type="int8" Nullable="false" />
+    <Property Name="ag" Type="int" />
+    <Property Name="frequency" Type="int" />
+    <Property Name="phase" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="serialno" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="meterno" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="ctprimary" Type="int8" />
+    <Property Name="ctsecondary" Type="int8" />
+    <Property Name="blockwisedata" Type="smallint" />
+    <Property Name="isactive" Type="smallint" />
+    <Property Name="location" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="replacementremark" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="replacedby" Type="int8" />
+    <Property Name="replacementdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="rolloverlimit" Type="int8" />
+    <Property Name="misemail" Type="smallint" />
+    <Property Name="mispopup" Type="smallint" />
+    <Property Name="missms" Type="smallint" />
+    <Property Name="parameter" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="caltype" Type="int" />
+  </EntityType>
+  <EntityType Name="metertypes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="metertypename" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="meterdescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.monthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kwh_import_current" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lag_imp_current" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+    <Property Name="kwh_export_current" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.mquery_consumption' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="mquery_consumption">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+  </EntityType>
+  <EntityType Name="mstdivision">
+    <Key>
+      <PropertyRef Name="divrecid" />
+    </Key>
+    <Property Name="divrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="divid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="divname" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="divdescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="divrgnid" Type="int8" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstemployee">
+    <Key>
+      <PropertyRef Name="emprecid" />
+    </Key>
+    <Property Name="emprecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="empid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="empfirstname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="empmiddlename" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="emplastname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="empzoneid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="emprgnid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="empdivid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="empsubstnid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="empisactive" Type="smallint" />
+    <Property Name="empemailid" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="empphoneno1" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="empphoneno2" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="empisdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="msterrorlog">
+    <Key>
+      <PropertyRef Name="errorid" />
+    </Key>
+    <Property Name="errorid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="errordescription" Type="lvarchar" MaxLength="7000" Unicode="false" />
+    <Property Name="errortrace" Type="lvarchar" MaxLength="7000" Unicode="false" />
+    <Property Name="errormodule" Type="lvarchar" MaxLength="7000" Unicode="false" />
+    <Property Name="errordate" Type="datetime year to fraction(5)" Precision="5" />
+  </EntityType>
+  <EntityType Name="mstfeeder">
+    <Key>
+      <PropertyRef Name="fdrrecid" />
+    </Key>
+    <Property Name="fdrrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="fdrid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="fdrname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="fdrdescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="fdrserialno" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="fdrratedvoltage" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="fdrratedpower" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="fdrconnectedload" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="fdrphase" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="fdrmanufacturerid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="fdrsubstnid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="fdrinstallarea" Type="varchar" MaxLength="200" Unicode="false" />
+    <Property Name="fdrisdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstholiday">
+    <Key>
+      <PropertyRef Name="holrecid" />
+    </Key>
+    <Property Name="holrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="holid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="holdescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="holdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="hollegaldate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="holisdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstmenu">
+    <Key>
+      <PropertyRef Name="mnurecid" />
+    </Key>
+    <Property Name="mnurecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="mnuitemname" Type="varchar" MaxLength="100" Unicode="false" Nullable="false" />
+    <Property Name="mnuitemposition" Type="float" Nullable="false" />
+    <Property Name="link" Type="varchar" MaxLength="200" Unicode="false" />
+    <Property Name="mnuisdeleted" Type="smallint" />
+    <Property Name="mnutype" Type="int8" />
+    <Property Name="mnumodulid" Type="int8" />
+  </EntityType>
+  <EntityType Name="mstmetergroupdetail">
+    <Key>
+      <PropertyRef Name="mid" />
+    </Key>
+    <Property Name="mid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="grpid" Type="int8" />
+  </EntityType>
+  <EntityType Name="mstmodule">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="modulename" Type="varchar" MaxLength="100" Unicode="false" Nullable="false" />
+    <Property Name="moduleposition" Type="int8" Nullable="false" />
+    <Property Name="link" Type="varchar" MaxLength="200" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstregion">
+    <Key>
+      <PropertyRef Name="rgnrecid" />
+    </Key>
+    <Property Name="rgnrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="rgnid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="rgnname" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="rgndescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="rgnznid" Type="int8" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstrole">
+    <Key>
+      <PropertyRef Name="rolrecid" />
+    </Key>
+    <Property Name="rolrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="rolname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="roldescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="rolisdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstrolemenuaccess">
+    <Key>
+      <PropertyRef Name="rmarecid" />
+    </Key>
+    <Property Name="rmarecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="rmaroleid" Type="int8" />
+    <Property Name="rmamnuid" Type="int8" />
+    <Property Name="rmacreateaccess" Type="smallint" />
+    <Property Name="rmareadaccess" Type="smallint" />
+    <Property Name="rmaupdateaccess" Type="smallint" />
+    <Property Name="rmadeleteaccess" Type="smallint" />
+    <Property Name="rmaisdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstsubstation">
+    <Key>
+      <PropertyRef Name="ssrecid" />
+    </Key>
+    <Property Name="ssrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ssid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="ssname" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="ssdescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="ssdivid" Type="int8" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstuser">
+    <Key>
+      <PropertyRef Name="usrrecid" />
+    </Key>
+    <Property Name="usrrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="usrid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="usrpassword" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="usrroleid" Type="int8" />
+    <Property Name="usremployeeid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="usrisactive" Type="smallint" />
+    <Property Name="usrcreationdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="usrcreatedbyuserid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="usrfirstname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="usrmiddlename" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="usrlastname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="usremailid" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="usrphoneno1" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="usrphoneno2" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="usrisdeleted" Type="smallint" />
+    <Property Name="usrtype" Type="varchar" MaxLength="2" Unicode="false" />
+  </EntityType>
+  <EntityType Name="mstutility">
+    <Key>
+      <PropertyRef Name="utilrecid" />
+    </Key>
+    <Property Name="utilrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="utilid" Type="varchar" MaxLength="15" Unicode="false" />
+    <Property Name="utilname" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="utiladdress1" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="utiladdress2" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="utiladdress3" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="utilpin" Type="varchar" MaxLength="6" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="mstzone">
+    <Key>
+      <PropertyRef Name="znrecid" />
+    </Key>
+    <Property Name="znrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="znid" Type="varchar" MaxLength="15" Unicode="false" Nullable="false" />
+    <Property Name="znname" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="zndescription" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="znutilityid" Type="int8" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="opc_clienttag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tag_id" Type="int" />
+    <Property Name="tag_name" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="caltype" Type="varchar" MaxLength="25" Unicode="false" />
+  </EntityType>
+  <EntityType Name="opc_metername">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="opc_shortname" Type="varchar" MaxLength="45" Unicode="false" />
+  </EntityType>
+  <EntityType Name="opc_server_tag">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="tagname" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="datatype" Type="varchar" MaxLength="50" Unicode="false" Nullable="false" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="parameter" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="tablename" Type="varchar" MaxLength="50" Unicode="false" Nullable="false" />
+    <Property Name="query" Type="lvarchar" MaxLength="1000" Unicode="false" />
+    <Property Name="value" Type="float" />
+    <Property Name="istag" Type="int8" />
+    <Property Name="priority" Type="int8" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+  </EntityType>
+  <EntityType Name="parametermf">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" />
+    <Property Name="grouptype" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="multiplicationfactor" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.previousblkmiss' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="previousblkmiss">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="timestampid" Type="int" />
+    <Property Name="blockno" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="ispending" Type="int" />
+    <Property Name="issend" Type="int" />
+  </EntityType>
+  <EntityType Name="prmglobal">
+    <Key>
+      <PropertyRef Name="prmrecid" />
+    </Key>
+    <Property Name="prmrecid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="prmmodule" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="prmunit" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="prmidentifier" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="prmvalue" Type="lvarchar" MaxLength="400" Unicode="false" />
+    <Property Name="rfu1" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="rfu2" Type="varchar" MaxLength="150" Unicode="false" />
+  </EntityType>
+  <EntityType Name="querydetails">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="queryname" Type="lvarchar" MaxLength="100" Unicode="false" />
+    <Property Name="property" Type="lvarchar" MaxLength="50" Unicode="false" />
+    <Property Name="setvalue" Type="lvarchar" MaxLength="3000" Unicode="false" />
+    <Property Name="script" Type="lvarchar" MaxLength="3000" Unicode="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'interval' is currently not supported so the column 'interval' in table 'etools_dev                                                                                                                      .etools_dev.reportscheduledetails' was excluded.-->
+  <EntityType Name="reportscheduledetails">
+    <Key>
+      <PropertyRef Name="srid" />
+    </Key>
+    <Property Name="srid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="reportname" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="frqtype" Type="varchar" MaxLength="20" Unicode="false" />
+    <Property Name="startdate" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="triggertime" Type="varchar" MaxLength="10" Unicode="false" />
+    <Property Name="weekdayname" Type="varchar" MaxLength="3" Unicode="false" />
+    <Property Name="monthname" Type="varchar" MaxLength="3" Unicode="false" />
+    <Property Name="dayofmonth" Type="int8" />
+    <Property Name="isactive" Type="smallint" />
+    <Property Name="rptflag" Type="smallint" />
+  </EntityType>
+  <EntityType Name="rtalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="alarmname" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="alarmmessage" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="fromtime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="totime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="duration" Type="int" />
+    <Property Name="status" Type="smallint" />
+    <Property Name="resetstatus" Type="smallint" />
+    <Property Name="alarmquery" Type="lvarchar" MaxLength="500" Unicode="false" />
+    <Property Name="condition" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="alarmcommand" Type="varchar" MaxLength="100" Unicode="false" />
+    <Property Name="meterid" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="sendsms" Type="smallint" />
+    <Property Name="sendemail" Type="smallint" />
+    <Property Name="givepopup" Type="smallint" />
+    <Property Name="parameter" Type="lvarchar" MaxLength="500" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="smsdetails">
+    <Key>
+      <PropertyRef Name="recid" />
+    </Key>
+    <Property Name="recid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="phnno" Type="varchar" MaxLength="20" Unicode="false" Nullable="false" />
+    <Property Name="msgbody" Type="varchar" MaxLength="150" Unicode="false" Nullable="false" />
+    <Property Name="sendflag" Type="int" />
+  </EntityType>
+  <EntityType Name="stageconfiguration">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="stagename" Type="varchar" MaxLength="40" Unicode="false" Nullable="false" />
+    <Property Name="stagenmfrmupload" Type="varchar" MaxLength="40" Unicode="false" Nullable="false" />
+    <Property Name="generator" Type="varchar" MaxLength="40" Unicode="false" Nullable="false" />
+    <Property Name="linemeter" Type="varchar" MaxLength="40" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="standardalarm">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="maxvll" Type="float" />
+    <Property Name="minvll" Type="float" />
+    <Property Name="maxamp" Type="float" />
+    <Property Name="minamp" Type="float" />
+    <Property Name="maxkw" Type="float" />
+    <Property Name="minkw" Type="float" />
+    <Property Name="maxkva" Type="float" />
+    <Property Name="minkva" Type="float" />
+    <Property Name="maxhz" Type="float" />
+    <Property Name="minhz" Type="float" />
+    <Property Name="maxpf" Type="float" />
+    <Property Name="minpf" Type="float" />
+    <Property Name="connectload" Type="float" />
+    <Property Name="alarmmessages" Type="lvarchar" MaxLength="1000" Unicode="false" />
+    <Property Name="starttime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="endtime" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="status" Type="smallint" />
+    <Property Name="resetstatus" Type="int" />
+    <Property Name="duration" Type="int" />
+    <Property Name="alarmcommand" Type="varchar" MaxLength="150" Unicode="false" />
+    <Property Name="sendsms" Type="smallint" />
+    <Property Name="sendemail" Type="smallint" />
+    <Property Name="givepopup" Type="smallint" />
+    <Property Name="alarmname" Type="varchar" MaxLength="50" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <EntityType Name="tablewiseparameter">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="parametername" Type="varchar" MaxLength="45" Unicode="false" />
+    <Property Name="tablename" Type="varchar" MaxLength="30" Unicode="false" />
+    <Property Name="isdeleted" Type="smallint" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'series' is currently not supported so the column 'series' in table 'etools_dev                                                                                                                      .etools_dev.tsinstancedatalogs' was excluded.-->
+  <EntityType Name="tsinstancedatalogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'series' is currently not supported so the column 'series' in table 'etools_dev                                                                                                                      .etools_dev.tsloadsurveyexport' was excluded.-->
+  <EntityType Name="tsloadsurveyexport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'series' is currently not supported so the column 'series' in table 'etools_dev                                                                                                                      .etools_dev.tsloadsurveyimport' was excluded.-->
+  <EntityType Name="tsloadsurveyimport">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'series' is currently not supported so the column 'series' in table 'etools_dev                                                                                                                      .etools_dev.tsloadsurveylogs' was excluded.-->
+  <EntityType Name="tsloadsurveylogs">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6005: The data type of the column 'series' is currently not supported so the column 'series' in table 'etools_dev                                                                                                                      .etools_dev.tspreviousblkmiss' was excluded.-->
+  <EntityType Name="tspreviousblkmiss">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+  </EntityType>
+  <EntityType Name="txnloadblocks">
+    <Key>
+      <PropertyRef Name="txnbid" />
+    </Key>
+    <Property Name="txnbid" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="txnbparam" Type="int8" />
+    <Property Name="txnip" Type="varchar" MaxLength="60" Unicode="false" />
+    <Property Name="txnblockdate" Type="datetime year to fraction(5)" Precision="5" />
+  </EntityType>
+  <EntityType Name="uirate">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int8" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="frequency" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="positive" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="negative" Type="decimal" Precision="18" Scale="8" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" Nullable="false" />
+    <Property Name="revision" Type="int" />
+    <Property Name="stageid" Type="int" />
+    <Property Name="isdeleted" Type="smallint" />
+    <Property Name="upload_date" Type="datetime year to fraction(5)" Precision="5" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conexp_blockwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conexp_blockwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conexp_daywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conexp_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conexp_hourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conexp_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conexp_monthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conexp_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conimp_blockwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conimp_blockwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conimp_daywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conimp_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conimp_hourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conimp_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_conimp_monthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_conimp_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+    <Property Name="cum_kwh" Type="float" />
+    <Property Name="cum_kvah" Type="float" />
+    <Property Name="cum_kvarh_lag" Type="float" />
+    <Property Name="cum_kvarh_lead" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_daywise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_daywise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_hourwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_hourwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_hourwisecurrent' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_hourwisecurrent">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_i" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_hourwisevoltage' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_hourwisevoltage">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_vry" Type="float" />
+    <Property Name="avg_vyb" Type="float" />
+    <Property Name="avg_vbr" Type="float" />
+    <Property Name="avg_vln" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_kwh_exp_con_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_kwh_exp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_kwh_exp_read_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_kwh_exp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_kwh_imp_con_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_kwh_imp_con_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_kwh_imp_read_1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_kwh_imp_read_1">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_imp" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_monthwise' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_monthwise">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="ts" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="avg_vrn" Type="float" />
+    <Property Name="avg_vbn" Type="float" />
+    <Property Name="avg_vyn" Type="float" />
+    <Property Name="avg_ir" Type="float" />
+    <Property Name="avg_iy" Type="float" />
+    <Property Name="avg_ib" Type="float" />
+    <Property Name="avg_kw" Type="float" />
+    <Property Name="avg_kvar" Type="float" />
+    <Property Name="avg_kva" Type="float" />
+    <Property Name="avg_pf" Type="float" />
+    <Property Name="kwh_import" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kwh_export" Type="float" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'etools_dev                                                                                                                      .etools_dev.evt_mquery_consumption_b' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="evt_mquery_consumption_b">
+    <Key>
+      <PropertyRef Name="meterid" />
+    </Key>
+    <Property Name="meterid" Type="int8" Nullable="false" />
+    <Property Name="tstamp" Type="datetime year to fraction(5)" Precision="5" />
+    <Property Name="kwh_exp" Type="float" />
+    <Property Name="kwh_imp" Type="float" />
+    <Property Name="kvah_exp" Type="float" />
+    <Property Name="kvah_imp" Type="float" />
+    <Property Name="kvarh_lag_exp" Type="float" />
+    <Property Name="kvarh_lag_imp" Type="float" />
+    <Property Name="kvarh_lead_exp" Type="float" />
+    <Property Name="kvarh_lead_imp" Type="float" />
+  </EntityType>
+  <Association Name="r127_69">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="memorymap_range" Type="Self.memorymap_range" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_range">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r128_74">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="memorymap_addressdetails" Type="Self.memorymap_addressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_addressdetails">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r128_75">
+    <End Role="memorymap_range" Type="Self.memorymap_range" Multiplicity="1" />
+    <End Role="memorymap_addressdetails" Type="Self.memorymap_addressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="memorymap_range">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="memorymap_addressdetails">
+        <PropertyRef Name="rangeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r129_79">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="blockranges" Type="Self.blockranges" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockranges">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r130_84">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="blockaddressdetails" Type="Self.blockaddressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockaddressdetails">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r130_85">
+    <End Role="blockranges" Type="Self.blockranges" Multiplicity="1" />
+    <End Role="blockaddressdetails" Type="Self.blockaddressdetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="blockranges">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="blockaddressdetails">
+        <PropertyRef Name="blockrangeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r131_90">
+    <End Role="metermodel" Type="Self.metermodel" Multiplicity="1" />
+    <End Role="meters" Type="Self.meters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metermodel">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="meters">
+        <PropertyRef Name="modelid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r131_91">
+    <End Role="metertypes" Type="Self.metertypes" Multiplicity="1" />
+    <End Role="meters" Type="Self.meters" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metertypes">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="meters">
+        <PropertyRef Name="metertypeid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r132_94">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="ipwiselogger" Type="Self.ipwiselogger" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ipwiselogger">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r134_100">
+    <End Role="communicationdetails" Type="Self.communicationdetails" Multiplicity="0..1" />
+    <End Role="communicationdetaillink" Type="Self.communicationdetaillink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="communicationdetails">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="communicationdetaillink">
+        <PropertyRef Name="converterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r134_101">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="communicationdetaillink" Type="Self.communicationdetaillink" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="communicationdetaillink">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r135_104">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="parametermf" Type="Self.parametermf" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="parametermf">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r137_113">
+    <End Role="mstmodule" Type="Self.mstmodule" Multiplicity="0..1" />
+    <End Role="mstmenu" Type="Self.mstmenu" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstmodule">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmenu">
+        <PropertyRef Name="mnumodulid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r140_122">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="txnloadblocks" Type="Self.txnloadblocks" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="txnloadblocks">
+        <PropertyRef Name="txnbparam" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r142_128">
+    <End Role="mstrole" Type="Self.mstrole" Multiplicity="0..1" />
+    <End Role="mstuser" Type="Self.mstuser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstrole">
+        <PropertyRef Name="rolrecid" />
+      </Principal>
+      <Dependent Role="mstuser">
+        <PropertyRef Name="usrroleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r148_271">
+    <End Role="meters" Type="Self.meters" Multiplicity="1" />
+    <End Role="standardalarm" Type="Self.standardalarm" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="standardalarm">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r157_180">
+    <End Role="manualrptlist" Type="Self.manualrptlist" Multiplicity="1" />
+    <End Role="manualreports" Type="Self.manualreports" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="manualrptlist">
+        <PropertyRef Name="rlistid" />
+      </Principal>
+      <Dependent Role="manualreports">
+        <PropertyRef Name="rlistid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r162_196">
+    <End Role="metergroups" Type="Self.metergroups" Multiplicity="0..1" />
+    <End Role="mstmetergroupdetail" Type="Self.mstmetergroupdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metergroups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmetergroupdetail">
+        <PropertyRef Name="grpid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r162_197">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="mstmetergroupdetail" Type="Self.mstmetergroupdetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="mstmetergroupdetail">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r163_200">
+    <End Role="metergroups" Type="Self.metergroups" Multiplicity="0..1" />
+    <End Role="groupconfiguration" Type="Self.groupconfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="metergroups">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="groupconfiguration">
+        <PropertyRef Name="groupid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r163_201">
+    <End Role="meters" Type="Self.meters" Multiplicity="0..1" />
+    <End Role="groupconfiguration" Type="Self.groupconfiguration" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="groupconfiguration">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r165_237">
+    <End Role="alarms" Type="Self.alarms" Multiplicity="0..1" />
+    <End Role="alarmcondition" Type="Self.alarmcondition" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="alarms">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarmcondition">
+        <PropertyRef Name="alarmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r166_238">
+    <End Role="alarms" Type="Self.alarms" Multiplicity="1" />
+    <End Role="alarmhistory" Type="Self.alarmhistory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="alarms">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarmhistory">
+        <PropertyRef Name="alarmid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r167_239">
+    <End Role="meters" Type="Self.meters" Multiplicity="1" />
+    <End Role="alarms" Type="Self.alarms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="meters">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="alarms">
+        <PropertyRef Name="meterid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r170_221">
+    <End Role="mstutility" Type="Self.mstutility" Multiplicity="0..1" />
+    <End Role="mstzone" Type="Self.mstzone" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstutility">
+        <PropertyRef Name="utilrecid" />
+      </Principal>
+      <Dependent Role="mstzone">
+        <PropertyRef Name="znutilityid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r171_226">
+    <End Role="mstzone" Type="Self.mstzone" Multiplicity="0..1" />
+    <End Role="mstregion" Type="Self.mstregion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstzone">
+        <PropertyRef Name="znrecid" />
+      </Principal>
+      <Dependent Role="mstregion">
+        <PropertyRef Name="rgnznid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r172_231">
+    <End Role="mstregion" Type="Self.mstregion" Multiplicity="0..1" />
+    <End Role="mstdivision" Type="Self.mstdivision" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstregion">
+        <PropertyRef Name="rgnrecid" />
+      </Principal>
+      <Dependent Role="mstdivision">
+        <PropertyRef Name="divrgnid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r173_236">
+    <End Role="mstdivision" Type="Self.mstdivision" Multiplicity="0..1" />
+    <End Role="mstsubstation" Type="Self.mstsubstation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstdivision">
+        <PropertyRef Name="divrecid" />
+      </Principal>
+      <Dependent Role="mstsubstation">
+        <PropertyRef Name="ssdivid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r180_267">
+    <End Role="consumercategory" Type="Self.consumercategory" Multiplicity="1" />
+    <End Role="consumer" Type="Self.consumer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="consumercategory">
+        <PropertyRef Name="categoryrecid" />
+      </Principal>
+      <Dependent Role="consumer">
+        <PropertyRef Name="categoryid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r237_333">
+    <End Role="mstrole" Type="Self.mstrole" Multiplicity="0..1" />
+    <End Role="mstrolemenuaccess" Type="Self.mstrolemenuaccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstrole">
+        <PropertyRef Name="rolrecid" />
+      </Principal>
+      <Dependent Role="mstrolemenuaccess">
+        <PropertyRef Name="rmaroleid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="r237_334">
+    <End Role="mstmenu" Type="Self.mstmenu" Multiplicity="0..1" />
+    <End Role="mstrolemenuaccess" Type="Self.mstrolemenuaccess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="mstmenu">
+        <PropertyRef Name="mnurecid" />
+      </Principal>
+      <Dependent Role="mstrolemenuaccess">
+        <PropertyRef Name="rmamnuid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="etools_devModelStoreContainer">
+    <EntitySet Name="actiontype" EntityType="Self.actiontype" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="alarmcondition" EntityType="Self.alarmcondition" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="alarmhistory" EntityType="Self.alarmhistory" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="alarms" EntityType="Self.alarms" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="backupscheduledetails" EntityType="Self.backupscheduledetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="blockaddressdetails" EntityType="Self.blockaddressdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="blockranges" EntityType="Self.blockranges" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="clientfoldermap" EntityType="Self.clientfoldermap" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="communicationdetaillink" EntityType="Self.communicationdetaillink" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="communicationdetails" EntityType="Self.communicationdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="consumer" EntityType="Self.consumer" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="consumercategory" EntityType="Self.consumercategory" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="contactdetails" EntityType="Self.contactdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="databaseversion" EntityType="Self.databaseversion" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="dcsg" EntityType="Self.dcsg" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="emailconfigdetails" EntityType="Self.emailconfigdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="emaildetails" EntityType="Self.emaildetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="groupconfiguration" EntityType="Self.groupconfiguration" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="grouptemplatequery" EntityType="Self.grouptemplatequery" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="htalarm" EntityType="Self.htalarm" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="instancedata" EntityType="Self.instancedata" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="ipwiselogger" EntityType="Self.ipwiselogger" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="manualreports" EntityType="Self.manualreports" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="manualrptlist" EntityType="Self.manualrptlist" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="memorymap_addressdetails" EntityType="Self.memorymap_addressdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="memorymap_range" EntityType="Self.memorymap_range" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="metergroups" EntityType="Self.metergroups" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="metermodel" EntityType="Self.metermodel" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="meters" EntityType="Self.meters" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="metertypes" EntityType="Self.metertypes" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstdivision" EntityType="Self.mstdivision" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstemployee" EntityType="Self.mstemployee" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="msterrorlog" EntityType="Self.msterrorlog" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstfeeder" EntityType="Self.mstfeeder" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstholiday" EntityType="Self.mstholiday" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstmenu" EntityType="Self.mstmenu" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstmetergroupdetail" EntityType="Self.mstmetergroupdetail" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstmodule" EntityType="Self.mstmodule" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstregion" EntityType="Self.mstregion" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstrole" EntityType="Self.mstrole" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstrolemenuaccess" EntityType="Self.mstrolemenuaccess" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstsubstation" EntityType="Self.mstsubstation" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstuser" EntityType="Self.mstuser" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstutility" EntityType="Self.mstutility" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="mstzone" EntityType="Self.mstzone" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="opc_clienttag" EntityType="Self.opc_clienttag" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="opc_metername" EntityType="Self.opc_metername" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="opc_server_tag" EntityType="Self.opc_server_tag" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="parametermf" EntityType="Self.parametermf" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="prmglobal" EntityType="Self.prmglobal" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="querydetails" EntityType="Self.querydetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="reportscheduledetails" EntityType="Self.reportscheduledetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="rtalarm" EntityType="Self.rtalarm" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="smsdetails" EntityType="Self.smsdetails" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="stageconfiguration" EntityType="Self.stageconfiguration" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="standardalarm" EntityType="Self.standardalarm" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tablewiseparameter" EntityType="Self.tablewiseparameter" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tsinstancedatalogs" EntityType="Self.tsinstancedatalogs" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tsloadsurveyexport" EntityType="Self.tsloadsurveyexport" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tsloadsurveyimport" EntityType="Self.tsloadsurveyimport" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tsloadsurveylogs" EntityType="Self.tsloadsurveylogs" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="tspreviousblkmiss" EntityType="Self.tspreviousblkmiss" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="txnloadblocks" EntityType="Self.txnloadblocks" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="uirate" EntityType="Self.uirate" Schema="etools_dev" store:Type="Tables" />
+    <EntitySet Name="consumptionexpdaywise" EntityType="Self.consumptionexpdaywise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionexpdaywise.meterid AS meterid, 
+consumptionexpdaywise.tstamp AS tstamp, 
+consumptionexpdaywise.kwh_exp AS kwh_exp, 
+consumptionexpdaywise.kvah_exp AS kvah_exp, 
+consumptionexpdaywise.kvarh_lag_exp AS kvarh_lag_exp, 
+consumptionexpdaywise.kvarh_lead_exp AS kvarh_lead_exp, 
+consumptionexpdaywise.cum_kwh AS cum_kwh, 
+consumptionexpdaywise.cum_kvah AS cum_kvah, 
+consumptionexpdaywise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionexpdaywise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionexpdaywise AS consumptionexpdaywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="consumptionexphourwise" EntityType="Self.consumptionexphourwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionexphourwise.meterid AS meterid, 
+consumptionexphourwise.tstamp AS tstamp, 
+consumptionexphourwise.kwh_exp AS kwh_exp, 
+consumptionexphourwise.kvah_exp AS kvah_exp, 
+consumptionexphourwise.kvarh_lag_exp AS kvarh_lag_exp, 
+consumptionexphourwise.kvarh_lead_exp AS kvarh_lead_exp, 
+consumptionexphourwise.cum_kwh AS cum_kwh, 
+consumptionexphourwise.cum_kvah AS cum_kvah, 
+consumptionexphourwise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionexphourwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionexphourwise AS consumptionexphourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="consumptionexpmonthwise" EntityType="Self.consumptionexpmonthwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionexpmonthwise.meterid AS meterid, 
+consumptionexpmonthwise.tstamp AS tstamp, 
+consumptionexpmonthwise.kwh_exp AS kwh_exp, 
+consumptionexpmonthwise.kvah_exp AS kvah_exp, 
+consumptionexpmonthwise.kvarh_lag_exp AS kvarh_lag_exp, 
+consumptionexpmonthwise.kvarh_lead_exp AS kvarh_lead_exp, 
+consumptionexpmonthwise.cum_kwh AS cum_kwh, 
+consumptionexpmonthwise.cum_kvah AS cum_kvah, 
+consumptionexpmonthwise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionexpmonthwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionexpmonthwise AS consumptionexpmonthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="consumptionimpdaywise" EntityType="Self.consumptionimpdaywise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionimpdaywise.meterid AS meterid, 
+consumptionimpdaywise.tstamp AS tstamp, 
+consumptionimpdaywise.kwh_imp AS kwh_imp, 
+consumptionimpdaywise.kvah_imp AS kvah_imp, 
+consumptionimpdaywise.kvarh_lag_imp AS kvarh_lag_imp, 
+consumptionimpdaywise.kvarh_lead_imp AS kvarh_lead_imp, 
+consumptionimpdaywise.cum_kwh AS cum_kwh, 
+consumptionimpdaywise.cum_kvah AS cum_kvah, 
+consumptionimpdaywise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionimpdaywise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionimpdaywise AS consumptionimpdaywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="consumptionimphourwise" EntityType="Self.consumptionimphourwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionimphourwise.meterid AS meterid, 
+consumptionimphourwise.tstamp AS tstamp, 
+consumptionimphourwise.kwh_imp AS kwh_imp, 
+consumptionimphourwise.kvah_imp AS kvah_imp, 
+consumptionimphourwise.kvarh_lag_imp AS kvarh_lag_imp, 
+consumptionimphourwise.kvarh_lead_imp AS kvarh_lead_imp, 
+consumptionimphourwise.cum_kwh AS cum_kwh, 
+consumptionimphourwise.cum_kvah AS cum_kvah, 
+consumptionimphourwise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionimphourwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionimphourwise AS consumptionimphourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="consumptionimpmonthwise" EntityType="Self.consumptionimpmonthwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+consumptionimpmonthwise.meterid AS meterid, 
+consumptionimpmonthwise.tstamp AS tstamp, 
+consumptionimpmonthwise.kwh_imp AS kwh_imp, 
+consumptionimpmonthwise.kvah_imp AS kvah_imp, 
+consumptionimpmonthwise.kvarh_lag_imp AS kvarh_lag_imp, 
+consumptionimpmonthwise.kvarh_lead_imp AS kvarh_lead_imp, 
+consumptionimpmonthwise.cum_kwh AS cum_kwh, 
+consumptionimpmonthwise.cum_kvah AS cum_kvah, 
+consumptionimpmonthwise.cum_kvarh_lag AS cum_kvarh_lag, 
+consumptionimpmonthwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.consumptionimpmonthwise AS consumptionimpmonthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="daywise" EntityType="Self.daywise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+daywise.meterid AS meterid, 
+daywise.ts AS ts, 
+daywise.avg_vrn AS avg_vrn, 
+daywise.avg_vbn AS avg_vbn, 
+daywise.avg_vyn AS avg_vyn, 
+daywise.avg_ir AS avg_ir, 
+daywise.avg_iy AS avg_iy, 
+daywise.avg_ib AS avg_ib, 
+daywise.avg_kw AS avg_kw, 
+daywise.avg_kvar AS avg_kvar, 
+daywise.avg_kva AS avg_kva, 
+daywise.avg_pf AS avg_pf, 
+daywise.kwh_import AS kwh_import, 
+daywise.kwh_import_current AS kwh_import_current, 
+daywise.kvarh_lag_imp AS kvarh_lag_imp, 
+daywise.kvarh_lag_imp_current AS kvarh_lag_imp_current, 
+daywise.kwh_export AS kwh_export, 
+daywise.kwh_export_current AS kwh_export_current
+FROM etools_dev.daywise AS daywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_30secdatalogs" EntityType="Self.evt_30secdatalogs" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_30secdatalogs.meterid AS meterid, 
+evt_30secdatalogs.ts AS ts, 
+evt_30secdatalogs.t_vrn AS t_vrn, 
+evt_30secdatalogs.t_vbn AS t_vbn, 
+evt_30secdatalogs.t_vyn AS t_vyn, 
+evt_30secdatalogs.t_vln AS t_vln, 
+evt_30secdatalogs.t_vry AS t_vry, 
+evt_30secdatalogs.t_vyb AS t_vyb, 
+evt_30secdatalogs.t_vbr AS t_vbr, 
+evt_30secdatalogs.t_vll AS t_vll, 
+evt_30secdatalogs.t_ir AS t_ir, 
+evt_30secdatalogs.t_iy AS t_iy, 
+evt_30secdatalogs.t_ib AS t_ib, 
+evt_30secdatalogs.t_i AS t_i, 
+evt_30secdatalogs.t_pf AS t_pf, 
+evt_30secdatalogs.t_kw AS t_kw, 
+evt_30secdatalogs.t_kvar AS t_kvar, 
+evt_30secdatalogs.t_kva AS t_kva, 
+evt_30secdatalogs.t_hz AS t_hz
+FROM etools_dev.evt_30secdatalogs AS evt_30secdatalogs</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_absloadsurvey" EntityType="Self.evt_absloadsurvey" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_absloadsurvey.meterid AS meterid, 
+evt_absloadsurvey.ts AS ts, 
+evt_absloadsurvey.a_pf AS a_pf, 
+evt_absloadsurvey.a_pfy AS a_pfy, 
+evt_absloadsurvey.a_pfr AS a_pfr, 
+evt_absloadsurvey.a_pfb AS a_pfb
+FROM etools_dev.evt_absloadsurvey AS evt_absloadsurvey</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_consumption" EntityType="Self.evt_consumption" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_consumption.meterid AS meterid, 
+evt_consumption.ts AS ts, 
+evt_consumption.kwh_import AS kwh_import
+FROM etools_dev.evt_consumption AS evt_consumption</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_consumption_blocks" EntityType="Self.evt_consumption_blocks" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_consumption_blocks.meterid AS meterid, 
+evt_consumption_blocks.tstamp AS tstamp, 
+evt_consumption_blocks.kwh_exp AS kwh_exp, 
+evt_consumption_blocks.kvah_exp AS kvah_exp, 
+evt_consumption_blocks.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_consumption_blocks.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_consumption_blocks.cum_kwh AS cum_kwh, 
+evt_consumption_blocks.cum_kvah AS cum_kvah, 
+evt_consumption_blocks.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_consumption_blocks.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_consumption_blocks AS evt_consumption_blocks</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_loadsurvey" EntityType="Self.evt_loadsurvey" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_loadsurvey.meterid AS meterid, 
+evt_loadsurvey.ts AS ts, 
+evt_loadsurvey.vll AS vll, 
+evt_loadsurvey.i AS i, 
+evt_loadsurvey.kw AS kw, 
+evt_loadsurvey.kvar AS kvar, 
+evt_loadsurvey.kva AS kva, 
+evt_loadsurvey.hz AS hz, 
+evt_loadsurvey.vry AS vry, 
+evt_loadsurvey.vyb AS vyb, 
+evt_loadsurvey.vbr AS vbr, 
+evt_loadsurvey.vrn AS vrn, 
+evt_loadsurvey.vbn AS vbn, 
+evt_loadsurvey.vyn AS vyn, 
+evt_loadsurvey.vln AS vln, 
+evt_loadsurvey.ir AS ir, 
+evt_loadsurvey.iy AS iy, 
+evt_loadsurvey.ib AS ib, 
+evt_loadsurvey.kwr AS kwr, 
+evt_loadsurvey.kwy AS kwy, 
+evt_loadsurvey.kwb AS kwb, 
+evt_loadsurvey.kva_r AS kva_r, 
+evt_loadsurvey.kvay AS kvay, 
+evt_loadsurvey.kvab AS kvab, 
+evt_loadsurvey.kwh_exp AS kwh_exp, 
+evt_loadsurvey.kwh_imp AS kwh_imp, 
+evt_loadsurvey.kvah_exp AS kvah_exp, 
+evt_loadsurvey.kvah_imp AS kvah_imp, 
+evt_loadsurvey.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_loadsurvey.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_loadsurvey.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_loadsurvey.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_loadsurvey.kvarh_exp_103 AS kvarh_exp_103, 
+evt_loadsurvey.kvarh_exp_97 AS kvarh_exp_97, 
+evt_loadsurvey.kvarh_imp_103 AS kvarh_imp_103, 
+evt_loadsurvey.kvarh_imp_97 AS kvarh_imp_97, 
+evt_loadsurvey.day_kwh_exp AS day_kwh_exp, 
+evt_loadsurvey.day_kwh_imp AS day_kwh_imp, 
+evt_loadsurvey.cblk_kwh_exp AS cblk_kwh_exp, 
+evt_loadsurvey.cblk_kwh_imp AS cblk_kwh_imp, 
+evt_loadsurvey.kw_demand AS kw_demand, 
+evt_loadsurvey.kva_demand AS kva_demand, 
+evt_loadsurvey.kw_max_demand AS kw_max_demand, 
+evt_loadsurvey.kva_max_demand AS kva_max_demand, 
+evt_loadsurvey.cblk_avg_mw AS cblk_avg_mw, 
+evt_loadsurvey.cblk_avg_hz AS cblk_avg_hz, 
+evt_loadsurvey.potime AS potime, 
+evt_loadsurvey.lotime AS lotime, 
+evt_loadsurvey.runhrimp AS runhrimp, 
+evt_loadsurvey.runhrexp AS runhrexp
+FROM etools_dev.evt_loadsurvey AS evt_loadsurvey</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_loadsurvey_modify" EntityType="Self.evt_loadsurvey_modify" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_loadsurvey_modify.meterid AS meterid, 
+evt_loadsurvey_modify.ts AS ts, 
+evt_loadsurvey_modify.vll AS vll, 
+evt_loadsurvey_modify.i AS i, 
+evt_loadsurvey_modify.kw AS kw, 
+evt_loadsurvey_modify.kvar AS kvar, 
+evt_loadsurvey_modify.kva AS kva, 
+evt_loadsurvey_modify.hz AS hz, 
+evt_loadsurvey_modify.vry AS vry, 
+evt_loadsurvey_modify.vyb AS vyb, 
+evt_loadsurvey_modify.vbr AS vbr, 
+evt_loadsurvey_modify.vrn AS vrn, 
+evt_loadsurvey_modify.vbn AS vbn, 
+evt_loadsurvey_modify.vyn AS vyn, 
+evt_loadsurvey_modify.vln AS vln, 
+evt_loadsurvey_modify.ir AS ir, 
+evt_loadsurvey_modify.iy AS iy, 
+evt_loadsurvey_modify.ib AS ib, 
+evt_loadsurvey_modify.kwr AS kwr, 
+evt_loadsurvey_modify.kwy AS kwy, 
+evt_loadsurvey_modify.kwb AS kwb, 
+evt_loadsurvey_modify.kva_r AS kva_r, 
+evt_loadsurvey_modify.kvay AS kvay, 
+evt_loadsurvey_modify.kvab AS kvab, 
+evt_loadsurvey_modify.kwh_exp AS kwh_exp, 
+evt_loadsurvey_modify.kwh_imp AS kwh_imp, 
+evt_loadsurvey_modify.kvah_exp AS kvah_exp, 
+evt_loadsurvey_modify.kvah_imp AS kvah_imp, 
+evt_loadsurvey_modify.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_loadsurvey_modify.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_loadsurvey_modify.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_loadsurvey_modify.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_loadsurvey_modify.kvarh_exp_103 AS kvarh_exp_103, 
+evt_loadsurvey_modify.kvarh_exp_97 AS kvarh_exp_97, 
+evt_loadsurvey_modify.kvarh_imp_103 AS kvarh_imp_103, 
+evt_loadsurvey_modify.kvarh_imp_97 AS kvarh_imp_97, 
+evt_loadsurvey_modify.day_kwh_exp AS day_kwh_exp, 
+evt_loadsurvey_modify.day_kwh_imp AS day_kwh_imp, 
+evt_loadsurvey_modify.cblk_kwh_exp AS cblk_kwh_exp, 
+evt_loadsurvey_modify.cblk_kwh_imp AS cblk_kwh_imp, 
+evt_loadsurvey_modify.kw_demand AS kw_demand, 
+evt_loadsurvey_modify.kva_demand AS kva_demand, 
+evt_loadsurvey_modify.kw_max_demand AS kw_max_demand, 
+evt_loadsurvey_modify.kva_max_demand AS kva_max_demand, 
+evt_loadsurvey_modify.cblk_avg_mw AS cblk_avg_mw, 
+evt_loadsurvey_modify.cblk_avg_hz AS cblk_avg_hz, 
+evt_loadsurvey_modify.potime AS potime, 
+evt_loadsurvey_modify.lotime AS lotime, 
+evt_loadsurvey_modify.runhrimp AS runhrimp, 
+evt_loadsurvey_modify.runhrexp AS runhrexp
+FROM etools_dev.evt_loadsurvey_modify AS evt_loadsurvey_modify</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="expconsumption_blocks" EntityType="Self.expconsumption_blocks" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+expconsumption_blocks.meterid AS meterid, 
+expconsumption_blocks.tstamp AS tstamp, 
+expconsumption_blocks.kwh_exp AS kwh_exp, 
+expconsumption_blocks.kvah_exp AS kvah_exp, 
+expconsumption_blocks.kvarh_lag_exp AS kvarh_lag_exp, 
+expconsumption_blocks.kvarh_lead_exp AS kvarh_lead_exp, 
+expconsumption_blocks.cum_kwh AS cum_kwh, 
+expconsumption_blocks.cum_kvah AS cum_kvah, 
+expconsumption_blocks.cum_kvarh_lag AS cum_kvarh_lag, 
+expconsumption_blocks.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.expconsumption_blocks AS expconsumption_blocks</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="hourwise" EntityType="Self.hourwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+hourwise.meterid AS meterid, 
+hourwise.ts AS ts, 
+hourwise.avg_vrn AS avg_vrn, 
+hourwise.avg_vbn AS avg_vbn, 
+hourwise.avg_vyn AS avg_vyn, 
+hourwise.avg_ir AS avg_ir, 
+hourwise.avg_iy AS avg_iy, 
+hourwise.avg_ib AS avg_ib, 
+hourwise.avg_kw AS avg_kw, 
+hourwise.avg_kvar AS avg_kvar, 
+hourwise.avg_kva AS avg_kva, 
+hourwise.avg_pf AS avg_pf, 
+hourwise.kwh_import AS kwh_import, 
+hourwise.kwh_import_current AS kwh_import_current, 
+hourwise.kvarh_lag_imp AS kvarh_lag_imp, 
+hourwise.kvarh_lag_imp_current AS kvarh_lag_imp_current, 
+hourwise.kwh_export AS kwh_export, 
+hourwise.kwh_export_current AS kwh_export_current
+FROM etools_dev.hourwise AS hourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="hourwisecurrent" EntityType="Self.hourwisecurrent" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+hourwisecurrent.meterid AS meterid, 
+hourwisecurrent.ts AS ts, 
+hourwisecurrent.avg_ir AS avg_ir, 
+hourwisecurrent.avg_iy AS avg_iy, 
+hourwisecurrent.avg_ib AS avg_ib, 
+hourwisecurrent.avg_i AS avg_i
+FROM etools_dev.hourwisecurrent AS hourwisecurrent</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="hourwisevoltage" EntityType="Self.hourwisevoltage" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+hourwisevoltage.meterid AS meterid, 
+hourwisevoltage.ts AS ts, 
+hourwisevoltage.avg_vrn AS avg_vrn, 
+hourwisevoltage.avg_vbn AS avg_vbn, 
+hourwisevoltage.avg_vyn AS avg_vyn, 
+hourwisevoltage.avg_vry AS avg_vry, 
+hourwisevoltage.avg_vyb AS avg_vyb, 
+hourwisevoltage.avg_vbr AS avg_vbr, 
+hourwisevoltage.avg_vln AS avg_vln
+FROM etools_dev.hourwisevoltage AS hourwisevoltage</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="impconsumption_blocks" EntityType="Self.impconsumption_blocks" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+impconsumption_blocks.meterid AS meterid, 
+impconsumption_blocks.tstamp AS tstamp, 
+impconsumption_blocks.kwh_imp AS kwh_imp, 
+impconsumption_blocks.kvah_imp AS kvah_imp, 
+impconsumption_blocks.kvarh_lag_imp AS kvarh_lag_imp, 
+impconsumption_blocks.kvarh_lead_imp AS kvarh_lead_imp, 
+impconsumption_blocks.cum_kwh AS cum_kwh, 
+impconsumption_blocks.cum_kvah AS cum_kvah, 
+impconsumption_blocks.cum_kvarh_lag AS cum_kvarh_lag, 
+impconsumption_blocks.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.impconsumption_blocks AS impconsumption_blocks</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="instancedatalogs" EntityType="Self.instancedatalogs" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+instancedatalogs.meterid AS meterid, 
+instancedatalogs.tstamp AS tstamp, 
+instancedatalogs.meter_name AS meter_name, 
+instancedatalogs.vrn AS vrn, 
+instancedatalogs.vbn AS vbn, 
+instancedatalogs.vyn AS vyn, 
+instancedatalogs.vln AS vln, 
+instancedatalogs.vry AS vry, 
+instancedatalogs.vyb AS vyb, 
+instancedatalogs.vbr AS vbr, 
+instancedatalogs.vll AS vll, 
+instancedatalogs.ir AS ir, 
+instancedatalogs.iy AS iy, 
+instancedatalogs.ib AS ib, 
+instancedatalogs.i AS i, 
+instancedatalogs.pf AS pf, 
+instancedatalogs.kw AS kw, 
+instancedatalogs.kvar AS kvar, 
+instancedatalogs.kva AS kva, 
+instancedatalogs.hz AS hz, 
+instancedatalogs.pfr AS pfr, 
+instancedatalogs.pfy AS pfy, 
+instancedatalogs.pfb AS pfb, 
+instancedatalogs.kwr AS kwr, 
+instancedatalogs.kwy AS kwy, 
+instancedatalogs.kwb AS kwb, 
+instancedatalogs.kvarr AS kvarr, 
+instancedatalogs.kvary AS kvary, 
+instancedatalogs.kvarb AS kvarb, 
+instancedatalogs.kva_r AS kva_r, 
+instancedatalogs.kvay AS kvay, 
+instancedatalogs.kvab AS kvab, 
+instancedatalogs.kw_demand AS kw_demand, 
+instancedatalogs.kvar_demand AS kvar_demand, 
+instancedatalogs.kva_demand AS kva_demand, 
+instancedatalogs.kw_max_demand AS kw_max_demand, 
+instancedatalogs.kvar_max_demand AS kvar_max_demand, 
+instancedatalogs.kva_max_demand AS kva_max_demand, 
+instancedatalogs.kwh_exp AS kwh_exp, 
+instancedatalogs.kwh_imp AS kwh_imp, 
+instancedatalogs.kvah_exp AS kvah_exp, 
+instancedatalogs.kvah_imp AS kvah_imp, 
+instancedatalogs.kvarh_lag_imp AS kvarh_lag_imp, 
+instancedatalogs.kvarh_lead_imp AS kvarh_lead_imp, 
+instancedatalogs.kvarh_lag_exp AS kvarh_lag_exp, 
+instancedatalogs.kvarh_lead_exp AS kvarh_lead_exp, 
+instancedatalogs.kvarh_exp_103 AS kvarh_exp_103, 
+instancedatalogs.kvarh_exp_97 AS kvarh_exp_97, 
+instancedatalogs.kvarh_imp_103 AS kvarh_imp_103, 
+instancedatalogs.kvarh_imp_97 AS kvarh_imp_97, 
+instancedatalogs.day_kwh_exp AS day_kwh_exp, 
+instancedatalogs.day_kwh_imp AS day_kwh_imp, 
+instancedatalogs.cblk_kwh_exp AS cblk_kwh_exp, 
+instancedatalogs.cblk_kwh_imp AS cblk_kwh_imp, 
+instancedatalogs.cblk_kvarh_lag_imp AS cblk_kvarh_lag_imp, 
+instancedatalogs.cblk_kvarh_lead_imp AS cblk_kvarh_lead_imp, 
+instancedatalogs.cblk_kvarh_lag_exp AS cblk_kvarh_lag_exp, 
+instancedatalogs.cblk_kvarh_lead_exp AS cblk_kvarh_lead_exp, 
+instancedatalogs.cblk_avg_mw AS cblk_avg_mw, 
+instancedatalogs.cblk_avg_hz AS cblk_avg_hz, 
+instancedatalogs.lblk_timestampid AS lblk_timestampid, 
+instancedatalogs.lblk_avg_mw AS lblk_avg_mw, 
+instancedatalogs.lblk_avg_hz AS lblk_avg_hz, 
+instancedatalogs.lblk_kwh_exp AS lblk_kwh_exp, 
+instancedatalogs.lblk_kwh_imp AS lblk_kwh_imp, 
+instancedatalogs.lblk_kvah_exp AS lblk_kvah_exp, 
+instancedatalogs.lblk_kvah_imp AS lblk_kvah_imp, 
+instancedatalogs.lblk_kvarh_lag_imp AS lblk_kvarh_lag_imp, 
+instancedatalogs.lblk_kvarh_lead_imp AS lblk_kvarh_lead_imp, 
+instancedatalogs.lblk_kvarh_lag_exp AS lblk_kvarh_lag_exp, 
+instancedatalogs.lblk_kvarh_lead_exp AS lblk_kvarh_lead_exp, 
+instancedatalogs.lblk_kvarh_exp_103 AS lblk_kvarh_exp_103, 
+instancedatalogs.lblk_kvarh_exp_97 AS lblk_kvarh_exp_97, 
+instancedatalogs.lblk_kvarh_imp_103 AS lblk_kvarh_imp_103, 
+instancedatalogs.lblk_kvarh_imp_97 AS lblk_kvarh_imp_97, 
+instancedatalogs.potime AS potime, 
+instancedatalogs.lotime AS lotime, 
+instancedatalogs.kwh_net AS kwh_net, 
+instancedatalogs.temp AS temp, 
+instancedatalogs.runhrimp AS runhrimp, 
+instancedatalogs.runhrexp AS runhrexp
+FROM etools_dev.instancedatalogs AS instancedatalogs</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="kwh_exp_con_1" EntityType="Self.kwh_exp_con_1" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+kwh_exp_con_1.meterid AS meterid, 
+kwh_exp_con_1.tstamp AS tstamp, 
+kwh_exp_con_1.param AS param
+FROM etools_dev.kwh_exp_con_1 AS kwh_exp_con_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="kwh_exp_read_1" EntityType="Self.kwh_exp_read_1" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+kwh_exp_read_1.meterid AS meterid, 
+kwh_exp_read_1.tstamp AS tstamp, 
+kwh_exp_read_1.param AS param
+FROM etools_dev.kwh_exp_read_1 AS kwh_exp_read_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="kwh_imp_con_1" EntityType="Self.kwh_imp_con_1" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+kwh_imp_con_1.meterid AS meterid, 
+kwh_imp_con_1.tstamp AS tstamp, 
+kwh_imp_con_1.param AS param
+FROM etools_dev.kwh_imp_con_1 AS kwh_imp_con_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="kwh_imp_read_1" EntityType="Self.kwh_imp_read_1" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+kwh_imp_read_1.meterid AS meterid, 
+kwh_imp_read_1.tstamp AS tstamp, 
+kwh_imp_read_1.param AS param
+FROM etools_dev.kwh_imp_read_1 AS kwh_imp_read_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="loadprofile" EntityType="Self.loadprofile" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+loadprofile.meterid AS meterid, 
+loadprofile.ts AS ts, 
+loadprofile.avg_vrn AS avg_vrn, 
+loadprofile.avg_vbn AS avg_vbn, 
+loadprofile.avg_vyn AS avg_vyn, 
+loadprofile.avg_ir AS avg_ir, 
+loadprofile.avg_iy AS avg_iy, 
+loadprofile.avg_ib AS avg_ib, 
+loadprofile.avg_kw AS avg_kw, 
+loadprofile.avg_kvar AS avg_kvar, 
+loadprofile.avg_kva AS avg_kva, 
+loadprofile.avg_pf AS avg_pf, 
+loadprofile.kwh_import AS kwh_import, 
+loadprofile.kwh_import_current AS kwh_import_current, 
+loadprofile.kvarh_lag_imp AS kvarh_lag_imp, 
+loadprofile.kvarh_lag_imp_current AS kvarh_lag_imp_current, 
+loadprofile.kwh_export AS kwh_export, 
+loadprofile.kwh_export_current AS kwh_export_current
+FROM etools_dev.loadprofile AS loadprofile</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="loadsurveyexport" EntityType="Self.loadsurveyexport" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+loadsurveyexport.meterid AS meterid, 
+loadsurveyexport.tstamp AS tstamp, 
+loadsurveyexport.blockno AS blockno, 
+loadsurveyexport.kwh_exp AS kwh_exp, 
+loadsurveyexport.kvah_exp AS kvah_exp, 
+loadsurveyexport.kvarh_lag_exp AS kvarh_lag_exp, 
+loadsurveyexport.kvarh_lead_exp AS kvarh_lead_exp, 
+loadsurveyexport.cum_kwh AS cum_kwh, 
+loadsurveyexport.cum_kvah AS cum_kvah, 
+loadsurveyexport.cum_kvarh_lag AS cum_kvarh_lag, 
+loadsurveyexport.cum_kvarh_lead AS cum_kvarh_lead, 
+loadsurveyexport.rollover_kwh AS rollover_kwh, 
+loadsurveyexport.rollover_kvah AS rollover_kvah, 
+loadsurveyexport.rollover_kvarh_lag AS rollover_kvarh_lag, 
+loadsurveyexport.rollover_kvarh_lead AS rollover_kvarh_lead, 
+loadsurveyexport.missflag AS missflag
+FROM etools_dev.loadsurveyexport AS loadsurveyexport</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="loadsurveyimport" EntityType="Self.loadsurveyimport" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+loadsurveyimport.meterid AS meterid, 
+loadsurveyimport.tstamp AS tstamp, 
+loadsurveyimport.blockno AS blockno, 
+loadsurveyimport.kwh_imp AS kwh_imp, 
+loadsurveyimport.kvah_imp AS kvah_imp, 
+loadsurveyimport.kvarh_lag_imp AS kvarh_lag_imp, 
+loadsurveyimport.kvarh_lead_imp AS kvarh_lead_imp, 
+loadsurveyimport.cum_kwh AS cum_kwh, 
+loadsurveyimport.cum_kvah AS cum_kvah, 
+loadsurveyimport.cum_kvarh_lag AS cum_kvarh_lag, 
+loadsurveyimport.cum_kvarh_lead AS cum_kvarh_lead, 
+loadsurveyimport.rollover_kwh AS rollover_kwh, 
+loadsurveyimport.rollover_kvah AS rollover_kvah, 
+loadsurveyimport.rollover_kvarh_lag AS rollover_kvarh_lag, 
+loadsurveyimport.rollover_kvarh_lead AS rollover_kvarh_lead, 
+loadsurveyimport.missflag AS missflag
+FROM etools_dev.loadsurveyimport AS loadsurveyimport</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="loadsurveylogs" EntityType="Self.loadsurveylogs" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+loadsurveylogs.meterid AS meterid, 
+loadsurveylogs.tstamp AS tstamp, 
+loadsurveylogs.timestampid AS timestampid, 
+loadsurveylogs.blockno AS blockno, 
+loadsurveylogs.vll AS vll, 
+loadsurveylogs.i AS i, 
+loadsurveylogs.pf AS pf, 
+loadsurveylogs.pfy AS pfy, 
+loadsurveylogs.pfr AS pfr, 
+loadsurveylogs.pfb AS pfb, 
+loadsurveylogs.kw AS kw, 
+loadsurveylogs.kvar AS kvar, 
+loadsurveylogs.kva AS kva, 
+loadsurveylogs.hz AS hz, 
+loadsurveylogs.vry AS vry, 
+loadsurveylogs.vyb AS vyb, 
+loadsurveylogs.vbr AS vbr, 
+loadsurveylogs.vrn AS vrn, 
+loadsurveylogs.vbn AS vbn, 
+loadsurveylogs.vyn AS vyn, 
+loadsurveylogs.vln AS vln, 
+loadsurveylogs.ir AS ir, 
+loadsurveylogs.iy AS iy, 
+loadsurveylogs.ib AS ib, 
+loadsurveylogs.kwr AS kwr, 
+loadsurveylogs.kwy AS kwy, 
+loadsurveylogs.kwb AS kwb, 
+loadsurveylogs.kva_r AS kva_r, 
+loadsurveylogs.kvay AS kvay, 
+loadsurveylogs.kvab AS kvab, 
+loadsurveylogs.kw_demand AS kw_demand, 
+loadsurveylogs.kva_demand AS kva_demand, 
+loadsurveylogs.kw_max_demand AS kw_max_demand, 
+loadsurveylogs.kva_max_demand AS kva_max_demand, 
+loadsurveylogs.kwh_exp AS kwh_exp, 
+loadsurveylogs.kwh_imp AS kwh_imp, 
+loadsurveylogs.kvah_exp AS kvah_exp, 
+loadsurveylogs.kvah_imp AS kvah_imp, 
+loadsurveylogs.kvarh_lag_imp AS kvarh_lag_imp, 
+loadsurveylogs.kvarh_lead_imp AS kvarh_lead_imp, 
+loadsurveylogs.kvarh_lag_exp AS kvarh_lag_exp, 
+loadsurveylogs.kvarh_lead_exp AS kvarh_lead_exp, 
+loadsurveylogs.kvarh_exp_103 AS kvarh_exp_103, 
+loadsurveylogs.kvarh_exp_97 AS kvarh_exp_97, 
+loadsurveylogs.kvarh_imp_103 AS kvarh_imp_103, 
+loadsurveylogs.kvarh_imp_97 AS kvarh_imp_97, 
+loadsurveylogs.day_kwh_exp AS day_kwh_exp, 
+loadsurveylogs.day_kwh_imp AS day_kwh_imp, 
+loadsurveylogs.cblk_kwh_exp AS cblk_kwh_exp, 
+loadsurveylogs.cblk_kwh_imp AS cblk_kwh_imp, 
+loadsurveylogs.avg_hz AS avg_hz, 
+loadsurveylogs.avg_mw AS avg_mw, 
+loadsurveylogs.pot AS pot, 
+loadsurveylogs.runhr AS runhr, 
+loadsurveylogs.runhrimp AS runhrimp, 
+loadsurveylogs.runhrexp AS runhrexp
+FROM etools_dev.loadsurveylogs AS loadsurveylogs</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="monthwise" EntityType="Self.monthwise" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+monthwise.meterid AS meterid, 
+monthwise.ts AS ts, 
+monthwise.avg_vrn AS avg_vrn, 
+monthwise.avg_vbn AS avg_vbn, 
+monthwise.avg_vyn AS avg_vyn, 
+monthwise.avg_ir AS avg_ir, 
+monthwise.avg_iy AS avg_iy, 
+monthwise.avg_ib AS avg_ib, 
+monthwise.avg_kw AS avg_kw, 
+monthwise.avg_kvar AS avg_kvar, 
+monthwise.avg_kva AS avg_kva, 
+monthwise.avg_pf AS avg_pf, 
+monthwise.kwh_import AS kwh_import, 
+monthwise.kwh_import_current AS kwh_import_current, 
+monthwise.kvarh_lag_imp AS kvarh_lag_imp, 
+monthwise.kvarh_lag_imp_current AS kvarh_lag_imp_current, 
+monthwise.kwh_export AS kwh_export, 
+monthwise.kwh_export_current AS kwh_export_current
+FROM etools_dev.monthwise AS monthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="mquery_consumption" EntityType="Self.mquery_consumption" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+mquery_consumption.meterid AS meterid, 
+mquery_consumption.tstamp AS tstamp, 
+mquery_consumption.kwh_exp AS kwh_exp, 
+mquery_consumption.kwh_imp AS kwh_imp, 
+mquery_consumption.kvah_exp AS kvah_exp, 
+mquery_consumption.kvah_imp AS kvah_imp, 
+mquery_consumption.kvarh_lag_exp AS kvarh_lag_exp, 
+mquery_consumption.kvarh_lag_imp AS kvarh_lag_imp, 
+mquery_consumption.kvarh_lead_exp AS kvarh_lead_exp, 
+mquery_consumption.kvarh_lead_imp AS kvarh_lead_imp
+FROM etools_dev.mquery_consumption AS mquery_consumption</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="previousblkmiss" EntityType="Self.previousblkmiss" store:Type="Tables" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+previousblkmiss.meterid AS meterid, 
+previousblkmiss.tstamp AS tstamp, 
+previousblkmiss.timestampid AS timestampid, 
+previousblkmiss.blockno AS blockno, 
+previousblkmiss.ispending AS ispending, 
+previousblkmiss.issend AS issend
+FROM etools_dev.previousblkmiss AS previousblkmiss</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conexp_blockwise" EntityType="Self.evt_conexp_blockwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conexp_blockwise.meterid AS meterid, 
+evt_conexp_blockwise.ts AS ts, 
+evt_conexp_blockwise.kwh_exp AS kwh_exp, 
+evt_conexp_blockwise.kvah_exp AS kvah_exp, 
+evt_conexp_blockwise.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_conexp_blockwise.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_conexp_blockwise.cum_kwh AS cum_kwh, 
+evt_conexp_blockwise.cum_kvah AS cum_kvah, 
+evt_conexp_blockwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conexp_blockwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conexp_blockwise AS evt_conexp_blockwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conexp_daywise" EntityType="Self.evt_conexp_daywise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conexp_daywise.meterid AS meterid, 
+evt_conexp_daywise.ts AS ts, 
+evt_conexp_daywise.kwh_exp AS kwh_exp, 
+evt_conexp_daywise.kvah_exp AS kvah_exp, 
+evt_conexp_daywise.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_conexp_daywise.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_conexp_daywise.cum_kwh AS cum_kwh, 
+evt_conexp_daywise.cum_kvah AS cum_kvah, 
+evt_conexp_daywise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conexp_daywise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conexp_daywise AS evt_conexp_daywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conexp_hourwise" EntityType="Self.evt_conexp_hourwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conexp_hourwise.meterid AS meterid, 
+evt_conexp_hourwise.ts AS ts, 
+evt_conexp_hourwise.kwh_exp AS kwh_exp, 
+evt_conexp_hourwise.kvah_exp AS kvah_exp, 
+evt_conexp_hourwise.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_conexp_hourwise.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_conexp_hourwise.cum_kwh AS cum_kwh, 
+evt_conexp_hourwise.cum_kvah AS cum_kvah, 
+evt_conexp_hourwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conexp_hourwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conexp_hourwise AS evt_conexp_hourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conexp_monthwise" EntityType="Self.evt_conexp_monthwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conexp_monthwise.meterid AS meterid, 
+evt_conexp_monthwise.ts AS ts, 
+evt_conexp_monthwise.kwh_exp AS kwh_exp, 
+evt_conexp_monthwise.kvah_exp AS kvah_exp, 
+evt_conexp_monthwise.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_conexp_monthwise.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_conexp_monthwise.cum_kwh AS cum_kwh, 
+evt_conexp_monthwise.cum_kvah AS cum_kvah, 
+evt_conexp_monthwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conexp_monthwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conexp_monthwise AS evt_conexp_monthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conimp_blockwise" EntityType="Self.evt_conimp_blockwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conimp_blockwise.meterid AS meterid, 
+evt_conimp_blockwise.ts AS ts, 
+evt_conimp_blockwise.kwh_imp AS kwh_imp, 
+evt_conimp_blockwise.kvah_imp AS kvah_imp, 
+evt_conimp_blockwise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_conimp_blockwise.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_conimp_blockwise.cum_kwh AS cum_kwh, 
+evt_conimp_blockwise.cum_kvah AS cum_kvah, 
+evt_conimp_blockwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conimp_blockwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conimp_blockwise AS evt_conimp_blockwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conimp_daywise" EntityType="Self.evt_conimp_daywise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conimp_daywise.meterid AS meterid, 
+evt_conimp_daywise.ts AS ts, 
+evt_conimp_daywise.kwh_imp AS kwh_imp, 
+evt_conimp_daywise.kvah_imp AS kvah_imp, 
+evt_conimp_daywise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_conimp_daywise.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_conimp_daywise.cum_kwh AS cum_kwh, 
+evt_conimp_daywise.cum_kvah AS cum_kvah, 
+evt_conimp_daywise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conimp_daywise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conimp_daywise AS evt_conimp_daywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conimp_hourwise" EntityType="Self.evt_conimp_hourwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conimp_hourwise.meterid AS meterid, 
+evt_conimp_hourwise.ts AS ts, 
+evt_conimp_hourwise.kwh_imp AS kwh_imp, 
+evt_conimp_hourwise.kvah_imp AS kvah_imp, 
+evt_conimp_hourwise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_conimp_hourwise.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_conimp_hourwise.cum_kwh AS cum_kwh, 
+evt_conimp_hourwise.cum_kvah AS cum_kvah, 
+evt_conimp_hourwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conimp_hourwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conimp_hourwise AS evt_conimp_hourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_conimp_monthwise" EntityType="Self.evt_conimp_monthwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_conimp_monthwise.meterid AS meterid, 
+evt_conimp_monthwise.ts AS ts, 
+evt_conimp_monthwise.kwh_imp AS kwh_imp, 
+evt_conimp_monthwise.kvah_imp AS kvah_imp, 
+evt_conimp_monthwise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_conimp_monthwise.kvarh_lead_imp AS kvarh_lead_imp, 
+evt_conimp_monthwise.cum_kwh AS cum_kwh, 
+evt_conimp_monthwise.cum_kvah AS cum_kvah, 
+evt_conimp_monthwise.cum_kvarh_lag AS cum_kvarh_lag, 
+evt_conimp_monthwise.cum_kvarh_lead AS cum_kvarh_lead
+FROM etools_dev.evt_conimp_monthwise AS evt_conimp_monthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_daywise" EntityType="Self.evt_daywise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_daywise.meterid AS meterid, 
+evt_daywise.ts AS ts, 
+evt_daywise.avg_vrn AS avg_vrn, 
+evt_daywise.avg_vbn AS avg_vbn, 
+evt_daywise.avg_vyn AS avg_vyn, 
+evt_daywise.avg_ir AS avg_ir, 
+evt_daywise.avg_iy AS avg_iy, 
+evt_daywise.avg_ib AS avg_ib, 
+evt_daywise.avg_kw AS avg_kw, 
+evt_daywise.avg_kvar AS avg_kvar, 
+evt_daywise.avg_kva AS avg_kva, 
+evt_daywise.avg_pf AS avg_pf, 
+evt_daywise.kwh_import AS kwh_import, 
+evt_daywise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_daywise.kwh_export AS kwh_export
+FROM etools_dev.evt_daywise AS evt_daywise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_hourwise" EntityType="Self.evt_hourwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_hourwise.meterid AS meterid, 
+evt_hourwise.ts AS ts, 
+evt_hourwise.avg_vrn AS avg_vrn, 
+evt_hourwise.avg_vbn AS avg_vbn, 
+evt_hourwise.avg_vyn AS avg_vyn, 
+evt_hourwise.avg_ir AS avg_ir, 
+evt_hourwise.avg_iy AS avg_iy, 
+evt_hourwise.avg_ib AS avg_ib, 
+evt_hourwise.avg_kw AS avg_kw, 
+evt_hourwise.avg_kvar AS avg_kvar, 
+evt_hourwise.avg_kva AS avg_kva, 
+evt_hourwise.avg_pf AS avg_pf, 
+evt_hourwise.kwh_import AS kwh_import, 
+evt_hourwise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_hourwise.kwh_export AS kwh_export
+FROM etools_dev.evt_hourwise AS evt_hourwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_hourwisecurrent" EntityType="Self.evt_hourwisecurrent" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_hourwisecurrent.meterid AS meterid, 
+evt_hourwisecurrent.ts AS ts, 
+evt_hourwisecurrent.avg_ir AS avg_ir, 
+evt_hourwisecurrent.avg_iy AS avg_iy, 
+evt_hourwisecurrent.avg_ib AS avg_ib, 
+evt_hourwisecurrent.avg_i AS avg_i
+FROM etools_dev.evt_hourwisecurrent AS evt_hourwisecurrent</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_hourwisevoltage" EntityType="Self.evt_hourwisevoltage" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_hourwisevoltage.meterid AS meterid, 
+evt_hourwisevoltage.ts AS ts, 
+evt_hourwisevoltage.avg_vrn AS avg_vrn, 
+evt_hourwisevoltage.avg_vbn AS avg_vbn, 
+evt_hourwisevoltage.avg_vyn AS avg_vyn, 
+evt_hourwisevoltage.avg_vry AS avg_vry, 
+evt_hourwisevoltage.avg_vyb AS avg_vyb, 
+evt_hourwisevoltage.avg_vbr AS avg_vbr, 
+evt_hourwisevoltage.avg_vln AS avg_vln
+FROM etools_dev.evt_hourwisevoltage AS evt_hourwisevoltage</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_kwh_exp_con_1" EntityType="Self.evt_kwh_exp_con_1" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_kwh_exp_con_1.meterid AS meterid, 
+evt_kwh_exp_con_1.tstamp AS tstamp, 
+evt_kwh_exp_con_1.kwh_exp AS kwh_exp
+FROM etools_dev.evt_kwh_exp_con_1 AS evt_kwh_exp_con_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_kwh_exp_read_1" EntityType="Self.evt_kwh_exp_read_1" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_kwh_exp_read_1.meterid AS meterid, 
+evt_kwh_exp_read_1.tstamp AS tstamp, 
+evt_kwh_exp_read_1.kwh_exp AS kwh_exp
+FROM etools_dev.evt_kwh_exp_read_1 AS evt_kwh_exp_read_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_kwh_imp_con_1" EntityType="Self.evt_kwh_imp_con_1" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_kwh_imp_con_1.meterid AS meterid, 
+evt_kwh_imp_con_1.tstamp AS tstamp, 
+evt_kwh_imp_con_1.kwh_imp AS kwh_imp
+FROM etools_dev.evt_kwh_imp_con_1 AS evt_kwh_imp_con_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_kwh_imp_read_1" EntityType="Self.evt_kwh_imp_read_1" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_kwh_imp_read_1.meterid AS meterid, 
+evt_kwh_imp_read_1.tstamp AS tstamp, 
+evt_kwh_imp_read_1.kwh_imp AS kwh_imp
+FROM etools_dev.evt_kwh_imp_read_1 AS evt_kwh_imp_read_1</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_monthwise" EntityType="Self.evt_monthwise" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_monthwise.meterid AS meterid, 
+evt_monthwise.ts AS ts, 
+evt_monthwise.avg_vrn AS avg_vrn, 
+evt_monthwise.avg_vbn AS avg_vbn, 
+evt_monthwise.avg_vyn AS avg_vyn, 
+evt_monthwise.avg_ir AS avg_ir, 
+evt_monthwise.avg_iy AS avg_iy, 
+evt_monthwise.avg_ib AS avg_ib, 
+evt_monthwise.avg_kw AS avg_kw, 
+evt_monthwise.avg_kvar AS avg_kvar, 
+evt_monthwise.avg_kva AS avg_kva, 
+evt_monthwise.avg_pf AS avg_pf, 
+evt_monthwise.kwh_import AS kwh_import, 
+evt_monthwise.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_monthwise.kwh_export AS kwh_export
+FROM etools_dev.evt_monthwise AS evt_monthwise</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="evt_mquery_consumption_b" EntityType="Self.evt_mquery_consumption_b" store:Type="Views" store:Schema="etools_dev">
+      <DefiningQuery>SELECT 
+evt_mquery_consumption_b.meterid AS meterid, 
+evt_mquery_consumption_b.tstamp AS tstamp, 
+evt_mquery_consumption_b.kwh_exp AS kwh_exp, 
+evt_mquery_consumption_b.kwh_imp AS kwh_imp, 
+evt_mquery_consumption_b.kvah_exp AS kvah_exp, 
+evt_mquery_consumption_b.kvah_imp AS kvah_imp, 
+evt_mquery_consumption_b.kvarh_lag_exp AS kvarh_lag_exp, 
+evt_mquery_consumption_b.kvarh_lag_imp AS kvarh_lag_imp, 
+evt_mquery_consumption_b.kvarh_lead_exp AS kvarh_lead_exp, 
+evt_mquery_consumption_b.kvarh_lead_imp AS kvarh_lead_imp
+FROM etools_dev.evt_mquery_consumption_b AS evt_mquery_consumption_b</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="r127_69" Association="Self.r127_69">
+      <End Role="metermodel" EntitySet="metermodel" />
+      <End Role="memorymap_range" EntitySet="memorymap_range" />
+    </AssociationSet>
+    <AssociationSet Name="r128_74" Association="Self.r128_74">
+      <End Role="metermodel" EntitySet="metermodel" />
+      <End Role="memorymap_addressdetails" EntitySet="memorymap_addressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r128_75" Association="Self.r128_75">
+      <End Role="memorymap_range" EntitySet="memorymap_range" />
+      <End Role="memorymap_addressdetails" EntitySet="memorymap_addressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r129_79" Association="Self.r129_79">
+      <End Role="metermodel" EntitySet="metermodel" />
+      <End Role="blockranges" EntitySet="blockranges" />
+    </AssociationSet>
+    <AssociationSet Name="r130_84" Association="Self.r130_84">
+      <End Role="metermodel" EntitySet="metermodel" />
+      <End Role="blockaddressdetails" EntitySet="blockaddressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r130_85" Association="Self.r130_85">
+      <End Role="blockranges" EntitySet="blockranges" />
+      <End Role="blockaddressdetails" EntitySet="blockaddressdetails" />
+    </AssociationSet>
+    <AssociationSet Name="r131_90" Association="Self.r131_90">
+      <End Role="metermodel" EntitySet="metermodel" />
+      <End Role="meters" EntitySet="meters" />
+    </AssociationSet>
+    <AssociationSet Name="r131_91" Association="Self.r131_91">
+      <End Role="metertypes" EntitySet="metertypes" />
+      <End Role="meters" EntitySet="meters" />
+    </AssociationSet>
+    <AssociationSet Name="r132_94" Association="Self.r132_94">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="ipwiselogger" EntitySet="ipwiselogger" />
+    </AssociationSet>
+    <AssociationSet Name="r134_100" Association="Self.r134_100">
+      <End Role="communicationdetails" EntitySet="communicationdetails" />
+      <End Role="communicationdetaillink" EntitySet="communicationdetaillink" />
+    </AssociationSet>
+    <AssociationSet Name="r134_101" Association="Self.r134_101">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="communicationdetaillink" EntitySet="communicationdetaillink" />
+    </AssociationSet>
+    <AssociationSet Name="r135_104" Association="Self.r135_104">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="parametermf" EntitySet="parametermf" />
+    </AssociationSet>
+    <AssociationSet Name="r137_113" Association="Self.r137_113">
+      <End Role="mstmodule" EntitySet="mstmodule" />
+      <End Role="mstmenu" EntitySet="mstmenu" />
+    </AssociationSet>
+    <AssociationSet Name="r140_122" Association="Self.r140_122">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="txnloadblocks" EntitySet="txnloadblocks" />
+    </AssociationSet>
+    <AssociationSet Name="r142_128" Association="Self.r142_128">
+      <End Role="mstrole" EntitySet="mstrole" />
+      <End Role="mstuser" EntitySet="mstuser" />
+    </AssociationSet>
+    <AssociationSet Name="r148_271" Association="Self.r148_271">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="standardalarm" EntitySet="standardalarm" />
+    </AssociationSet>
+    <AssociationSet Name="r157_180" Association="Self.r157_180">
+      <End Role="manualrptlist" EntitySet="manualrptlist" />
+      <End Role="manualreports" EntitySet="manualreports" />
+    </AssociationSet>
+    <AssociationSet Name="r162_196" Association="Self.r162_196">
+      <End Role="metergroups" EntitySet="metergroups" />
+      <End Role="mstmetergroupdetail" EntitySet="mstmetergroupdetail" />
+    </AssociationSet>
+    <AssociationSet Name="r162_197" Association="Self.r162_197">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="mstmetergroupdetail" EntitySet="mstmetergroupdetail" />
+    </AssociationSet>
+    <AssociationSet Name="r163_200" Association="Self.r163_200">
+      <End Role="metergroups" EntitySet="metergroups" />
+      <End Role="groupconfiguration" EntitySet="groupconfiguration" />
+    </AssociationSet>
+    <AssociationSet Name="r163_201" Association="Self.r163_201">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="groupconfiguration" EntitySet="groupconfiguration" />
+    </AssociationSet>
+    <AssociationSet Name="r165_237" Association="Self.r165_237">
+      <End Role="alarms" EntitySet="alarms" />
+      <End Role="alarmcondition" EntitySet="alarmcondition" />
+    </AssociationSet>
+    <AssociationSet Name="r166_238" Association="Self.r166_238">
+      <End Role="alarms" EntitySet="alarms" />
+      <End Role="alarmhistory" EntitySet="alarmhistory" />
+    </AssociationSet>
+    <AssociationSet Name="r167_239" Association="Self.r167_239">
+      <End Role="meters" EntitySet="meters" />
+      <End Role="alarms" EntitySet="alarms" />
+    </AssociationSet>
+    <AssociationSet Name="r170_221" Association="Self.r170_221">
+      <End Role="mstutility" EntitySet="mstutility" />
+      <End Role="mstzone" EntitySet="mstzone" />
+    </AssociationSet>
+    <AssociationSet Name="r171_226" Association="Self.r171_226">
+      <End Role="mstzone" EntitySet="mstzone" />
+      <End Role="mstregion" EntitySet="mstregion" />
+    </AssociationSet>
+    <AssociationSet Name="r172_231" Association="Self.r172_231">
+      <End Role="mstregion" EntitySet="mstregion" />
+      <End Role="mstdivision" EntitySet="mstdivision" />
+    </AssociationSet>
+    <AssociationSet Name="r173_236" Association="Self.r173_236">
+      <End Role="mstdivision" EntitySet="mstdivision" />
+      <End Role="mstsubstation" EntitySet="mstsubstation" />
+    </AssociationSet>
+    <AssociationSet Name="r180_267" Association="Self.r180_267">
+      <End Role="consumercategory" EntitySet="consumercategory" />
+      <End Role="consumer" EntitySet="consumer" />
+    </AssociationSet>
+    <AssociationSet Name="r237_333" Association="Self.r237_333">
+      <End Role="mstrole" EntitySet="mstrole" />
+      <End Role="mstrolemenuaccess" EntitySet="mstrolemenuaccess" />
+    </AssociationSet>
+    <AssociationSet Name="r237_334" Association="Self.r237_334">
+      <End Role="mstmenu" EntitySet="mstmenu" />
+      <End Role="mstrolemenuaccess" EntitySet="mstrolemenuaccess" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

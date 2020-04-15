@@ -1,0 +1,90 @@
+﻿@model GridLogikViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "ABT Meter";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box"><h3>ABT Meter</h3></div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+            </div>
+            <div class="panel-body" style="border:0px solid #000;">
+                <div class="form-group col-md-4" style="border:0px solid #f00;">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Group2341</label>
+                    <div class="form-group col-md-7" style="border:0px solid #f00;">
+                        @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), "select", new { @id = "groupList", @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group col-md-6" style="border:0px solid #f00;">
+                    <label class="col-md-4" for="ccyear" style="border:0px solid #f00; margin:5px 0px;">Meter Name</label>
+                    <div class="form-group col-md-7" style="border:0px solid #f00;">
+                        @Html.DropDownListFor(model => Model.METERID, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), "select", new { @id = "meterList", @class = "form-control" })
+                    </div>
+                </div>              
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //$("#meterList").val();
+    var box;
+    $().ready(function () {
+        $("#groupList").change(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var grpId = $('#groupList').val();
+            $.ajax({
+                url: '@Url.Action("MetersByGroupID", "TrendsData")',
+                data: { id: grpId },
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    var markup = "";
+                    var markup = "<option value=''>Select Meters</option>";
+                    for (var x = 0; x < data.length; x++) {
+                        markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    }
+                    $("#meterList").html(markup).show();
+                    if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                }
+            });
+        });
+
+        $("#meterList").change(function () {
+            var data =
+                {
+                    METERID : $('#meterList').val(),
+                    Group_Name: $('#groupList option:selected').text(),
+                    Meter_Name: $('#meterList option:selected').text()
+                };
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+           // window.location.href = "/ABTMeter/ABTMeterDetails/" + data;
+            window.location.href = "/ABTMeter/ABTMeterDetails/array?" + decodeURIComponent($.param(data));
+            @*$.ajax({
+                url: '@Url.Action("ABTMeterDetails", "ABTMeter")',
+                data: JSON.stringify(data),
+                cache: false,
+                type: "POST",
+                success: function (data) {
+                    //var markup = "";
+                    //var markup = "<option value=''>Select Meters</option>";
+                    //for (var x = 0; x < data.length; x++) {
+                    //    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                    //}
+                    //$("#meterList").html(markup).show();
+                    //if (box) box.remove();
+                },
+                error: function (reponse) {
+                    if (box) box.remove();
+                }
+            });*@
+        });
+
+    });
+
+</script>

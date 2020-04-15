@@ -1,0 +1,24 @@
+1|L&T|Energy|0||
+2|ELNET|ELNET MULTIFUNCTION METERS|0||
+3|CMS L4| Meters|0||
+4|CMS ABT|CMS|0||
+5|EDMI|SINGLE PHASE METERS CMS|0||
+6|Elster|METERS|0||
+7|Secure|METERS|0||
+22|test|teste|1||
+23|teste|test3|1||
+24|test4|te|1||
+25|test6|teste|1||
+26|text7|a|1||
+27|test8|a|1||
+8|AnnexApex|6 Annex-Apex Version 0202||999999|
+9|CMS L4 Energy Old | CMS ABT OLD Version 6.1.2|0||
+10|ConservEM6400|ConservEM6400|0||
+11|ConservEM6400NG|ConservEM6400NG|0||
+12|Sentron|Sentron|0||
+13|LandT300| LandT300|0||
+14|LandTER300P| LandTER300P|0||
+15|SecureElite115|SecureElite115|0||
+17|LandTOld|SecureElite115|0||
+18|LandTOldlblk|SecureElite115|0||
+100|EDMI DLMS|EDMI MK6|0|999|

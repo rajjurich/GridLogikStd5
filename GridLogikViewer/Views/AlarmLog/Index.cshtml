@@ -1,0 +1,274 @@
+﻿@model IEnumerable<GridLogik.ViewModels.HTAlarm>
+@{
+    ViewBag.Title = "";
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">
+                            Alarm Log
+                        </h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Logs</a></li>
+                        <li class="active">Alarm Log</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                @*<div class="panel-heading">
+                                    <span class="pull-left">
+                                        <strong>
+                                            Alarm Log
+                                        </strong>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>*@
+                                <div class="panel-body">
+                                    @using (Html.BeginForm("Index", "AlarmLog"))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="row mb5">
+                                            <div class="col-md-4">
+                                                <div class="row mt20">
+                                                    <div class="col-md-4 text-right">
+                                                        <label><strong> From Date	 </strong></label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.FirstOrDefault().fltrFromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="row mt20">
+                                                    <div class="col-md-4 text-right">
+                                                        <label><strong> To Date	 </strong></label>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @Html.TextBoxFor(model => model.LastOrDefault().fltrToDate, new { @id = "toDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="row mt20">
+                                                    <div class="col-md-6">
+                                                        &nbsp;&nbsp; @Html.RadioButtonFor(m => m.LastOrDefault().AllChecked, "All", new { Checked = "checked" }) Active&nbsp;&nbsp;
+                                                        @Html.RadioButtonFor(m => m.LastOrDefault().AllChecked, "Offline") History
+                                                        @*@Html.RadioButton("Status", "1", new { @ID = "Statused", @name = "Status" }) Offline*@
+                                                    </div>
+                                                    <div class="col-md-6 text-left">
+                                                        <input type="submit" value="Filter" class="btn btn-warning" id="btnRefresh" onclick="filter()" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row mb5">
+                                            <div class="col-md-12">
+                                                <hr />
+
+                                                <div class="table-responsive ls-table">
+
+                                                    <table class="table table-bordered table-striped" id="lsttable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center">ID</th>
+                                                                <th class="text-center">Alarm Name</th>
+                                                                <th class="text-center">Alarm Message</th>
+                                                                <th class="text-center">Meter Name</th>
+                                                                <th class="text-center">Start Time</th>
+                                                                <th class="text-center">End Time</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="filterdata">
+                                                            @foreach (var item in Model)
+                                                            {
+                                                                <tr>
+                                                                    <td class="text-center">
+                                                                        @Html.DisplayFor(modelItem => item.ID)
+
+                                                                    </td>
+                                                                    <td class="text-center">
+
+                                                                        @Html.DisplayFor(modelItem => item.alarmname)
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.DisplayFor(modelItem => item.alarmmessage)
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.DisplayFor(modelItem => item.metername)
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.DisplayFor(modelItem => item.starttimelog)
+                                                                    </td>
+                                                                    <td class="text-center">
+                                                                        @Html.DisplayFor(modelItem => item.stoptimelog)
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                    <br />
+                                                        <button type="button" class="btn btn-success btn-sm" id="export"><i class="fa fa-file-excel-o"></i> Export to Excel</button><div class="clearfix"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        //  debugger;
+        $("#FromDate,#toDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0'
+
+        }).datepicker('setDate', new Date());
+
+
+        // iterate  through each row of your table
+        //$('#lsttable tr').each(function () {
+        //    debugger;
+
+        //    var IsChecked = $(this).find('.chcktbl').prop("checked")
+        //    if (IsChecked) {
+        //        $(this).find('.chcktbl').attr('disabled', true);
+        //        $(this).css('background', '#5cb85c');
+
+        //    }
+        //    else {
+        //        $(this).css('background', '#e74c3c');
+        //    }
+        //});
+        //$('#lsttable #chckHead').click(function () {
+        //    debugger;
+
+
+        //    if (this.checked == false) {
+
+        //        $('.chcktbl:checked').not(':disabled').prop('checked', false);
+
+        //    }
+        //    else {
+        //        $('.chcktbl:not(:checked)').prop('checked', true);
+
+        //    }
+
+
+        //});
+
+
+
+        @*$('#export').click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var actionUrl = '@Url.Action("Export", "AlarmLog")';
+            window.open("Export");
+            if (box) box.remove();
+        });*@
+
+        $('#export').click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var tblRowCount = $('#lsttable tr').length;
+            var fltrFromDate = $("#FromDate").val();
+            var fltrToDate = $("#toDate").val();
+            var AllChecked = $("input[name='AllChecked']:checked").val();
+
+            var obj = { "fltrFromDate": fltrFromDate, "fltrToDate": fltrToDate };
+            if (tblRowCount > 2) {
+                debugger;
+                window.location.href = "@Url.Action("Export", "AlarmLog")?Page=data&fltrFromDate=" + fltrFromDate + "&fltrToDate=" + fltrToDate + "&AllChecked=" + AllChecked;
+            }
+            else {
+                if (box) box.remove();
+                alert('No Records Found for Excel Generation', '', false, 'E');
+                return false;
+            }
+            if (box) box.remove();
+        });
+
+
+        $("#lsttable").dataTable(
+                 {
+                     pageLength: 10,
+                     "aoColumns": [null,
+                                      null,
+                                    null,
+                                     null,
+                                       null,
+                                    { "bSortable": false, "searchable": false, "width": "144px" }
+                     ],
+                 });
+    });
+
+
+
+    function myfunction() {
+
+        var i = 0;
+        var TableData = new Array();
+
+        $('#lsttable tr').each(function (row, tr) {
+            if (row != 0) {
+                debugger;
+                var IsChecked = $(this).find('.chcktbl').prop("checked")
+                var Isdisabled = $(this).find('.chcktbl').prop("disabled")
+                if (IsChecked && Isdisabled == false) {
+                    TableData[i] = {
+                        "ID": $(tr).find('td:eq(0)').text()
+                        , "ISMANUALACK": $(tr).find('.chcktbl').prop("checked")
+
+                    }
+                    i++;
+                }
+
+            }
+
+        });
+
+
+
+        $.ajax({
+
+            type: "Post",
+            contentType: "application/json;charset=utf-8",
+
+            url: BaseAddress +"/AlarmLog/updateall",
+            data: JSON.stringify(TableData),
+            dataType: "json",
+            success: function (menus, status, jqXHR) {
+                alert(menus.Message, '@Url.Action("Index")', false, 'S');
+                '@Url.Action("Index")';
+            },
+            error: function (xhr, status, error) {
+                //alert(error);
+
+            }
+        });
+
+    }
+</script>

@@ -1,0 +1,240 @@
+﻿@model GridLogik.ViewModels.GroupDisplayViewModel
+
+@{
+    ViewBag.Title = "";
+    <style type="text/css">
+        #startTime, #EndTime {
+            padding: 6px 3px !important;
+        }
+        /*.dataTables_scrollHead {
+            overflow: visible !important;
+            width: 1353px !important;
+        }
+
+        .dataTables_scroll {
+            overflow-x: scroll;
+        }*/
+        .form-group { margin-bottom:0px;
+        }
+    </style>
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header col-md-6">Group Display</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Group Display</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                          
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <div class="dashboard-panel-body-box"> Query Selection </div>
+
+                                </div>
+                                @using (Html.BeginForm("Create", "GroupDisplay", FormMethod.Post, new { id = "formHist" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.ValidationSummary(true)
+                                    <div class="panel-body">
+                                        <div class="col-sm-12">
+                                            <div class="row" >
+
+
+                                                <div class="form-group col-md-2">
+                                                    <label for="ccmonth" >Group Name</label>
+                                                    <div >
+                                                        @Html.DropDownListFor(model => Model.Groupid, new SelectList(Model.GroupNameList, "Id", "GroupName"), "select", new { @id = "groupnameList", @class = "form-control" })
+                                                    </div>
+                                                </div>
+
+
+                                                <div class=" form-group col-md-2">
+                                                    <label for="ccmonth" >Query</label>
+                                                   
+                                                        @Html.DropDownListFor(model => model.Query, (IEnumerable<SelectListItem>)ViewBag.QueryList, "Select Query", new { @class = "form-control" })
+                                                    
+                                                </div>
+
+                                                <div class="form-group col-md-3">
+                                                    <div class="row">
+                                                    <div class="col-md-6" >
+                                                        <label class="control-label"  for="select">
+                                                            From Date
+                                                        </label>
+                                                        <div id="dtFrmDate" >
+                                                            @*@Html.TextBoxFor(model => model.FromDate, String.Format(" {0:mm />dd/yyyy}", Model.FromDate), new { @id = "fromDate", @class = "col-sm-12", @style = "margin:0px; padding:0px; padding:5px 0px; " })*@
+                                                            @*<input id="FromDate" class="form-control" type="text" readonly name="txtFrmDate" />*@
+                                                            @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6" >
+                                                        <label  for="select">
+                                                            From Time
+                                                        </label>
+
+                                                        <div id="dtFrmDate">
+                                                            @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div></div>
+
+
+                                                <div class="form-group col-md-3">
+                                                    <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label class="control-label" for="select">
+                                                            To Date
+                                                        </label>
+                                                        <div id="dtFrmDate" >
+                                                            @*@Html.TextBoxFor(model => model.FromDate, String.Format(" {0:mm />dd/yyyy}", Model.FromDate), new { @id = "fromDate", @class = "col-sm-12", @style = "margin:0px; padding:0px; padding:5px 0px; " })*@
+                                                            @*<input id="txtToDate" class="form-control" type="text" readonly name="txtToDate" />*@
+                                                            @Html.TextBoxFor(m => m.ToDate, new { @id = "ToDate", @class = "form-control", @readonly = true, @name = "txtToDate" })
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                        <label class="control-label" for="select">
+                                                            To Time
+                                                        </label>
+
+                                                        <div id="dtFrmDate">
+                                                            @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "EndTime", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div></div>
+
+                                                <div class="col-md-1">
+                                                    <label class="control-label" for="select">
+                                                        &nbsp;
+                                                    </label>
+                                                    <div class="form-group has-feedback">
+                                                        <input type="button" value="Display" id="updateDetail" class="toggle btn btn-primary" />
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            
+                                                <div class=" col-md-6" id="meterData">
+                                                </div>
+                                                <div class="col-md-6" id="queryData">
+                                                </div>
+                                           
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#updateDetail").hide()
+        $("#groupnameList").change(function () {
+            if ($("#groupnameList").val() == "") {
+                $("#meterData").html(null);
+                $("#updateDetail").hide()
+            }
+            else {
+                if ($("#Query").val() == "")
+                    $("#updateDetail").hide()
+                else
+                    $("#updateDetail").show()
+                //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                var url = "@Url.Action("Create", "GroupDisplay")";
+
+                var model = { Groupid: $("#groupnameList").val(), GroupName: $("#groupnameList option:selected").text(), FromDate: $('#FromDate').val() };
+
+                $.post(url, model, function (res) {
+                    $("#meterData").html(res);
+                    if (box) box.remove();
+                });
+            }
+        });
+        $("#Query").change(function () {
+            if ($("#Query").val() == "") {
+                $("#updateDetail").hide()
+                $("#queryData").html(null);
+            }
+            else if ($("#groupnameList").val() == "") {
+                $("#Query").val()
+                $("#updateDetail").hide()
+                lert("Please select Group Name", '', false, 'E')
+            }
+            else
+                $("#updateDetail").show()
+        })
+        $("#updateDetail").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var url = "@Url.Action("Update", "GroupDisplay")";
+
+            var model = { Groupid: $("#groupnameList").val(), Query: $("#Query").val(), FromDate: $("#FromDate").val(), ToDate: $("#ToDate").val(), StartTime: $("#startTime").val(), EndTime: $("#EndTime").val(), GroupName: $("#groupnameList option:selected").text() };
+
+            $.post(url, model, function (res) {
+                $("#queryData").html(res);
+                if (box) box.remove();
+            });
+        });
+
+      
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            maxDate: '0',
+            onSelect: function (selected) {
+                var dt = $("#FromDate").datepicker('getDate');
+                dt.setDate(dt.getDate());
+                $("#ToDate").datepicker("option", "minDate", dt);
+
+                //var dt = $("#FromDate").datepicker('getDate');
+                //dt.setDate(dt.getDate() + 30);
+                //var currentDt = $("#CurrentDate").datepicker('getDate');
+                //if (dt > currentDt) {
+                //    currentDt.setDate(currentDt.getDate() + 1);
+                //    dt = currentDt;
+                //}
+
+                //$("#ToDate").datepicker("option", "minDate", selected);
+                //$("#ToDate").datepicker("option", "maxDate", dt);
+            }
+        }).datepicker('setDate', new Date());
+        $("#ToDate").datepicker({
+
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            minDate: '0',
+            maxDate: '0'
+        }).datepicker('setDate', new Date());
+
+
+    });
+
+</script>
+@Scripts.Render("~/bundles/jqueryval")

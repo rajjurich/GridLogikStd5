@@ -1,0 +1,312 @@
+﻿@model GridLogikViewer.Models.MstTOU
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Delete TOU";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+                //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tou/" + id,
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (tou) {
+
+
+                    if (tou.Data.result.tourecid == null) {
+                        alert(tou.Data.d, '', false, 'E');
+                    }
+
+                    else {
+                        $("#tourecid").val(tou.Data.result.tourecid);
+                        $("#touid").val(tou.Data.result.touid);
+                        $("#touconsumercatid").val(tou.Data.result.touconsumercatdesc);
+                        $("#touconsumercatdesc").val(tou.Data.result.touconsumercatid);
+                        $("#toudescription").val(tou.Data.result.toudescription);
+                        $("#toumaxslots").val(tou.Data.result.toumaxslots);
+                    }
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                    //if (box) box.remove();
+                }
+            });
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "touslot/GetTOUSlotByTouId/" + $("#touid").val(),
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (touslot) {
+
+                    var str = "";
+                    var i = 1;
+                    if (touslot.Data.result != undefined) {
+                        touslot.Data.result.forEach(function (response) {
+
+                            str += "<tr>" +
+                            //"<td><input type='text' id='tstouid" + i + "'' value='" + response.tstouid + "' disabled='true' > <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+            				"<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled='true'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                            "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "' disabled='true'> </td>" +
+                            "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "' disabled='true'> </td>" +
+                            "<td><input type='text' id='tsmaxdemandlimit" + i + "' value='" + response.tsmaxdemandlimit + "' disabled='true'> </td>" +
+            				"</tr>"
+
+                            i = i + 1;
+                        });
+                    }
+
+                    if (str != "") {
+                        $("#tblTS").css("display", "");
+                        $("#tblTouSlot").html(str);
+                    }
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                    //if (box) box.remove();
+                }
+            });
+        });
+
+
+        function deleterecord() {
+            //;
+
+            var IsTouComplete = "";
+            var mstdivision = {
+                "touid": $("#touid").val(),
+                "touconsumercatid": $("#touconsumercatdesc").val(),
+                "toumaxslots": $("#toumaxslots").val(),
+                "touisdeleted": 1
+            };
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var RecordID = $("#tourecid").val();
+
+            $.ajax({
+                type: "PUT",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                //url: "http://localhost/GridLogikViewerWebAPI/api/region/" + RecordID,
+                url: BaseAddress + "tou/" + RecordID,
+                //crossDomain: true,
+                dataType: "json",//type of data to be received
+                data: JSON.stringify(mstdivision),//data to be send
+                async: false,
+                success: function (response) {
+                    //;
+                    //alert(response);
+
+                    if (response.Data.e == "S") {
+                        IsTouComplete = "y";
+                    }
+                    else if (response.Data.e == "M") {
+                        alert(response.Data.d, '', false, 'M');
+                    }
+                    else if (response.Data.e == "E") {
+                        alert(response.Data.d, '', false, 'E');
+                    }
+                    if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    ;
+                    alert(xhr.responseText, '', false, 'E');
+                    if (box) box.remove();
+                }
+            });
+
+
+            if (IsTouComplete != "") {
+                var TOUSlotData = new Array();
+
+                $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                    TOUSlotData[row] = {
+                        "tstouid": $("#touid").val()
+                        , "tsrecid": $(tr).find('td:eq(0) input:last').val()
+                        , "tsslotno": $(tr).find('td:eq(0) input:first').val()
+                        , "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                        , "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                        , "tsmaxdemandlimit": $(tr).find('td:eq(3) input:first').val()
+                        , "tsisdeleted": 1
+                    }
+
+                });
+                $.ajax({
+                    type: "PUT",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "touslot",
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(TOUSlotData),//data to be send
+                    async: false,
+                    success: function (response) {
+
+                        if (response.Data.e == "S") {
+                            if (response.Data.d.length > 0)
+                                IsTouComplete = "y";
+                            alert(response.Data.d, '@Url.Action("Index", "Tou")', false, 'S');
+                            //$('#btnReset').click();
+                            //window.location.href = '@Url.Action("Index", "TOU")';
+                            //window.location.href = '@Url.Action("Index", "Tou")';
+                        }
+                        else if (response.Data.e == "M") {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, 'M');
+                        }
+                        else if (response.Data.e == "E") {
+                            if (response.Data.d.length > 0)
+                                alert(response.Data.d, '', false, 'E');
+                        }
+
+                    },
+                    error: function (xhr, status, error) {
+
+                        alert(xhr.responseText, '', false, 'E');
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+
+            $("#btnDelete").click(function (e) {
+                //;
+                var msg = confirm(DeleteMessage);
+
+            });
+        });
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">TOD</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-red">
+                                <div class="panel-heading">
+                                    <i class="fa fa-trash-o"></i>  <strong>DELETE</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        <div class="form-horizontal">
+                                        </div>
+                                        @*<hr />*@
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.Hidden("touconsumercatdesc")
+                                                    @Html.HiddenFor(model => model.tourecid)
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.touid, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.touid, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.touid, new { disabled = "disabled", @class = "form-control" })
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.toumaxslots, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.toumaxslots, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.toumaxslots, new { disabled = "disabled", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="row" style="display:none">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.touconsumercatid, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.touconsumercatid, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.touconsumercatid, new { disabled = "disabled", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @*@Html.LabelFor(model => model.toudescription, new { @class = "control-label col-md-2" })*@
+                                                    @Html.LabelForRequired(model => model.toudescription, null, "control-label col-md-2")
+                                                    <div class="col-md-3">
+                                                        @Html.TextBoxFor(model => model.toudescription, new { disabled = "disabled", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="form-group">
+                                            <table border="1" id="tblTS" style="text-align:center" class="table table-bordered table-hover table-sortable">
+                                                <thead>
+                                                    <tr>
+                                                        @*<th>TS Code</th>*@
+                                                        <th style="color:white">TS Slot No</th>
+                                                        <th style="color:white">TS Slot Start  (24 Hrs Format)</th>
+                                                        <th style="color:white">TS Slot End  (24 Hrs Format)</th>
+                                                        <th style="color:white">TS Max Demand Limit</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tblTouSlot"></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-danger" id="btnDelete"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Delete</button>
+                                        </div>
+                                    }
+                                    <div style="padding-bottom:20px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

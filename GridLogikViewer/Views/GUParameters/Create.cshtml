@@ -1,0 +1,217 @@
+﻿@model GridLogikViewer.Models.mstmodcostdata
+
+@{
+    ViewBag.Title = "Create";
+}
+<script>
+    $(document).ready(function () {
+        new confirmexitmsg('form');
+
+        $("#btnCreate").click(function (e) {
+            var row = [];
+            var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            if ($('form').valid()) {
+
+                formmodified = 0;
+
+
+                var mstData = {
+                    "mgenid": $("#mgenid").val(),
+                    "mfixct": $("#mfixct").val(),
+                    "mlnct": $("#mlnct").val(),
+                    "mqdct": $("#mqdct").val(),
+                    "mstartup": $("#mstartup").val(),
+                    "mshut": $("#mshut").val(),
+                    "mmrl": $("#mmrl").val(),
+                    "mmud": $("#mmud").val(),
+                    "mmdd": $("#mmdd").val(),
+                    "mstate": $("#mstate").val(),
+                    "mdurcst": $("#mdurcst").val(),
+                    "isdeleted": 0,
+                    "mschdule": $("#mschdule").val()
+                };
+                var id =@this.ViewContext.RouteData.Values["id"]
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json;charset=utf-8",   //type of data to be send
+                    url: '@Url.Action("Create", "GUParameters")',
+                    dataType: "json",//type of data to be received
+                    data: JSON.stringify(mstData),//data to be send
+                    success: function (response) {
+
+                        if (response.e == "S") {
+                            if (response.d.length > 0)
+                                alert(response.d, '@Url.Action("Create", "GUParameters")', true, response.e);
+                        }
+                        else if (response.e == "M") {
+                            if (response.d.length > 0)
+                                alert(response.d, '', false, response.e);
+                        }
+                        else if (response.e == "E") {
+                            if (response.d.length > 0)
+                                alert(response.d, '', false, response.e);
+                        }
+                        if (box) box.remove();
+                    },
+                    error: function (xhr, status, error) {
+                        if (box) box.remove();
+                        // alert(xhr.responseText);
+                    }
+                });
+
+            }
+            else { if (box) box.remove(); }
+            e.preventDefault();
+
+
+        });
+    });
+
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Employee</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Generator Unit Parameter</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-plus-circle"></i>  <strong>ADD</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                                <div class="form-horizontal">
+                                                    @Html.ValidationSummary(true)
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mgenid, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => model.mgenid, (IEnumerable<SelectListItem>)ViewBag.metersCollection, "Select Unit", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mgenid, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                    <h4>Cost</h4>
+                                                    <hr>
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mstartup, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mstartup, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mstartup, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                        @Html.LabelFor(model => model.mshut, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mshut, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mshut, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+
+                                                        @*@Html.LabelFor(model => model.mlnct, new { @class = "control-label col-md-2" })*@
+                                                        <div class="col-md-3" style="display:none">
+                                                            @Html.TextBoxFor(model => model.mlnct, new { @Value = "0", @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mlnct, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group" style="display:none">
+                                                        @Html.LabelFor(model => model.mqdct, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mqdct, new { @Value = "0", @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mqdct, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                        @Html.LabelFor(model => model.mfixct, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mfixct, new { @Value = "0", @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mfixct, null, new { @class = "validation-redcolor" })
+                                                        </div>
+
+
+
+
+                                                    </div>
+                                                    <br />
+                                                    <h4>Technical Constraints</h4>
+                                                    <hr>
+
+
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mmrl, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mmrl, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mmrl, null, new { @class = "validation-redcolor" })
+                                                        </div>
+
+                                                        @Html.LabelFor(model => model.mmud, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mmud, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mmud, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mmdd, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mmdd, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mmdd, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+
+                                                    <br />
+                                                    <h4>Prior Conditions</h4>
+                                                    <hr>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mstate, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.DropDownListFor(model => model.mstate, (IEnumerable<SelectListItem>)ViewBag.StateList, "Select state", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mstate, null, new { @class = "validation-redcolor" })
+                                                        </div>
+
+                                                        @Html.LabelFor(model => model.mschdule, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mschdule, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mschdule, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.mdurcst, new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-3">
+                                                            @Html.TextBoxFor(model => model.mdurcst, new { @maxlength = "10", @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.mdurcst, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                    <div class="panel-footer col-md-12 text-center">
+                                                        <button type="submit" class="btn btn-success" id="btnCreate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                                        <button type="reset" class="btn btn-danger" id="btnReset"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+                                                    </div>
+                                                </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

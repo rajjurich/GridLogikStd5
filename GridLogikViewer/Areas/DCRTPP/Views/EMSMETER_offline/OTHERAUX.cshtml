@@ -1,0 +1,361 @@
+﻿@model EToolsViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var hdMeterList = "";
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+        auto_load();
+    });
+    function LoadData() {
+        ConfingArr = ConfigureBoilerScreen();
+        return GetMeterString(ConfingArr);
+    }
+    function auto_load()
+    {
+        var hdMeterList = LoadData();
+        ABTMeterDetails(hdMeterList);
+        return false;
+    }
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "EMSMeter")';
+    });*@
+    setInterval(auto_load,3000);
+    function ABTMeterDetails(MeterIdList) {
+        if (MeterIdList != "" && MeterIdList != "null") {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "GetOfflineAllInstanceData/getMeterData/" + MeterIdList,
+                dataType: "json",//type of data to be received
+                success: function (response, status, jqXHR) {
+                    var TotalUnit1 = 0;
+                    var TotalUnit2 = 0;
+                    var TotalStation = 0;
+                    if (response != undefined && response.length > 0) {
+                        if (!ConfingArr.length > 0) {
+                            ConfingArr = ConfigureBoilerScreen();
+                        }
+                        for (var m = 1; m < ConfingArr.length; m++) {
+                            if (typeof (ConfingArr[m]) != 'undefined' && ConfingArr[m] != null) {
+                                var SubArr = ConfingArr[m].toString().split('~');
+                                if (SubArr.length > 2) {
+                                    var id1 = SubArr[0] + "_unitkw1";
+                                    var id2 = SubArr[0] + "_unitkw2";
+                                    var id3 = SubArr[0] + "_station";
+                                    var id4 = SubArr[0] + "_Rating";
+                                    response.forEach(function (responseobj) {
+                                        if (responseobj.meterid == SubArr[1]) {
+                                            if (responseobj.meterid == 159) {
+                                                $('#' + id1).html("-");
+                                            }
+                                            else
+                                            {
+
+
+
+
+                                                // debugger;
+                                                if (!isNaN(responseobj.kw) ) {
+                                                    $('#' + id1).html(responseobj.kw.toFixed(2).toString());
+                                                    TotalUnit1 = TotalUnit1 + Number(responseobj.kw.toFixed(2).toString());
+
+                                                    //document.getElementById(id1).value = responseobj.kw;
+                                                } else {
+                                                    $('#' + id1).html("0");// document.getElementById(id1).value = 0;
+                                                }
+                                            }                                       }
+                                        if (responseobj.meterid == SubArr[2]) {
+                                            if (responseobj.meterid == 158  ) {
+                                                $('#' + id2).html("-");
+                                            }
+                                            else
+                                            {
+                                                if (responseobj.meterid == 160  ) {
+                                                    $('#' + id2).html("-");
+                                                }
+                                                else
+                                                {
+                                                    if (responseobj.meterid == 161  ) {
+                                                        $('#' + id2).html("-");
+                                                    }
+                                                    else
+                                                    {
+                                                        if (responseobj.meterid == 162  ) {
+                                                            $('#' + id2).html("-");
+                                                        }
+                                                        else
+                                                        {
+
+
+                                                            if (!isNaN(responseobj.kw)) {
+                                                                $('#' + id2).html(responseobj.kw.toFixed(2).toString());
+                                                                TotalUnit2 = TotalUnit2 + Number(responseobj.kw.toFixed(2).toString());
+                                                                // document.getElementById(id2).value = responseobj.kw;
+                                                            } else {
+                                                                $('#' + id2).html("0");
+                                                                //document.getElementById(id2).value = 0;
+                                                            }
+                                                        } }}}                                   }
+                                    });
+                                    // document.getElementById(id3).value.toFixed(2) = Number(document.getElementById(id1).value) + Number(document.getElementById(id2).value);
+                                    if($('#' + id1).html()=="-")
+                                    {
+                                        $('#' + id3).html(Number($('#' + id2).html()) );
+                                        TotalStation = TotalStation + ( Number($('#' + id2).html()));
+
+                                    }
+                                    else
+                                    {
+                                        if($('#' + id2).html()=="-")
+                                        {
+                                            $('#' + id3).html(Number($('#' + id1).html()) );
+                                            TotalStation = TotalStation + ( Number($('#' + id1).html()));
+
+                                        }
+                                        else
+                                        {
+                                            $('#' + id3).html((Number($('#' + id1).html()) + Number($('#' + id2).html())).toFixed(2));
+                                            TotalStation = TotalStation + (Number($('#' + id1).html()) + Number($('#' + id2).html()));
+                                        }
+                                    }}                            }
+                        }
+                        $("#12_unitkw1").html((TotalUnit1).toFixed(2).toString());
+                        $("#12_unitkw2").html((TotalUnit2).toFixed(2).toString());
+                        $("#12_station").html((TotalStation).toFixed(2).toString());
+                    }
+
+
+                },
+                error: function (xhr, status, error) {
+                    if (box) box.remove();
+                }
+            });
+        }
+        return false;
+    }
+    function GetMeterString(StrArrayList) {
+        var MeterStr = "";
+        for (var i = 0; i < StrArrayList.length; i++) {
+            if (StrArrayList[i] != null && StrArrayList[i] != "") {
+                var SubLsit = StrArrayList[i].toString().split('~');
+                for (var j = 1; j < SubLsit.length; j++) {
+                    if (typeof (SubLsit[j]) != 'undefined' && SubLsit[j] != null) {
+                        if (MeterStr == "") {
+                            MeterStr = SubLsit[j] + ",";
+                        } else {
+                            MeterStr += SubLsit[j] + ",";
+                        }
+                    }
+                }
+            }
+        }
+       @* if (MeterStr != "" && MeterStr.endsWith(',')) {
+           MeterStr = MeterStr.substring(0, MeterStr.length - 2);
+           $('#' + id4).html("1000/700");
+       } *@
+MeterStr = MeterStr.substring(0, MeterStr.length - 1);
+        return MeterStr;
+    }
+    function ConfigureBoilerScreen() {
+        var StrArray = new Array();
+        //StrArray[1] = "1~67~22";   1----table row id   67------Unit 1 label meter id     22------Unit 2 label meter id
+        StrArray[1] = "1~53~53";
+        StrArray[2] = "2~112~55";
+        StrArray[3] = "3~91~10";
+        StrArray[4] = "4~92~12";
+        StrArray[5] = "5~89~9";
+        StrArray[6] = "6~90~11";
+        StrArray[7] = "7~158~158";
+        StrArray[8] = "8~159~159";
+        StrArray[9] = "9~160~160";
+        StrArray[10] = "10~161~161";
+        StrArray[11] = "11~162~162";
+
+        return StrArray;
+    }
+</script>
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2></h2>
+        @Html.HiddenFor(m => m.METERID)
+        <input type="hidden" id="hdnMeterList" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Other Auxiliaries (KW)</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">FEEDERS</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Rating(KW/Amp)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Unit 1</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Unit 2</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">STATION</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr id="1">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">COMP - A</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="1_Rating">450 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="1_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_station"></label></td>
+                    </tr>
+                    <tr id="2">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">COMP - B</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="2_Rating">450 kW / - A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="2_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_station"></label></td>
+                    </tr>
+                    <tr id="3">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SEAL AIR FAN - A</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="3_Rating">132 kW / 252 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="3_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_station"></label></td>
+
+                    </tr>
+                    <tr id="4">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SEAL AIR FAN - B</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="4_Rating">132 kW / 252 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="4_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_station"></label></td>
+
+                    </tr>
+                    <tr id="5">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">VACCUM PUMP - A</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="5_Rating">132 kW / 252 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="5_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="5_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="5_station"></label></td>
+
+                    </tr>
+                    <tr id="6">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">VACCUM PUMP - B</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="6_Rating">132 kW / 252 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="6_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="6_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="6_station"></label></td>
+
+                    </tr>
+                    <tr id="7">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">RAW WATER - 1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="7_Rating">160 kW / 258 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="7_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="7_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="7_station"></label></td>
+
+                    </tr>
+                    <tr id="8">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">RAW WATER - 2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="8_Rating">160 kW / 258 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="8_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="8_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="8_station"></label></td>
+
+                    </tr>
+                    <tr id="9">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">RAW WATER - 3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="9_Rating">160 kW / 258 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="9_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="9_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="9_station"></label></td>
+                    </tr>
+                    <tr id="10">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">HYDRANT PUMP - 1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="10_Rating">160 kW / 258 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="10_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="10_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="10_station"></label></td>
+
+                    </tr>
+                    <tr id="11">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">HYDRANT PUMP - 2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="11_Rating">160 kW / 258 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="11_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="11_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="11_station"></label></td>
+
+                    </tr>
+                    <tr id="12">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">Total</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="12_Rating"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="12_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="12_unitkw2"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="12_station"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+</div>

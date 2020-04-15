@@ -1,0 +1,118 @@
+﻿@model EToolsViewer.APIModels.InputData
+@using EToolsViewer.Extensions
+@{
+    ViewBag.Title = "Edit Input Data";
+}
+<h2>Input Data</h2>
+@using (Html.BeginForm("Update", "InputData", FormMethod.Post, new { id = "editInputData" }))
+{
+    <div class="panel panel-default">
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+        <div class="panel-heading">
+            <div class=" dashboard-panel-body-box"><h3>Edit</h3></div>
+            <div class="panel-actions  dashboard-panel-body-boxcontrols"></div>
+        </div>
+        <div class="modal-body">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        <label class="col-md-6 control-label">Select Input Data Type :</label>
+                        <div class="col-md-6" style="border:0px solid #000;">
+                            <label class="checkbox-inline" for="inline-checkbox1">
+                                @Html.RadioButton("RadioInputData", "Constant", true)
+                                @Html.Label("Constant")
+                            </label>
+                            <label class="checkbox-inline" for="inline-checkbox2">
+                                @Html.RadioButton("RadioInputData", "RealTimeDerived")
+                                @Html.Label("RealTime Derived")
+                            </label>
+
+                        </div>
+                        <hr />
+                    </div>
+
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        @*<label class="col-md-6 control-label" for="text-input">Enter Name<label class="validation-redcolor">*</label></label>*@
+                        @Html.LabelForRequired(model => model.ParaName, null, "control-label col-md-6")
+                        <div class="col-md-6">
+                            @*  <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                            @Html.TextBoxFor(m => m.ParaName, new { @maxlength = "50", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ParaName, null, new { @class = "validation-redcolor" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group  col-md-12" style="border:0px solid #000;">
+                        @*<label class="col-md-6 control-label" for="text-input">Enter Value<label class="validation-redcolor">*</label></label>*@
+                        @Html.LabelForRequired(model => model.ParaValue, null, "control-label col-md-6")
+                        <div class="col-md-6">
+                            @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                            @Html.TextBoxFor(m => m.ParaValue, new { id = "numberParaValue", @maxlength = "10", @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.ParaValue, null, new { @class = "validation-redcolor" })
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="submit" id="saveInputdata" class="btn btn-success"><i class="fa fa-floppy-o"></i> Save</button>
+                <button type="reset" class="btn btn-danger" id="btnReset"><i class="fa fa-trash-o"></i>&nbsp;&nbsp;Reset</button>
+                @*<button type="button" id="btnBack" class="btn btn-twitter"> Back</button>*@
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script type="text/javascript">
+    var box;
+    $(document).ready(function () {
+        new confirmexitmsg('form');
+    });
+    $(document).on("keypress", "#numberParaValue", function (e) {
+        //if the letter is not digit then display error and don't type anything
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+            //display error message
+            setTimeout(function () {
+                alert("Only Numbers are allow")
+            }, 0);
+            return false;
+        }
+    });
+    $("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "InputData")';
+    });
+    $(':radio[name=RadioInputData]').change(function () {
+        var selectedVal = $("input[name=RadioInputData]:checked").val();
+        if (selectedVal == "Constant")
+            $("#realTimeBox").hide();
+        else if (selectedVal == "RealTimeDerived") {
+            window.location.href = '@Url.Action("AddRealTimeData", "InputData")';
+        }
+    });
+
+    $("#shiftright").click(function () {
+        $('#ddlmeter option:selected').appendTo("#ddlmeterselect")
+        $("#ddlmeterselect option").prop("selected", true);
+    })
+
+    $("#shiftleft").click(function () {
+        $('#ddlmeterselect option:selected').appendTo("#ddlmeter")
+    })
+
+    $("#shiftrightall").click(function () {
+        $('#ddlmeter option').appendTo("#ddlmeterselect")
+        $("#ddlmeterselect option").prop("selected", true);
+    })
+
+    $("#shiftleftall").click(function () {
+        $('#ddlmeterselect option').appendTo("#ddlmeter")
+    })
+
+    $(".btn-default").click(function () { $("#ddlmeterselect option").prop("selected", true); })
+</script>

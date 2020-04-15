@@ -1,0 +1,525 @@
+﻿@model GridLogikViewer.APIModels.InstanceData
+@{
+    ViewBag.Title = "ABT Meter Details";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+<div class="col-lg-12">
+    <div class="form-group col-md-2" style="border:0px solid #f00;">
+        <h2></h2>
+        @Html.HiddenFor(m => m.METERID)
+        <input type="hidden" id="hdnMeterList" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12" style="border:0px solid  #000; ">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">Unit 4 Common Auxiliaries (KW)</div>
+                <div class="panel-actions  dashboard-panel-body-boxcontrols"> </div>
+            </div>
+            <table class="table table-bordered results">
+                <thead>
+                    <tr style="background:#0f0f0f !important; color:#FFF;">
+
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">FEEDERS</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">Rating(KW/Amp)</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">KW</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">MWH</th>
+                        <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; ">I(AVG)</th>
+                    </tr>
+                </thead>
+                <tbody class="table-style_01">
+                    <tr id="1">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">INST AIR COMP - 1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="1_Rating">135 kW / 225 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="1_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="1_unitiavg"></label></td>
+                    </tr>
+                    <tr id="2">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">INST AIR COMP - 2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="2_Rating">135 kW / 225 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="2_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="2_unitiavg"></label></td>
+                    </tr>
+                    <tr id="13">
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">Sub-Total</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="13_Rating">-</label></td>
+                        <td style=" color:#f7943c; padding:0px;"><label id="13_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="13_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="13_unitiavg1"></label></td>
+                    </tr>
+                    <tr id="3">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SERVICE AIR COMP - 1</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="3_Rating">135 kW / 225 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="3_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="3_unitiavg"></label></td>
+                    </tr>
+                    <tr id="4">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SERVICE AIR COMP - 2</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="4_Rating">135 kW / 225 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="4_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="4_unitiavg"></label></td>
+                    </tr>
+                    <tr id="4">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">SERVICE AIR COMP - 3</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="5_Rating">135 kW / 225 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="5_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="5_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="5_unitiavg"></label></td>
+                    </tr>
+                    <tr id="14">
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">Sub-Total</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="14_Rating">-</label></td>
+                        <td style=" color:#f7943c; padding:0px;"><label id="14_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="14_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="14_unitiavg1"></label></td>
+                    </tr>          
+                    <tr id="17">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">DMCW - A</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CWPCRating">140 kW / 235 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="17_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="17_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="17_unitiavg1"></label></td>
+                    </tr>
+                    <tr id="18">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">DMCW - B</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="CWPCRating">140 kW / 235 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="18_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="18_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="18_unitiavg1"></label></td>
+                    </tr>
+                    <tr id="21">
+                        <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" scope="row">DMCW - C</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="21_Rating">140 kW / 235 A</label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="21_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="21_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="21_unitiavg1"></label></td>
+                    </tr>
+                    <tr id="19">
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">Sub-Total</th>
+                        <td style=" color:#00FF00; padding:0px;"><label id="19_Rating">-</label></td>
+                        <td style=" color:#f7943c; padding:0px;"><label id="19_unitkw1"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="19_unitkwh1"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="19_unitiavg1"></label></td>
+                    </tr>
+
+                    <tr id="12">
+                        <th style=" background:#0f0f0f !important;color:#faebd7; padding:0px;" scope="row">Total</th>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="12_Rating">-</label></td>
+                        <td style=" color:#faebd7; padding:0px;"><label id="12_unitkw"></label></td>
+                        <td style=" color: #00FF00; padding: 0px;"><label id="12_unitkwh"></label></td>
+                        <td style=" color:#00FFFF; padding:0px;"><label id="12_unitiavg"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal03 popup -->
+            <!--/col-->
+
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div id="divParent">
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnOther">Unit 4 Summary</button>
+            </div>
+            @*<div style="border:0px solid #000; padding:0px; margin:0px 0px;  text-align:right; float:left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnBoiler">BOILER AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnTurbine">TURBINE AUX</button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnCHP">Gen 1   </button>
+            </div>
+            <div style="border: 0px solid #000; padding: 0px; margin: 0px 0px; text-align: right; float: left;">
+                <button type="button" class="btn btn-twitter" style="font-weight:bold; margin:0px 10px;" id="btnFeeders">FEEDERS Area</button>
+            </div>*@
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    debugger;
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var totalkw=0;
+    var subtotalkw1=0;
+    var subtotalkw2=0;
+    var subtotalkw3=0;
+    var MeterString ="275,277,274,276,278,256,245,266";
+    var MeterIdList = {
+        "MeterString": MeterString
+    };
+
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+        $("#btnOther").click(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            window.location.href = '@Url.Action("Screen5", "RRVUNL")';
+         });
+       
+        ABTMeterDetails();
+    });
+
+    @*$("#btnBack").click(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        window.location.href = '@Url.Action("Index", "RRVUNL")';
+    });*@
+    setInterval(ABTMeterDetails, 1000);
+    function ABTMeterDetails() {
+        debugger
+        $.ajax({
+            //type: "GET",
+            //contentType: "application/json;charset=utf-8",//type of data to be send
+            //url: BaseAddress + "GetAllInstanceData/getMeterData/" + MeterString,
+            //dataType: "json",//type of data to be received
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+                var TotalUnit1kw = 0;
+                var TotalUnit2kw = 0;
+                var TotalStationkw = 0;
+                var TotalUnit1apc = 0;
+                var TotalUnit2apc = 0;
+                var TotalStationapc = 0;
+                 var Kwn=0;
+                 var Kwn1=0;
+                 var kwn2=0;
+                 var kwn3=0;
+                 totalkw=0;
+                 subtotalkw1=0;
+                 subtotalkw2=0;
+                 subtotalkw3=0;
+                var jsonObj = response.Data.result;
+                 if (jsonObj != undefined && jsonObj.length > 0) {
+                 debugger
+                  jsonObj.forEach(function (responseobj) {
+                        debugger
+ if (responseobj.meterid == 275) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+Kwn=Kwn+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+Kwn=Kwn+responseobj.kw;
+}
+                            $('#1_unitkw').html(responseobj.kw.toString());
+                            $('#1_unitkwh').html(responseobj.kwh_exp.toString());
+                            $('#1_unitiavg').html(responseobj.i.toString());
+                             if(responseobj.kw<0){
+                            $('#1_unitkw').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#1_unitkw').html(responseobj.kw);
+
+                             }
+                           if (responseobj.i<200) {
+                            $("#1_unitiavg").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<210){
+                            $("#1_unitiavg").css("color", "yellow");
+                        }
+                        else {
+                            $("#1_unitiavg").css("color", "red");
+
+                             }
+                               }
+
+if (responseobj.meterid == 277) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+Kwn=Kwn+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+Kwn=Kwn+responseobj.kw;
+}
+                            $('#2_unitkw').html(responseobj.kw.toString());
+                            $('#2_unitkwh').html(responseobj.kwh_exp.toString());
+                            $('#2_unitiavg').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#2_unitkw').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#2_unitkw').html(responseobj.kw);
+
+                            }
+                            if (responseobj.i<200) {
+                            $("#2_unitiavg").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<210){
+                            $("#2_unitiavg").css("color", "yellow");
+                        }
+                        else {
+                            $("#2_unitiavg").css("color", "red");
+                        }
+                             }
+if (responseobj.meterid == 274) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+Kwn1=Kwn1+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+Kwn1=Kwn1+responseobj.kw;
+}
+                            $('#3_unitkw').html(responseobj.kw.toString());
+                            $('#3_unitkwh').html(responseobj.kwh_exp.toString());
+                            $('#3_unitiavg').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#3_unitkw').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#3_unitkw').html(responseobj.kw);
+                             }
+                            if (responseobj.i<200) {
+                            $("#3_unitiavg").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<210){
+                            $("#3_unitiavg").css("color", "yellow");
+                        }
+                        else {
+                            $("#3_unitiavg").css("color", "red");
+                        }
+                             }
+ if (responseobj.meterid == 276) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+Kwn1=Kwn1+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+Kwn1=Kwn1+responseobj.kw;
+}
+
+
+                            $('#4_unitkw').html(responseobj.kw.toString());
+                            $('#4_unitkwh').html(responseobj.kwh_exp.toString());
+                            $('#4_unitiavg').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#4_unitkw').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#4_unitkw').html(responseobj.kw);
+                             }
+                            if (responseobj.i<200) {
+                            $("#4_unitiavg").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<210){
+                            $("#4_unitiavg").css("color", "yellow");
+                        }
+                        else {
+                            $("#4_unitiavg").css("color", "red");
+                        }
+                             }
+ if (responseobj.meterid == 278) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+Kwn1=Kwn1+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+Kwn1=Kwn1+responseobj.kw;
+}
+
+                            $('#5_unitkw').html(responseobj.kw.toString());
+                            $('#5_unitkwh').html(responseobj.kwh_exp.toString());
+                            $('#5_unitiavg').html(responseobj.i.toString());
+                           if(responseobj.kw<0){
+                            $('#5_unitkw').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#5_unitkw').html(responseobj.kw);
+                             }
+                            if (responseobj.i<200) {
+                            $("#5_unitiavg").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<210){
+                            $("#5_unitiavg").css("color", "yellow");
+                        }
+                        else {
+                            $("#5_unitiavg").css("color", "red");
+                        }
+                             }
+
+ 
+ if (responseobj.meterid == 256) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+kwn3=kwn3+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+kwn3=kwn3+responseobj.kw;
+}
+                           $('#17_unitkw1').html(responseobj.kw.toString());
+                            $('#17_unitkwh1').html(responseobj.kwh_exp.toString());
+                            $('#17_unitiavg1').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#17_unitkw1').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#17_unitkw1').html(responseobj.kw);
+                             }
+                            if (responseobj.i<190) {
+                            $("#17_unitiavg1").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<200){
+                            $("#17_unitiavg1").css("color", "yellow");
+                        }
+                        else {
+                            $("#17_unitiavg1").css("color", "red");
+                        }
+                             }
+if (responseobj.meterid == 245) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+kwn3=kwn3+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+kwn3=kwn3+responseobj.kw;
+}
+                           $('#21_unitkw1').html(responseobj.kw.toString());
+                            $('#21_unitkwh1').html(responseobj.kwh_exp.toString());
+                            $('#21_unitiavg1').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#21_unitkw1').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#21_unitkw1').html(responseobj.kw);
+                             }
+                            if (responseobj.i<190) {
+                            $("#21_unitiavg1").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<200){
+                            $("#21_unitiavg1").css("color", "yellow");
+                        }
+                        else {
+                            $("#21_unitiavg1").css("color", "red");
+                        }
+                             }
+ if (responseobj.meterid == 266) {
+if(responseobj.kw<0)
+{
+totalkw=totalkw+(responseobj.kw *-1);
+kwn3=kwn3+(responseobj.kw *-1);
+}
+else
+{
+totalkw=totalkw+responseobj.kw;
+kwn3=kwn3+responseobj.kw;
+}
+                            $('#18_unitkw1').html(responseobj.kw.toString());
+                            $('#18_unitkwh1').html(responseobj.kwh_exp.toString());
+                            $('#18_unitiavg1').html(responseobj.i.toString());
+                            if(responseobj.kw<0){
+                            $('#18_unitkw1').html(responseobj.kw * -1);
+                            }
+                            else {
+                            $('#18_unitkw1').html(responseobj.kw);
+                             }
+                            if (responseobj.i<190) {
+                            $("#18_unitiavg1").css("color", "#00FF00");
+                        }
+                        else if(responseobj.i<200){
+                            $("#18_unitiavg1").css("color", "yellow");
+                        }
+                        else {
+                            $("#18_unitiavg1").css("color", "red");
+                        }
+                             }
+
+                    });
+$('#12_unitkw').html(totalkw.toFixed(3).toString());
+$('#13_unitkw1').html(Kwn.toFixed(3).toString());
+$('#14_unitkw1').html(Kwn1.toFixed(3).toString());
+$('#20_unitkw1').html(kwn2.toFixed(3).toString());
+$('#19_unitkw1').html(kwn3.toFixed(3).toString());
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+
+</script>

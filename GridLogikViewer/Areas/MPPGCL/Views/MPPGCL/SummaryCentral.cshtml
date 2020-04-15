@@ -1,0 +1,910 @@
+﻿@*@model GridLogikViewer.APIModels.InstanceData*@
+@{
+    ViewBag.Title = "ABT Meter Details";
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+
+<script src="~/Scripts/moment.js"></script>
+
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    table.rabtdtl {
+        border-collapse: collapse;
+        margin-bottom: 1px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdtl td, tr {
+        background-color: black;
+        color: white;
+    }
+
+    .rabtdtl td, th {
+        text-align: center !important;
+        width: 75%;
+    }
+
+
+        .rabtdtl td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdtl th {
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdtl tbody th {
+        color: #fff;
+    }
+
+
+
+    table.rabtdt2 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt2 td, tr {
+        background-color: black;
+        color: white;
+    }
+
+    .rabtdt2 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+        width: 14.28%;
+    }
+
+
+        .rabtdt2 td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt2 th {
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdt2 tbody th {
+        color: #fff;
+    }
+
+    table.rabtdt3 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt3 td, tr {
+        background-color: gray;
+        color: white;
+    }
+
+    .rabtdt3 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+        width: 50%;
+    }
+
+        .rabtdt3 td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt3 th {
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdt3 tbody th {
+        color: #fff;
+    }
+
+
+
+
+    .label1 {
+        color: #E6E600;
+    }
+
+    .label2 {
+        color: #00c100;
+    }
+
+    .label3 {
+        color: #FFBB00;
+    }
+
+    .label4 {
+        color: #F600F6;
+    }
+
+    .label5 {
+        color: #A0F6F6;
+    }
+
+    .label6 {
+        color: #F9F9A1;
+    }
+
+    .thheading {
+        color: white;
+        background-color: #1F475F;
+        font-weight: bold;
+    }
+
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+        vertical-align: middle !important;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+</style>
+
+<script>
+    $(document).ready(function () {
+        $('html,body').animate({
+            scrollTop: $("#divMainRABT").offset().top
+        },
+            'slow');
+    });
+    $(document).ready(function () {
+        FillInstancedata();
+        //FillBlockdata();
+        nextfourblockandlastblkdata();
+    });
+    var meterids = new Array();
+    var meterids_unit = new Array();
+    var meterids_line = new Array();
+    var requestelapased = 0;
+    var cur_blk_no = 0;
+    var GBreakFrq = 0;
+    var GAvg = 0;
+    var flag = 0;
+    var pflag = 0;
+    var p1 = 0;
+    var p2 = 0;
+    var p3 = 0;
+    var dataflag = 0;
+    var first = 0;
+
+    $(document).ready(function () {
+
+        var d = new Date();
+        var month = d.getMonth() + 1;
+        var date = d.getDate() + "-" + month + "-" + d.getFullYear() + "  " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+
+        $("#datetidvalue").text(date.toString());
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            //url: "http://localhost:8487/EToolsAPI/api/prmglobal",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            $("#Dateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDateformat").val(data[i].prmvalue);
+                        }
+                        else if (data[i].prmunit == "DatabaseDate") {
+                            $("#DatabaseDateformat").val(Date().toString());
+
+                        }
+                    }
+
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert(dateformat.Data.d, '', false, 'E');
+                }
+
+            }
+        });
+        //LoadRABTData();
+        //nextfourblockandlastblkdata();
+        //  LoadInstanceDataRABT();
+    });
+
+    function FillInstancedata() {
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "SummaryCentralAPI/GetSummaryCentralAPIData",
+            async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+                var response = meters.Data.result;
+                response.forEach(function (response) {
+                    lineSum = 0;
+                    var lblname = GetUnitConfiguration(response.meterid);
+                    var MeterName = response.meteridName.split("_");
+                    if (lblname == "unit1")
+                        MeterName = "5";
+                    if (lblname == "unit2")
+                        MeterName = "10";
+                    if (lblname == "unit3")
+                        MeterName = "11";
+
+                    //$("#" + lblname + "_unitstatus").html(response.unitstatus);
+                    $("#" + lblname + "_metername").html(MeterName);
+                    if (response.dcmw == null)
+                        response.dcmw = 0;
+                    $("#" + lblname + "_DCMW").html(response.dcmw.toFixed(2));
+                    if (response.sgmw == null)
+                        response.sgmw = 0;
+                    $("#" + lblname + "_SG").html(response.sgmw.toFixed(2));
+                    if (response.genmw == null)
+                        response.genmw = 0;
+                    $("#" + lblname + "_NetGenMW").html(response.genmw.toFixed(2));
+                    if (response.grossgenmw == null)
+                        response.grossgenmw = 0;
+                    $("#" + lblname + "_GrossGenMW").html(response.grossgenmw.toFixed(2));
+                    if (response.aux == null)
+                        response.aux = 0;
+                    $("#" + lblname + "_AUX").html(response.aux.toFixed(2));
+
+                    var linemeterlist = response.linemeterslist;
+                    var j = 1;
+                    linemeterlist.forEach(function (linemeterlist) {
+                        var MeterName = linemeterlist.meteridName;
+                        if (j < 3) {
+
+                            $("#" + lblname + "_UAT" + j).html(MeterName);
+                            var genmw = linemeterlist.genmw == "" || linemeterlist.genmw == null ? "0.00" : linemeterlist.genmw.toFixed(2);
+                            $("#" + lblname + "_UATMW" + j).html(genmw);
+                        }
+                        else {
+                            $("#" + lblname + "_ST" + j).html(MeterName);
+                            var genmw = linemeterlist.genmw == "" || linemeterlist.genmw == null ? "0.00" : linemeterlist.genmw.toFixed(2);
+                            $("#" + lblname + "_STMW" + j).html(genmw);
+                        }
+                        j++;
+                    });
+                });
+                var unit2ui = 0;
+                var unit3ui = 0;
+                var unit1ui = 0;
+                unit2ui = parseFloat($("#unit2_SG").text()) - parseFloat($("#unit2_NetGenMW").text());
+                unit3ui = parseFloat($("#unit2_SG").text()) - parseFloat($("#unit3_NetGenMW").text());
+                unit1ui = parseFloat($("#unit1_SG").text()) - parseFloat($("#unit1_NetGenMW").text());
+                var grossSum = 0;
+                var auxSum = 0;
+                if (!($("#unit2_GrossGenMW").text() == null || $("#unit2_GrossGenMW").text() == 0) || ($("#unit3_GrossGenMW").text() == null || $("#unit3_GrossGenMW").text() == 0))
+                    grossSum = parseFloat($("#unit2_GrossGenMW").text()) + parseFloat($("#unit3_GrossGenMW").text());
+                auxSum = parseFloat($("#unit2_AUX").text()) + parseFloat($("#unit3_AUX").text());
+
+                var unit2Aux = 0.00;
+                var unit3Aux = 0.00;
+                var unit1Aux = 0.00;
+                if (!($("#unit2_GrossGenMW").text() == null || $("#unit2_GrossGenMW").text() == 0))
+                    unit2Aux = (parseFloat($("#unit2_AUX").text()) / parseFloat($("#unit2_GrossGenMW").text())) * 100;
+                if (!($("#unit3_GrossGenMW").text() == null || $("#unit3_GrossGenMW").text() == 0))
+                    unit3Aux = (parseFloat($("#unit3_AUX").text()) / parseFloat($("#unit3_GrossGenMW").text())) * 100;
+                if (!($("#unit1_GrossGenMW").text() == null || $("#unit1_GrossGenMW").text() == 0))
+                    unit1Aux = (parseFloat($("#unit1_AUX").text()) / parseFloat($("#unit1_GrossGenMW").text())) * 100;
+
+                $("#unit2_UI").html(unit2ui.toFixed(2));
+                $("#unit3_UI").html(unit3ui.toFixed(2));
+                $("#unit1_UI").html(unit1ui.toFixed(2));
+                $("#unit2_AUX").html(unit2Aux.toFixed(2));
+                $("#unit3_AUX").html(unit3Aux.toFixed(2));
+                $("#unit1_AUX").html(unit1Aux.toFixed(2));
+
+                $("#ttlSarniDC").html($("#unit2_DCMW").text());
+                $("#ttlSarniGross").html((parseFloat($("#unit2_GrossGenMW").text()) + parseFloat($("#unit3_GrossGenMW").text())).toFixed(2));
+                $("#ttlSarniNet").html((parseFloat($("#unit2_NetGenMW").text()) + parseFloat($("#unit3_NetGenMW").text())).toFixed(2));
+                $("#ttlSarniSG").html((parseFloat($("#unit2_SG").text())).toFixed(2));
+                $("#ttlSarniUI").html((parseFloat($("#unit2_SG").text()) - parseFloat($("#ttlSarniNet").text())).toFixed(2));
+                $("#unit2_UI").html($("#ttlSarniUI").text());
+                if (grossSum != 0)
+                    $("#ttlSarniAUX").html(((auxSum / grossSum) * 100).toFixed(2));
+                else
+                    $("#ttlSarniAUX").html("0.00");
+
+                $("#ttlSarniLine").html((parseFloat($("#unit2_UATMW1").text()) + parseFloat($("#unit2_UATMW2").text()) + parseFloat($("#unit2_STMW3").text())
+                    + parseFloat($("#unit3_UATMW1").text()) + parseFloat($("#unit3_UATMW2").text()) + parseFloat($("#unit3_STMW3").text())).toFixed(2));
+
+
+                $("#ttlATPSDC").html($("#unit1_DCMW").text());
+                $("#ttlATPSGross").html((parseFloat($("#unit1_GrossGenMW").text())).toFixed(2));
+                $("#ttlATPSNet").html(parseFloat($("#unit1_NetGenMW").text()));
+                $("#ttlATPSSG").html($("#unit1_SG").text());
+                $("#ttlATPSUI").html(parseFloat(unit1ui).toFixed(2));
+                if (grossSum != 0)
+                    $("#ttlATPSAUX").html(unit1Aux.toFixed(2));
+                else
+                    $("#ttlATPSAUX").html("0.00");
+
+                $("#ttlATPSLine").html((parseFloat($("#unit1_UATMW1").text()) + parseFloat($("#unit1_UATMW2").text()) + parseFloat($("#unit1_STMW3").text())
+                 + parseFloat($("#unit1_STMW4").text())).toFixed(2));
+
+            }
+        });
+    }
+    function nextfourblockandlastblkdata() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "LoadSurveyABTSARNI/GetDCSGLastBlockData_New",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                $("#culbdUnderInjSarni").html(parseFloat(meters.Data.result.underinjectionmwh).toFixed(2));
+                $("#culbdOverInjSarni").html(parseFloat(meters.Data.result.overinjectionmwh).toFixed(2));
+                $("#culbdOverInjLacsSarni").html(parseFloat(meters.Data.result.overinjectionlacs).toFixed(2));
+                $("#culbdUnderInjLacsSarni").html(parseFloat(meters.Data.result.underinjectionlacs).toFixed(2));
+
+                $("#culbdNetUIMUSarni").html(parseFloat($("#culbdUnderInjSarni").text()) + parseFloat($("#culbdOverInjSarni").text()));
+                $("#culbdNetUIAmtSarni").html(parseFloat($("#culbdUnderInjLacsSarni").text()) + parseFloat($("#culbdOverInjLacsSarni").text()));
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "LoadSurveyABTATPS/GetDCSGLastBlockData_New",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                $("#culbdUnderInjATPS").html(parseFloat(meters.Data.result.underinjectionmwh).toFixed(2));
+                $("#culbdOverInjATPS").html(parseFloat(meters.Data.result.overinjectionmwh).toFixed(2));
+                $("#culbdOverInjLacsATPS").html(parseFloat(meters.Data.result.overinjectionlacs).toFixed(2));
+                $("#culbdUnderInjLacsATPS").html(parseFloat(meters.Data.result.underinjectionlacs).toFixed(2));
+
+
+                $("#culbdNetUIMUATPS").html(parseFloat($("#culbdUnderInjATPS").text()) + parseFloat($("#culbdOverInjATPS").text()));
+                $("#culbdNetUIAmtATPS").html(parseFloat($("#culbdUnderInjLacsATPS").text()) + parseFloat($("#culbdOverInjLacsATPS").text()));
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+
+
+
+
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "CentralHzUIUnitWise/GetCentralHzUIUnitWise",
+            //async: false,
+            dataType: "json",//type of data to be received
+            success: function (meters, status, jqXHR) {
+
+                var response = meters.Data.result;
+                response.forEach(function (res) {
+                    var lblname = res.UnitName;
+                    var preblk = res.PreBlk;
+                    var todaysavg = res.TodaysAvg;
+                    var predaysavg = res.PreDaysAvg;
+                    if (lblname == "Sarni") {
+                        preblk.forEach(function (preblk) {
+                            $("#preBulkHzSarni").html(preblk.AvgHz.toFixed(2));
+                            $("#preBulkUISarni").html(preblk.UiRate.toFixed(2));
+                        });
+                        todaysavg.forEach(function (todaysavg) {
+                            $("#todaysAvgHzSarni").html(todaysavg.AvgHz.toFixed(2));
+                            $("#todaysAvgUISarni").html(todaysavg.UiRate.toFixed(2));
+                        });
+
+                        todaysavg.forEach(function (todaysavg) {
+                            $("#preDaysAvgHzSarni").html(todaysavg.AvgHz.toFixed(2));
+                            $("#preDaysAvgUISarni").html(todaysavg.UiRate.toFixed(2));
+                        });
+
+                    }
+                    else if (lblname == "ATPS") {
+                        preblk.forEach(function (preblk) {
+                            $("#preBulkHzATPS").html(preblk.AvgHz.toFixed(2));
+                            $("#preBulkUIATPS").html(preblk.UiRate.toFixed(2));
+                        });
+                        todaysavg.forEach(function (todaysavg) {
+                            $("#todaysAvgHzATPS").html(todaysavg.AvgHz.toFixed(2));
+                            $("#todaysAvgUIATPS").html(todaysavg.UiRate.toFixed(2));
+                        });
+
+                        todaysavg.forEach(function (todaysavg) {
+                            $("#preDaysAvgHzATPS").html(todaysavg.AvgHz.toFixed(2));
+                            $("#preDaysAvgUIATPS").html(todaysavg.UiRate.toFixed(2));
+                        });
+
+                    }
+                });
+                //$("#preBulkHzSarni").html(parseFloat(meters.Data.result.underinjectionmwh).toFixed(2));
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+    function GetUnitConfiguration(meterid) {
+        var label = "";
+
+        if (meterid == 163) {
+            label = "unit1";
+        } else if (meterid == 164) {
+            label = "unit2";
+        } else if (meterid == 165) {
+            label = "unit3";
+        }
+        else if (meterid == 20) {
+            label = "unit2";
+        }
+        return label;
+    }
+    setInterval(function () { FillInstancedata(); }, 5000);
+    //setInterval(function () { nextfourblockandlastblkdata(); }, 80000);
+
+
+</script>
+
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class=" dashboard-panel-body-box"><h3> ABT MONITORING SYSTEM: Central <sub id="datetidvalue" style="color: yellowgreen; position: absolute; left:940px; top:75px;"></sub></h3></div>
+        <div class="panel-actions  dashboard-panel-body-boxcontrols">
+        </div>
+    </div>
+    <div class="panel-body">
+        <input id="Dateformat" type="hidden" name="Dateformat" />
+        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+        <input type="hidden" id="DatabaseDateformat">
+        <div class="col-lg-12" id="divMainRABT">
+
+        </div>
+        <div class="row" style="margin-top:0">
+            <div class="col-md-12">
+                <table class="table table-bordered results">
+                    <thead>
+
+                        <tr style="background:#0f0f0f !important; color:#FFF;">
+                            <th style=" background:#0f0f0f !important;color:#fff; font-size:16px; font-weight:bold; text-align:center; "></th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">Unit</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">DC</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">Gross <br />Generation<br /> MW</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">Net <br />Generation<br /> MW</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">SG</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">UI(MW)</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">AUX(%)</th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="2">LINE (MW)</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_01">
+                        <tr>
+
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" rowspan="7">Sarni</th>
+
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit2_metername"></label></td>
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="6"><label id="unit2_DCMW"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit2_GrossGenMW"></label></td>
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="3"><label id="unit2_NetGenMW"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="6"><label id="unit2_SG"></label></td>
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="6"><label id="unit2_UI"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit2_AUX"></label></td>
+
+                            <td style=" color:#00FFF6; padding:0px; padding-left:50px;padding-right:40px"><label id="unit2_UAT1"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit2_UATMW1"></label></td>
+                        </tr>
+
+                        <tr>
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit2_UAT2"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit2_UATMW2"></label></td>
+
+
+                        </tr>
+                        <tr>
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit2_ST3"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit2_STMW3"></label></td>
+
+
+                        </tr>
+                        <tr>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit3_metername"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit3_GrossGenMW"></label></td>
+
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="3"><label id="unit3_NetGenMW"></label></td>
+
+                            @*<td style=" color:#00FFF6; padding:0px;" rowspan="3"><label id="unit3_UI"></label></td>*@
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="3"><label id="unit3_AUX"></label></td>
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit3_UAT1"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit3_UATMW1"></label></td>
+                        </tr>
+                        <tr>
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit3_UAT2"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit3_UATMW2"></label></td>
+
+
+                        </tr>
+                        <tr>
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit3_ST3"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit3_STMW3"></label></td>
+
+
+                        </tr>
+                        <tr>
+
+                            <td><label id="ttlSarni" style="color:#f7943c;">Total</label></td>
+                            <td><label id="ttlSarniDC" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlSarniGross" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlSarniNet" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlSarniSG" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlSarniUI" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlSarniAUX" style="color:#f7943c;"></label></td>
+                            <td></td>
+                            <td><label id="ttlSarniLine" style="color:#f7943c;"></label></td>
+
+                        </tr>
+                        <tr>
+                            <th style=" background:#0f0f0f !important;color:#f7943c; padding:0px;" rowspan="5">ATPS</th>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="4"><label id="unit1_metername"></label></td>
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="4"><label id="unit1_DCMW"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="4"><label id="unit1_GrossGenMW"></label></td>
+
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="4"><label id="unit1_NetGenMW"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="4"><label id="unit1_SG"></label></td>
+                            <td style=" color:#00FFF6; padding:0px;" rowspan="4"><label id="unit1_UI"></label></td>
+                            <td style=" color: #00FF00; padding: 0px;" rowspan="4"><label id="unit1_AUX"></label></td>
+
+
+
+
+
+
+
+
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit1_UAT1"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit1_UATMW1"></label></td>
+
+
+
+                        </tr>
+                        <tr>
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit1_UAT2"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit1_UATMW2"></label></td>
+                        </tr>
+                        <tr>
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit1_ST3"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit1_STMW3"></label></td>
+                        </tr>
+                        <tr>
+                            <td style=" color:#00FFF6; padding:0px;"><label id="unit1_ST4"></label></td>
+                            <td style=" color:#00FF00; padding:0px;"><label id="unit1_STMW4"></label></td>
+
+
+
+
+
+
+
+                        </tr>
+                        <tr>
+
+
+
+                            <td><label id="ttlATPS" style="color:#f7943c;">Total</label></td>
+                            <td><label id="ttlATPSDC" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlATPSGross" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlATPSNet" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlATPSSG" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlATPSUI" style="color:#f7943c;"></label></td>
+                            <td><label id="ttlATPSAUX" style="color:#f7943c;"></label></td>
+                            <td></td>
+                            <td><label id="ttlATPSLine" style="color:#f7943c;"></label></td>
+
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:0;display:none">
+
+            <div class="col-md-7">
+                <table class="table table-bordered results" style="height:330px !important">
+                    <thead>
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="7">
+                                CUMULATIVE UI for the day
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_01">
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                &nbsp;
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="3">
+                                Sarni
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="3">
+                                ATPS
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                UI-
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                MU's
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Amount Rs
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                UI Rate Rs
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                MU's
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Amount Rs
+                            </td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                UI Rate Rs
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Over INJ
+                            </td>
+                            <td>
+                                <label id="culbdOverInjSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdOverInjLacsSarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                <label id="culbdOverInjATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdOverInjLacsATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Under INJ
+                            </td>
+                            <td>
+                                <label id="culbdUnderInjSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdUnderInjLacsSarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                <label id="culbdUnderInjATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdUnderInjLacsATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Net UI
+                            </td>
+                            <td>
+                                <label id="culbdNetUIMUSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdNetUIAmtSarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                <label id="culbdNetUIMUATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="culbdNetUIAmtATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-5">
+                <table class="table table-bordered results" style="height:330px !important">
+                    <thead>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;"></td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="2">Sarni</td>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;" colspan="2">ATPS</td>
+
+                        </tr>
+                        <tr>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Freq.
+                            </th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Hz
+                            </th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                UI Rate
+                            </th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Hz
+                            </th>
+                            <th style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                UI Rate
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-style_01">
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Pre.Blk
+                            </td>
+                            <td>
+                                <label id="preBulkHzSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preBulkUISarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preBulkHzATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preBulkUIATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Todays Avg
+                            </td>
+                            <td>
+                                <label id="todaysAvgHzSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="todaysAvgUISarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                <label id="todaysAvgHzATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="todaysAvgUIATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" background: #0f0f0f !important; color: #f7943c; font-size: 16px; font-weight: bold; text-align: center;">
+                                Pre Days Avg
+                            </td>
+                            <td>
+                                <label id="preDaysAvgHzSarni">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preDaysAvgUISarni" style="color:#00ff00;">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preDaysAvgHzATPS">0.00</label>
+                            </td>
+                            <td>
+                                <label id="preDaysAvgUIATPS" style="color:#00ff00;">0.00</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

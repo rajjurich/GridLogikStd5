@@ -1,0 +1,40 @@
+LOAD FROM 'D:\CMS\Data15022017\New folder\metermodel.txt' INSERT INTO metermodel;
+LOAD FROM 'D:\CMS\Data15022017\New folder\metertypes.txt' INSERT INTO metertypes;
+LOAD FROM 'D:\CMS\Data15022017\New folder\meters.txt' INSERT INTO meters;
+LOAD FROM 'D:\CMS\Data15022017\prmglobal.txt' INSERT INTO prmglobal;
+LOAD FROM 'D:\CMS\Data15022017\New folder\mstuser.txt' INSERT INTO mstuser;
+LOAD FROM 'D:\CMS\Data15022017\New folder\menu.txt' INSERT INTO mstmenu;
+LOAD FROM 'D:\CMS\Data15022017\New folder\mstrole.txt' INSERT INTO mstrole;
+LOAD FROM 'D:\CMS\Data15022017\mstrolemenuaccess.txt' INSERT INTO mstrolemenuaccess;
+LOAD FROM 'D:\CMS\Data15022017\loadsurveylogs.txt' INSERT INTO loadsurveylogs;
+
+UNLOAD TO 'd:\meters.txt' DELIMITER '|'
+select * from meters
+
+UNLOAD TO 'd:\metermodel.txt' DELIMITER '|'
+select * from metermodel;
+
+
+UNLOAD TO 'd:\metertypes.txt' DELIMITER '|'
+select * from metertypes;
+
+
+UNLOAD TO 'd:\mstrole.txt' DELIMITER '|'
+select * from mstrole;
+
+UNLOAD TO 'd:\mstuser.txt' DELIMITER '|'
+select * from mstuser;
+
+
+UNLOAD TO 'd:\mstrolemenuaccess.txt' DELIMITER '|'
+select * from mstrolemenuaccess;
+
+
+UNLOAD TO 'd:\loadsurveylogs.txt' DELIMITER '|'
+select * from loadsurveylogs where tstamp>'2020-01-01 00:00:00' and tstamp<'2020-02-05 00:00:00'
+
+UNLOAD TO 'd:\Instancedata.txt' DELIMITER '|'
+select * from instancedatalogs where tstamp>'2020-02-10 00:00:00' and tstamp<'2020-02-25 00:00:00'
+
+
+

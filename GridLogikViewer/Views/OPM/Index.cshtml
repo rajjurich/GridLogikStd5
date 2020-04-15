@@ -1,0 +1,144 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var DateFormat = "dd/mm/yy";
+        $("#FromDate").datepicker({
+            dateFormat: DateFormat,
+            changeMonth: true,
+            changeYear: true,
+            minDate: -300,
+            maxDate: '0'
+
+        });
+        $("#ToDate").datepicker({
+            dateFormat: DateFormat,
+            changeMonth: true,
+            changeYear: true,
+            minDate: -300,
+            maxDate: '0'
+
+        });
+
+        $('#btnprocess').on('click', function () {
+
+            if ($("#FromDate").val() == "" || $("#FromDate").val() == null) {
+                alert('Select From Date', '', false, 'M');
+                return false;
+            }
+            if ($("#ToDate").val() == "" || $("#ToDate").val() == null) {
+                alert('Select To Date', '', false, 'M');
+                return false;
+            }
+            if ($("#FromDate").val() != "" && $("#ToDate").val() != null) {
+                var params = {
+                    FromDate: $('#FromDate').val().toString(),
+                    ToDate: $('#ToDate').val().toString()
+                };
+                var box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                $.ajax({
+                    contentType: "application/json;charset=utf-8",
+                    url: '@Url.Action("Process", "OPM")',
+                    data: params,
+                    success: function (data) {
+
+                        if (data.includes("0")) {
+                            if (box) box.remove();
+                            alert('Data Processed Successfully', '', true, 'S');
+                        }
+                        else {
+                            if (box) box.remove();
+                            alert('Error occur While data Processing...!!', '', true, 'E');
+                            return false;
+                        }
+                    },
+                    error: function (err) {
+                        if (box) box.remove();
+                    }
+                });
+            }
+        });
+
+        $('#btnDownload').on('click', function () {
+            if ($("#FromDate").val() == "" || $("#FromDate").val() == null) {
+                alert('Select From Date', '', false, 'M');
+                return false;
+            }
+            if ($("#ToDate").val() == "" || $("#ToDate").val() == null) {
+                alert('Select To Date', '', false, 'M');
+                return false;
+            }
+            var params = {
+                FromDate: $('#FromDate').val().toString(),
+                ToDate: $('#ToDate').val().toString()
+            };
+            if ($("#FromDate").val() != "" && $("#ToDate").val() != null) {
+                window.location.href = envisageURL + '/OPM/ExportToExcel?FromDate=' + $("#FromDate").val() + '&ToDate=' + $("#ToDate").val();
+            }
+        });
+
+    });
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb col-md-12 text-left bgn">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Heat Rate From PPC</li>
+                    </ol>
+                    <div class="row  mb55">
+                        <div class="col-md-12">
+                            <!--Table Wrapper Start-->
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <span class="pull-left">
+                                        <strong>
+                                            Process
+                                        </strong>
+                                    </span>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="panel-body">
+                                            <div class="col-md-2 text-right">
+                                                <label for="select">From Date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="date">
+                                                    <input type="text" id="FromDate" name="FromDate" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2 text-right">
+                                                <label  for="select">To Date</label>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="date">
+                                                    <input type="text" id="ToDate" name="ToDate" class="form-control" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3 pull-right text-right">
+                                                <input type="button" id="btnprocess" name="btnprocess" value="Process" class="btn btn-success" />
+                                                <input type="button" id="btnDownload" name="btnprocess" value="Download" class="btn btn-success" />
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")
+
+
+
+
+
+

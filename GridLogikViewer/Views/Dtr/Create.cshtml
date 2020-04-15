@@ -1,0 +1,207 @@
+﻿@model GridLogikViewer.Models.MstDtr
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@section scripts
+{    
+    <script>
+        var box;
+        $(document).ready(function () {
+
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",                
+                url: BaseAddress + "Feeder",
+                dataType: "json",
+                success: function (feeders, status, jqXHR) {
+                    var str = "";
+                    if (feeders.Data.result != undefined) {
+                        var data = feeders.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].fdrid + ">" + data[i].fdrname + "</option>";
+                        }
+                    }
+                    else if (feeders.Data.e == "E") {
+                        if (feeders.Data.d.length > 0)
+                            alert(feeders.Data.d);
+                    }
+
+                    $("#dtrfeederid").html(str);
+                    $(".feederclass").selectpicker();
+                }
+            });           
+
+            $("#btnCreate").click(function (e) {                
+                if ($('form').valid()) {
+                    var mstDtr = {
+                        "dtrid": $("#dtrid").val(),
+                        "dtrname": $("#dtrname").val(),
+                        "dtrdescription": $("#dtrdescription").val(),
+                        "dtrratedvoltage": $("#dtrratedvoltage").val(),
+                        "dtrratedpower": $("#dtrratedpower").val(),
+                        "dtrconnectedload": $("#dtrconnectedload").val(),
+                        "dtrphase": $("#dtrphase").val(),
+                        "dtrmanufacturerid": $("#dtrmanufacturerid").val(),                        
+                        "dtrinstallarea": $("#dtrinstallarea").val(),
+                        "dtrserialno": $("#dtrserialno").val(),
+                        "dtrfeederid": $("#dtrfeederid").val()
+                    };
+
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "dtr",
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstDtr),//data to be send
+                        success: function (response) {                            
+                            if (response.Data.e == "S") {
+                                ShowMessage("Success", response.Data.d);
+                                $('#btnReset').click();
+                                $("#dtrfeederid").selectpicker("refresh");
+                            }
+                            else if (response.Data.e == "M") {
+                                //alert(response.Data.d);
+                                ShowMessage("Error", response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                //alert(response.Data.d);
+                                ShowMessage("Error", response.Data.d);
+                            }
+
+
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+
+            if (box) box.remove();
+        });
+
+    </script>
+
+}
+
+
+
+<h2>Create DTR</h2>
+
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true)        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrid)
+                @Html.ValidationMessageFor(model => model.dtrid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrname)
+                @Html.ValidationMessageFor(model => model.dtrname)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrdescription)
+                @Html.ValidationMessageFor(model => model.dtrdescription)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="dtrFeeder">Feeder</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.dtrfeederid, Enumerable.Empty<SelectListItem>(), new { @class = "feederclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Feeder" })
+                @Html.ValidationMessageFor(model => model.dtrfeederid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedvoltage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrratedvoltage)
+                @Html.ValidationMessageFor(model => model.dtrratedvoltage)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedpower, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrratedpower)
+                @Html.ValidationMessageFor(model => model.dtrratedpower)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrconnectedload, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrconnectedload)
+                @Html.ValidationMessageFor(model => model.dtrconnectedload)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrinstallarea)
+                @Html.ValidationMessageFor(model => model.dtrinstallarea)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrserialno, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrserialno)
+                @Html.ValidationMessageFor(model => model.dtrserialno)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrphase, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrphase)
+                @Html.ValidationMessageFor(model => model.dtrphase)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrmanufacturerid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dtrmanufacturerid)
+                @Html.ValidationMessageFor(model => model.dtrmanufacturerid)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnCreate" type="submit" value="Create" class="btn btn-default" />
+                <input type="reset" value="Reset" class="btn btn-default" id="btnReset" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

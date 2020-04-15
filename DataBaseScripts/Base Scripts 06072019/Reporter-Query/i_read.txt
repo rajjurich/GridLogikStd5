@@ -1,0 +1,120 @@
+execute procedure ifx_allow_newline('t');
+
+drop table if exists i_read_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.i_read_1','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($i)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_i_read_1;
+create view etools_dev.evt_i_read_1
+(
+meterid,
+tstamp,
+i
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) i
+from
+i_read_1;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists i_read_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.i_read_2','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($i)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_i_read_2;
+create view etools_dev.evt_i_read_2
+(
+meterid,
+tstamp,
+i
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) i
+from
+i_read_2;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists i_read_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.i_read_3','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($i)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_i_read_3;
+create view etools_dev.evt_i_read_3
+(
+meterid,
+tstamp,
+i
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) i
+from
+i_read_3;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists i_read_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.i_read_5','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($i)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_i_read_5;
+create view etools_dev.evt_i_read_5
+(
+meterid,
+tstamp,
+i
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) i
+from
+i_read_5;
+
+execute procedure ifx_allow_newline('t');
+drop table if exists i_read_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.i_read_6','tsLoadSurveyLogs',
+'apply("$param", 
+aggregateby("avg($i)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_i_read_6;
+create view etools_dev.evt_i_read_6
+(
+meterid,
+tstamp,
+i
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) i
+from
+i_read_6;

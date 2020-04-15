@@ -1,0 +1,148 @@
+﻿@model GridLogikViewer.ViewModel.ProfileLogViewModel
+<div id="dvData">
+    <table id="tableProfileLog">
+        <thead>
+            <tr>
+                @foreach (var column in Model.InstanceDataAverageLogColumn)
+                {
+                    <th class="tableth">
+                        @column.Name.ToString()
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoadServiceList)
+            {
+                <tr>
+                    <td>
+                        @Html.Label(item.Date.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kWh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAh_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVAh_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARh_Lag_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARh_Lead_Imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kVARh_Lag_Exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.KVARh_Lead_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvarh_exp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvarh_exp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvarh_imp_103.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvarh_imp_97.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.day_kwh_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.day_kwh_imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.cblk_kwh_exp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.cblk_kwh_imp.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.avg_hz.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.avg_hz.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.avg_mw.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.avg_mw.ToString())
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Label("Sum :")
+    @Html.Label("Sum", new { id = "Sum" })
+    @Html.Label("Avg :")
+    @Html.Label("Avg", new { id = "average" })
+    @Html.Label("Min :")
+    @Html.Label("Min", new { id = "Minimum" })
+    @Html.Label("Max :")
+    @Html.Label("Max", new { id = "Maximum" })
+</div>
+<div id="chart_dialog">
+    <a href="javascript:printDiv('chart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+    <div id="chart_container" style="max-width:908px; width:100%; clear:both;"></div>
+</div>
+@using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <button type="button" id="export">Export to Excel</button>
+    <button type="button" id="graph">Graph</button>
+}
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tableProfileLog").dataTable(
+                       {
+                           pageLength: 10
+                       });
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: '70%',
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        $('#export').click(function () {
+
+            $('#Csv').val($('#tableProfileLog').table2CSV({ delivery: 'value' }));
+            var form = $("#export").serialize();
+            var actionUrl = '@Url.Action("Export", "ProfileLog")';
+            window.open("actionUrl?model=" + form);
+            //$('#Csv').val($('#tableProfileLog').table2CSV({ delivery: 'value' }));
+        });
+    });
+</script>

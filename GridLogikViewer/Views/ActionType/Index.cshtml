@@ -1,0 +1,240 @@
+﻿@model IEnumerable<GridLogik.ViewModels.ActionTypeModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<style>
+        span.highlightYellow {
+            background: yellow;
+            color: black;
+        }
+    </style>*@
+<script src="~/Scripts/jquery.dataTables.js"></script>
+@*<script src="~/Scripts/jquery.jmHighlight.js"></script>*@
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+
+        if ('@TempData["atmsg"]' != '') {
+            alert('@TempData["atmsg"]', '', false, 'S')
+        }
+
+
+        //var table= $("#table1").dataTable(
+        //                {
+        //                    pageLength: 10,
+        //                    "aoColumns": [
+        //                                null,
+        //                                null,
+        //                                null,
+        //                                null,
+        //                                { "bSortable": false }
+        //                    ]
+        //                });
+
+        $("#table1").dataTable(
+                      {
+                          pageLength: 10,
+                          "aoColumns": [
+                                      null,
+                                      null,
+                                      null,
+                                      null,
+                                      null,
+                                      { "bSortable": false, "searchable": false, "width": "144px" }
+                          ]
+                      });
+
+
+        //if ($.fn.dataTable.isDataTable('#table1')) {
+        //    var table = $('#table1').DataTable();
+        //    table.on('draw', function () {
+
+        //        // Get highlight context
+        //        var tableContent = $(table.table().body());
+        //        // Get highlight keyword
+        //        var keyword = table.search();
+        //        // Remove previous highlights
+        //        tableContent.jmRemoveHighlight({
+        //            "element": "span",
+        //            "className": "highlightYellow",
+        //        });
+        //        // Highlight the new search keyword
+        //        console.log('Highlighting ' + table.search());
+        //        tableContent.jmHighlight(keyword, {
+        //            // Define jmHighlight options (see https://github.com/julmot/jmHighlight)
+        //            "element": "span",
+        //            "className": "highlightYellow",
+        //            "separateWordSearch": true
+        //        });
+
+        //    });
+
+        //}
+        //else {
+        //    var s = "";
+        //}
+
+        //table.on('draw', function () {
+
+        //    // Get highlight context
+        //    var tableContent = $(table.table().body());
+        //    // Get highlight keyword
+        //    var keyword = table.search();
+        //    // Remove previous highlights
+        //    tableContent.jmRemoveHighlight({
+        //        "element": "span",
+        //        "className": "highlightYellow",
+        //    });
+        //    // Highlight the new search keyword
+        //    console.log('Highlighting ' + table.search());
+        //    tableContent.jmHighlight(keyword, {
+        //        // Define jmHighlight options (see https://github.com/julmot/jmHighlight)
+        //        "element": "span",
+        //        "className": "highlightYellow",
+        //        "separateWordSearch": true
+        //    });
+
+        //});
+
+
+    })
+
+
+    @*function Delete(id) {
+
+        var msg = confirm('Are you sure you want to delete this record ?');
+        if (msg == false) {
+            return false;
+        }
+        else {
+
+            $.ajax({
+
+                type: "POST",
+                contentType: "application/json;charset=utf-8",
+
+                url: "/ActionType/Delete/" + id,
+                //data: "{ID : "+id+"}",
+                dataType: "json",
+                success: function (menus, status, jqXHR) {
+                    alert(menus.Message);
+                    window.location.href = '@Url.Action("Index")';
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+
+                }
+            });
+        }
+    }*@
+</script>
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Alarm Recipent Info</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Alarm Recipent Info</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                        @*<button class="btn btn-success pull-right btn-sm"><i class="fa fa-plus-circle"></i> Create New</button>*@
+                                            @Html.ActionLink(" Create New", "create", "ActionType", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        @*<div class="clearfix"></div>
+                                        <hr />*@
+                                        <table id="table1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">
+
+                                                        ID
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Alarm Type
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Alarm Id
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Mobile No
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Email Address
+                                                    </th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.id)
+                                                        </td>
+
+                                                        @if (item.alarmtype == "R")
+                                                        {
+                                                            <td class="text-center">RealTime</td>
+                                                        }
+                                                        else if (item.alarmtype == "M")
+                                                        {
+                                                            <td class="text-center">NIU Status</td>
+                                                        }
+                                                        else if (item.alarmtype == "T")
+                                                        {
+                                                            <td class="text-center">Meter</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td class="text-center">Standard</td>
+                                                        }
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.alarmid)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.mobileno)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.emailaddress)
+                                                        </td>
+                                                        <td class="text-center">
+                                                             @Html.ActionLink(" Edit", "Edit", new { id = item.id }, new { @class = "fa fa-pencil-square-o text-white btn btn-xs btn-warning btnEdit" })
+                                                             @Html.ActionLink(" Delete", "Delete", new { id = item.id }, new { @class = "fa fa-trash-o text-white btn btn-xs btn-danger btnDelete" })
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

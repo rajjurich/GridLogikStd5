@@ -1,0 +1,112 @@
+﻿@model GridLogikViewer.APIModels.MemoryMap_Addressdetails
+
+@{
+    ViewBag.Title = "DeleteDriverDetails";
+}
+<div class="container">
+    <h2>Delete Driver Details</h2>
+
+
+    <p>
+
+
+        <label for="Day">Day</label>
+
+      
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[0].Address, new { @name = "", @id = "Day", @class = "form-control addressRange", @onblur = " return GenerateSequence();" })
+
+
+        <label for="Month">Month</label>
+     
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[1].Address, new { @name = "", @id = "Month", @class = "form-control addressRange" })
+
+        <label for="Year">Year</label>
+      
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[2].Address, new { @name = "", @id = "Year", @class = "form-control addressRange" })
+
+        <label for="Hr">Hr</label>
+
+    
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[3].Address, new { @name = "", @id = "Hr", @class = "form-control addressRange" })
+
+        <label for="Min">Min</label>
+      
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[4].Address, new { @name = "", @id = "Min", @class = "form-control addressRange" })
+
+
+        <label for="Sec">Sec</label>
+       
+        @Html.TextBoxFor(model => Model.ListAddressDetails2[5].Address, new { @name = "", @id = "Sec", @class = "form-control addressRange" })
+
+
+    </p>
+    @if(Model.ListAddressDetails1.Count != 0)
+    { 
+    <div class="panel panel-default">
+        @Html.DropDownListFor(model => model.ModelID, new SelectList(Model.ListMeterModel, "ID", "ModelName"), "select meter", new { @class = "form-control" })
+        <div class="col-md-12 table-responsive dashboard-selectoption-panel-body">
+            <table class="table table-bordered table-hover table-sortable" id="tab_logicDelete">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            @Html.LabelFor(model => model.Address)
+                        </th>
+                        <th class="text-center">
+                            @Html.LabelFor(model => model.ParameterName)
+                        </th>
+                        <th class="text-center">
+                            @Html.LabelFor(model => model.DataType)
+                        </th>
+                        <th class="text-center">
+                            @Html.LabelFor(model => model.InstanceDataMapping)
+                        </th>
+                        <th class="text-center">
+                            @Html.LabelFor(model => model.MultiplicationFactor)
+                        </th>
+                        <th class="text-center" style="border-top: 1px solid #ffffff; border-right: 1px solid #ffffff;"></th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model.ListAddressDetails1)
+                {
+                    @Html.HiddenFor(model => item.ID, new { @id = "id" + (1) })
+                    <tr id='addr0'>
+                        <td>
+                            @Html.TextBoxFor(model => item.Address, new { name = "name", @id = "address" + (1), @class = "form-control addressRange" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => item.ParameterName, new { @id = "parameter" + (1), name = "parameter" + (1), @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => item.DataType, new SelectList(ViewBag.DataTypelist, "Value", "Text", item.DataType), "select", new { @id = "dataType", @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.DropDownListFor(model => item.InstanceDataMapping, new SelectList(ViewBag.InstanceParameterID, "Value", "Text", item.InstanceDataMapping), "select", new { @id = "dataMapping", @class = "form-control" })
+                        </td>
+                        <td>
+                            @Html.TextBoxFor(model => item.MultiplicationFactor, new { @id = "MultiplicationFactor" + (1), name = "MultiplicationFactor" + (1), @class = "form-control" })
+                        </td>
+                        <td>
+                            <button name="del0" class='btn btn-danger glyphicon glyphicon-remove row-remove'></button>
+                        </td>
+                    </tr>
+                   
+                    
+                }
+            </table>
+            
+        </div>
+    </div>
+    }
+    else
+    {
+        <h3>No Records Found!!!</h3>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Content/Template/js/jquery/jquery-2.1.4.min.js"></script>
+<script src="@Url.Content("~/Scripts/DriverConfiguration/DeleteDriverDetails.js")" type="text/javascript"></script>
+
+

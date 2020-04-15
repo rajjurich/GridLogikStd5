@@ -1,0 +1,1303 @@
+@model GridLogikViewer.Models.MstTariff
+
+@{
+    ViewBag.Title = "Edit Tariff";
+
+}
+
+<script src="~/Scripts/moment.js"></script>
+
+@section scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            $("#check").prop("checked", false);
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "ServerDate") {
+                                $("#ServerDateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+
+
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            //  alert(dateformat.Data.d);
+                            alert(dateformat.Data.d, '', false, "E");
+                    }
+                }
+            });
+
+            $(function () {
+                $('#txtFromDate').datepicker({
+                    dateFormat: $("#Dateformat").val(),
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+
+
+            //$('#trftouid').change(function () {
+
+            //    var touid = $('#trftouid :selected').val()
+            //    $('#trftouslotid').removeAttr("disabled");
+            //    $.ajax({
+            //        type: "GET",
+            //        url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+            //        contentType: "application/json; charset=utf-8",
+            //        dataType: "json",
+            //        async: false,
+            //        success: function (data) {
+            //            debugger;
+            //            $("#trftouslotid").html('');
+            //            var items = [];
+            //            if (data.Data.result != undefined) {
+            //                data.Data.result.forEach(function (result) {
+            //                    items.push("<option value=" + result.tsslotno + ">" + result.tsslotno + "</option>");
+            //                });
+            //            }
+
+            //            $("#trftouslotid").html(items.join(' '));
+            //            //$(".touslotclass").selectpicker('refresh');
+            //        },
+            //        error: function (xhr, status, error) {
+            //            alert(error, '', false, 'E');
+            //        }
+            //    });
+            //})
+
+
+            $('#trftouid').change(function () {
+                var touid = $('#trftouid :selected').val()
+                $('#trftouslotid').removeAttr("disabled");
+                $.ajax({
+                    type: "GET",
+                    url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //debugger;
+                        //  $("#trftouslotid").html('');
+                        var items = [];
+                        var str = "";
+                        var i = 1;
+                        if (data.Data.result != undefined) {
+                            data.Data.result.forEach(function (response) {
+                                // items.push("<option value=" + result.tsslotno + ">" + result.tsslotno + "</option>");
+
+                                str += "<tr>" +
+                                //"<td><input type='text' id='tstouid" + i + "'' value='" + response.tstouid + "' disabled='true' > <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                "<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled=true class='form-control'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "'disabled=true class='form-control time' placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "'disabled=true class='form-control time'  placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsadditionalCharge" + i + "' class='form-control decimal' placeholder='0.00' maxlength='5'> </td>" +
+                                "</tr>"
+
+                                i = i + 1;
+                            });
+                        }
+                        else {
+                            str = " ";
+                        }
+                        if (str != "") {
+                            $("#tblTS").css("display", "");
+                            $("#tblTouSlot").html(str);
+                        }
+                        //  $("#trftouslotid").html(items.join(' '));
+                        $(".touslotclass").selectpicker('refresh');
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error);
+                    }
+                });
+            })
+
+
+
+            $('#revision').change(function () {
+                //debugger;
+                var slotDataArray = [];
+                var trfid = $('#trfid').val()
+                var revno = $('#revision').val()
+                var touslotidDtl = 0;
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: BaseAddress + "TarrifTouDetailsAPI/GetTarrifTouDetailsTrfId/" + trfid + "/" + revno,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //debugger;
+                        if (data.Data.result != undefined) {
+                            data.Data.result.forEach(function (response) {
+                                //debugger;
+                                touslotidDtl = response.ttdltouslotid
+
+                                slotDataArray.push(response);
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error, '', false, 'E');
+                    }
+                });
+
+                //debugger;
+
+
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: BaseAddress + "touslot/" + touslotidDtl,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //debugger;
+                        if (data.Data.result != undefined) {
+
+                            $('#trftouid').val(data.Data.result.tstouid);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error, '', false, 'E');
+                    }
+                });
+
+                var strTrf = "";
+                var touid = $('#trftouid :selected').val()
+                //$('#trftouslotid').removeAttr("disabled");
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        //  $("#trftouslotid").html('');
+                        var items = [];
+                        var i = 1;
+                        if (data.Data.result != undefined) {
+                            data.Data.result.forEach(function (response) {
+                                strTrf += "<tr>" +
+                                "<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled=true class='form-control'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "'disabled=true class='form-control time' placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "'disabled=true class='form-control time'  placeholder='HH:mm' maxlength='5'> </td>" +
+                                "<td><input type='text' id='tsadditionalCharge" + i + "' value='" + slotDataArray[i - 1].ttdladditionalcharge + "' class='form-control decimal' placeholder='0' maxlength='5'> </td>" +
+                                "</tr>"
+                                i = i + 1;
+                            });
+                        }
+
+                        if (strTrf != "") {
+                            $("#tblTS").css("display", "");
+                            $("#tblTouSlot").html(strTrf);
+                        }
+                        //  $("#trftouslotid").html(items.join(' '));
+                        $(".touslotclass").selectpicker('refresh');
+                    },
+                    error: function (xhr, status, error) {
+                        alert(error, '', false, 'E');
+                    }
+                });
+            })
+        })
+
+        function GetTouSlotByTouId() {
+            var touid = $('#trftouid :selected').val()
+            //$('#trftouslotid').removeAttr("disabled");
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+
+                    $("#trftouslotid").html('');
+                    var items = [];
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.tsslotno + ">" + result.tsslotno + "</option>");
+                        });
+                    }
+
+                    $("#trftouslotid").html(items.join(' '));
+                    //$(".touslotclass").selectpicker();
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                }
+            });
+        }
+
+        function GetRevisionByTouId() {
+            //debugger;
+            var touid = $('#trfid').val();
+            //$('#trftouslotid').removeAttr("disabled");
+            $.ajax({
+                type: "GET",
+                url: BaseAddress + "TarrifTouDetailsAPI/GetTarrifTouDetailsRevision/" + touid,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: false,
+                success: function (data) {
+
+                    $("#revision").html('');
+                    var items = [];
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.ttdrevision + ">" + result.ttdrevision + "</option>");
+                        });
+                    }
+
+                    $("#revision").html(items.join(' '));
+                    //$(".touslotclass").selectpicker();
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                }
+            });
+        }
+
+    </script>
+
+    <script>
+        var modified = 0;
+        $(document).ready(function () {
+
+            var globalboolFlag = null;
+
+
+            $('#check').change(function () {
+
+                if ($('#check').is(":checked")) {
+                    $("#RevisedFDate").css("display", "");
+                    globalboolFlag = true;
+
+                }
+                else {
+                    $("#RevisedFDate").css("display", "none");
+                    globalboolFlag = false;
+
+                }
+
+            });
+
+
+
+            //box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tou",
+                async: false,
+                dataType: "json",//type of data to be received
+                success: function (data) {
+
+                    var items = [];
+                    //items.push("<option>Select</option>");
+
+                    if (data.Data.result != undefined) {
+                        data.Data.result.forEach(function (result) {
+                            items.push("<option value=" + result.touid + ">" + result.touid + "</option>");
+                        });
+                    }
+
+                    $("#trftouid").html(items.join(' '));
+                    //$(".toucodeclass").selectpicker();
+                    // $('#trftouslotid').attr('disabled', 'disabled');
+
+                    //if (box) box.remove();
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                    //if (box) box.remove();
+                }
+            });
+
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                url: BaseAddress + "tariff/" + id,
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (tariff) {
+
+                    if (tariff.Data.result.trfrecid == null) {
+                        if (tariff.Data.d.length > 0)
+                            // alert(tariff.Data.d);
+                            alert(tariff.Data.d, '', false, "M");
+                    }
+                    else {
+                        $("#trfrecid").val(tariff.Data.result.trfrecid);
+                        $("#trfid").val(tariff.Data.result.trfid);
+                        $("#trftouid").val(tariff.Data.result.trftouid);
+                        $("#trfschemename").val(tariff.Data.result.trfschemename);
+                        $("#PreviousFromdate").val(tariff.Data.result.trffromdate);
+                        $("#txtFromDate").val(tariff.Data.result.trffromdate);
+                        $("#trfrevision").val(tariff.Data.result.trfrevision);
+
+                        var startdateDB = moment($("#txtFromDate").val(), $("#DatabaseDateformat").val());
+                        var startdate = $.datepicker.formatDate($("#Dateformat").val(), new Date(startdateDB))
+                        $("#txtFromDate").val(startdate);
+
+                        $("#znutilityid").val(tariff.Data.result.trfutilityid);
+                        //$(".toucodeclass").selectpicker('val', tariff.Data.result.trftouid);
+
+                        GetTouSlotByTouId();
+
+                        GetRevisionByTouId();
+                        $("#trftouslotid").val(tariff.Data.result.trftouslotid);
+                        //$(".touslotclass").selectpicker('val', tariff.Data.result.trftouslotid);
+
+                        var slotDataArray = [];
+                        var trfid = $('#trfid').val()
+                        var revno = $('#revision').val()
+                        var touslotidDtl = 0;
+                        $.ajax({
+                            async: false,
+                            type: "GET",
+                            url: BaseAddress + "TarrifTouDetailsAPI/GetTarrifTouDetailsTrfId/" + trfid + "/" + revno,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                //debugger;
+                                if (data.Data.result != undefined) {
+                                    data.Data.result.forEach(function (response) {
+                                        //debugger;
+                                        touslotidDtl = response.ttdltouslotid
+
+                                        slotDataArray.push(response);
+                                    });
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error, '', false, 'E');
+                            }
+                        });
+
+                        //debugger;
+
+
+                        $.ajax({
+                            async: false,
+                            type: "GET",
+                            url: BaseAddress + "touslot/" + touslotidDtl,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                //debugger;
+                                if (data.Data.result != undefined) {
+
+                                    //data.Data.result.forEach(function (response) {
+                                    //    debugger;
+                                    //    touslotidDtl = response.ttdltouslotid
+
+                                    //    slotDataArray.push(response);
+                                    //});
+
+                                    $('#trftouid').val(data.Data.result.tstouid);
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error, '', false, 'E');
+                            }
+                        });
+
+                        var strTrf = "";
+                        var touid = $('#trftouid :selected').val()
+                        //$('#trftouslotid').removeAttr("disabled");
+                        $.ajax({
+                            async: false,
+                            type: "GET",
+                            url: BaseAddress + "touslot/GetTOUSlotByTouId/" + touid,
+                            contentType: "application/json; charset=utf-8",
+                            dataType: "json",
+                            success: function (data) {
+                                //  $("#trftouslotid").html('');
+                                var items = [];
+                                var i = 1;
+                                if (data.Data.result != undefined) {
+                                    data.Data.result.forEach(function (response) {
+                                        strTrf += "<tr>" +
+                                        "<td><input type='text' id='tsslotno" + i + "' value='" + response.tsslotno + "' disabled=true class='form-control'> <input type='hidden' value='" + response.tsrecid + "'> </td>" +
+                                        "<td><input type='text' id='tsslotstart" + i + "' value='" + response.tsslotstart + "'disabled=true class='form-control time' placeholder='HH:mm' maxlength='5'> </td>" +
+                                        "<td><input type='text' id='tsslotend" + i + "' value='" + response.tsslotend + "'disabled=true class='form-control time'  placeholder='HH:mm' maxlength='5'> </td>" +
+                                        "<td><input type='text' id='tsadditionalCharge" + i + "' value='" + slotDataArray[i - 1].ttdladditionalcharge + "' class='form-control decimal' placeholder='0' maxlength='5'> </td>" +
+                                        "</tr>"
+                                        i = i + 1;
+                                    });
+                                }
+
+                                if (strTrf != "") {
+                                    $("#tblTS").css("display", "");
+                                    $("#tblTouSlot").html(strTrf);
+                                }
+                                //  $("#trftouslotid").html(items.join(' '));
+                                $(".touslotclass").selectpicker('refresh');
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error, '', false, 'E');
+                            }
+                        });
+
+                        $.ajax({
+                            type: "GET",
+                            contentType: "application/json;charset=utf-8",//type of data to be send
+                            url: BaseAddress + "tarrifdetails/" + tariff.Data.result.trfid,
+                            dataType: "json",//type of data to be received
+                            async: false,
+                            success: function (tariffDeatls) {
+                                //debugger;
+                                var str = "";
+
+                                var i = 1;
+
+                                if (tariffDeatls.Data.result != undefined) {
+
+
+                                    tariffDeatls.Data.result.forEach(function (response) {
+                                        //debugger;
+                                        // alert(JSON.stringify(response));
+                                        str += "<tr>" +
+
+
+                                        "<td><input type='text'  class='form-control' id='tdltrfid" + i + "'' value='" + response.tdltrfid + "' disabled='true' ></td>" +
+                                        "<td><input type='text' class='form-control' id='tdlslotno" + i + "' value='" + response.tdlslotno + "' disabled=true> <input type='hidden' value='" + response.tdlrecid + "'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdlunitsfrom" + i + "' value='" + response.tdlunitsfrom + "' onkeypress='return isNumber(event)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdlunitsto" + i + "' value='" + response.tdlunitsto + "'  onkeypress='return isNumber(event)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdltarifffcperkva" + i + "' value='" + response.tdltarifffcperkva + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdltariffecperkwh" + i + "' value='" + response.tdltariffecperkwh + "' onkeypress='return isNumberKey(event,this)'> <input type='hidden' value='" + response.tdlrecid + "'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdltariffwcperkwh" + i + "' value='" + response.tdltariffwcperkwh + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdlregassetchg" + i + "' value='" + response.tdlregassetchg + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdlfueladjchg" + i + "' value='" + response.tdlfueladjchg + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tsslotend" + i + "' value='" + response.tdlelectricityduty + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tsmaxdemandlimit" + i + "' value='" + response.tdlpfincentive + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td style='display:none;'><input type='text' id='RecID'" + i + "' value='" + response.tdlrecid + "'></td>" +
+                                        "<td><input type='text' class='form-control' id='tdlsalestax" + i + "' value='" + response.tdlsalestax + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "<td><input type='text' class='form-control' id='tdlpmtdisc" + i + "' value='" + response.tdlpmtdisc + "' onkeypress='return isNumberKey(event,this)'> </td>" +
+                                        "</tr>"
+                                        // alert("hiiiiiii" + response.tdlrecid);
+
+                                        i = i + 1;
+                                    });
+
+                                }
+
+                                if (str != "") {
+                                    // $("#tblTS").css("display", "");
+                                    $("#tab_logic").append(str);
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+                                alert(error, '', false, 'E');
+                            }
+                        });
+
+                    }
+
+                },
+                error: function (xhr, status, error) {
+                    alert(error, '', false, 'E');
+                }
+            });
+
+
+            var setToDate = moment($("#txtFromDate").val(), "DD/MM/YYYY").add(1, 'd');
+            var setToDateFinal = $.datepicker.formatDate($("#Dateformat").val(), new Date(setToDate))
+            //setToDateFinal = GetFinaldate(setToDateFinal, $("#ServerDateformat").val(), $("#Dateformat").val())
+            //alert(setToDateFinal);
+
+            $(function () {
+                $('#trffromdate').datepicker({
+                    dateFormat: $("#Dateformat").val(),
+                    changeMonth: true,
+                    changeYear: true,
+                    minDate: setToDateFinal
+                });
+            });
+
+
+
+
+
+            //  $(document).ready(function () {
+            $("#btnUpdate").click(function (e) {
+                if ($('form').valid()) {
+                    if (globalboolFlag) {
+                        var tododate = moment($("#trffromdate").val(), "DD/MM/YYYY").subtract(1, 'd');
+                        var todatefinal = $.datepicker.formatDate($("#Dateformat").val(), new Date(tododate))
+                        todatefinal = GetFinaldate(todatefinal, $("#ServerDateformat").val(), $("#Dateformat").val())
+
+
+                        formmodified = 0;
+                        var msttou = {
+                            "trfid": $("#trfid").val(),
+                            "trftouid": $("#trftouid :selected").val(),
+                            "trftouslotid": $("#trftouslotid :selected").val(),
+                            "trfschemename": $("#trfschemename").val(),
+                            "trfisdeleted": 0,
+                            //"trftodate": GetFinaldate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                            "trftodate": todatefinal,
+                            "trffromdate": $("#PreviousFromdate").val(),//todo -1 from this date
+                            "trfutilityid": $("#znutilityid").val()
+
+                        };
+
+
+                        var RecordID = $("#trfrecid").val();
+
+                        //debugger;
+
+                        $.ajax({
+                            type: "PUT",
+                            contentType: "application/json;charset=utf-8",//type of data to be send
+                            url: BaseAddress + "tariff/" + RecordID,
+                            async: false,
+                            //crossDomain: true,
+                            dataType: "json",//type of data to be received
+                            data: JSON.stringify(msttou),//data to be send
+                            success: function (response) {
+
+                                //debugger;
+                                var msttouNew = {
+                                    "trfid": $("#trfid").val(),
+                                    "trftouid": $("#trftouid :selected").val(),
+                                    "trftouslotid": $("#trftouslotid :selected").val(),
+                                    "trfschemename": $("#trfschemename").val(),
+                                    "trfisdeleted": 0,
+                                    "trffromdate": GetFinaldate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val()),
+                                    "trfutilityid": $("#znutilityid").val(),
+                                    "trfrevision": 0
+
+                                };
+                                //  alert(JSON.stringify(msttouNew));
+                                //New entry fir Tarrif
+
+
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json;charset=utf-8",//type of data to be send
+                                    url: BaseAddress + "tariff",
+                                    async: false,
+                                    dataType: "json",//type of data to be received
+                                    data: JSON.stringify(msttouNew),//data to be send
+                                    success: function (response) {
+                                        //debugger;
+                                    },
+                                    error: function (xhr, status, error) {
+                                        //debugger;
+                                        alert(xhr.responseText, '', false, 'E');
+                                    }
+                                });
+
+
+                            },
+                            error: function (xhr, status, error) {
+
+                                alert(xhr.responseText, '', false, 'E');
+                            }
+                        });
+
+                        //debugger;
+
+                        var i = 0;
+                        var Data = new Array();
+                        var NewData = new Array();
+                        $('#tab_logic tr').each(function (row, tr) {
+                            //  alert(row);
+                            if (row != 0) {
+
+
+                                Data[i] = {
+
+                                    "tdlrecid": $(tr).find('td:eq(11) input:first').val()
+                                    //, "tdltodate": MinusOneDayDate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())
+                                    , "tdltodate": todatefinal
+                                    //, "tdlfromdate": GetFinaldate($("#PreviousFromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())
+                                }
+                                // alert(JSON.stringify(Data[i]));
+
+                                //debugger;
+                                $.ajax({
+                                    type: "PUT",
+                                    contentType: "application/json;charset=utf-8",//type of data to be send
+                                    url: BaseAddress + "tarrifdetails",
+                                    async: false,
+                                    //crossDomain: true,
+                                    dataType: "json",//type of data to be received
+                                    data: JSON.stringify(Data[i]),//data to be send
+                                    success: function (response) {
+                                        //Fresh New entry for new Tarrif Details
+                                        //debugger;
+                                        NewData[i] = {
+
+                                            "tdltrfid": $(tr).find('td:eq(0) input:first').val()
+                                                        , "tdlslotno": $(tr).find('td:eq(1) input:first').val()
+                                                        , "tdlunitsfrom": $(tr).find('td:eq(2) input:first').val()
+                                                        , "tdlunitsto": $(tr).find('td:eq(3) input:first').val()
+                                                        , "tdltarifffcperkva": $(tr).find('td:eq(4) input:first').val()
+                                                        , "tdltariffecperkwh": $(tr).find('td:eq(5) input:first').val()
+                                                        , "tdltariffwcperkwh": $(tr).find('td:eq(6) input:first').val()
+                                                        , "tdlregassetchg": $(tr).find('td:eq(7) input:first').val()
+                                                        , "tdlfueladjchg": $(tr).find('td:eq(8) input:first').val()
+                                                        , "tdlelectricityduty": $(tr).find('td:eq(9) input:first').val()
+                                                        , "tdlpfincentive": $(tr).find('td:eq(10) input:first').val()
+                                             , "tdlsalestax": $(tr).find('td:eq(12) input:first').val()
+                                             , "tdlpmtdisc": $(tr).find('td:eq(13) input:first').val()
+                                                        , "tdiisdeleted": "0"
+                                            //, "tdlrecid": $(tr).find('td:eq(10) input:first').val()
+                                                        , "tdlfromdate": GetFinaldate($("#trffromdate").val(), $("#ServerDateformat").val(), $("#Dateformat").val())
+                                             , "tdlrevision": 0
+                                            , "tdlgovtsubsidyfcperkva": 0
+                                            , "tdigovtsubsidyecperkwh": 0
+                                            , "tdinetratefcperkva": 0
+                                            , "tdinetrateecperkva": 0
+                                        }
+
+
+
+
+
+                                        //window.location.href = '@Url.Action("Index", "tariff")';
+                                    },
+                                    error: function (xhr, status, error) {
+                                        alert(xhr.responseText, '', false, 'E');
+                                    }
+
+                                });
+                                i = i + 1;
+
+                            }
+                            //    alert(JSON.stringify(Data[row]));
+
+                        });
+                        //debugger;
+                        $.ajax({
+
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",//type of data to be send
+                            url: BaseAddress + "tarrifdetails",
+                            dataType: "json",//type of data to be received
+                            data: JSON.stringify(NewData),//data to be send
+                            async: false,
+                            success: function (response) {
+                                var TOUSlotData = new Array();
+
+                                $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                                    TOUSlotData[row] = {
+                                        "ttdltrfid": $("#trfid").val()
+                                        //, "tsrecid": $(tr).find('td:eq(0) input:last').val()
+                                        , "ttdltouslotid": $(tr).find('td:eq(0) input:hidden').val()
+                                        //, "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                                        //, "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                                        , "ttdladditionalcharge": $(tr).find('td:eq(3) input:first').val()
+                                        , "ttdlisdeleted": 0
+                                        , "ttdrevision": 0
+                                    }
+
+                                });
+                                $.ajax({
+
+                                    type: "POST",
+                                    contentType: "application/json;charset=utf-8",//type of data to be send
+                                    url: BaseAddress + "TarrifTouDetailsAPI",
+                                    dataType: "json",//type of data to be received
+                                    data: JSON.stringify(TOUSlotData),//data to be send
+                                    async: false,
+                                    success: function (response) {
+                                        //debugger;
+                                        alert("Record updated successfully", '', false, 'S');
+                                        if (response.Data.e == "10001") {
+                                            alert("Record updated successfully", '', false, 'S');
+                                        }
+                                        // window.location.href = "/tariff/create";
+                                    },
+                                    error: function (xhr, status, error) {
+
+                                        alert(xhr.responseText);
+                                    }
+                                });
+
+                                //alert("Record updated successfully", '', false, 'S');
+                                //if (response.Data.e == "10001") {
+                                //    alert("Record updated successfully", '', false, 'S');
+                                //}
+
+                            },
+                            error: function (xhr, status, error) {
+
+                                alert(xhr.responseText, '', false, 'E');
+                            }
+                        });
+
+
+
+
+
+
+
+                    }
+                    else {
+
+                        formmodified = 0;
+                        var msttou = {
+                            "trfid": $("#trfid").val(),
+                            "trftouid": $("#trftouid :selected").val(),
+                            "trftouslotid": $("#trftouslotid :selected").val(),
+                            "trfschemename": $("#trfschemename").val(),
+                            "trfisdeleted": 0,
+                            "trffromdate": $("#PreviousFromdate").val(),
+                            "trfutilityid": $("#znutilityid").val(),
+                            "trfrevision": $("#trfrevision").val()
+                        };
+
+                        //alert($("#PreviousFromdate").val());
+                        var RecordID = $("#trfrecid").val();
+
+
+                        //alert(JSON.stringify(msttou));
+                        $.ajax({
+                            type: "PUT",
+                            contentType: "application/json;charset=utf-8",//type of data to be send
+                            url: BaseAddress + "tariff/" + RecordID,
+                            async: false,
+                            //crossDomain: true,
+                            dataType: "json",//type of data to be received
+                            data: JSON.stringify(msttou),//data to be send
+                            success: function (response) {
+
+                                if (response.Data.e == "S") {
+                                    //alert(response.Data.d, '@Url.Action("Index", "Tariff")', false, response.Data.e);
+                                }
+                                else if (response.Data.e == "M") {
+
+                                    alert(response.Data.d, '', false, response.Data.e);
+                                }
+                                else if (response.Data.e == "E") {
+                                    alert(response.Data.d, '', false, response.Data.e);
+                                }
+
+                            },
+                            error: function (xhr, status, error) {
+
+                                alert(xhr.responseText, '', false, 'E');
+                            }
+                        });
+
+
+
+                        var i = 0;
+                        var Data = new Array();
+                        var NewData = new Array();
+
+                        $('#tab_logic tr').each(function (row, tr) {
+                            //alert(row);
+                            if (row != 0) {
+
+
+                                Data[i] = {
+
+                                    "tdltrfid": $(tr).find('td:eq(0) input:first').val()
+                                    , "tdlslotno": $(tr).find('td:eq(1) input:first').val()
+                                    , "tdlunitsfrom": $(tr).find('td:eq(2) input:first').val()
+                                    , "tdlunitsto": $(tr).find('td:eq(3) input:first').val()
+                                    , "tdltarifffcperkva": $(tr).find('td:eq(4) input:first').val()
+                                    , "tdltariffecperkwh": $(tr).find('td:eq(5) input:first').val()
+                                    , "tdltariffwcperkwh": $(tr).find('td:eq(6) input:first').val()
+                                    , "tdlregassetchg": $(tr).find('td:eq(7) input:first').val()
+                                    , "tdlfueladjchg": $(tr).find('td:eq(8) input:first').val()
+                                    , "tdlelectricityduty": $(tr).find('td:eq(9) input:first').val()
+                                    , "tdlpfincentive": $(tr).find('td:eq(10) input:first').val()
+                                    , "tdlsalestax": $(tr).find('td:eq(12) input:first').val()
+                                    , "tdlpmtdisc": $(tr).find('td:eq(13) input:first').val()
+                                    , "tdiisdeleted": "0"
+                                    , "tdlrecid": $(tr).find('td:eq(11) input:first').val()
+                                    , "tdlfromdate": $("#PreviousFromdate").val()
+                                    , "tdlrevision": $("#trfrevision").val()
+                                    , "tdlgovtsubsidyfcperkva": 0
+                                    , "tdigovtsubsidyecperkwh": 0
+                                    , "tdinetratefcperkva": 0
+                                    , "tdinetrateecperkva": 0
+                                }
+                                //alert(JSON.stringify(Data[i]));
+
+
+                                $.ajax({
+                                    type: "PUT",
+                                    contentType: "application/json;charset=utf-8",//type of data to be send
+                                    url: BaseAddress + "tarrifdetails",
+                                    async: false,
+                                    //crossDomain: true,
+                                    dataType: "json",//type of data to be received
+                                    data: JSON.stringify(Data[i]),//data to be send
+                                    success: function (response) {
+                                        //window.location.href = '@Url.Action("Index", "tariff")';
+                                    },
+                                    error: function (xhr, status, error) {
+
+                                        alert(xhr.responseText, '', false, 'E');
+                                    }
+
+                                });
+                                i = i + 1;
+
+                            }
+                            //    alert(JSON.stringify(Data[row]));
+
+                        });
+
+
+                        var TariffTouData = new Array();
+
+                        $('#tblTS tr').not(':first').each(function (row, tr) {
+
+                            TariffTouData[row] = {
+                                "ttdltrfid": $("#trfid").val()
+                                //, "tsrecid": $(tr).find('td:eq(0) input:last').val()
+                                , "ttdltouslotid": $(tr).find('td:eq(0) input:hidden').val()
+                                //, "tsslotstart": $(tr).find('td:eq(1) input:first').val()
+                                //, "tsslotend": $(tr).find('td:eq(2) input:first').val()
+                                , "ttdladditionalcharge": $(tr).find('td:eq(3) input:first').val()
+                                , "ttdlisdeleted": 1
+                                , "ttdrevision": $("#revision :selected").val()
+                            }
+
+                        });
+
+
+                        $.ajax({
+
+                            type: "POST",
+                            contentType: "application/json;charset=utf-8",//type of data to be send
+                            url: BaseAddress + "TarrifTouDetailsAPI",
+                            dataType: "json",//type of data to be received
+                            data: JSON.stringify(TariffTouData),//data to be send
+                            async: false,
+                            success: function (response) {
+                                //debugger;
+                                alert("Record updated successfully", '', false, 'S');
+                                if (response.Data.e == "10001") {
+                                    alert("success");
+                                }
+                                // window.location.href = "/tariff/create";
+                            },
+                            error: function (xhr, status, error) {
+
+                                alert(xhr.responseText, '', false, 'E');
+                            }
+                        });
+
+                    }
+
+
+                }
+
+
+
+
+                // }
+
+                // e.preventDefault();
+
+            });
+
+
+
+            //});
+        });
+
+
+        function isNumberKey(evt, txt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode != 46)
+                return false;
+            else {
+                var len = txt.value.length;
+                var index = txt.value.indexOf('.');
+
+                if (index > 0 && charCode == 46) {
+                    return false;
+                }
+                if (index > 0) {
+                    var CharAfterdot = (len + 1) - index;
+                    if (CharAfterdot > 3) {
+                        return false;
+                    }
+                }
+
+            }
+            return true;
+        }
+
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+
+
+
+    </script>
+
+}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">User Master</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Utility</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!--Table Wrapper Start-->
+
+                            <a class="btn btn-warning pull-right btn-sm" href='@Url.Action("Index")'><i class="fa fa-arrow-left"></i> Back To List</a>
+                            <div class="clearfix"></div>
+                            <hr />
+                            <div class="panel panel-light-blue">
+                                <div class="panel-heading">
+                                    <i class="fa fa-pencil-square-o"></i> <strong>EDIT</strong>
+                                </div>
+                                <div class="panel-body">
+                                    @using (Html.BeginForm())
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        @Html.ValidationSummary(true)
+                                        @Html.HiddenFor(model => model.trfrecid)
+                                        <input id="Dateformat" type="hidden" name="Dateformat" />
+                                        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+                                        <input type="hidden" id="DatabaseDateformat">
+                                        <input type="hidden" id="trfrevision" />
+                                        <div class="form-horizontal" style="display:none">
+                                            <hr />
+                                            <div class="form-group">
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.trfid, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @*@Html.TextBoxFor(model => model.trfid, new { disabled = "disabled" })
+                                                        @Html.ValidationMessageFor(model => model.trfid)*@
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                @Html.LabelFor(model => model.trfschemename, new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @*@Html.EditorFor(model => model.trfschemename)
+                                                        @Html.ValidationMessageFor(model => model.trfschemename)*@
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouid">Utility</label>
+                                                @*@Html.LabelFor(model => model.znutilityid)*@
+                                                <div class="col-md-10">
+                                                    @*@Html.DropDownListFor(model => model.ssdivid, (IEnumerable<SelectListItem>)ViewBag.DivisionID, new { @class = "ssdividclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select" })*@
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouid">TOU Code</label>
+                                                <div class="col-md-10">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouslotid">TOU Slot</label>
+                                                <div class="col-md-10">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="trftouslotid">Tariff From Date</label>
+                                                <div class="col-md-10">
+                                                    @*@Html.EditorFor(model => model.trffromdate)
+                                                        @Html.ValidationMessageFor(model => model.trffromdate)*@
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <table class="table table-bordered table-hover table-sortable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center">
+                                                                Tariif ID
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Slot No.
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Units From
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Units To
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Fixed Charge <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Energy Charge <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Wheeling Charge <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Govt. Subsidy F.C. <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Govt. Subsidy E.C. <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Net Rate F.C. <br />pkva
+                                                            </th>
+                                                            <th class="text-center">
+                                                                Net Rate E.C. <br />pkva
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="button" value="Save" class="btn btn-default" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-body">
+                                          
+                                                <div class="form-group col-md-6">
+                                                      <div class="row">
+                                                        <label class="col-md-4 control-label" for="text-input">Tariff Code <span class="validation-redcolor">*</span></label>
+                                                        <div class="col-md-5">
+                                                            @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                                                            @Html.TextBoxFor(model => model.trfid, new { disabled = "disabled", @class = "form-control" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.ValidationMessageFor(model => model.trfid, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                          
+                                                    <div class="form-group col-md-6">
+                                                          <div class="row">
+                                                        <label class="col-md-4 control-label" for="text-input" style="white-space:nowrap">Tariff Scheme Name <span class="validation-redcolor">*</span></label>
+                                                        <div class="col-md-5">
+                                                            @*<input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text">*@
+                                                            @Html.TextBoxFor(model => model.trfschemename, new { @class = "form-control alphanumspace", @maxlength = "20" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.ValidationMessageFor(model => model.trfschemename, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                           
+                                              
+                                                    <div class="form-group col-md-6">
+                                                          <div class="row">
+                                                        <label class="col-md-4 control-label" for="select">Utility <span class="validation-redcolor">*</span></label>
+                                                        <div class="col-md-5">
+                                                            <input id="Dateformat" type="hidden" />
+                                                            <input id="ServerDateformat" type="hidden" />
+                                                            @Html.DropDownListFor(model => model.znutilityid, (IEnumerable<SelectListItem>)ViewBag.UtilityID, "Select", new { @size = "1", @class = "form-control", @disabled = "disabled" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.ValidationMessageFor(model => model.znutilityid, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                           
+                                                    <div class="form-group col-md-6">
+                                                          <div class="row">
+                                                        <label class="col-md-4 control-label" for="select">Revision</label>
+                                                        <div class="col-md-5">
+                                                            <select id="revision" class="form-control"></select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                                    <div class="form-group col-md-6">
+                                                          <div class="row">
+                                                        <label class="col-md-4 control-label" for="select">TOD Code</label>
+                                                        <div class="col-md-5">
+
+
+                                                            @Html.DropDownListFor(model => model.trftouid, Enumerable.Empty<SelectListItem>(), new { @title = "Select TOU Code", @class = "form-control" })
+                                                            </div>
+                                                             <div class="col-md-3"> 
+                                                            @Html.ValidationMessageFor(model => model.trftouid)
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <table border="1" id="tblTS" style="text-align:center" class="table table-bordered table-hover table-sortable">
+                                                        <thead>
+                                                            <tr>
+                                                                @*<th>TS Code</th>*@
+                                                                <th style="color:white">TS Slot No</th>
+                                                                <th style="color:white">TS Slot Start  (24 Hrs Format)</th>
+                                                                <th style="color:white">TS Slot End  (24 Hrs Format)</th>
+                                                                <th style="color:white">Additional Charge</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblTouSlot"></tbody>
+                                                    </table>
+
+                                                    <div class="col-md-10" id="divErr" style="border-color:red">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label class="col-md-2 control-label" for="text-input">Tariff From Date</label>
+                                                        <div class="col-md-2">
+
+                                                            <input type="text" id="txtFromDate" disabled class="form-control" />
+                                                            @*<input type="checkbox" id="check" />*@
+                                                            <input type="hidden" id="PreviousFromdate" />
+                                                            @*<label></label>*@
+
+                                                          
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                        <div class="checkbox checkbox-info">
+                                                              
+                                                                <label for="checkbox4" >
+                                                                    Revised Tariff
+                                                                </label>
+                                                              <input id="check" class="styled" type="checkbox" style="margin-left: 7px;     margin-top: 2px;">
+                                                            </div>
+                                                    </div>
+                                                        
+                                                           <div class="col-md-6" id="RevisedFDate" style="display:none;">
+                                                  <div class="row">
+                                                        <label class="col-md-4 control-label" for="trftouslotid">Revised Tariff <br/> From Date <span class="validation-redcolor">*</span></label>
+                                                        <div class="col-md-5">
+                                                            @Html.TextBoxFor(model => model.trffromdate, new { @class = "form-control" })
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            @Html.ValidationMessageFor(model => model.trffromdate, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                  
+                                                </div>
+                                            
+                                           
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group" style="overflow-x:scroll">
+                                                    <table class="table table-bordered table-hover table-sortable" id="tab_logic" width="100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center" style="color:white">
+                                                                    Tariff ID
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Slot No.
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Units From
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Units To
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Fixed Ch/KVA @*<br />pkva*@
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Energy Ch/Kwh
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Wheeling Ch/Kwh
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Regu. Asset <br />Charges /Kwh
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Fuel Adjustment<br /> Charge /Kwh
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Electricity <br />Duty
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    PF Incentive <br /> /Penalty
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Sales Tax <br /> /Kwh
+                                                                </th>
+                                                                <th class="text-center" style="color:white">
+                                                                    Payment <br /> Discount
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <div class="panel-footer col-md-12 text-center">
+                                            <button type="button" class="btn btn-success" id="btnUpdate"><i class="fa fa-floppy-o"></i>&nbsp;&nbsp;Save</button>
+                                            <button type="button" class="btn btn-danger" id="btnReset" onclick="location.reload(true)"><i class="fa fa-undo"></i>&nbsp;&nbsp;Reset</button>
+
+                                        </div>
+                                    }
+                                    <div style="padding-bottom:20px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@Scripts.Render("~/bundles/jqueryval")

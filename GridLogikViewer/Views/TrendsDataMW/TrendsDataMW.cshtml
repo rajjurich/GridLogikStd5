@@ -1,0 +1,937 @@
+﻿@model GridLogikViewer.ViewModel.TrendsDataViewModel
+@using GridLogikViewer.Extensions
+@{
+    ViewBag.Title = "Trends Data";
+}
+<style>
+    .dataTables_scrollHead {
+        overflow: visible !important;
+    }
+
+    .dataTables_scroll {
+        overflow-y: scroll !important;
+        margin-bottom: 15px;
+    }
+
+    .dataTables_info {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    div.dt-buttons {
+        position: absolute;
+        float: left;
+        bottom: -127px;
+        left: 227px;
+    }
+
+    .dt-buttons .buttons-pdf {
+        color: #fff;
+        background-color: #d2322d !important;
+        background-image: none !important;
+        border-color: #ac2925;
+        border: 1px solid transparent;
+        white-space: nowrap;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        border-radius: 0px;
+    }
+</style>
+@using (Html.BeginForm("Update", "TrendsDataMW", FormMethod.Post, new { id = "formTrendsData" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Group_Name)
+    @Html.HiddenFor(m => m.Meter_Name)
+    @Html.HiddenFor(m => m.ColumnValue)
+    @Html.HiddenFor(m => m.SelectedColumnOrder)
+    <section>
+        <div id="main-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<h3 class="ls-top-header col-md-6">
+                                Energy Log
+                            </h3>*@
+                        <!--Top breadcrumb start -->
+                        <ol class="breadcrumb col-md-12 text-left bgn">
+                            <li><a href="#"><i class="fa fa-home"></i></a></li>
+                            <li><a href="#">Logs</a></li>
+                            <li class="active">Trends Data</li>
+                        </ol>
+                        <!--Top breadcrumb start -->
+                        <div class="clearfix"></div>
+                        <div class="row  mb55">
+                            <div class="col-md-12">
+                                <!--Table Wrapper Start-->
+                                <hr />
+                                <div class="panel panel-light-blue">
+                                    <div class="panel-body">
+                                        <div id="dvSelectionFilters">
+                                            <div class="row mb5">
+                                                <div class="col-md-5">
+                                                    <div class="row mt20">
+                                                        @*<label class="col-md-4 control-label" style="border:0px solid #000; padding:0px; margin:5px 0px;" for="select">Meter Group<label class="validation-redcolor">*</label></label>*@
+                                                        <div class="col-md-4 text-right">
+                                                            @Html.LabelForRequired(model => model.GroupId, null, "col-md-4 control-label")
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => Model.GroupId, new SelectList(Model.Groups, "ID", "GroupName"), "select", new { @id = "groupList", @class = "form-control", @size = "1" })
+                                                            @Html.ValidationMessageFor(model => Model.GroupId, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="row mt20">
+                                                        @* <label class="col-md-4 control-label" style="border:0px solid #000; padding:0px; margin:5px 0px;" for="select">Meter Name<label class="validation-redcolor">*</label></label>*@
+                                                        <div class="col-md-4 text-right">
+                                                            @Html.LabelForRequired(model => model.MeterId, null, "col-md-4 control-label")
+                                                            </div>
+                                                        <div class="col-md-8">
+                                                            @Html.DropDownListFor(model => Model.MeterId, new SelectList(Enumerable.Empty<SelectListItem>(), "ID", "MeterName"), "select", new { @id = "meterList", @class = "form-control", @size = "1" })
+                                                            @Html.ValidationMessageFor(model => Model.MeterId, null, new { @class = "validation-redcolor" })
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                <div class="col-md-2 mt20">
+                                                    <button type="submit" class="btn btn-danger" id="updateDetail" style="font-weight:bold;  margin:0px 10px;">Update Now</button>
+                                                </div>
+                                                </div>
+                                            <hr />
+                                                @*//new control starts here*@
+                                            <div class="col-md-6 col-centered">
+                                               
+                                                <div class="form-group col-md-5">
+                                                    @Html.Label("Parameters", new { @class = "header" })
+                                                    <div id='columnSelection' class="form-group col-md-4">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-5">
+                                                    @Html.Label("Selection", new { @class = "header" })
+                                                    <div id='selectedColumn' class="form-group col-md-4">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                            <hr />
+                                                @*end*@
+
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group row">
+                                                        <div class="col-md-6">
+                                                            <label>From Date</label>
+                                                            <div id="dtFrmDate">
+                                                                @Html.TextBoxFor(m => m.FromDate, new { @id = "FromDate", @class = "form-control", @readonly = true, @name = "txtFrmDate" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 ">
+                                                            <label>Time</label>
+                                                            @Html.DropDownListFor(model => Model.StartTime, new SelectList(Model.StartTimeList), "select", new { @id = "startTime", @class = "col-md-12 form-control", @size = "1" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-1">
+                                                    <div class="form-group row">
+                                                        <label>To Time</label>
+                                                        @Html.DropDownListFor(model => Model.EndTime, new SelectList(Model.EndTimeList), "select", new { @id = "endTime", @class = "form-control", @size = "1"})
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-group row">
+                                                            <label >Select</label>
+                                                            <div class="clearfix"> </div>
+                                                            <label for="inline-radio1">
+                                                                @Html.RadioButtonFor(m => m.RadioFilter, false)
+                                                                @Html.Label("Default")
+                                                            </label>
+                                                            <label for="inline-radio2">
+                                                                @Html.RadioButtonFor(m => m.RadioFilter, true)
+                                                                @Html.Label("30 Sec")
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                        @if (ViewBag.RecordCount == "true")
+            {
+                                        <div id="displayData">
+                                            <button id="btnBack" type="button" class="btn btn-warning pull-right btn-sm"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</button>
+                                            <div class="clearfix"></div>
+                                            <hr />
+                                            <div class="form-group row">
+                                                <div class="col-md-3">
+                                                    <label>Meter Group</label>&nbsp;&nbsp;
+                                                    @Html.DisplayFor(model => model.Group_Name)
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Meter Name</label>&nbsp;&nbsp;
+                                                    <label id="lblmetername">@Html.DisplayFor(model => model.Meter_Name)</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>From date</label>&nbsp;&nbsp;&nbsp;
+                                                    <label id="lblfromdate">@Html.DisplayFor(model => model.fltrFromDate)</label>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>To date</label>&nbsp;&nbsp;&nbsp;
+                                                    <label id="lbltodate">@Html.DisplayFor(model => model.fltrToDate)</label>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <table id="tableTrendData" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="tableth">
+                                                                @Html.Label("Date-Time")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VRN")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VYN")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VBN")
+                                                            </th>
+
+                                                            <th class="tableth">
+                                                                @Html.Label("VLN")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VRY")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VYB")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VBR")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("VLL")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("I")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("IR")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("IY")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("IB")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("PF")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("MW")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("MVA")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("MVAR")
+                                                            </th>
+                                                            <th class="tableth">
+                                                                @Html.Label("HZ")
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.InstanceDataList)
+                                                        {
+                                                            <tr>
+                                                                <td class="text-center">
+                                                                    <b>@item.Date.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vrn.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vyn.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vbn.ToString()</b>
+                                                                </td>
+
+                                                                <td class="text-center">
+                                                                    <b>@item.Vln.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vry.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vyb.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vbr.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Vll.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.I.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Ir.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Iy.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.Ib.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.PF.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.kW.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.kVA.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.kVAR.ToString()</b>
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <b>@item.HZ.ToString()</b>
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                                <div class="colorstrip">
+                                                    @Html.Label("Sum :")
+                                                    @Html.Label("Sum", new { id = "Sum" })
+                                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                                    @Html.Label("Avg :")
+                                                    @Html.Label("Avg", new { id = "average" })
+                                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                                    @Html.Label("Min :")
+                                                    @Html.Label("Min", new { id = "Minimum" })
+                                                    <span>&nbsp;&nbsp;&nbsp;</span>
+                                                    @Html.Label("Max :")
+                                                    @Html.Label("Max", new { id = "Maximum" })
+                                                </div>
+                                            </div>
+
+                                            <div id="chart_dialog" style="height: 675px;">
+                                                <a href="javascript:printDiv('chart_container')" class="btn btn-default btn-sm pull-right">Print</a>
+                                                <div id="chart_container" style="width:100%; clear:both; max-width:1176px;"></div>
+                                            </div>
+                                            <div class="mt20">
+                                                <button type="button" class="btn btn-success" id="export"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                                                <button type="button" class="btn btn-twitter" id="graph"><i class="fa fa-bar-chart-o"></i> Graph</button>
+                                            </div>
+                                        </div>
+            }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+<style>
+    .ui-datepicker {
+        z-index: 10000000 !important;
+    }
+
+    .highlighted {
+        background-color: #999;
+    }
+
+    .scroller-wrap {
+        overflow-x: auto;
+        overflow-y: hidden;
+        position: relative;
+        margin: 3em 0;
+        width: 100%;
+    }
+
+    .colorstrip {
+        width: 100%;
+        background-color: #1F475F;
+        color: #eaeaea;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-top: 50px;
+    }
+
+    .ui-dialog {
+        z-index: 1111;
+        position: fixed;
+        top: 10%;
+        left: 10%;
+    }
+
+    .ui-widget-overlay {
+        z-index: 1111;
+    }
+</style>
+<link href="~/Content/css/jqx.base.css" rel="stylesheet" />
+<script src="~/Scripts/jqxcore.js"></script>
+<script src="~/Scripts/jqxbuttons.js"></script>
+<script src="~/Scripts/jqxlistbox.js"></script>
+<script src="~/Scripts/jqxscrollbar.js"></script>
+<script src="~/Scripts/jqxdragdrop.js"></script>
+@*<script src="~/Scripts/dataTables.colReorder.js"></script>*@
+<script src="~/Scripts/jquery-confirm.js"></script>
+
+<script src="~/Scripts/Datatablejs/jquery.dataTables.min.js"></script>
+<script src="~/Scripts/Datatablejs/dataTables.buttons.min.js"></script>
+<script src="~/Scripts/Datatablejs/jszip.min.js"></script>
+<script src="~/Scripts/Datatablejs/pdfmake.min.js"></script>
+<script src="~/Scripts/Datatablejs/vfs_fonts.js"></script>
+<script src="~/Scripts/Datatablejs/buttons.html5.min.js"></script>
+<script type="text/javascript">
+    var box;
+    var FinalColumns = [];
+    var FinalSelectedColumn = [];
+    var UnSelectedColumns = [];
+    var itemsParent = [];
+    var items = [];
+    $(document).ready(function () {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        //import script
+
+        $(document).on("contextmenu", function (e) {
+            e.preventDefault();
+        });
+        $('body #tableTrendData thead th').mousedown(function (event) {
+            switch (event.which) {
+                case 1:
+                    //console.log('Left Mouse button pressed.');
+                    break;
+                case 2:
+                    //console.log('Middle Mouse button pressed.');
+                    break;
+                case 3:
+                    // $("#tableTrendData td").removeClass("highlighted");
+                    var index = $(this).index() + 1;
+                    var rowindex = 1;
+                    if (index > 1) {
+
+                        $('#tableTrendData tr').eq(rowindex).find('td').eq(index - 1).trigger('mousedown');
+                        $("#tableTrendData  tr td:nth-child(" + index + ")").each(function (i, obj) {
+                            //console.log($(obj).text());
+                            $(obj).trigger('mouseover');
+                        });
+
+                    }
+
+                    return false; // prevent text selection
+                    break;
+                default:
+                    //console.log('You have a strange Mouse!');
+            }
+        });
+
+
+        if ('@ViewBag.RecordCount' == 'false') {
+            $("#export, #graph").hide();
+        }
+        if ('@ViewBag.RecordCount' == 'true') {
+            FinalColumns = $("#ColumnValue").val().split(',');
+            itemsParent = $("#SelectedColumnOrder").val().split(',');
+            var ModifiedItemParent = ["VRN", "VYN", "VBN", "VLN", "VRY", "VYB", "VBR", "VLL", "I", "IR", "IY", "IB", "PF", "MW", "MVA", "MVAR", "HZ"];
+            var orderSelection = [0];
+            for (var i = 0; i < itemsParent.length; i++) {
+                var strtext = itemsParent[i].toString();
+                if ($.inArray(strtext, FinalColumns) == -1) {
+                    var ind = $("#tableTrendData").find("th:contains('" + ModifiedItemParent[i] + "')").index() + 1;
+                    $('td:nth-child(' + ind + '),th:nth-child(' + ind + ')').hide();
+                }
+            }
+            for (var counter = 0; counter < FinalColumns.length; counter++) {
+                var index = $.inArray(FinalColumns[counter], itemsParent);
+                orderSelection.push(index + 1);
+            }
+            for (var j = 0; j <= itemsParent.length; j++) {
+                if ($.inArray(j, orderSelection) == -1)
+                    orderSelection.push(j);
+            }
+
+            $("#tableTrendData").dataTable(
+                {
+                    dom: 'lBfrtip',
+                    "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    buttons: [
+                        'pdfHtml5'
+                    ],
+                    pageLength: 10,
+                    scrollX: true,
+                    colReorder: {
+                        order: orderSelection
+                    }
+                });
+            var table = $('#tableTrendData').DataTable();
+            //new $.fn.dataTable.ColReorder(table);
+            $("#dvSelectionFilters").hide();
+        }
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 675,
+            width: '85%',
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+
+        var valueArr = [];
+        var dateArr = [];
+        var columnHeader = [];
+        var index = [];
+        var sortedData = [];
+        $(document).mousedown(function () {
+            $("#tableTrendData td").removeClass("highlighted");
+            $("#average").text('Avg');
+            $('#Maximum').text('Max');
+            $('#Minimum').text('Min');
+            $("#Sum").text('Sum');
+            seriesArr = [];
+            valueArr = [];
+            dateArr = [];
+            columnHeader = [];
+            index = [];
+        });
+        var isMouseDown = false, isHighlighted;
+        var a = 0;
+        var current = 0;
+        var previous = 0;
+        var counter = 1;
+        $(document).on('mousedown', '#tableTrendData td', function () {
+            $("#tableTrendData td").removeClass("highlighted");
+            isMouseDown = true;
+            if (currentIndex != 0)
+                $(this).addClass("highlighted");
+            if (currentIndex != 0) {
+                if (!isNaN(Number($(this).text()))) {
+                    index.push($(this).index());
+                    //var data = { name: $(this).index(), data: valueArr }
+                    sortedData[$(this).index()] = valueArr;
+                    a = Number(a) + Number($(this).text());
+                    $('#Minimum,#Maximum,#Sum,#average').text(a);
+                    var $th = $(this).closest('table').find('th').eq($(this).index());
+                    columnHeader.push($th[0].textContent.trim());
+                    valueArr.push($th[0].textContent.trim() + '_' + Number($(this).text()));
+                    var date = $(this).closest("tr").find("td:nth-child(1)").text()
+                    dateArr.push(date);
+                }
+            }
+            isHighlighted = $(this).hasClass("highlighted");
+            return false; // prevent text selection
+        }).on('mouseover', '#tableTrendData td', function () {
+            currentIndex = $(this).index();
+            if (isMouseDown) {
+                if (!$(this).hasClass("highlighted") && currentIndex != 0) {
+
+                    if (!isNaN(Number($(this).text()))) {
+                        if ($.inArray($(this).index(), index) != 0) {
+                            index.push($(this).index());
+                        }
+                        var date1 = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArr.push(date1);
+
+                        sortedData[$(this).index()] = valueArr;
+                        a = Number(a) + Number($(this).text());
+                        var $th = $(this).closest('table').find('th').eq($(this).index());
+                        columnHeader.push($th[0].textContent.trim());
+                        valueArr.push($th[0].textContent.trim() + '_' + Number($(this).text()));
+                        if (Number($('#Minimum').text()) < Number($(this).text())) {
+                            if (Number($('#Maximum').text()) < Number($(this).text())) {
+                                $('#Maximum').text(Number($(this).text()));
+                            }
+                        }
+                        else {
+                            $('#Minimum').text(Number($(this).text()));
+                        }
+                    }
+                    else {
+                        valueArr.push(Number(0));
+                        var date1 = $(this).closest("tr").find("td:nth-child(1)").text()
+                        dateArr.push(date1);
+                    }
+                    counter = counter + 1;
+                    //alert(counter);
+                    $("#Sum").text(Number(a).toFixed(2));
+                    $("#average").text((a / counter).toFixed(2));
+                }
+                if (currentIndex != 0)
+                    $(this).toggleClass("highlighted", isHighlighted);
+            }
+        });
+
+        $(document)
+          .mouseup(function () {
+              isMouseDown = false;
+              a = 0;
+              counter = 1;
+              index = [];
+          });
+
+        $('#export').mousedown(function () {
+            box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+            var actionUrl = '@Url.Action("Export", "TrendsDataMW")';
+            var cols = $("#ColumnValue").val();
+            cols = "Date," + cols;
+            window.location.href = "@Url.Action("Export", "TrendsDataMW")/?id=" + cols + "&exportAllColumns=" + exportAllColumns + "";
+            if (box) box.remove();
+        });
+
+        var seriesArr = [];
+        var addedHeaders = [];
+        $("#graph").mousedown(function () {
+            var valuesArrs = [];
+            var SelcolDates = [];
+            var columnList = [];
+            var SelcolumnList = [];
+            var tblname = "#tableTrendData";
+            var TableRow = $('table' + tblname).find('tbody').find('tr');
+            //$(tblname + ' thead th').each(function (index) {
+            //    columnList.push($(this).text().trim());
+            //});
+            columnList = $("#SelectedColumnOrder").val().split(',');
+            for (var i = 0; i < TableRow.length; i++) {
+                var Tdcount = 0;
+                for (var j = 0; j < TableRow[i].cells.length; j++) {
+                    var subtd = TableRow[i].cells[j].className;
+                    if (subtd.includes("highlighted")) {
+                        var colName = columnList[j];
+                        SelcolumnList.push(colName);
+                        var Vl = TableRow[i].cells[j].innerText;
+                        valuesArrs.push(colName + "$" + Vl);
+                        if (Tdcount == 0) {
+                            var dat = TableRow[i].cells[0].innerText;
+                            SelcolDates.push(dat);
+                        }
+                        Tdcount++;
+                    }
+                }
+            }
+            var values = [];
+            $.each(valuesArrs, function (key, value) {
+                if (value != 0) {
+                    var dataArray = value.split("$");
+                    var seriesOptions2 = [];
+                    seriesOptions2.push(dataArray[dataArray.length - 1]);
+                    if (values.length > 0) {
+                        $.each(values, function (key1, value1) {
+                            if ((values[key1].name != dataArray[0]) && ($.inArray(dataArray[0], addedHeaders) == -1)) {
+                                var series = { name: dataArray[0], data: seriesOptions2 }
+                                values.push(series);
+                                addedHeaders.push(dataArray[0]);
+                            }
+                            else if (values[key1].name == dataArray[0]) {
+                                values[key1].data.push(dataArray[dataArray.length - 1]);
+                            }
+                        });
+                    }
+                    else {
+                        var series = { name: dataArray[0], data: seriesOptions2 }
+                        values.push(series);
+                    }
+                }
+            });
+
+            addedHeaders = [];
+            var uniquecolumnHeader = SelcolumnList.filter(function (itm, i, SelcolumnList) {
+                return i == SelcolumnList.indexOf(itm);
+            });
+
+
+            var sortedCol = $(tblname).dataTable().fnSettings().aaSorting[0][0];
+            var sortedDir = $(tblname).dataTable().fnSettings().aaSorting[0][1];
+            var str = $(tblname).dataTable().fnSettings().aoColumns[sortedCol].sTitle;
+            if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                SelcolDates = SelcolDates.reverse();//change for date desc
+            }
+
+
+            //SelcolDates = SelcolDates.reverse();//change for date desc
+            if (uniquecolumnHeader.length > 0) {
+                box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                for (var ser = 0; ser < uniquecolumnHeader.length; ser++) {
+                    var seriesOptions2 = values[ser].data.map(Number);    ////convert String Array into Number Array
+                    if (str.toLowerCase().indexOf("date") >= 0 && sortedDir.toLowerCase() == 'desc') {
+                        seriesOptions2 = seriesOptions2.reverse();  //change for date desc
+                    }
+
+
+                    // seriesOptions2 = seriesOptions2.reverse();  //change for date desc
+                    var dataArr = [];
+                    for (var hdr = 0; hdr < seriesOptions2.length; hdr++) {
+                        var dts = ConvertYYYYMMDDHHmmss(SelcolDates[hdr]);
+
+                        var data = [Date.UTC(dts[0], dts[1], dts[2], dts[3], dts[4], dts[5]), seriesOptions2[hdr]];
+                        dataArr.push(data);
+                    }
+                    var series = { name: uniquecolumnHeader[ser], data: dataArr }; //Create Series Array with name and data property
+                    seriesArr.push(series);
+                }
+                var metername = $('#lblmetername').text();
+                var fromdate = $('#lblfromdate').text();
+                var todate = $('#lbltodate').text();
+
+                lineChart(SelcolDates, seriesArr, metername, fromdate, todate);
+
+                seriesArr = [];
+                valueArr = [];
+                index = [];
+                valuesArrs = [];
+                SelcolDates = [];
+                columnList = [];
+                SelcolumnList = [];
+                $("#chart_dialog").dialog('open');
+                if (box) box.remove();
+            }
+            else {
+                alert("Please select atleast one value", '', false, 'E')
+            }
+        });
+
+
+        //import end
+        var columns = ["VRN", "VYN", "VBN", "VLN", "VRY", "VYB", "VBR", "VLL", "I", "IR", "IY", "IB", "PF", "KW", "KVA", "KVAR", "HZ"];
+        var selectColumn = [];
+        $("#columnSelection").jqxListBox({ allowDrop: false, allowDrag: false, source: columns, multiple: true, width: 195, height: 250 });
+        var displaySelectedItems = function () {
+            var items = $("#columnSelection").jqxListBox('getSelectedItems');
+            for (var i = 0; i < items.length; i++) {
+                selectColumn.push(items[i].label);
+            }
+
+            $("#selectedColumn").jqxListBox({
+                allowDrop: true, allowDrag: true, enableSelection: false, source: selectColumn, multiple: true, width: 195, height: 250,
+                renderer: function (index, label, value) {
+                    return "<span>" + label + "</span> <a id='deleteLink" + index + "' class='text-danger pull-right'><i class='fa fa-times'></i></a>";
+                    //return "<span id='deleteLink" + index + "'>" + label + "</span>";
+                }
+            });
+            var allItems = $("#selectedColumn").jqxListBox('getItems');
+            for (var i = 0; i < allItems.length; i++) {
+                $("#selectedColumn").jqxListBox('selectIndex', i);
+            }
+            selectColumn = [];
+        }
+        var removeSelectedItems = function (finText) {
+            selectColumn = [];
+            $("#columnSelection").jqxListBox('unselectItem', finText);
+            $("#selectedColumn").jqxListBox('removeItem', finText);
+        }
+        displaySelectedItems();
+        $("#columnSelection").on('change', function () {
+            displaySelectedItems();
+        });
+
+        $(document).on('click', '#listBoxContentselectedColumn a', function (event) {
+            var id = event.target.id;
+            var text = $("#" + id).parent().text();
+            var finText = text.substr(0, text.indexOf(' '));
+            removeSelectedItems(finText);
+        });
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            url: BaseAddress + "prmglobal",
+            dataType: "json",
+            async: false,
+            success: function (dateformat, status, jqXHR) {
+                var str = "";
+                if (dateformat.Data.result != undefined) {
+                    var data = dateformat.Data.result;
+                    for (var i in data) {
+                        if (data[i].prmunit == "DateField") {
+                            if (data[i].prmvalue != undefined && data[i].prmvalue != "") {
+                                $("#DateField").val(data[i].prmvalue);
+                            }
+                        }
+                        else if (data[i].prmunit == "ServerDate") {
+                            $("#ServerDate").val(data[i].prmvalue);
+                        }
+                    }
+
+                }
+                else if (dateformat.Data.e == "E") {
+                    if (dateformat.Data.d.length > 0)
+                        alert()
+                }
+            }
+        });
+        var DateFormat = $("#DateField").val();
+        $("#FromDate").datepicker({
+            dateFormat: $("#DateField").val(),
+            changeMonth: true,
+            changeYear: true,
+            minDate: -300,
+            maxDate: '0'
+
+        });
+
+        $("#groupList").change(function () {
+            FillMeter();
+        });
+        $('#btnBack').on('click', function () {
+            $("#displayData").html("");
+            $("#dvSelectionFilters").show();
+            FillMeter();
+            $("#selectedColumn").jqxListBox({
+                allowDrop: true, allowDrag: true, enableSelection: false, source: FinalColumns, multiple: true, width: 200, height: 250,
+                renderer: function (index, label, value) {
+                    return "<span>" + label + "</span> <a id='deleteLink" + index + "' class='editor_remove label label-danger btnDelete'>Delete</a>";
+                }
+            });
+            var allItems = $("#selectedColumn").jqxListBox('getItems');
+            for (var i = 0; i < allItems.length; i++) {
+                $("#selectedColumn").jqxListBox('selectIndex', i);
+                $("#columnSelection").jqxListBox('selectItem', allItems[i].label);
+            }
+            FinalColumns = [];
+        });
+        $("#updateDetail").click(function () {
+          //  console.log('hey');
+            if ($("#formTrendsData").valid()) {
+                items = $("#selectedColumn").jqxListBox('getItems');
+                if (items.length > 0) {
+                    box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+                    itemsParent = $("#columnSelection").jqxListBox('getItems');
+                    for (var i = 0; i < items.length; i++) {
+                        FinalColumns.push(items[i].label);
+                    }
+                    for (var i = 0; i < itemsParent.length; i++) {
+                        FinalSelectedColumn.push(itemsParent[i].label);
+                    }
+                    $("#ColumnValue").val(FinalColumns);
+                    $("#SelectedColumnOrder").val(FinalSelectedColumn);
+                    $("#Group_Name").val($('#groupList option:selected').text());
+                    $("#Meter_Name").val($('#meterList option:selected').text());
+                }
+                else {
+                    alert("Please select atleast one parameter", '', false, 'E');
+                    return false;
+                }
+            }
+        });
+    });
+
+    $(window).bind("load", function () {
+        if (box)
+            box.remove();
+    });
+    function lineChart(dateArr, seriesArr, metername, fromdate, todate) {
+        var chart = new Highcharts.Chart({
+            chart: {
+                type: 'spline',
+                zoomType: 'x',
+                renderTo: 'chart_container',
+                spacingLeft: 0,
+                marginRight: 120,
+                height: 550,
+                spacingBottom: 3,
+                events: {
+                    load: function () {
+                        $(window).resize();
+                    }
+                }
+
+            },
+            title: {
+                text: '.',
+                style: {
+                    color: '#FFFFFF'
+
+                },
+                x: -20 //center
+            },
+            subtitle: {
+                text: '',
+                x: -20
+            },
+            xAxis: {
+                type: 'datetime',
+                title: {
+                    text: 'Date'
+                }
+            },
+            yAxis: {
+                title: {
+                    text: 'Value'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: 'value'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            series: seriesArr
+        }, function (chart) { // on complete
+
+            chart.renderer.text('<b>Meter Name</b>', 100, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(metername, 200, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>From Date</b>', 450, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(fromdate, 540, 20)
+       .css({})
+     .add();
+
+            chart.renderer.text('<b>To Date</b>', 730, 20)
+            .css({ 'border': '0px', 'color': 'black', 'margin': '5px 0px', ' font-size': '14px' })
+          .add();
+            chart.renderer.text(todate, 800, 20)
+       .css({})
+     .add();
+
+        });
+
+    }
+    function FillMeter() {
+        box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+        var grpId = $('#groupList').val();
+        $.ajax({
+            url: '@Url.Action("MetersByGroupID", "TrendsDataMW")',
+            data: { id: grpId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+
+                var markup = "";
+                var markup = "<option value=''>Select Meters</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#meterList").html(markup).show();
+                if ('@Model.MeterId' != '0')
+                    $("#meterList").val(@Model.MeterId);
+                if (box) box.remove();
+            },
+            error: function (reponse) {
+                if (box) box.remove();
+            }
+        });
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

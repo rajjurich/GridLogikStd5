@@ -1,0 +1,45 @@
+update dowrite set isactive =1, flag = case 
+  when (select value from opc_server_tag where id=3) >= (select value * 1.01 from opc_server_tag  where id=2) then 1
+  else 0
+end 
+where meterid =9 and memoryadd = 6071 and (select value from opc_server_tag where id=4) > 1 and   isactive =0 and flag <> case when (select value from opc_server_tag where id=3) >= (select value * 1.01 from opc_server_tag  where id=2) then 1
+  else 0
+end
+
+update dowrite set isactive =1, flag = case 
+  when (select value from opc_server_tag where id=3) >= (select value * 1.02 from opc_server_tag  where id=2) then 1
+  else 0
+end 
+where meterid =9 and memoryadd = 6083 and (select value from opc_server_tag where id=4) > 1 and   isactive =0 and flag <> case when (select value from opc_server_tag where id=3) >= (select value * 1.02 from opc_server_tag  where id=2) then 1
+  else 0
+end
+
+update dowrite set isactive =1, flag = case 
+  when (select value from opc_server_tag where id=3) >= (select value * 1.03 from opc_server_tag  where id=2) then 1
+  else 0
+end 
+where meterid =9 and memoryadd = 6095 and (select value from opc_server_tag where id=4) > 1 and   isactive =0 and flag <> case when (select value from opc_server_tag where id=3) >= (select value * 1.03 from opc_server_tag  where id=2) then 1
+  else 0
+end
+
+update dowrite set isactive =1, flag = case 
+  when (select value from opc_server_tag where id=3) >= (select value * 1.04 from opc_server_tag  where id=2) then 1
+  else 0
+end 
+where meterid =9 and memoryadd = 4107 and (select value from opc_server_tag where id=4) > 1 and   isactive =0 and flag <> case when (select value from opc_server_tag where id=3) >= (select value * 1.04 from opc_server_tag  where id=2) then 1
+  else 0
+end
+
+
+insert into opc_server_tag (id,tagname,datatype,parameter,tablename,query) 
+values(10,'DO_1_MST1','DOUBLE','MW','DO','update dowrite set isactive =1, flag = case when (select value from opc_server_tag where id=3) >= (select value * 1.01 from opc_server_tag  where id=2) and flag=0 then 1 when flag=1 then 0 end where meterid =9 and memoryadd = 6071 and (select value from opc_server_tag where id=4) > 1'); 
+
+
+select meterid, case 
+  when (select value from opc_server_tag where id=3) >= (select value * 1.01 from opc_server_tag  where id=2) then 1
+  when flag=1 then 0
+end 
+where meterid =9 and memoryadd = 6071 and (select value from opc_server_tag where id=4) > 1  
+
+
+insert into opc_server_tag (id,tagname,datatype,parameter,tablename,query) values(20,'Year_KWH','DOUBLE','MWH','DO','select sum(i.kwh_exp-l.kwh_exp) as con from loadsurveylogs l inner join instancedata i on l.meterid = i.meterid  where l.tstamp = (SELECT TO_CHAR(TODAY, ''%Y-01-01 00:00:00'') FROM systables WHERE tabid = 1) and i.meterid in (''9'',''10'')');

@@ -1,0 +1,225 @@
+﻿@model GridLogikViewer.Models.MstDtr
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "Feeder",
+                dataType: "json",
+                async:false,
+                success: function (feeders, status, jqXHR) {
+                    var str = "";
+                    if (feeders.Data.result != undefined) {
+                        var data = feeders.Data.result;
+                        for (var i in data) {
+                            str += "<option value=" + data[i].fdrid + ">" + data[i].fdrname + "</option>";
+                        }
+                    }
+                    else if (feeders.Data.e == "E") {
+                        if (feeders.Data.d.length > 0)
+                            alert(feeders.Data.d);
+                    }
+                    $("#Feeders").html(str);
+                    $(".feederclass").selectpicker();
+                }
+            });           
+
+            var id =@this.ViewContext.RouteData.Values["id"]
+            $.ajax({
+                url: BaseAddress + "dtr/" + id,
+                type: "GET",
+                contentType: "application/json;charset=utf-8",//type of data to be send
+                dataType: "json",//type of data to be received
+                async: false,
+                success: function (response) {
+                    if (response.Data.result.dtrrecid == null) {
+                        alert(response.Data.result.d);
+                    }
+                    else {
+                        
+                        $("#dtrrecid").val(response.Data.result.dtrrecid);
+                        $("#dtrid").val(response.Data.result.dtrid);
+                        $("#dtrname").val(response.Data.result.dtrname);
+                        $("#dtrdescription").val(response.Data.result.dtrdescription);
+                        $("#dtrratedvoltage").val(response.Data.result.dtrratedvoltage);
+                        $("#dtrratedpower").val(response.Data.result.dtrratedpower);
+                        $("#dtrconnectedload").val(response.Data.result.dtrconnectedload);
+                        $("#dtrphase").val(response.Data.result.dtrphase);
+                        $("#dtrmanufacturerid").val(response.Data.result.dtrmanufacturerid);                        
+                        $("#dtrinstallarea").val(response.Data.result.dtrinstallarea);
+                        $("#dtrserialno").val(response.Data.result.dtrserialno);
+                        $(".feederclass").selectpicker('val', response.Data.result.dtrfeederid);                       
+                    }
+                },
+                error: function (xhr) {
+                    alert(xhr.responseText);
+                }
+            });
+
+            $("#btnDelete").click(function (e) {
+                var msg = confirm("Record marked for Deletion. Continue? ");
+                if (msg == false) {
+                    return false;
+                }
+                else {
+                    var mstDtr = {
+                        "dtrrecid":$("#dtrrecid").val(),
+                        "dtrid": $("#dtrid").val(),
+                        "dtrname": $("#dtrname").val(),
+                        "dtrdescription": $("#dtrdescription").val(),
+                        "dtrratedvoltage": $("#dtrratedvoltage").val(),
+                        "dtrratedpower": $("#dtrratedpower").val(),
+                        "dtrconnectedload": $("#dtrconnectedload").val(),
+                        "dtrphase": $("#dtrphase").val(),
+                        "dtrmanufacturerid": $("#dtrmanufacturerid").val(),                        
+                        "dtrinstallarea": $("#dtrinstallarea").val(),
+                        "dtrserialno": $("#dtrserialno").val(),
+                        "dtrfeederid": $("#Feeders").val(),
+                        "dtrisdeleted": true
+                    };
+                    var RecordID = $("#dtrrecid").val();
+                    $.ajax({
+                        type: "PUT",
+                        contentType: "application/json;charset=utf-8",//type of data to be send
+                        url: BaseAddress + "dtr/" + RecordID,
+                        //crossDomain: true,
+                        dataType: "json",//type of data to be received
+                        data: JSON.stringify(mstDtr),//data to be send
+                        success: function (response) {                            
+                            if (response.Data.e == "S") {
+                                alert(response.Data.d);
+                                window.location.href = '@Url.Action("Index", "DTR")';
+                            }
+                            else if (response.Data.e == "M") {
+                                alert(response.Data.d);
+                            }
+                            else if (response.Data.e == "E") {
+                                alert(response.Data.d);
+                            }
+                        },
+                        error: function (xhr, status, error) {
+
+                            alert(xhr.responseText);
+                        }
+                    });
+                }
+                e.preventDefault();
+
+            });
+
+        });
+
+    </script>
+
+}
+
+<h2>Delete DTR</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">        
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.HiddenFor(model => model.dtrrecid)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrid, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrname, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrdescription, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrdescription, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedvoltage, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrratedvoltage, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrratedpower, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrratedpower, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrconnectedload, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrconnectedload, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrinstallarea, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrinstallarea, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrserialno, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrserialno, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrphase, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrphase, new { @disabled = "disabled" })                
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dtrmanufacturerid, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.dtrmanufacturerid, new { @disabled = "disabled" })                
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="DTRFeederID">Feeder</label>
+            <div class="col-md-10">
+                @Html.DropDownList("Feeders", Enumerable.Empty<SelectListItem>(), new { @class = "feederclass", @data_live_search = "true", @data_live_search_style = "contains", @title = "Select Feeder",@disabled="disabled" })
+            </div>
+        </div>       
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="btnDelete" type="submit" value="Delete" class="btn btn-default" />                
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

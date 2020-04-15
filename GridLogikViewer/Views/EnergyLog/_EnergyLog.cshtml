@@ -1,0 +1,154 @@
+﻿@model GridLogikViewer.ViewModel.EnergyLogViewModel
+
+<div id="dvData">
+    <table id="tableEnergyLog">
+        <thead>
+            <tr>
+                @foreach (var column in Model.LoadServiceColumn)
+                {
+                    <th class="tableth">
+                        @column.Name.ToString()
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.LoadServiceList)
+            {
+                <tr>
+                    <td>
+                        @Html.Label(item.Date.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vll.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.i.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.pf.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kw.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvar.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kva.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.hz.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vry.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vyb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vbr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vrn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vbn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vyn.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.vln.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.ir.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.iy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.ib.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kwr.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kwy.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kwb.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kva_r.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvay.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kvab.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kw_demand.ToString())
+                    </td>
+                    <td>
+                        @Html.Label(item.kva_demand.ToString())
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @Html.Label("Sum :")
+    @Html.Label("Sum", new { id = "Sum" })
+    @Html.Label("Avg :")
+    @Html.Label("Avg", new { id = "average" })
+    @Html.Label("Min :")
+    @Html.Label("Min", new { id = "Minimum" })
+    @Html.Label("Max :")
+    @Html.Label("Max", new { id = "Maximum" })
+</div>
+<div id="chart_dialog">
+    <div id="chart_container"></div>
+</div>
+@using (Html.BeginForm("Export", null, FormMethod.Post, new { id = "export" }))
+{
+    @Html.HiddenFor(x => x.Csv)
+    <button type="button" id="export">Export to Excel</button>
+    <button type="button" id="graph">Graph</button>
+}
+<style>
+    .highlighted {
+        background-color: #999;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#tableEnergyLog").dataTable(
+                       {
+                           pageLength: 10
+                       });
+
+        $("#chart_dialog").dialog({
+            autoOpen: false,
+            resizable: false,
+            height: 570,
+            width: 650,
+            show: { effect: 'drop', direction: "up" },
+            modal: true,
+            draggable: true,
+            open: function (event, ui) {
+            },
+        });
+        var valueArr = [];
+        var dateArr = [];
+        var columnHeader = [];
+        $('#export').click(function () {
+
+            // $('#Csv').val($('#tableEnergyLog').table2CSV({ delivery: 'value' }));
+            var form = $("#export").serialize();
+            var actionUrl = '@Url.Action("Export", "EnergyLog")';
+            window.open("actionUrl?model=" + form);
+            //$('#Csv').val($('#tableTrendData').table2CSV({ delivery: 'value' }));
+        });
+    });
+</script>

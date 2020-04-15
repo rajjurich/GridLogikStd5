@@ -1,0 +1,260 @@
+execute procedure ifx_allow_newline('t');
+
+drop table if exists kVAh_imp_read_roll_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_read_roll_1','tsLoadsurveyImport',
+'apply("$param", 
+aggregateby("max($cum_kvah)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+
+drop view if exists evt_kVAh_imp_read_roll_1;
+create view etools_dev.evt_kVAh_imp_read_roll_1
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_read_roll_1;
+
+
+
+
+drop table if exists kVAh_imp_con_roll_1;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_con_roll_1','tsLoadsurveyImport',
+'apply("$param - tsprevious($param)", 
+aggregateby("max($cum_kvah)",  "cal_15min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_con_roll_1;
+create view etools_dev.evt_kVAh_imp_con_roll_1
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_con_roll_1;
+
+
+
+
+
+drop table if exists kVAh_imp_read_roll_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_read_roll_2','tsLoadsurveyImport',
+'apply("$param", 
+aggregateby("max($cum_kvah)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+
+drop view if exists evt_kVAh_imp_read_roll_2;
+create view etools_dev.evt_kVAh_imp_read_roll_2
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_read_roll_2;
+
+
+
+
+drop table if exists kVAh_imp_con_roll_2;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_con_roll_2','tsLoadsurveyImport',
+'apply("$param - tsprevious($param)", 
+aggregateby("max($cum_kvah)",  "cal_30min",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_con_roll_2;
+create view etools_dev.evt_kVAh_imp_con_roll_2
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_con_roll_2;
+
+
+drop table if exists kVAh_imp_read_roll_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_read_roll_3','tsLoadsurveyImport',
+'apply("$param", 
+aggregateby("max($cum_kvah)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_read_roll_3;
+create view etools_dev.evt_kVAh_imp_read_roll_3
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_read_roll_3;
+
+
+
+
+drop table if exists kVAh_imp_con_roll_3;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_con_roll_3','tsLoadsurveyImport',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($cum_kvah)",  "cal_1hour",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_con_roll_3;
+create view etools_dev.evt_kVAh_imp_con_roll_3
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_con_roll_3;
+
+
+drop table if exists kVAh_imp_read_roll_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_read_roll_5','tsLoadsurveyImport',
+'apply("$param", 
+aggregateby("max($cum_kvah)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_read_roll_5;
+create view etools_dev.evt_kVAh_imp_read_roll_5
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_read_roll_5;
+
+
+
+
+drop table if exists kVAh_imp_con_roll_5;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_con_roll_5','tsLoadsurveyImport',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($cum_kvah)",  "cal_1day",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_con_roll_5;
+create view etools_dev.evt_kVAh_imp_con_roll_5
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_con_roll_5;
+
+
+
+drop table if exists kVAh_imp_read_roll_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_read_roll_6','tsLoadsurveyImport',
+'apply("$param", 
+aggregateby("max($cum_kvah)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_read_roll_6;
+create view etools_dev.evt_kVAh_imp_read_roll_6
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_read_roll_6;
+
+
+
+
+drop table if exists kVAh_imp_con_roll_6;
+execute procedure TSCreateExpressionVirtualTab 
+('etools_dev.kVAh_imp_con_roll_6','tsLoadsurveyImport',
+'apply("$param - tsprevious($param)", 
+aggregateby("min($cum_kvah)",  "cal_1month",series,0,$ts_begin_time,
+$ts_end_time)
+::timeseries(reportqueryparam))','reportqueryparam',0,'series');
+
+drop view if exists evt_kVAh_imp_con_roll_6;
+create view etools_dev.evt_kVAh_imp_con_roll_6
+(
+meterid,
+tstamp,
+kVAh_imp
+)
+as
+select 
+meterid,
+tstamp,
+nvl(param,0) kVAh_imp
+from
+kVAh_imp_con_roll_6;
+
+
+
+

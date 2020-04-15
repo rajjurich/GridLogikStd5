@@ -1,0 +1,149 @@
+﻿@model GridLogikViewer.APIModels.InputData
+@{
+    ViewBag.Title = "Input Data";
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong>Success!</strong> @TempData["Success"]
+    </div>
+}
+@{var counter = 1;}
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Masters</a></li>
+                        <li class="active">Input Data</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <div class="table-responsive ls-table">
+
+                                        @*<div class="clearfix"></div>
+                                            <hr />
+                                            <br />*@
+                                        @Html.ActionLink(" Create New", "AddInputData", "Inputdata", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                        <table id="tableInputData" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th class="">
+                                                        Sr No
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Parameter Name
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Parameter Value
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Condition
+                                                    </th>
+                                                    <th class="text-center">
+                                                        Delete
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.InputDataList)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center">
+                                                            @counter
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.ParaName)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.ParaValue)
+                                                        </td>
+                                                        <td class="text-center">
+                                                            @Html.DisplayFor(modelItem => item.Condition)
+                                                        </td>
+                                                        <td>
+                                                            <a href="/InputData/DeleteDetails/@item.IpNo" class='btn btn-xs btn-danger fa fa-trash-o'> Delete</a>
+                                                        </td>
+                                                    </tr>
+                                                    counter++;
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <div id="dialog-delete" style="display: none">
+                                            <p>
+                                                Are you sure?
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var box = "";
+    $(document).ready(function () {
+        if ('@ViewBag.CreateAccess' == "False") {
+            $("#btnCreate").hide();
+        }
+        if ('@ViewBag.EditAccess' == "False") {
+            $(".btnEdit").hide();
+        }
+        if ('@ViewBag.DeleteAccess' == "False") {
+            $(".btnDelete").hide();
+        }
+        $("#tableInputData").dataTable(
+                       {
+                           pageLength: 10,
+                           "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        {
+                                            bSearchable: false,
+                                            bSortable: false
+                                        }
+                           ]
+                       });
+
+        //$(".row-remove").on("click", function () {
+        //    var id = this.id;
+        //    window.location.href = "../InputData/DeleteDetails/" + id;
+        //    //var form = $("#formDriverConfig").serialize();
+        //    //var url = '/InputData/DeleteInputData?id=' + id;
+        //    //$.ajax({
+        //    //    type: 'POST',
+        //    //    url: url,
+        //    //    dataType: 'json',
+        //    //    success: function (data) {
+        //    //        location.reload();
+        //    //    }
+        //    //});
+        //});
+
+        $("#btnPrint").on("click", function () {
+            var prtContent = document.getElementById("#printData");
+            var WinPrint = window.open('', '', 'letf=100,top=100,width=600,height=600');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+        });
+    });
+</script>

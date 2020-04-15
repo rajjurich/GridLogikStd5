@@ -1,0 +1,563 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<style>
+    .form-group {
+        margin-bottom: 0px;
+    }
+
+    table.rabtdtl {
+        border-collapse: collapse;
+        margin-bottom: 1px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 21px;
+    }
+
+    table.rabtdtl1 {
+        border-collapse: collapse;
+        margin-bottom: 3px;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdtl td, tr {
+        background-color: black;
+        color: white;
+        border: none !important;
+    }
+
+        .rabtdtl td label {
+            padding: 5px 10px;
+            margin: 5px;
+            border: 2px groove;
+        }
+
+    .rabtdtl td, th {
+        text-align: center !important;
+        width: 75%;
+    }
+
+
+        .rabtdtl td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdtl th {
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdtl tbody th {
+        color: #fff;
+    }
+
+
+
+    table.rabtdt2 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt2 td, tr {
+        background-color: black;
+        color: white;
+    }
+
+    .rabtdt2 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+        width: 8.28%;
+    }
+
+
+        .rabtdt2 td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt2 th {
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdt2 tbody th {
+        color: #fff;
+    }
+
+
+
+
+
+    table.rabtdt3 {
+        border-collapse: collapse;
+        margin-bottom: 1em;
+        width: 100%;
+        background: #fff;
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .rabtdt3 td, tr {
+        background-color: gray;
+        color: white;
+    }
+
+    .rabtdt3 td, th {
+        padding: 1px 1px;
+        text-align: center !important;
+    }
+
+        .rabtdt3 td.err {
+            color: #fff;
+            font-size: 0.75em;
+            text-align: center;
+            line-height: 1;
+        }
+
+    .rabtdt3 th {
+        height: 40px !important;
+        font-weight: bold;
+        color: #fff;
+        white-space: nowrap;
+    }
+
+    .rabtdt3 tbody th {
+        height: 40px !important;
+        color: #fff;
+    }
+
+
+
+
+    .label1 {
+        color: #E6E600;
+    }
+
+    .label2 {
+        color: #00c100;
+    }
+
+    .label3 {
+        color: #FFBB00;
+    }
+
+    .label4 {
+        color: #F600F6;
+    }
+
+    .label5 {
+        color: #A0F6F6;
+    }
+
+    .label6 {
+        color: #F9F9A1;
+    }
+
+    .thheading {
+        color: white;
+        background-color: #1F475F;
+        font-weight: bold;
+    }
+
+    .bg_red {
+        background-color: red;
+    }
+
+    .green_txt {
+        color: #00c100;
+    }
+
+    .orange_txt {
+        color: #f09a4e;
+    }
+
+    .pink_txt {
+        color: #cb74cc;
+    }
+
+    .station {
+        background-color: #cccccc;
+        padding: 3px 0;
+        color: #000;
+        margin: 3px auto 0;
+        box-shadow: 1px 1px 1px #ccc;
+        text-transform: uppercase;
+        width: 96%;
+        display: block;
+        font-weight: bold;
+    }
+
+        .station a {
+            color: #000;
+            text-decoration: none;
+        }
+
+    .unlink {
+        background-color: #000000;
+        color: #fff;
+        border-collapse: collapse;
+    }
+
+        .unlink tr {
+            background: #000000 !important;
+        }
+
+        .unlink th {
+            border: 1px solid #fff;
+            padding: 7px 3px;
+            text-transform: uppercase;
+            text-align: center;
+            background: #000000 !important;
+        }
+
+        .unlink td {
+            /*border-width: 0 1px;*/
+            padding: 5px 3px;
+            text-align: center;
+            border-color: #fff;
+            border-style: solid;
+        }
+
+            .unlink td label {
+                padding: 2px 3px;
+                border: 2px groove;
+            }
+</style>
+<script type="text/javascript">
+    var BlFlag = false;
+    var id = 0;
+    $(document).ready(function () {
+        id =@this.ViewContext.RouteData.Values["id"]
+         HideData(1);
+        GetState();
+        //GetPreviousblkData(id);
+        //UptoGetPreviousblkData(id);
+        //HideData(2);
+        $("#ddlState").change(function () {
+            var State = $('#ddlState :selected').val();
+            var Statetext = $('#ddlState :selected').text();
+            HideData(1);
+            $("#ddlArea").empty();
+            if (Statetext != 'Select') {
+                HideData(2);
+                GetPreviousblkData();
+                
+            }
+        });
+        $("#ddlArea").change(function () {
+            HideData(2);
+            GetPreviousblkData();
+        });
+
+    });
+    function GetState() {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "UnilinkSummaryAPI/GetState",
+            dataType: "json",//type of data to be received
+            success: function (state, status, jqXHR) {
+                var str = "<option value=''>Select</option>";
+                if (state != null) {
+                    if (state.length > 0)
+                        for (var i in state) {
+                            str += "<option value=" + state[i].stateid + ">" + state[i].state_name + "</option>";
+                        }
+                }
+                $("#ddlState").empty();
+                $("#ddlState").html(str);
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+
+    function GetArea(stateId) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json;charset=utf-8",//type of data to be send
+            url: BaseAddress + "UnilinkSummaryAPI/GetArea/" + stateId,
+            dataType: "json",//type of data to be received
+            success: function (Area, status, jqXHR) {
+                var str = "<option value=''>Select</option>";
+                if (Area != null) {
+                    if (Area.length > 0) {
+                        for (var i in Area) {
+                            str += "<option value=" + Area[i].recid + ">" + Area[i].area_name + "</option>";
+                        }
+                    }
+                }
+                $("#ddlArea").empty();
+                $("#ddlArea").html(str);
+            },
+            error: function (xhr, status, error) {
+                // alert(error);
+                if (box) box.remove();
+            }
+        });
+    }
+    function HideData(flag) {
+        if (flag == 1) {
+            $("#divMainblk").hide();
+            $("#tblHead").empty();
+            $("#tblData").empty();
+            BlFlag = false;
+        } else {
+            $("#divMainblk").show();
+            BlFlag = true;
+        }
+    }
+
+
+    function GetPreviousblkData() {
+        try {
+            var State = $('#ddlState :selected').val();
+            var Statetext = $('#ddlState :selected').text();
+            //var stateId = 1;
+            //var ddlArea = $('#ddlArea :selected').val();
+            //var ddlAreatext = $('#ddlArea :selected').text();
+            if (State != 0 && State != null) {
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/GetWithBlockMainScreenDetail/" + State,
+                    dataType: "json",//type of data to be received
+                    async: false,
+                    success: function (MainScreenDetail, status, jqXHR) {
+
+                        if (MainScreenDetail != null) {
+                            if (MainScreenDetail.length > 0) {
+                                var CoulmnDetail = MainScreenDetail[0].BlockCount;
+                                var ColmnStr = GetCoulumnStr(CoulmnDetail);
+                                var BLKNo = "Block No : " + MainScreenDetail[0].BlockNo;
+                                $("#lblcblkNo").text(BLKNo);
+                                HideData(1);
+                                $("#tblHead").html(ColmnStr);
+
+                                for (var i = 0; i < MainScreenDetail.length; i++) {
+                                    var DataStr = "";
+                                    var AreaName = MainScreenDetail[i].AreaName;
+                                    var Areaid = MainScreenDetail[i].area_id;
+                                    var link = "/Unilink/summary/summary/" + Areaid;
+                                    DataStr = "<tr>"
+                                    if (AreaName != "" && AreaName != "undefined")
+                                        DataStr = DataStr + "<td><span class='station'><a href='" + link + "'>" + AreaName + "</span></td>";
+                                    //DataStr = DataStr + "<td><label id='" + Areaid + "_BLKNO' class='green_txt'>" + parseFloat(MainScreenDetail[i].BlockNo) + "</label></td>";
+                                    DataStr = DataStr + "<td><label id='" + Areaid + "_AC' class='green_txt'>" + pad(parseFloat(MainScreenDetail[i].pre_dc).toFixed(2),4) + "</label></td>";
+                                    DataStr = DataStr + "<td><label id='" + Areaid + "_SG' class='green_txt'>" + parseFloat(MainScreenDetail[i].pre_sg).toFixed(2) + "</label></td>";
+                                    DataStr = DataStr + "<td><label id='" + Areaid + "_AG' class='green_txt'>" + parseFloat(MainScreenDetail[i].pre_ag).toFixed(2) + "</label></td>";
+                                    DataStr = DataStr + "<td><label id='" + Areaid + "_UIMW' class='green_txt'>" + parseFloat(MainScreenDetail[i].pre_uimw).toFixed(2) + "</label></td>";
+
+
+                                    if (parseFloat(MainScreenDetail[i].pre_abserror) > 15) {
+                                        DataStr = DataStr + "<td><label id='" + Areaid + "_abserror' class='bg_red'>" + parseFloat(MainScreenDetail[i].pre_abserror).toFixed(2) + "</label></td>";
+                                    }
+                                    else {
+                                        DataStr = DataStr + "<td><label id='" + Areaid + "_abserror' class='green_txt'>" + parseFloat(MainScreenDetail[i].pre_abserror).toFixed(2) + "</label></td>";
+                                    }
+                                    DataStr = DataStr + "<td><label id='" + Areaid + "_frequency' class='green_txt'>" + parseFloat(MainScreenDetail[i].pre_frequency).toFixed(2) + "</label></td>";
+
+                                    var CoulmnDetails = MainScreenDetail[i].BlockCount;
+                                    if (CoulmnDetails != null) {
+                                        for (var m = 0; m < CoulmnDetails.length; m++) {
+                                           if (parseFloat(CoulmnDetails[m].count).toFixed(2) == "undefined" || isNaN(parseFloat(CoulmnDetails[m].count).toFixed(2))  || parseFloat(CoulmnDetails[m].count).toFixed(2) == null)
+                                                DataStr = DataStr + "<td><label class='orange_txt'>" + 0 + "</label></td>";
+                                            else
+                                            DataStr = DataStr + "<td><label class='orange_txt'>" + parseFloat(CoulmnDetails[m].count).toFixed(2) + "</label></td>";
+                                        }
+                                    }
+                                    DataStr = DataStr + "</tr>"
+                                    $("#tblData").append(DataStr);
+                                    HideData(2);
+                                }
+
+                            } else {
+                                HideData(1);
+                                alert('No Data Found', '', false, "M");
+                            }
+                        } else {
+                            HideData(1);
+                            alert('No Data Found', '', false, "M");
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+
+        }
+
+    }
+
+
+    function InstanceData() {
+        try {
+            var State = $('#ddlState :selected').val();
+            var Statetext = $('#ddlState :selected').text();
+
+            if (State != 0 && State != null) {
+
+                $.ajax({
+                    type: "GET",
+                    contentType: "application/json;charset=utf-8",//type of data to be send
+                    url: BaseAddress + "UnilinkSummaryAPI/InstanceGetMainScreenDetail/" + State,
+                    dataType: "json",//type of data to be received
+                    async: false,
+                    success: function (MainScreenDetail, status, jqXHR) {
+                        if (MainScreenDetail != null) {
+
+                            if (MainScreenDetail.length > 0) {
+                                var BLKNo = "Block No : " + MainScreenDetail[0].BlockNo;
+                                $("#lblcblkNo").text(BLKNo);
+                                for (var i = 0; i < MainScreenDetail.length; i++) {
+                                    try {
+                                        var Areaid = MainScreenDetail[i].area_id;
+                                        if (MainScreenDetail[i].BlockNo != 0 && MainScreenDetail[i].pre_ag >= 0 && MainScreenDetail[i].pre_frequency != 0) {
+                                            var DC = $("#" + Areaid + "_AC").text();
+                                            var SG = $("#" + Areaid + "_SG").text();
+                                            var AG = parseFloat(MainScreenDetail[i].pre_ag);
+                                            if (SG != "" && SG != null && DC != "" && DC != null && DC != "0" && DC != "0.00" && !isNaN(DC)) {
+                                                var UIMW = AG - parseFloat(SG);
+
+
+                                                var abserr = (100 * UIMW) / parseFloat(DC);
+                                                if (abserr != null && abserr != "" && !isNaN(abserr)) {
+                                                    $("#" + Areaid + "_abserror").html(parseFloat(abserr).toFixed(2));
+                                                   // $("#" + Areaid + "_BLKNO").html(MainScreenDetail[i].BlockNo);
+                                                    $("#" + Areaid + "_AG").html(parseFloat(MainScreenDetail[i].pre_ag).toFixed(2));
+                                                    $("#" + Areaid + "_UIMW").html(parseFloat(UIMW).toFixed(2));
+                                                    $("#" + Areaid + "_frequency").html(parseFloat(MainScreenDetail[i].pre_frequency).toFixed(2));
+                                                    abserr = Math.abs(abserr);
+                                                    if (parseFloat(abserr) > 15) {
+                                                        $("#" + Areaid + "_abserror").removeClass("green_txt").addClass("bg_red");
+                                                    } else {
+                                                        $("#" + Areaid + "_abserror").removeClass("bg_red").addClass("green_txt");
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    } catch (err) {
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // alert(error);
+                        if (box) box.remove();
+                    }
+                });
+
+
+            }
+
+        } catch (err) {
+
+        }
+
+    }
+    function GetCoulumnStr(CoulmnDetail) {
+        var coumnStr = "<th width='10%' style='height:40px;'>Wind Staion</th><th   width='120'>AC</th><th  width='120'>SG</th><th  width='120'>AG</th><th  width='120'>Ui MW</th><th  width='120'>Abs. Error%</th><th  width='120'>Frequency</th>";
+        if (CoulmnDetail != null) {
+            for (var m = 0; m < CoulmnDetail.length; m++) {
+                coumnStr = coumnStr + "<th>" + CoulmnDetail[m].CoulmnName.replace("Block Count", ""); + "</th>";
+            }
+
+        }
+        return coumnStr;
+    }
+
+    function LoadData() {
+        var crrdate = new Date();
+        var Mintes = crrdate.getMinutes();
+        var ModTime = Mintes % 15;
+        if (ModTime > 0 && ModTime < 6) {
+            GetPreviousblkData();
+        } else {
+            InstanceData();
+        }
+    }
+    setInterval(function () { LoadData(); },10000);
+</script>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <input id="Dateformat" type="hidden" name="Dateformat" />
+        <input id="ServerDateformat" type="hidden" name="ServerDateformat" />
+        <input type="hidden" id="DatabaseDateformat">
+        <div class="col-lg-12" id="divMainRABT">
+            <div style="display:block">
+                <div class="form-group col-md-4" style="border: 0px solid #f00; display: block">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">State</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="ddlState" name="ddlState" class="form-control">
+                            <option value=''>Select</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group col-md-4" style="border: 0px solid #f00;display: none">
+                    <label class="col-md-5" for="ccyear" style="border:0px solid #f00; margin:0px 0px;">Area</label>
+                    <div class="form-group col-md-7" style="border: 0px solid #f00; margin: 0px 0px;">
+                        <select id="ddlArea" name="drpstageid" class="form-control">
+                            <option value=''>Select</option>
+                        </select>
+                    </div>
+                </div>
+
+                @*<div class="form-group col-md-2" style="border:0px solid #f00;float:right;display:block">
+                        <div class="col-md-12" style="border:0px solid #f00; ">
+                            <a href='@Url.Action("Index")' class="btn btn-flatorange"><i class="fa fa-arrow-left"></i>&nbsp;&nbsp;Back</a>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+        <br />
+        <br />
+        <div id="divMainblk" class="col-lg-12">
+            <div class="row" style="line-height: 83px; background-color: black;">
+                <div class="col-md-2" style="line-height: 83px; background-color: black; color: #fff; font-size: 20px; text-transform: uppercase; font-weight: bold; ">
+                    <label id="lblcblkNo">Block No: 45</label>
+                </div>
+                <div class="col-md-8" style="color: #ffcccc; font-size: 24px; text-transform: uppercase; font-weight: bold; text-align:center; background-color:black; ">
+                    Unlink Engineering corporation Pvt. Ltd.
+                </div>
+                <div style="background-image: url(/Areas/Unilink/Image/unlink-logo.png); background-repeat: no-repeat; height: 83px; background-position: center right; max-width:14%;" class="col-sm-2">
+
+                </div>
+            </div>
+            <div class="row">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="unlink">
+
+                    <thead id="tblHead" style="height:40px;">
+                    </thead>
+                    <tbody id="tblData"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>

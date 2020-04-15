@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "Welcome to EnVisage";
+}
+@section scripts
+{
+    <script>
+        var box;
+        $(document).ready(function () {
+            //  box = new ajaxLoader(this, { classOveride: 'blue-loader', bgColor: '#000' });
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                url: BaseAddress + "prmglobal",
+                dataType: "json",
+                async: false,
+                success: function (dateformat, status, jqXHR) {
+                    var str = "";
+                    if (dateformat.Data.result != undefined) {
+                        var data = dateformat.Data.result;
+                        for (var i in data) {
+                            if (data[i].prmunit == "DateField") {
+                                $("#Dateformat").val(data[i].prmvalue);
+                            }
+                            else if (data[i].prmunit == "DatabaseDate") {
+                                $("#DatabaseDateformat").val(data[i].prmvalue);
+                            }
+                        }
+                    }
+                    else if (dateformat.Data.e == "E") {
+                        if (dateformat.Data.d.length > 0)
+                            alert(dateformat.Data.d);
+                    }
+                }
+            });
+
+
+
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost:8487/GridLogikViewerWebAPI/api/consumermeterrelation",
+                url: BaseAddress + "consumermeterrelation/GetConsumerMeterRelationsByUserid?Userid=" + @HttpContext.Current.Session["usrrecid"] + "",//"consumermeterrelation",
+                dataType: "json",
+                success: function (consumermeterrelations, status, jqXHR) {
+
+
+                    var str = "";
+                    if (consumermeterrelations.Data.result != undefined) {
+                        consumermeterrelations.Data.result.forEach(function (response) {
+
+                            var startDate = "";
+                            if (response.cmrrelationshipstartdate != null) {
+
+                                var DBcmrrelationshipstartdate = Date.parse(response.cmrrelationshipstartdate, $("#DatabaseDateformat").val());
+                                //startDate = Date.parse(response.cmrrelationshipstartdate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                startDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrrelationshipstartdate))
+                            }
+                            else {
+                                startDate = "";
+                            }
+                            var endDate = "";
+                            if (response.cmrrelationshipenddate != null) {
+
+                                var DBcmrrelationshipenddate = Date.parse(response.cmrrelationshipenddate, $("#DatabaseDateformat").val());
+                                // endDate = Date.parse(response.cmrrelationshipenddate, $("#DatabaseDateformat").val()).format($("#Dateformat").val());
+                                endDate = $.datepicker.formatDate($("#Dateformat").val(), new Date(DBcmrrelationshipenddate))
+                            }
+                            else {
+                                endDate = "";
+                            }
+
+                            str += "<tr>" +
+                                "<td class='text-center'>" + response.cmrconsumerid + "</td>" +
+                                 "<td class='text-center'>" + response.cmrconsumermasterName + "</td>" +
+                                  "<td class='text-center'>" + response.cmrconsumermasterid + "</td>" +
+
+                                "<td class='text-center'>" + response.cmrmetername + "</td>" +
+                                "<td class='text-center'>" + startDate + "</td>" +
+                                "<td class='text-center'>" + endDate + "</td>" +
+                                "<td class='text-center'><a href=@Url.Action("Edit", "ConsumerMeterRelation")/" + response.cmrrecid + " class='fa fa-pencil-square-o btn btn-xs btn-warning'> Edit</a>  <a href=@Url.Action("Delete", "ConsumerMeterRelation")/" + response.cmrrecid + " class='fa fa-trash-o btn btn-xs btn-danger'> Delete</a></td>" +
+                                "</tr>";
+                        });
+                    }
+
+                    if (consumermeterrelations.Data.e == "E") {
+                        if (consumermeterrelations.Data.d.length > 0)
+                            alert(consumermeterrelations.Data.d);
+
+                    }
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false, "width": "144px" }
+                            ]
+                        });
+                    Highlight();
+                    if (box) {
+                        if ('@ViewBag.CreateAccess' == "False") {
+                            $("#btnCreate").hide();
+                        }
+                        if ('@ViewBag.EditAccess' == "False") {
+                            $(".btnEdit").hide();
+                        }
+                        if ('@ViewBag.DeleteAccess' == "False") {
+                            $(".btnDelete").hide();
+                        }
+                        box.remove();
+                    }
+                },
+                error: function (xhr, status, error) {
+                    //alert(error);
+                    if (box) box.remove();
+                }
+            });
+        });
+    </script>
+}
+
+<section>
+    <div id="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!--Top header start-->
+                    @*<h3 class="ls-top-header">Assign Meter</h3>*@
+                    <!--Top header end -->
+                    <!--Top breadcrumb start -->
+                    <ol class="breadcrumb">
+                        <li><a href="#"><i class="fa fa-home"></i></a></li>
+                        <li><a href="#">Configurations</a></li>
+                        <li class="active">Assign Meter</li>
+                    </ol>
+                    <!--Top breadcrumb start -->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-default">
+
+                                <div class="panel-body">
+                                    <!--Table Wrapper Start-->
+                                    <div class="table-responsive ls-table">
+                                            @*<div class="clearfix"></div>
+                                            <hr />*@
+                                            <input type="hidden" id="Dateformat">
+                                            <input type="hidden" id="DatabaseDateformat">
+                                        @Html.ActionLink(" Create New", "Create", null, new { @id = "btnCreate", @class = "fa fa-plus-circle text-white btn btn-success pull-right btn-sm btnCreateClass" })
+                                            <table id="lsttable" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-center">Meter Assign Code</th>
+                                                        <th class="text-center">Consumer Name</th>
+                                                        <th class="text-center">Consumer Code</th>
+
+                                                        <th class="text-center">Meter Name</th>
+                                                        <th class="text-center">Start Date</th>
+                                                        <th class="text-center">End Date</th>
+                                                        <th class="text-center">Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="data"></tbody>
+
+                                            </table>
+</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

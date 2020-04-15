@@ -1,0 +1,373 @@
+﻿@{
+    Layout = "~/Views/Shared/_EToolsLayout1.cshtml";
+}
+<style>
+    .table-style_01 th, .table-style_01 td {
+        background: #2f2f2f !important;
+        color: #17bab8;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_02 th, .table-style_02 td {
+        background: #2f2f2f !important;
+        color: #ed9979;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_03 th, .table-style_03 td {
+        background: #2f2f2f !important;
+        color: #f02d99;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_04 th, .table-style_04 td {
+        background: #2f2f2f !important;
+        color: #ebd504;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_05 th, .table-style_05 td {
+        background: #2f2f2f !important;
+        color: #00adef;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-style_06 th, .table-style_06 td {
+        background: #2f2f2f !important;
+        color: #83c338;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .table-hover_01 > tbody > tr:hover > td, .table-hover_01 > tbody > tr:hover > th {
+        background-color: #f00 !important;
+    }
+
+    .panel-default > .panel-heading {
+        padding: 2px 10px;
+    }
+
+    .bgimg {
+        background-image: url('../../Content/images/11kvbus.png');
+    }
+
+    .lblthm {
+        position: absolute;
+        font-size: 11px;
+        margin: auto;
+        left: 20px;
+        padding: 2px;
+    }
+
+    .mwcolor {
+        color: red;
+    }
+
+    .kvcolor {
+        color: green;
+    }
+
+    .icolor {
+        color: blue;
+    }
+
+    .pfcolor {
+        color: violet;
+    }
+
+    .ccode {
+        left: 1050px;
+        font-size: 15px;
+    }
+</style>
+<div class="col-lg-12">
+
+    <div class="form-group col-md-12" style="border:0px solid #f00;">
+        <h2>Single Line Diagram: SARNI </h2>
+
+    </div>
+
+</div>
+<br />
+@*background-image: url(/Content/images/SLD1.png); background-size: 100px 100px*@
+@*kunal new abt*@
+<div class="row">
+    <div class="col-lg-12" style="border: 0px solid #000;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                @*<div class=" dashboard-panel-body-box" style="font-size:16px; font-weight:bold;">SLD One<!--<b style="font-size:16px;">Energy</b>--></div>*@
+
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <td>Gross Gen(MW)</td>
+                        <td><label id="lblGenMW" style="color: black"></label></td>
+                        <td>Net Gen</td>
+                        <td><label id="lblNetMW" style="color: black"></label></td>
+                        <td>APC MW</td>
+                        <td><label id="lblAPCMW" style="color: black"></label></td>
+                        <td>APC %</td>
+                        <td><label id="lblAPCPercentage" style="color: black"></label></td>
+                    </tr>
+
+                </table>
+            </div>
+            <div style=" height: 407px; width: 1000px; margin:auto; border: 0px solid #000; background-image: url(../../Areas/MPPGCL/Images/SLD_Sarni.png);">
+
+                <label id="mwcolor" style="top:30px" class="mwcolor lblthm ccode">MW</label><br />
+                <label id="kwcolor" style="top:50px" class="kvcolor lblthm ccode">KV</label><br />
+                <label id="icolor" style="top:70px" class="icolor lblthm ccode">I</label><br />
+                <label id="vcolor" style="top:90px" class="pfcolor lblthm ccode">PF</label><br />
+
+                <label id="mn1" style="position: absolute; top: 180px; left: 18px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 130px; left: 50px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw1" style="position: absolute; top: 200px; left: 50px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 150px; left: 50px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv1" style="position: absolute; top: 220px; left: 50px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 170px; left: 50px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i1" style="position: absolute; top:  240px; left: 50px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 190px; left: 50px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf1" style="position: absolute; top: 260px; left: 50px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+
+                <label id="mn2" style="position: absolute; top: 180px; left: 200px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 130px; left: 270px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw2" style="position: absolute; top: 200px; left: 270px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 150px; left: 270px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv2" style="position: absolute; top: 220px; left: 270px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 170px; left: 270px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i2" style="position: absolute; top: 240px; left: 270px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 190px; left: 270px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf2" style="position: absolute; top: 260px; left: 270px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+
+                <label id="mn4" style="position: absolute; top: 180px; left: 850px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 130px; left: 890px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw4" style="position: absolute; top: 200px; left: 890px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="4" style="position: absolute; top: 150px; left: 890px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv4" style="position: absolute; top: 220px; left: 890px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 170px; left: 890px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i4" style="position: absolute; top: 240px; left: 890px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 190px; left: 890px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf4" style="position: absolute; top: 260px; left: 890px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn3" style="position: absolute; top: 180px; left: 590px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 130px; left: 640px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw3" style="position: absolute; top: 200px; left: 640px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 150px; left: 640px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv3" style="position: absolute; top: 220px; left: 640px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 170px; left: 640px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i3" style="position: absolute; top: 240px; left: 640px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 190px; left: 640px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf3" style="position: absolute; top: 260px; left: 640px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn5" style="position: absolute; top: 340px; left: 40px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 90px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw5" style="position: absolute; top: 360px; left: 90px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 90px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv5" style="position: absolute; top: 380px; left: 90px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 90px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i5" style="position: absolute; top: 400px; left: 90px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 90px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf5" style="position: absolute; top: 420px; left: 90px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn6" style="position: absolute; top: 340px; left: 380px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 430px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw6" style="position: absolute; top: 360px; left: 430px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 430px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv6" style="position: absolute; top: 380px; left: 430px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 430px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i6" style="position: absolute; top: 400px; left: 430px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 430px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf6" style="position: absolute; top: 420px; left: 430px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn7" style="position: absolute; top: 340px; left: 600px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 630px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw7" style="position: absolute; top: 360px; left: 630px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 630px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv7" style="position: absolute; top: 380px; left: 630px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 630px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i7" style="position: absolute; top: 400px; left: 630px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 630px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf7" style="position: absolute; top: 420px; left: 630px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn8" style="position: absolute; top: 340px; left: 960px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 990px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw8" style="position: absolute; top: 360px; left: 990px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 990px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv8" style="position: absolute; top: 380px; left: 990px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 990px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i8" style="position: absolute; top: 400px; left: 990px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 990px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf8" style="position: absolute; top: 420px; left: 990px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn9" style="position: absolute; top: 340px; left: 210px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 260px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw9" style="position: absolute; top: 360px; left: 260px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 260px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv9" style="position: absolute; top: 380px; left: 260px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 260px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i9" style="position: absolute; top: 400px; left: 260px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 260px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf9" style="position: absolute; top: 420px; left: 260px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+                <label id="mn10" style="position: absolute; top: 340px; left: 762px; width: 100%; font-size: 13px; color: black"></label>
+                @*<label id="1" style="position: absolute; top: 280px; left: 792px; width: 100%; font-size: 13px; " class="mwcolor">MW-</label>*@
+                <label id="mw10" style="position: absolute; top: 360px; left: 792px; width: 100%; font-size: 13px; " class="mwcolor"></label>
+                @*<label id="2" style="position: absolute; top: 300px; left: 792px; width: 100%; font-size: 13px; " class="kvcolor">KV-</label>*@
+                <label id="kv10" style="position: absolute; top: 380px; left: 792px; width: 100%; font-size: 13px; " class="kvcolor"></label>
+                @*<label id="3" style="position: absolute; top: 320px; left: 792px; width: 100%; font-size: 13px; " class="icolor">I-</label>*@
+                <label id="i10" style="position: absolute; top: 400px; left: 792px; width: 100%; font-size: 13px; " class="icolor"></label>
+                @*<label id="4" style="position: absolute; top: 340px; left: 792px; width: 100%; font-size: 13px; " class="pfcolor">PF-</label>*@
+                <label id="pf10" style="position: absolute; top: 420px; left: 792px; width: 100%; font-size: 13px; " class="pfcolor"></label>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    var ws, w1, w2;
+    var meterId = "";
+    var box;
+    var data = "kw";
+    var MeterString = "164,165,173,174,175,176,178,179,180,181";
+    var MeterIdList = {
+        "MeterString": MeterString
+
+    };
+    var ConfingArr = new Array();
+    $(document).ready(function () {
+
+        ABTMeterDetails();
+    });
+
+    setInterval(ABTMeterDetails, 1000);
+
+    function ABTMeterDetails() {
+
+        var GrossGenMW = 0;
+        var NetGenMW = 0;
+        var APCMW = 0;
+        var APCPercent = 0;
+
+        $.ajax({
+
+            type: "POST",
+            url: BaseAddress + "GetAllInstanceData/",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(MeterIdList),
+            dataType: "json",
+
+            success: function (response, status, jqXHR) {
+
+                var jsonObj = response.Data.result;
+                if (jsonObj != undefined && jsonObj.length > 0) {
+
+
+                    jsonObj.forEach(function (responseobj) {
+
+
+
+                        var lblvalue = getLabelValue(responseobj.meterid);
+                        var meterid = responseobj.meterid;
+                        if (lblvalue != '' || lblvalue != null) {
+
+
+                            // $("#1").html(valueText.toFixed(2).toString());
+                            if (responseobj.kw != null && responseobj.kw != 0) {
+                                var mw = parseFloat(responseobj.kw);
+                                $("#mw" + lblvalue).html(mw.toFixed(2).toString());
+                            }
+                            else
+                                $("#mw" + lblvalue).html("0.00");
+                            if (responseobj.vll != null && responseobj.vll != 0) {
+                                var kv = parseFloat(responseobj.vll);
+                                $("#kv" + lblvalue).html(kv.toFixed(2).toString());
+                            }
+                            else
+                                $("#kv" + lblvalue).html("0.00");
+
+
+                            if (meterid == "173" || meterid == "178") {
+                                if (responseobj.kw != null && responseobj.kw != 0) {
+                                    var mw = parseFloat(responseobj.kw);
+                                    GrossGenMW = GrossGenMW + mw;
+                                }
+                            }
+                            if (meterid == "164" || meterid == "165" || meterid == "176" || meterid == "181") {
+                                if (meterid == "164" || meterid == "165") {
+                                    if (responseobj.kw != null && responseobj.kw != 0) {
+                                        var mw = parseFloat(responseobj.kw);
+                                        NetGenMW = NetGenMW + mw;
+                                    }
+                                } else if (meterid == "176" || meterid == "181") {
+                                    if (responseobj.kw != null && responseobj.kw != 0) {
+                                        var mw = parseFloat(responseobj.kw);
+                                        NetGenMW = NetGenMW - mw;
+                                    }
+                                }
+
+                            }
+
+                            if (meterid == "174" || meterid == "175" || meterid == "179" || meterid == "180" || meterid == "176" || meterid == "181") {
+                                if (responseobj.kw != null && responseobj.kw != 0) {
+                                    var mw = parseFloat(responseobj.kw);
+                                    APCMW = APCMW + mw;
+                                }
+                            }
+                            $("#i" + lblvalue).html(responseobj.i.toFixed(2).toString());
+                            $("#pf" + lblvalue).html(responseobj.pf.toFixed(2).toString());
+                            $("#mn" + lblvalue).html(responseobj.meter_name);
+                        }
+
+                    });
+                    $("#lblGenMW").html(GrossGenMW.toFixed(2).toString());
+                    $("#lblNetMW").html(NetGenMW.toFixed(2).toString());
+                    $("#lblAPCMW").html(APCMW.toFixed(2).toString());
+                    if (GrossGenMW != 0 && APCMW != 0) {
+                        APCPercent = (APCMW / GrossGenMW) * 100;
+                    } else {
+                        APCPercent = 0;
+                    }
+                    $("#lblAPCPercentage").html(APCPercent.toFixed(2).toString());
+                }
+            },
+            error: function (xhr, status, error) {
+                if (box) box.remove();
+            }
+        });
+
+    }
+    function getLabelValue(meterid) {
+        var lblvalue = 0;
+        if (meterid == 176)
+            lblvalue = 1;
+        else if (meterid == 164)
+            lblvalue = 2;
+        else if (meterid == 165)
+            lblvalue = 3;
+        else if (meterid == 181)
+            lblvalue = 4;
+        else if (meterid == 174)
+            lblvalue = 5;
+        else if (meterid == 175)
+            lblvalue = 6;
+        else if (meterid == 179)
+            lblvalue = 7;
+        else if (meterid == 180)
+            lblvalue = 8;
+        else if (meterid == 173)
+            lblvalue = 9;
+        else if (meterid == 178)
+            lblvalue = 10;
+        return lblvalue;
+    }
+</script>

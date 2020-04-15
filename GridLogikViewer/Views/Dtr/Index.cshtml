@@ -1,0 +1,80 @@
+﻿
+@{    
+    ViewBag.Title = "DTR List";
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json;charset=utf-8",
+                //url: "http://localhost/GridLogikViewerWebAPI/api/DTR/",
+                url: BaseAddress + "DTR/",
+                dataType: "json",
+                success: function (dtr, status, jqXHR) {
+                    var str = "";
+                    if (dtr.Data.result != undefined) {
+                        var data = dtr.Data.result;
+                        for (var i in data) {
+                            str += "<tr>" +
+                                "<td>" + data[i].dtrid + "</td>" +
+                                "<td>" + data[i].dtrname + "</td>" +
+                                "<td>" + data[i].dtrratedvoltage + "</td>" +
+                                "<td>" + data[i].dtrratedpower + "</td>" +
+                                "<td>" + data[i].dtrconnectedload + "</td>" +
+                                "<td>" + data[i].dtrphase + "</td>" +
+                                "<td style='text-align:center'><a href='/DTR/Edit/" + data[i].dtrrecid + "' class='editor_edit'>Edit</a> /  <a href='/dtr/Delete/" + data[i].dtrrecid + "' class='editor_remove'>Delete</a></td>" +
+                                "</tr>";
+                        }
+                    }
+                    else if (dtr.Data.e == "E") {
+                        if (dtr.Data.d.length > 0)
+                            alert(dtr.Data.d);
+
+                    }
+                    $("#data").html(str);
+                    $("#lsttable").dataTable(
+                        {
+                            pageLength: 10,
+                            "aoColumns": [
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        null,
+                                        { "bSortable": false }
+                            ]
+                        });
+                },
+                error: function (xhr, status, error) {
+                    alert(error);
+                }
+            });
+        });
+
+    </script>
+
+}
+
+<h2>DTR List</h2>
+
+<p style="text-align:right;">
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table id="lsttable" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th width="10%" style="text-align:center">DTR Id</th>
+            <th width="16%" style="text-align:center">DTR Name</th>
+            <th width="16%" style="text-align:center">Rated Voltage</th>
+            <th width="16%" style="text-align:center">Rated Power</th>
+            <th width="16%" style="text-align:center">Connected Load</th>
+            <th width="16%" style="text-align:center">Phase</th>
+            <th width="10%" style="text-align:center">Actions</th>
+        </tr>
+    </thead>
+    <tbody id="data"></tbody>
+</table>
